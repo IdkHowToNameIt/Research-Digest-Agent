@@ -1,0 +1,45 @@
+# Template di GitHub Action per far girare il Research Digest Agent da solo.
+#
+# Come usarlo:
+#   1. Copia questo file in .github/workflows/research-digest.yml nel tuo repository.
+#   2. Su GitHub aggiungi il segreto OPENAI_API_KEY:
+#      Settings > Secrets and variables > Actions > New repository secret.
+#   3. Controlla i percorsi "working-directory" qui sotto: vanno bene se il repo
+#      contiene l'intera cartella materiale-studenti/. Se invece il repo ha come
+#      radice direttamente la cartella dell'agente, togli le righe working-directory.
+#
+# Lo schedule fa partire l'agente ogni lunedì alle 7:00 UTC. Puoi anche avviarlo
+# a mano dalla scheda "Actions" del repository (workflow_dispatch).
+
+name: research-digest
+
+on:
+  schedule:
+    - cron: "0 7 * * 1"
+  workflow_dispatch: {}
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Installa le dipendenze
+        working-directory: materiale-studenti/starter-kit/agent-starter-python
+        run: pip install -r requirements.txt
+
+      - name: Genera il digest
+        working-directory: materiale-studenti/starter-kit/agent-starter-python
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: python main.py
+
+      - name: Salva il digest come artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: digest
+          path: materiale-studenti/starter-kit/agent-starter-python/out/

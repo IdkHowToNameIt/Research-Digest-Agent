@@ -1,0 +1,25 @@
+# Configurazione del beat (tema da presidiare).
+# Cambia "beat", "fonti" e i parametri per il tuo gruppo.
+
+beat: "Ecosistema agenti & MCP"
+beat_slug: "agenti-mcp"
+max_voci: 5
+max_turns: 4                 # limite di iterazioni dell'agente (contiene costi e tempi)
+model: "gpt-4.1-mini"        # modello usato in modalità agente (configurabile)
+db_path: "data/seen.sqlite3" # memoria del dedup
+out_dir: "out"               # cartella dove viene scritto il digest
+
+fonti:
+  # La fonte di esempio qui sotto è un file locale: permette di provare la
+  # modalità --demo SENZA internet. Sostituiscila con feed RSS reali del tuo beat.
+  - nome: "Feed di esempio (KVA)"
+    url: "sample-output/sample-feed.xml"
+    max: 10
+
+  # Esempi di fonti reali (decommenta e adatta al tuo beat):
+  # - nome: "Blog ufficiale X"
+  #   url: "https://esempio.com/blog/rss.xml"
+  #   max: 10
+  # - nome: "Newsroom Y"
+  #   url: "https://esempio.org/feed/"
+  #   max: 10

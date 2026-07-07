@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- FEED FINTO, solo per provare la pipeline senza internet.
+     Gli URL example.com NON sono fonti reali: sostituisci questo feed con
+     fonti vere prima della consegna. -->
+<rss version="2.0">
+  <channel>
+    <title>Feed FINTO di esempio (KVA) — solo per test</title>
+    <link>https://example.com</link>
+    <description>Dati finti per provare il Research Digest Agent senza internet. Non sono fonti reali.</description>
+    <item>
+      <title>Rilasciata la versione 1.29 dell'SDK MCP per TypeScript</title>
+      <link>https://example.com/news/mcp-sdk-ts-1-29</link>
+      <pubDate>Mon, 15 Jun 2026 09:00:00 GMT</pubDate>
+      <description>La nuova release introduce un transport Web-standard utile per il deploy su runtime edge come Cloudflare Workers.</description>
+    </item>
+    <item>
+      <title>OpenAI Agents SDK aggiunge timeout e guardrail per i tool</title>
+      <link>https://example.com/news/agents-sdk-timeout</link>
+      <pubDate>Wed, 17 Jun 2026 11:30:00 GMT</pubDate>
+      <description>Gli sviluppatori possono ora impostare un timeout per ogni strumento e gestire il comportamento in caso di errore.</description>
+    </item>
+    <item>
+      <title>Guida: pubblicare un MCP server su Cloudflare Workers in 5 minuti</title>
+      <link>https://example.com/blog/mcp-su-workers</link>
+      <pubDate>Thu, 18 Jun 2026 08:15:00 GMT</pubDate>
+      <description>Un tutorial passo-passo dal git clone all'URL pubblico, usando il transport Streamable HTTP.</description>
+    </item>
+    <item>
+      <title>Pattern: agenti affidabili con output strutturato e validato</title>
+      <link>https://example.com/blog/agenti-output-strutturato</link>
+      <pubDate>Fri, 19 Jun 2026 07:45:00 GMT</pubDate>
+      <description>Perché definire uno schema dell'output (Pydantic/Zod) è il primo passo per un agente che non "inventa".</description>
+    </item>
+  </channel>
+</rss>
