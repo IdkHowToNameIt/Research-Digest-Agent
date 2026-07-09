@@ -64,11 +64,6 @@
   .logo .wm{font-family:var(--serif);font-weight:800;font-size:2.6rem;letter-spacing:-.01em;
     line-height:1;color:var(--verde-scuro)}
 
-  /* --- spotlight che segue il cursore su TUTTA la pagina --- */
-  .spotlight{position:fixed;inset:0;z-index:-1;pointer-events:none;
-    background:radial-gradient(560px 560px at var(--mx) var(--my), rgba(70,160,107,.20), transparent 72%);
-    transition:background .08s linear}
-
   /* --- hero --- */
   .hero{position:relative;text-align:center;padding:clamp(3rem,7vw,6rem) 1rem 1.5rem;overflow:visible;}
   .kicker{font-size:.85rem;letter-spacing:.36em;text-transform:uppercase;color:var(--verde);font-weight:600}
@@ -147,7 +142,6 @@
 </head>
 <body>
   <div class="sfondo" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span></div>
-  <div class="spotlight" aria-hidden="true"></div>
 
   <header>
     <a class="logo" href="#" onclick="vaiHome();return false" title="Digest Research Agent (DRA)">
@@ -328,12 +322,6 @@ function attivaEffetti(){
   // reveal allo scroll
   const io = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);} }),{threshold:.12});
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-
-  // spotlight che segue il cursore su TUTTA la pagina
-  window.onmousemove = e=>{
-    document.documentElement.style.setProperty('--mx', e.clientX+'px');
-    document.documentElement.style.setProperty('--my', e.clientY+'px');
-  };
 
   // leggero tilt 3D delle card al passaggio del mouse
   document.querySelectorAll('[data-tilt]').forEach(card=>{
