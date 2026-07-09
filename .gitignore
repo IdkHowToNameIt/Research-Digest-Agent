@@ -9,4 +9,4 @@ out/
 sito/
 .idea/
 .claude/settings.local.json
-design/_artifact_*.html
+frontend/_artifact_*.html

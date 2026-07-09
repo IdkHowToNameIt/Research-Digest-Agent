@@ -219,9 +219,17 @@ ogni lunedì alle 06:00 UTC (e a mano da *Actions → Run workflow*):
    `sito/`, oppure un passo aggiuntivo copia `sito/` via scp/rsync (vedi commenti
    nel workflow). L'invio email reale (SMTP) è ancora da configurare (sez. 17.4).
 
-## Bozza visiva (design)
+## Bozza visiva (frontend/)
 
-`design/bozza-homepage.html` è una **bozza visiva statica autonoma** per discutere
+I prototipi visivi statici stanno tutti in `frontend/`, separati dal backend Python
+(`src/`, `main.py`):
+
+- `frontend/bozza-homepage.html` — bozza chiara
+- `frontend/concept-dark/index.html` — concept scuro vanilla (servito da Docker)
+- `frontend/concept-original.html` — concept scuro originale (storico, dipendeva da un
+  framework custom)
+
+`frontend/bozza-homepage.html` è una **bozza visiva statica autonoma** per discutere
 colori/logo/tipografia/animazioni — non è l'implementazione finale del sito
 (`src/sito.py`). Servila live via Docker (bind-mount: basta ricaricare il browser
 dopo una modifica al file):
@@ -235,8 +243,8 @@ dipendenze).
 
 ### Concept "dark" alternativo
 
-`concept-app/index.html` è la **riscrittura autonoma** del concept scuro
-`Concept/KVAdra.dc.html` (che dipendeva da un framework custom + asset mancanti):
+`frontend/concept-dark/index.html` è la **riscrittura autonoma** del concept scuro
+`frontend/concept-original.html` (che dipendeva da un framework custom + asset mancanti):
 tema quasi-nero, accento rosa/rosso, card glass, sfondo generato via canvas con
 i due effetti (glow LED che segue il cursore + gocce d'acqua che distorcono lo
 sfondo). HTML/CSS/JS vanilla, zero dipendenze esterne.
