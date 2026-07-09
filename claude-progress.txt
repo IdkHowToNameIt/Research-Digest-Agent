@@ -244,3 +244,10 @@ Fase 8 — Sito web interno [FATTO]:
 - README: sezione "Concept dark alternativo".
 - NB: bozza chiara (design/bozza-homepage.html, :8081) e concept scuro (:8082)
   sono due direzioni visive alternative; il generatore reale resta src/sito.py.
+
+--- Sessione 5 (parità funzionale concept scuro) ---
+- concept-app/index.html allineato alla bozza chiara: STESSI dati (offset/sintesi/
+  perche/nota), STESSE impostazioni (SOGLIA_NUOVO=2, SOGLIA_SETTIMANA=7), stesse viste
+  (home con box solo per temi aggiornati; cronologia con "Nuovo aggiornamento" lato
+  client + badge; articolo con "Perché conta"). Differisce SOLO il design (scuro/rosa/
+  glass + effetti canvas). JS verificato, servito su :8082.
