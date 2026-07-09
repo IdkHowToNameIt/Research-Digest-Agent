@@ -80,7 +80,7 @@ quando l'orchestrazione verrà riscritta attorno a Gemini. I test della suite
 | 2 | Fonti, config, fetch + troncamento differenziato | ✅ |
 | 3 | Classificazione sotto-temi + filtro rilevanza | ✅ |
 | 4 | Deduplicazione (hash + fuzzy + 3 segnali novità) | ✅ |
-| 5 | Note interne (fetch_failed ×3, energia 0 ×3) | ⏳ |
+| 5 | Note interne (fetch_failed ×3, energia 0 ×3) | ✅ |
 | 6 | Criteri editoriali + sintesi Gemini + orchestrazione | ⏳ |
 | 7 | Email (notifica / reminder) | ⏳ |
 | 8 | Sito web interno | ⏳ |

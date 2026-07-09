@@ -29,7 +29,7 @@ PIANO A FASI
   Fase 2 — Fonti, config, fetch + troncamento      [FATTO]
   Fase 3 — Classificazione sotto-temi              [FATTO]
   Fase 4 — Deduplicazione (hash + fuzzy + segnali) [FATTO]
-  Fase 5 — Note interne (fetch_failed / energia 0) [da fare]
+  Fase 5 — Note interne (fetch_failed / energia 0) [FATTO]
   Fase 6 — Criteri editoriali + sintesi (Gemini)   [da fare]
   Fase 7 — Email (notifica / reminder)             [da fare]
   Fase 8 — Sito web interno                         [da fare]
@@ -120,4 +120,14 @@ Fase 4 — Deduplicazione [FATTO]:
   ENTITA_NOTE e soglia 0.7 = parametri di partenza calibrabili.
 - tests/test_dedup.py riscritto: 4 scenari Given/When/Then 16.4 + hash esatto +
   finestra 4-6 settimane + dedup nello stesso run. Suite completa: 53 verdi.
-[Prossimo: Fase 5 — note interne (fetch_failed x3 run, energia 0 x3 run)]
+Fase 5 — Note interne [FATTO]:
+- src/state.py: tabella `contatori` + leggi/incrementa/azzera_contatore().
+- src/note_interne.py: aggiorna_e_genera_note(store, esiti_fonti, articoli_per_tema,
+  soglia=3). fetch_failed >=3 run consecutivi -> NotaInterna fetch_failed_ripetuto;
+  energia 0 articoli >=3 run -> sezione_a_zero_ripetuta. STATO_OK (anche 0 voci)
+  azzera il contatore fetch (16.1: fetch_ok_zero != fetch_failed). Solo
+  segnalazione, nessun blocco automatico (16.3). SOGLIA_RUN_CONSECUTIVI calibrabile.
+- tests/test_note_interne.py: 7 test (16.1/16.3 + reset + indipendenza fonti +
+  ok-zero non conta come fallimento). Suite completa: 60 verdi.
+[Prossimo: Fase 6 — criteri editoriali (prompts.py) + sintesi Gemini (mockata) +
+ orchestrazione main.py/agent.py + fix deliver.py al nuovo schema]

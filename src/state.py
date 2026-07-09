@@ -38,6 +38,10 @@ class SeenStore:
             "CREATE TABLE IF NOT EXISTS articoli ("
             "hash TEXT PRIMARY KEY, url TEXT, titolo_norm TEXT, testo TEXT, ts TEXT)"
         )
+        # Contatori di run consecutivi (note interne, sez. 16.1/16.3).
+        self.conn.execute(
+            "CREATE TABLE IF NOT EXISTS contatori (chiave TEXT PRIMARY KEY, valore INTEGER)"
+        )
         self.conn.commit()
 
     # --- dedup esatto per URL (compat.) --------------------------------------
@@ -86,6 +90,30 @@ class SeenStore:
 
     def conta_articoli(self) -> int:
         return self.conn.execute("SELECT COUNT(*) FROM articoli").fetchone()[0]
+
+    # --- contatori run consecutivi (note interne, sez. 16.1/16.3) ------------
+    def leggi_contatore(self, chiave: str) -> int:
+        cur = self.conn.execute("SELECT valore FROM contatori WHERE chiave = ?", (chiave,))
+        row = cur.fetchone()
+        return row[0] if row else 0
+
+    def incrementa_contatore(self, chiave: str) -> int:
+        nuovo = self.leggi_contatore(chiave) + 1
+        self.conn.execute(
+            "INSERT INTO contatori (chiave, valore) VALUES (?, ?) "
+            "ON CONFLICT(chiave) DO UPDATE SET valore = excluded.valore",
+            (chiave, nuovo),
+        )
+        self.conn.commit()
+        return nuovo
+
+    def azzera_contatore(self, chiave: str) -> None:
+        self.conn.execute(
+            "INSERT INTO contatori (chiave, valore) VALUES (?, 0) "
+            "ON CONFLICT(chiave) DO UPDATE SET valore = 0",
+            (chiave,),
+        )
+        self.conn.commit()
 
     def close(self) -> None:
         self.conn.close()
