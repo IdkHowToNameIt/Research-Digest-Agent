@@ -5,3 +5,5 @@ venv/
 .env
 data/*.sqlite3
 out/
+.idea/
+.claude/settings.local.json

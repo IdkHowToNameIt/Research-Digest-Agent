@@ -1,0 +1,50 @@
+=====================================================================
+ Research Digest Agent — DRA (beat "Infrastruttura & Hardware AI")
+ Log di avanzamento per sessione. Aggiornato ad ogni fase completata.
+ Riferimenti: CLAUDE.md (regole vincolanti) + doc Notion (motivazioni +
+ scenari Given/When/Then, sezioni 11-18).
+=====================================================================
+
+CONVENZIONI
+- Ambiente Python: .venv/ nella root (Python 3.14). Attivazione:
+  Windows: .venv\Scripts\activate  |  comando diretto: .venv/Scripts/python.exe
+- Nota compatibilita': Python 3.14 richiede pydantic reinstallato con
+  --no-cache-dir (il wheel cp311 in cache non e' compatibile). Gia' risolto.
+- Test: .venv/Scripts/python.exe -m pytest -q
+- Chiamate al modello (Gemini) SEMPRE mockate nei test — nessuna API key reale
+  necessaria per la suite automatica.
+- Commit ad ogni fase completata con test verdi. Push periodico su:
+  https://github.com/IdkHowToNameIt/Research-Digest-Agent.git
+
+DECISIONI ARCHITETTURALI CHIAVE (dallo starter -> target)
+- Lo starter kit usa OpenAI Agents SDK (modello sceglie i tool). Il target
+  (CLAUDE.md: ~80% script / 20% modello) sposta verso una pipeline
+  prevalentemente scriptata; il modello (Gemini) e' riservato alla sintesi
+  finale. La riscrittura dell'orchestrazione avviene nella fase editoriale.
+- Schema dati riscritto: da "Digest = lista di voci" a "Digest = 5 sezioni
+  fisse per sotto-tema" (vedi Notion sez. 15).
+
+PIANO A FASI
+  Fase 1 — Schema dati (src/schemas.py)            [IN CORSO]
+  Fase 2 — Fonti, config, fetch + troncamento      [da fare]
+  Fase 3 — Classificazione sotto-temi              [da fare]
+  Fase 4 — Deduplicazione (hash + fuzzy + segnali) [da fare]
+  Fase 5 — Note interne (fetch_failed / energia 0) [da fare]
+  Fase 6 — Criteri editoriali + sintesi (Gemini)   [da fare]
+  Fase 7 — Email (notifica / reminder)             [da fare]
+  Fase 8 — Sito web interno                         [da fare]
+
+=====================================================================
+ LOG SESSIONI
+=====================================================================
+
+--- Sessione 1 (2026-07-09) ---
+Setup:
+- Esplorato starter kit; letto doc Notion (sez. 11-18) per fonti, schema,
+  dedup, criteri editoriali, email, sito e scenari Given/When/Then.
+- Creato .venv (Python 3.14), installate dipendenze, risolto problema wheel
+  pydantic cp311/cp314. I 3 test dello starter passano.
+- Creato questo file di progresso; aggiornato .gitignore (.idea/, .venv/,
+  .claude/settings.local.json).
+- Definito piano a fasi (sopra).
+[In corso: Fase 1 — schema dati]
