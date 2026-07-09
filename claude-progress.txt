@@ -25,7 +25,7 @@ DECISIONI ARCHITETTURALI CHIAVE (dallo starter -> target)
   fisse per sotto-tema" (vedi Notion sez. 15).
 
 PIANO A FASI
-  Fase 1 — Schema dati (src/schemas.py)            [IN CORSO]
+  Fase 1 — Schema dati (src/schemas.py)            [FATTO]
   Fase 2 — Fonti, config, fetch + troncamento      [da fare]
   Fase 3 — Classificazione sotto-temi              [da fare]
   Fase 4 — Deduplicazione (hash + fuzzy + segnali) [da fare]
@@ -47,4 +47,22 @@ Setup:
 - Creato questo file di progresso; aggiornato .gitignore (.idea/, .venv/,
   .claude/settings.local.json).
 - Definito piano a fasi (sopra).
-[In corso: Fase 1 — schema dati]
+
+Fase 1 — Schema dati [FATTO]:
+- Riscritto src/schemas.py secondo Notion sez. 15:
+    Tema (enum 5 temi) + TEMI_ORDINE, Stato (enum), TipoNotaInterna (enum),
+    Fonte{nome,link}, Articolo, NotaInterna, Sezione, Digest.
+    Costante MESSAGGIO_NESSUN_AGGIORNAMENTO (template fisso stato vuoto, 16.6).
+    Helper: sezione_vuota(), digest_vuoto(), Digest.sezione(),
+    Digest.contenuto_pubblico() (esclude note_interne dal pubblico, 16.7).
+  Validazioni dure applicabili perche' il Digest e' assemblato da script:
+    - esattamente 5 sezioni, una per tema (no mancanti/duplicate/extra) [16.7]
+    - perche_conta obbligatorio e non vuoto [16.7]
+    - coerenza stato<->articoli (nessun_aggiornamento => 0 articoli) [16.6]
+    - tema vincolato a enum [15]
+- tests/test_schemas.py riscritto: 17 test da 16.6/16.7. Suite completa: 19 verdi.
+- NOTA DEBITO: main.py / src/tools/deliver.py / src/agent.py referenziano ancora
+  il vecchio schema (Digest.voci, DigestItem) => NON importabili finche' non
+  vengono riscritti nella Fase 6 (orchestrazione). I test non li importano, la
+  suite resta verde. `python main.py` NON funziona in questo stato transitorio.
+[Prossimo: Fase 2 — fonti/config/fetch + troncamento differenziato]
