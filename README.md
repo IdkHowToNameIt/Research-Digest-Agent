@@ -45,11 +45,16 @@ src/
 ├── schemas.py        schema dati (5 sezioni fisse, enum, note_interne)   [Fase 1]
 ├── config.py         caricamento/validazione config                     [Fase 2]
 ├── classify.py       classificazione tema + filtro rilevanza            [Fase 3]
+├── note_interne.py   note interne (fetch_failed / energia a zero)       [Fase 5]
+├── prompts.py        criteri editoriali + prompt di sintesi             [Fase 6]
+├── gemini.py         adattatore modello (solo sintesi)                  [Fase 6]
+├── sintesi.py        sintesi articoli + assemblaggio Digest             [Fase 6]
+├── pipeline.py       orchestrazione del run completo                    [Fase 6]
 ├── state.py          memoria persistente (SQLite): dedup + conteggi run
 └── tools/
     ├── fetch.py      raccolta RSS/Atom, stati fetch, troncamento         [Fase 2]
-    ├── dedup.py      anti-duplicati (rewrite fuzzy in corso)             [Fase 4]
-    └── deliver.py    consegna (email/sito — in arrivo)                   [Fase 7-8]
+    ├── dedup.py      anti-duplicati esatto + fuzzy + segnali            [Fase 4]
+    └── deliver.py    consegna Markdown (email/sito — Fasi 7-8)          [Fase 6]
 config.yaml           beat, 12 fonti, parametri dedup
 tests/                test deterministici (offline, Gemini mockato)
 claude-progress.txt   log di avanzamento per sessione
@@ -60,17 +65,18 @@ claude-progress.txt   log di avanzamento per sessione
 ```bash
 python -m venv .venv
 .venv\Scripts\activate            # Windows  (Linux/macOS: source .venv/bin/activate)
-pip install pydantic feedparser PyYAML python-dotenv pytest
+pip install -r requirements.txt
 python -m pytest -q                # suite di test (nessuna rete, nessuna API key)
+python main.py --demo             # run offline: sintesi deterministica, scrive out/digest.md
 ```
 
 > Nota Python 3.14: se `pydantic` non importa (`_pydantic_core` mancante),
 > reinstallalo con `pip install --force-reinstall --no-cache-dir pydantic`
 > (un wheel cp311 in cache non è compatibile).
 
-La modalità agente end-to-end (`python main.py`) sarà disponibile dalla Fase 6,
-quando l'orchestrazione verrà riscritta attorno a Gemini. I test della suite
-**mockano sempre le chiamate al modello**: non serve una API key per svilupparli.
+Per la modalità con modello (Gemini): `cp .env.example .env` e inserisci
+`GEMINI_API_KEY`, poi `python main.py`. I test della suite **mockano sempre le
+chiamate al modello**: non serve una API key per svilupparli.
 
 ## Stato di avanzamento (per fasi)
 
@@ -81,7 +87,7 @@ quando l'orchestrazione verrà riscritta attorno a Gemini. I test della suite
 | 3 | Classificazione sotto-temi + filtro rilevanza | ✅ |
 | 4 | Deduplicazione (hash + fuzzy + 3 segnali novità) | ✅ |
 | 5 | Note interne (fetch_failed ×3, energia 0 ×3) | ✅ |
-| 6 | Criteri editoriali + sintesi Gemini + orchestrazione | ⏳ |
+| 6 | Criteri editoriali + sintesi Gemini + orchestrazione | ✅ |
 | 7 | Email (notifica / reminder) | ⏳ |
 | 8 | Sito web interno | ⏳ |
 

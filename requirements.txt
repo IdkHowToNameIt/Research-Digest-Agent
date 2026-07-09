@@ -1,9 +1,9 @@
-# Versioni testate (giugno 2026): openai-agents 0.17.6, pydantic 2.13.4,
-# feedparser 6.0.12, PyYAML 6.0.3, python-dotenv 1.2.2, pytest 9.1.1.
-# openai-agents è pinnata perché la sua API cambia spesso.
-openai-agents==0.17.6
-python-dotenv>=1.0
+# Dipendenze del Research Digest Agent — DRA.
+# La pipeline è ~80% script; il modello (Gemini) serve solo alla sintesi finale.
+# google-genai è richiesto solo per la modalità reale (non per i test, che mockano).
 pydantic>=2.7.0
 feedparser>=6.0.0
 PyYAML>=6.0
+python-dotenv>=1.0
+google-genai>=0.3.0
 pytest>=8.0

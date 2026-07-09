@@ -30,7 +30,7 @@ PIANO A FASI
   Fase 3 — Classificazione sotto-temi              [FATTO]
   Fase 4 — Deduplicazione (hash + fuzzy + segnali) [FATTO]
   Fase 5 — Note interne (fetch_failed / energia 0) [FATTO]
-  Fase 6 — Criteri editoriali + sintesi (Gemini)   [da fare]
+  Fase 6 — Criteri editoriali + sintesi (Gemini)   [FATTO]
   Fase 7 — Email (notifica / reminder)             [da fare]
   Fase 8 — Sito web interno                         [da fare]
 
@@ -129,5 +129,25 @@ Fase 5 — Note interne [FATTO]:
   segnalazione, nessun blocco automatico (16.3). SOGLIA_RUN_CONSECUTIVI calibrabile.
 - tests/test_note_interne.py: 7 test (16.1/16.3 + reset + indipendenza fonti +
   ok-zero non conta come fallimento). Suite completa: 60 verdi.
-[Prossimo: Fase 6 — criteri editoriali (prompts.py) + sintesi Gemini (mockata) +
- orchestrazione main.py/agent.py + fix deliver.py al nuovo schema]
+Fase 6 — Criteri editoriali + sintesi + orchestrazione [FATTO]:
+- src/prompts.py: CRITERI_EDITORIALI (sez. 14: italiano, tono divulgativo+business,
+  dati quantitativi solo se testuali, 3-5 frasi/6-8 se densi, filtro marketing
+  moderato, sintesi minima da titolo). prompt_sintesi(candidato) con istruzione
+  arXiv (APERTURA_ARXIV) per fonti energia/arXiv. e_arxiv(), NOTA_PREPRINT.
+- src/gemini.py: crea_generatore(api_key, model) -> genera(prompt)->dict; import
+  pigro di google.genai; GeminiNonConfigurato se manca la key. MODELLO_DEFAULT
+  gemini-2.5-flash. I test NON lo chiamano (mock).
+- src/sintesi.py: sintetizza_candidato(c, genera|None) -> Articolo con metadati
+  REALI del candidato (grounding: link non inventabile dal modello); path demo
+  deterministico se genera=None; nota preprint aggiunta dal codice per arXiv.
+  assembla_digest(gruppi, genera, data, note) -> Digest 5 sezioni; modello NON
+  invocato per sezioni vuote.
+- src/pipeline.py: costruisci_digest(cfg, genera, store, ora, parse) = fetch ->
+  deduplica -> raggruppa -> note interne -> assembla -> registra_pubblicati.
+- main.py riscritto (--demo senza key / Gemini reale). RIMOSSO src/agent.py
+  (OpenAI Agents SDK). deliver.py riscritto per il nuovo schema (mai note_interne).
+- requirements.txt: rimosso openai-agents, aggiunto google-genai. .env.example ->
+  GEMINI_API_KEY.
+- Smoke test end-to-end demo con feed locale: OK (5 sezioni, markdown, no note_interne).
+- tests/test_sintesi.py (10) + tests/test_pipeline.py (3). Suite completa: 72 verdi.
+[Prossimo: Fase 7 — email notifica/reminder ("- DRA") + lista destinatari (sez. 17)]
