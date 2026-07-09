@@ -8,6 +8,15 @@ model: "gemini-2.5-flash"      # modello per la sola sintesi finale (~20% del la
 db_path: "data/seen.sqlite3"   # memoria per dedup e conteggi run consecutivi
 out_dir: "out"                 # output tecnico (il canale reale e' email + sito)
 
+# Sito web interno (Fase 8): la homepage a cui rimanda l'email di notifica.
+sito:
+  homepage_url: "https://intranet.example/dra"
+
+# Email (Fase 7, sez. 17). Liste destinatari nel repo, nessuna sezione admin (17.3).
+email:
+  destinatari_digest: ["team@example.com"]           # lettori del digest
+  destinatari_note_interne: ["it@example.com"]        # comparto IT (note interne, 17.2)
+
 # Finestra (in settimane) per il confronto fuzzy anti-duplicati (Fase 4, sez. 16.4).
 finestra_dedup_settimane: 6
 # Soglia overlap parole/entita' (Jaccard) — parametro DA CALIBRARE (sez. 16.4).

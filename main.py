@@ -15,6 +15,7 @@ import sys
 from dotenv import load_dotenv
 
 from src.config import load_config
+from src.notifica import invia_tutti, prepara_invii, spedisci_console
 from src.pipeline import costruisci_digest
 from src.tools.deliver import deliver_markdown
 
@@ -46,6 +47,10 @@ def main() -> None:
     con_agg = [s.tema.value for s in digest.sezioni if s.articoli]
     print(f"Digest generato ({digest.data_generazione}): {n_articoli} articoli "
           f"in {len(con_agg)} sezioni con aggiornamenti {con_agg} -> {path}")
+
+    # Email settimanale (sempre una) + eventuale email di note interne (sez. 17).
+    invii = prepara_invii(digest, cfg)
+    invia_tutti(invii, spedisci_console)
     if digest.note_interne:
         print(f"[note interne] {len(digest.note_interne)} segnalazione/i per il team.",
               file=sys.stderr)

@@ -31,7 +31,7 @@ PIANO A FASI
   Fase 4 — Deduplicazione (hash + fuzzy + segnali) [FATTO]
   Fase 5 — Note interne (fetch_failed / energia 0) [FATTO]
   Fase 6 — Criteri editoriali + sintesi (Gemini)   [FATTO]
-  Fase 7 — Email (notifica / reminder)             [da fare]
+  Fase 7 — Email (notifica / reminder)             [FATTO]
   Fase 8 — Sito web interno                         [da fare]
 
 =====================================================================
@@ -150,4 +150,17 @@ Fase 6 — Criteri editoriali + sintesi + orchestrazione [FATTO]:
   GEMINI_API_KEY.
 - Smoke test end-to-end demo con feed locale: OK (5 sezioni, markdown, no note_interne).
 - tests/test_sintesi.py (10) + tests/test_pipeline.py (3). Suite completa: 72 verdi.
-[Prossimo: Fase 7 — email notifica/reminder ("- DRA") + lista destinatari (sez. 17)]
+Fase 7 — Email [FATTO]:
+- config.yaml: sezione `sito.homepage_url` e `email.{destinatari_digest,
+  destinatari_note_interne}` (liste nel repo, 17.3).
+- src/notifica.py: Messaggio; componi_email_settimanale() = notifica (>=1 sezione
+  con_aggiornamenti, oggetto "...- DRA", rimanda alla homepage senza elencare
+  tema/titolo/link) OPPURE reminder (oggetto/corpo fissi). componi_email_note_interne()
+  = email separata IT solo se ci sono note (17.2). prepara_invii() = sempre 1 email
+  settimanale + eventuale nota. invia_tutti(spedisci) con sender iniettabile;
+  spedisci_console default (SMTP reale rimandato, 17.4).
+- main.py: integra prepara_invii + invia_tutti(spedisci_console).
+- tests/test_notifica.py: 6 test (scenari 17.1 notifica/reminder/una-sola + note
+  interne). Suite completa: 78 verdi.
+[Prossimo: Fase 8 — sito web interno (homepage box centrati, cronologia per tema,
+ badge "nuovo aggiornamento" lato client, sez. 18)]

@@ -50,6 +50,7 @@ src/
 ├── gemini.py         adattatore modello (solo sintesi)                  [Fase 6]
 ├── sintesi.py        sintesi articoli + assemblaggio Digest             [Fase 6]
 ├── pipeline.py       orchestrazione del run completo                    [Fase 6]
+├── notifica.py       email settimanale (notifica/reminder) + note IT    [Fase 7]
 ├── state.py          memoria persistente (SQLite): dedup + conteggi run
 └── tools/
     ├── fetch.py      raccolta RSS/Atom, stati fetch, troncamento         [Fase 2]
@@ -88,7 +89,7 @@ chiamate al modello**: non serve una API key per svilupparli.
 | 4 | Deduplicazione (hash + fuzzy + 3 segnali novità) | ✅ |
 | 5 | Note interne (fetch_failed ×3, energia 0 ×3) | ✅ |
 | 6 | Criteri editoriali + sintesi Gemini + orchestrazione | ✅ |
-| 7 | Email (notifica / reminder) | ⏳ |
+| 7 | Email (notifica / reminder) | ✅ |
 | 8 | Sito web interno | ⏳ |
 
 Dettaglio per sessione: `claude-progress.txt`.
