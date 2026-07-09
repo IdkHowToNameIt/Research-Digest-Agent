@@ -1,0 +1,35 @@
+# Orchestrazione: separazione backend (generatore Python) / frontend (nginx statico).
+#
+#   docker compose up --build        # genera il sito e lo serve su http://localhost:8080
+#   docker compose run --rm generator python main.py --config config.yaml   # modalità reale
+#
+# Il sito è statico per progetto (sez. 18: no login, no stato server, badge lato
+# client): non serve un backend web dinamico. Il generatore scrive i file HTML in
+# un volume condiviso; nginx li serve.
+
+services:
+  # Backend: esegue la pipeline una volta e termina (batch settimanale).
+  generator:
+    build: .
+    image: dra-generator
+    environment:
+      # In demo non serve. Per la modalità reale: export GEMINI_API_KEY=...
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+    volumes:
+      - sito:/app/sito          # output HTML del sito (condiviso con nginx)
+      - data:/app/data          # storico dedup + archivio digest pubblici (persistente)
+
+  # Frontend: web server statico. Parte solo dopo che il generatore ha finito.
+  web:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - sito:/usr/share/nginx/html:ro
+    depends_on:
+      generator:
+        condition: service_completed_successfully
+
+volumes:
+  sito:
+  data:

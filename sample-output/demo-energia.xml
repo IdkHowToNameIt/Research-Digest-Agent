@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Feed demo (offline) per il tema "energia" (stile arXiv: preprint). -->
+<rss version="2.0">
+  <channel>
+    <title>Demo Energia (arXiv) — Infrastruttura &amp; Hardware AI</title>
+    <link>https://example.com/energia</link>
+    <description>Abstract accademici fittizi su energia e AI, per la demo offline.</description>
+    <item>
+      <title>Ottimizzazione dei carichi di lavoro per ridurre il consumo dei data center</title>
+      <link>https://example.com/energia/workload-scheduling</link>
+      <pubDate>Sun, 05 Jul 2026 12:00:00 GMT</pubDate>
+      <description>Uno studio propone una strategia di scheduling che, in scenari specifici, riduce il consumo energetico dei data center del 15-20% senza degradare le prestazioni di inferenza. Gli autori misurano l'impatto su un cluster simulato con carichi misti addestramento/inferenza e discutono i limiti della generalizzazione ad ambienti di produzione reali.</description>
+    </item>
+  </channel>
+</rss>

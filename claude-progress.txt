@@ -187,3 +187,20 @@ Fase 8 — Sito web interno [FATTO]:
  - verifica manuale con una GEMINI_API_KEY reale (i test usano mock);
  - calibrazione soglia dedup (0.7) ed elenco ENTITA_NOTE sul flusso reale.
 =====================================================================
+
+--- Sessione 2 (docker + README) ---
+- Scelta architetturale: sito STATICO (sez. 18, no login/stato/badge lato client)
+  => niente backend web dinamico. Split: backend = generatore Python (batch),
+  frontend = nginx che serve i file statici da un volume condiviso.
+- Aggiunti: Dockerfile (python:3.12-slim, evita il problema wheel di 3.14),
+  .dockerignore, docker-compose.yml (servizi `generator` + `web`, volumi sito/data,
+  web parte con condition: service_completed_successfully).
+- config.demo.yaml + feed locali sample-output/demo-{chip,energia,cloud}.xml per
+  una demo offline realistica del beat (3 temi, arXiv con nota preprint).
+- Verificato in locale (main.py --demo --config config.demo.yaml: 4 articoli, 3
+  box, 10 pagine) e su DOCKER (build ok, generator gira ed esce, nginx serve
+  http://localhost:8080 -> HTTP 200, 3 box, badge lato client presente).
+- README riscritto: overview, cosa produce, architettura + rationale front/back,
+  struttura, pipeline, schema, config, avvio locale e Docker (demo e reale), stato.
+- Nessuna modifica al codice src/: suite invariata (88 verdi).
+=====================================================================

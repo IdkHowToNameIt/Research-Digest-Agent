@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Feed demo (offline) per il tema "cloud capacity". Dati fittizi. -->
+<rss version="2.0">
+  <channel>
+    <title>Demo Cloud — Infrastruttura &amp; Hardware AI</title>
+    <link>https://example.com/cloud</link>
+    <description>Notizie fittizie su capacità cloud e data center, per la demo offline.</description>
+    <item>
+      <title>Annuncio di una nuova regione cloud con investimento da 2 miliardi di dollari</title>
+      <link>https://example.com/cloud/nuova-regione</link>
+      <pubDate>Wed, 08 Jul 2026 08:15:00 GMT</pubDate>
+      <description>Il provider dichiara un capex di 2 miliardi di dollari per una nuova regione, con più zone di disponibilità e un cavo sottomarino dedicato per la ridondanza.</description>
+    </item>
+  </channel>
+</rss>
