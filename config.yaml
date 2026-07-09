@@ -1,25 +1,98 @@
-# Configurazione del beat (tema da presidiare).
-# Cambia "beat", "fonti" e i parametri per il tuo gruppo.
+# Configurazione del Research Digest Agent — beat "Infrastruttura & Hardware AI".
+# Riferimento: Notion sez. 11 (fonti), 13 (troncamento), 15 (schema).
 
-beat: "Ecosistema agenti & MCP"
-beat_slug: "agenti-mcp"
-max_voci: 5
-max_turns: 4                 # limite di iterazioni dell'agente (contiene costi e tempi)
-model: "gpt-4.1-mini"        # modello usato in modalità agente (configurabile)
-db_path: "data/seen.sqlite3" # memoria del dedup
-out_dir: "out"               # cartella dove viene scritto il digest
+beat: "Infrastruttura & Hardware AI"
+beat_slug: "infra-hardware-ai"
 
+model: "gemini-2.5-flash"      # modello per la sola sintesi finale (~20% del lavoro)
+db_path: "data/seen.sqlite3"   # memoria per dedup e conteggi run consecutivi
+out_dir: "out"                 # output tecnico (il canale reale e' email + sito)
+
+# Finestra (in settimane) per il confronto fuzzy anti-duplicati (Fase 4, sez. 16.4).
+finestra_dedup_settimane: 6
+# Soglia overlap parole/entita' (Jaccard) — parametro DA CALIBRARE (sez. 16.4).
+soglia_overlap_dedup: 0.7
+
+# --- 12 fonti (Notion sez. 11, selezione finale del 9 luglio 2026) ------------
+# Campi per fonte:
+#   nome         etichetta leggibile (usata anche come "fonte" nell'articolo)
+#   url          feed RSS/Atom
+#   tema         sotto-tema primario: chip|data_center|energia|supply_chain|cloud_capacity
+#   max          numero massimo di voci lette per run (null = nessun limite)
+#   troncamento  limite caratteri estratto: intero (500) oppure null (nessun limite, sez. 13)
+#   filtro_rilevanza  true se serve un filtro tematico a monte (solo Google Cloud Blog, sez. 13/16.2)
+#
+# NB URL: canonici best-effort. La verifica del doc (7-9 lug) usava uno script
+# non incluso nel repo (scripts/verifica_fonti.py) e girava da IP cloud.
+# >>> DA VERIFICARE in produzione (alcuni feed possono avere anti-bot / path diverso). <<<
 fonti:
-  # La fonte di esempio qui sotto è un file locale: permette di provare la
-  # modalità --demo SENZA internet. Sostituiscila con feed RSS reali del tuo beat.
-  - nome: "Feed di esempio (KVA)"
-    url: "sample-output/sample-feed.xml"
+  # -- Chip --
+  - nome: "NVIDIA Newsroom"
+    url: "https://nvidianews.nvidia.com/releases.xml"
+    tema: chip
     max: 10
+    troncamento: 500
+  - nome: "NVIDIA Blog"
+    url: "https://blogs.nvidia.com/feed/"
+    tema: chip
+    max: 10
+    troncamento: 500
+  - nome: "Tom's Hardware (GPU)"
+    url: "https://www.tomshardware.com/feeds/tag/gpus.xml"
+    tema: chip
+    max: 10
+    troncamento: 500
 
-  # Esempi di fonti reali (decommenta e adatta al tuo beat):
-  # - nome: "Blog ufficiale X"
-  #   url: "https://esempio.com/blog/rss.xml"
-  #   max: 10
-  # - nome: "Newsroom Y"
-  #   url: "https://esempio.org/feed/"
-  #   max: 10
+  # -- Data center --
+  - nome: "Meta Engineering"
+    url: "https://engineering.fb.com/feed/"
+    tema: data_center
+    max: 10
+    troncamento: 500
+  - nome: "Uptime Institute Journal"
+    url: "https://journal.uptimeinstitute.com/feed/"
+    tema: data_center
+    max: 10
+    troncamento: 500
+  - nome: "Google Cloud — Infrastructure"
+    url: "https://cloudblog.withgoogle.com/products/infrastructure/rss/"
+    tema: data_center
+    max: null            # nessun limite lettura (feed a bassa frequenza)
+    troncamento: null    # nessun troncamento (sez. 13, test 9 luglio)
+
+  # -- Energia (fonte unica: gap noto e accettato, sez. 11) --
+  - nome: "arXiv (energia x AI)"
+    url: "https://export.arxiv.org/api/query?search_query=all:%22data%20center%22%20AND%20all:energy&sortBy=submittedDate&sortOrder=descending&max_results=20"
+    tema: energia
+    max: null
+    troncamento: null    # nessun troncamento (abstract accademico denso, sez. 13)
+
+  # -- Supply chain --
+  - nome: "Google News (TSMC/ASML)"
+    url: "https://news.google.com/rss/search?q=TSMC%20OR%20ASML%20when:7d&hl=en-US&gl=US&ceid=US:en"
+    tema: supply_chain
+    max: 30              # feed molto prolifico (>=100/sett.): si legge un tetto ampio
+    troncamento: 500
+  - nome: "Federal Register — BIS"
+    url: "https://www.federalregister.gov/api/v1/documents.rss?conditions%5Bagencies%5D%5B%5D=industry-and-security-bureau"
+    tema: supply_chain
+    max: 15
+    troncamento: 500
+
+  # -- Cloud capacity --
+  - nome: "Google Cloud Blog"
+    url: "https://cloudblog.withgoogle.com/rss/"
+    tema: cloud_capacity
+    max: 20
+    troncamento: null    # nessun limite MA condizionato a filtro rilevanza (sez. 13/16.2)
+    filtro_rilevanza: true
+  - nome: "Azure Blog"
+    url: "https://azure.microsoft.com/en-us/blog/feed/"
+    tema: cloud_capacity
+    max: 10
+    troncamento: 500
+  - nome: "AWS News Blog"
+    url: "https://aws.amazon.com/blogs/aws/feed/"
+    tema: cloud_capacity
+    max: 10
+    troncamento: 500

@@ -2,11 +2,11 @@
 stessa esecuzione."""
 from __future__ import annotations
 
-from .fetch import Candidate
+from .fetch import Candidato
 from ..state import SeenStore
 
 
-def filtra_nuove(candidati: list[Candidate], store: SeenStore) -> list[Candidate]:
+def filtra_nuove(candidati: list[Candidato], store: SeenStore) -> list[Candidato]:
     visti_in_run: set[str] = set()
     nuove: list[Candidate] = []
     for c in candidati:

@@ -1,10 +1,10 @@
 from src.state import SeenStore
-from src.tools.fetch import Candidate
+from src.tools.fetch import Candidato
 from src.tools.dedup import filtra_nuove
 
 
 def _cand(url):
-    return Candidate(titolo="t", url=url, fonte="f", data="", estratto="e")
+    return Candidato(titolo="t", url=url, fonte="f", tema="chip", data="", estratto="e")
 
 
 def test_dedup_persistente(tmp_path):

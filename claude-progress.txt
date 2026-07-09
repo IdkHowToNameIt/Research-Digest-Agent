@@ -26,7 +26,7 @@ DECISIONI ARCHITETTURALI CHIAVE (dallo starter -> target)
 
 PIANO A FASI
   Fase 1 — Schema dati (src/schemas.py)            [FATTO]
-  Fase 2 — Fonti, config, fetch + troncamento      [da fare]
+  Fase 2 — Fonti, config, fetch + troncamento      [FATTO]
   Fase 3 — Classificazione sotto-temi              [da fare]
   Fase 4 — Deduplicazione (hash + fuzzy + segnali) [da fare]
   Fase 5 — Note interne (fetch_failed / energia 0) [da fare]
@@ -65,4 +65,25 @@ Fase 1 — Schema dati [FATTO]:
   il vecchio schema (Digest.voci, DigestItem) => NON importabili finche' non
   vengono riscritti nella Fase 6 (orchestrazione). I test non li importano, la
   suite resta verde. `python main.py` NON funziona in questo stato transitorio.
-[Prossimo: Fase 2 — fonti/config/fetch + troncamento differenziato]
+Fase 2 — Fonti/config/fetch + troncamento [FATTO]:
+- config.yaml riscritto con le 12 fonti (Notion sez. 11), campi per fonte:
+    nome, url, tema (enum), max (int|null), troncamento (int|null),
+    filtro_rilevanza (solo Google Cloud Blog). Aggiunti parametri dedup globali
+    (finestra_dedup_settimane=6, soglia_overlap_dedup=0.7).
+  Distribuzione temi: chip 3, data_center 3, energia 1, supply_chain 2,
+  cloud_capacity 3. No-troncamento: arXiv, Google Cloud Blog, Google Cloud
+  Infrastructure (sez. 13).
+  >>> URL feed = best-effort canonici, marcati DA VERIFICARE in produzione:
+      lo script di verifica del doc (verifica_fonti.py) non e' nel repo. <<<
+- src/config.py: valida tema (enum), troncamento/max (int positivo o null),
+  default troncamento=500, risoluzione path fonti locali.
+- src/tools/fetch.py riscritto:
+    Candidato (rinominato da Candidate, +campo tema), EsitoFonte(stato, .ok,
+    .zero_voci), STATO_OK / STATO_FETCH_FAILED. fetch_fonte()/fetch_tutte()
+    fail-soft (una fonte KO non blocca le altre); parser iniettabile (parse=)
+    per test offline. tronca_su_parola() taglia su confine di parola, <= limite.
+    fetch_candidates() mantenuto per compatibilita'.
+- src/tools/dedup.py: aggiornato import Candidate->Candidato (rewrite in Fase 4).
+- tests/test_fetch.py riscritto (16.1/16.2 + scenario "fetch fallito != zero
+  nuovi"); test_dedup.py adeguato al rename. Suite completa: 30 verdi.
+[Prossimo: Fase 3 — classificazione sotto-temi + filtro rilevanza Google Cloud Blog]
