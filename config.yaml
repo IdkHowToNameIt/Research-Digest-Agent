@@ -22,9 +22,8 @@ soglia_overlap_dedup: 0.7
 #   troncamento  limite caratteri estratto: intero (500) oppure null (nessun limite, sez. 13)
 #   filtro_rilevanza  true se serve un filtro tematico a monte (solo Google Cloud Blog, sez. 13/16.2)
 #
-# NB URL: canonici best-effort. La verifica del doc (7-9 lug) usava uno script
-# non incluso nel repo (scripts/verifica_fonti.py) e girava da IP cloud.
-# >>> DA VERIFICARE in produzione (alcuni feed possono avere anti-bot / path diverso). <<<
+# NB URL: confermati come fonti corrette. Possibile blocco anti-bot da IP cloud
+# su alcuni feed (nota gia' presente nel doc, sez. 11) — da monitorare in produzione.
 fonti:
   # -- Chip --
   - nome: "NVIDIA Newsroom"

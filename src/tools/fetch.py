@@ -31,9 +31,10 @@ class Candidato:
     titolo: str
     url: str
     fonte: str          # nome della fonte
-    tema: str           # sotto-tema primario della fonte (hint; classificazione in Fase 3)
+    tema: str           # sotto-tema primario della fonte (regola di classificazione, Fase 3)
     data: str
     estratto: str
+    filtro_rilevanza: bool = False  # la fonte richiede filtro tematico a monte? (sez. 13/16.2)
 
     def to_dict(self) -> dict:
         return {
@@ -43,6 +44,7 @@ class Candidato:
             "tema": self.tema,
             "data": self.data,
             "estratto": self.estratto,
+            "filtro_rilevanza": self.filtro_rilevanza,
         }
 
 
@@ -108,6 +110,7 @@ def fetch_fonte(fonte: dict, parse=feedparser.parse) -> EsitoFonte:
     mx = fonte.get("max")
     voci = feed.entries if mx is None else feed.entries[: int(mx)]
 
+    filtro_rilevanza = bool(fonte.get("filtro_rilevanza", False))
     candidati: list[Candidato] = []
     for e in voci:
         estratto = tronca_su_parola(_pulisci(e.get("summary", "")), limite)
@@ -119,6 +122,7 @@ def fetch_fonte(fonte: dict, parse=feedparser.parse) -> EsitoFonte:
                 tema=tema,
                 data=e.get("published", e.get("updated", "")),
                 estratto=estratto,
+                filtro_rilevanza=filtro_rilevanza,
             )
         )
     return EsitoFonte(nome=nome, stato=STATO_OK, candidati=candidati)

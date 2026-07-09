@@ -27,7 +27,7 @@ DECISIONI ARCHITETTURALI CHIAVE (dallo starter -> target)
 PIANO A FASI
   Fase 1 — Schema dati (src/schemas.py)            [FATTO]
   Fase 2 — Fonti, config, fetch + troncamento      [FATTO]
-  Fase 3 — Classificazione sotto-temi              [da fare]
+  Fase 3 — Classificazione sotto-temi              [FATTO]
   Fase 4 — Deduplicazione (hash + fuzzy + segnali) [da fare]
   Fase 5 — Note interne (fetch_failed / energia 0) [da fare]
   Fase 6 — Criteri editoriali + sintesi (Gemini)   [da fare]
@@ -86,4 +86,18 @@ Fase 2 — Fonti/config/fetch + troncamento [FATTO]:
 - src/tools/dedup.py: aggiornato import Candidate->Candidato (rewrite in Fase 4).
 - tests/test_fetch.py riscritto (16.1/16.2 + scenario "fetch fallito != zero
   nuovi"); test_dedup.py adeguato al rename. Suite completa: 30 verdi.
-[Prossimo: Fase 3 — classificazione sotto-temi + filtro rilevanza Google Cloud Blog]
+Fase 3 — Classificazione sotto-temi [FATTO]:
+- src/classify.py:
+    classifica(candidato) -> Tema|None (esattamente un tema o revisione manuale).
+    Assegnazione = tema della fonte (regola deterministica da config, non modello).
+    is_rilevante(): filtro tematico a monte per fonti con filtro_rilevanza
+    (Google Cloud Blog): scarta database/sicurezza/off-beat se nessuna PAROLE_BEAT
+    nel testo, PRIMA della sintesi (16.2). PAROLE_BEAT calibrabile.
+    raggruppa_per_tema(): dict con sempre le 5 chiavi + lista scartati; nessun
+    articolo perso, nessun articolo in piu' temi.
+- src/tools/fetch.py: Candidato +campo filtro_rilevanza (propagato dalla fonte).
+- tests/test_classify.py: 9 test (16.3 + 16.2). Suite completa: 39 verdi.
+- README.md aggiornato: progetto DRA reale, architettura ~80/20, tabella stato fasi.
+- URL feed: confermati dall'utente (link "quelli"), rimosso il marker DA VERIFICARE
+  dal config (resta la possibilita' di anti-bot da IP cloud gia' nota nel doc).
+[Prossimo: Fase 4 — deduplicazione (hash esatto + overlap fuzzy + 3 segnali novita')]
