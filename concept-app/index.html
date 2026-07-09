@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DRA — concept (dark)</title>
+<!--
+  Riscrittura autonoma del concept KVAdra.dc.html in HTML/CSS/JS vanilla.
+  Il file originale dipendeva da un framework custom (support.js, <x-dc>, <sc-if>,
+  <sc-for>, DCLogic) e da due asset mancanti (assets/logo-clean.svg, assets/bg.png):
+  qui il framework è rimpiazzato da JS standard, lo sfondo è generato via canvas e
+  il logo è un placeholder. Identità visiva, struttura e comportamento invariati.
+  Contenuti di esempio realistici, solo a scopo dimostrativo.
+-->
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  :root{
+    --accent:#e0506e; --accent-h:#f0899c;
+    --bg:#07080a; --ink:#e7e9ec;
+    /* Poppins se presente nel sistema, altrimenti stack geometrico equivalente */
+    --font:'Poppins','Century Gothic',Futura,'Segoe UI',system-ui,Roboto,sans-serif;
+  }
+  body{
+    min-height:100vh;background:var(--bg) center center / cover no-repeat fixed;
+    color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--accent);text-decoration:none}
+  a:hover{color:var(--accent-h)}
+  @keyframes kvaFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  .vignette{position:fixed;inset:0;pointer-events:none;z-index:0;background:
+    linear-gradient(180deg,rgba(0,0,0,.85) 0%,rgba(0,0,0,.5) 14%,rgba(0,0,0,0) 32%),
+    radial-gradient(120% 90% at 50% -10%,rgba(46,20,26,.4) 0%,rgba(7,8,10,0) 45%),
+    radial-gradient(140% 120% at 50% 120%,rgba(0,0,0,.7) 0%,rgba(0,0,0,0) 55%);}
+  #fx{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+  .wrap{position:relative;z-index:1;max-width:1140px;margin:0 auto;padding:52px 28px 88px}
+
+  /* ---------- header ---------- */
+  .hdr{position:relative;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;text-align:center;gap:14px;margin-bottom:52px;min-height:56px}
+  /* logo in alto a DESTRA (come da richiesta) */
+  .logo{position:absolute;right:0;top:-6px;display:inline-flex;align-items:flex-end;gap:3px;cursor:pointer;background:none;border:0}
+  .logo .mark{height:52px;width:52px;border-radius:13px;display:grid;place-items:center;
+    background:linear-gradient(150deg,var(--accent),#7a1330);box-shadow:0 0 22px rgba(224,80,110,.35)}
+  .logo .mark svg{width:30px;height:30px}
+  .logo .dra{font-weight:600;font-size:12px;line-height:1;color:#c4c8cc;letter-spacing:.06em;margin-bottom:3px}
+  .htitle{display:inline-flex;align-items:baseline;gap:11px}
+  .htitle span{font-size:26px;font-weight:600;letter-spacing:.01em;color:#f0f2f4}
+  .weekline{display:inline-flex;align-items:center;gap:10px;font-size:12px;color:#5c646d}
+  .weekdot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px rgba(224,80,110,.9)}
+
+  /* ---------- categorie (nav) ---------- */
+  .cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:64px}
+  .cat-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+    padding:22px 14px;background:rgba(18,18,20,.86);border:1px solid rgba(255,255,255,.1);border-radius:14px;
+    color:#c3c6ca;cursor:pointer;font-family:var(--font);font-size:14.5px;font-weight:500;letter-spacing:.01em;
+    transition:all .18s ease}
+  .cat-btn svg{width:24px;height:24px}
+  .cat-btn:hover{border-color:rgba(224,80,110,.75);background:rgba(224,80,110,.07);color:#fff;
+    box-shadow:0 0 0 1px rgba(224,80,110,.45),0 10px 34px rgba(224,80,110,.14);transform:translateY(-3px)}
+
+  /* ---------- sezione settimanale ---------- */
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:22px}
+  .sec-head h2{margin:0;font-weight:600;font-size:19px;letter-spacing:-.01em;color:#e9ebee}
+  .rule{flex:1;height:1px;background:linear-gradient(90deg,rgba(255,255,255,.12),rgba(255,255,255,0))}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(288px,1fr));gap:18px;align-items:start}
+  .card{display:flex;flex-direction:column;background:rgba(18,18,20,.86);border:1px solid rgba(255,255,255,.09);
+    border-radius:16px;padding:20px 20px 6px;transition:border-color .18s ease,box-shadow .18s ease}
+  .card:hover{border-color:rgba(224,80,110,.35);box-shadow:0 14px 44px rgba(0,0,0,.45)}
+  .card-label{display:flex;align-items:center;gap:9px;margin-bottom:6px;color:var(--accent)}
+  .card-label svg{width:15px;height:15px}
+  .card-label span{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase}
+  .art-btn{display:block;width:100%;text-align:left;background:none;border:0;border-top:1px solid rgba(255,255,255,.07);
+    padding:13px 0;color:#b7babe;font-family:var(--font);font-size:14px;line-height:1.42;cursor:pointer;
+    transition:color .15s ease,padding-left .15s ease}
+  .art-btn:hover{color:var(--accent-h);padding-left:6px}
+
+  /* ---------- vista categoria ---------- */
+  .catbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:40px}
+  .back{display:inline-flex;align-items:center;gap:8px;background:none;border:0;padding:0;color:#8b939c;cursor:pointer;
+    font-family:var(--font);font-size:12px;letter-spacing:.04em;transition:color .15s ease}
+  .back:hover{color:var(--accent-h)}
+  .back svg{width:15px;height:15px}
+  .logo-sm{display:inline-flex;align-items:flex-end;gap:3px;background:none;border:0;cursor:pointer}
+  .logo-sm .mark{height:26px;width:26px;border-radius:8px;display:grid;place-items:center;
+    background:linear-gradient(150deg,var(--accent),#7a1330)}
+  .logo-sm .mark svg{width:16px;height:16px}
+  .logo-sm .dra{font-weight:600;font-size:11px;color:#aeb4ba;margin-left:1px;margin-bottom:1px;letter-spacing:.06em}
+  .kicker{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+  .catname{margin:0 0 40px;font-weight:600;font-size:40px;line-height:1.05;letter-spacing:-.02em;color:#f2f4f6}
+
+  .article{background:rgba(255,255,255,.03);border:1px solid rgba(224,80,110,.28);border-radius:18px;
+    padding:34px 36px;box-shadow:0 0 0 1px rgba(224,80,110,.08),0 18px 60px rgba(0,0,0,.5);margin-bottom:44px}
+  .art-meta{display:flex;align-items:center;gap:12px;margin-bottom:18px;font-size:11.5px;color:#7c8894}
+  .art-meta .src{color:var(--accent-h)}
+  .art-meta .sep{width:3px;height:3px;border-radius:50%;background:#4a545e}
+  .article h2{margin:0 0 20px;font-weight:600;font-size:26px;line-height:1.2;letter-spacing:-.01em;color:#f2f4f6}
+  .article p{margin:0 0 26px;font-size:16px;line-height:1.65;color:#b6bbc1;max-width:70ch}
+  .readlink{display:inline-flex;align-items:center;gap:9px;padding:12px 20px;border:1px solid rgba(224,80,110,.5);
+    border-radius:10px;color:var(--accent-h);font-size:14px;font-weight:500;transition:all .18s ease}
+  .readlink svg{width:15px;height:15px}
+  .readlink:hover{background:rgba(224,80,110,.12);border-color:rgba(224,80,110,.9);
+    box-shadow:0 0 0 1px rgba(224,80,110,.4),0 8px 26px rgba(224,80,110,.16);color:#fff}
+  .older-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+  .older-head h3{margin:0;font-weight:600;font-size:15px;letter-spacing:-.01em;color:#d3d7db}
+  .older{display:flex;align-items:center;justify-content:space-between;gap:20px;width:100%;text-align:left;
+    background:none;border:0;border-bottom:1px solid rgba(255,255,255,.07);padding:18px 4px 18px 0;color:#bcc0c5;
+    font-family:var(--font);font-size:16px;line-height:1.4;cursor:pointer;transition:color .15s ease,padding-left .15s ease}
+  .older:hover{color:var(--accent-h);padding-left:8px}
+  .older .odate{font-size:11px;color:#5c646d;white-space:nowrap}
+
+  .fade{animation:kvaFade .4s ease both}
+  @media (prefers-reduced-motion:reduce){.fade{animation:none}}
+</style>
+</head>
+<body>
+  <div class="vignette"></div>
+  <canvas id="fx"></canvas>
+  <div class="wrap" id="app"></div>
+
+<script>
+/* =========================================================================
+   DATI (portati dal concept, contenuti di esempio realistici sui 5 temi)
+   ========================================================================= */
+const CATEGORIES = [
+  {id:'chip', name:'Chip', kicker:'Semiconduttori', articles:[
+    {id:'c1', title:'TSMC accelera la produzione a 2nm nello stabilimento di Hsinchu', source:'Reuters', date:'08 lug', url:'#', summary:'La fonderia taiwanese anticipa la produzione in volumi del nodo a 2 nanometri, con rese superiori alle attese. I primi lotti sono destinati ai clienti mobile e AI, in un contesto di domanda record per la capacità avanzata.'},
+    {id:'c2', title:'Nvidia presenta la nuova architettura GPU per il data center', source:'The Verge', date:'07 lug', url:'#', summary:'La nuova generazione promette un salto prestazionale sull’inferenza e un’efficienza energetica migliore per rack. Gli hyperscaler hanno già prenotato gran parte della capacità iniziale.'},
+    {id:'c3', title:'L’Europa stanzia 4 miliardi per la sovranità sui semiconduttori', source:'Politico EU', date:'05 lug', url:'#', summary:'Il nuovo pacchetto di finanziamenti punta a rafforzare la ricerca e la capacità produttiva europea, riducendo la dipendenza dall’import asiatico.'},
+    {id:'c4', title:'ASML: ordini record per le macchine litografiche EUV', source:'Bloomberg', date:'03 lug', url:'#', summary:'Il portafoglio ordini raggiunge nuovi massimi, trainato dagli investimenti in capacità avanzata di TSMC, Samsung e Intel.'}
+  ]},
+  {id:'energia', name:'Energia', kicker:'Power & Grid', articles:[
+    {id:'e1', title:'Il fabbisogno energetico dei data center raddoppierà entro il 2030', source:'IEA', date:'08 lug', url:'#', summary:'Secondo le ultime stime, la crescita dei carichi AI porterà il consumo dei data center a livelli paragonabili a quello di intere nazioni, con forti pressioni sulle reti.'},
+    {id:'e2', title:'Nuovo record di efficienza per i pannelli solari in perovskite', source:'Nature Energy', date:'06 lug', url:'#', summary:'Le celle tandem silicio-perovskite superano una nuova soglia di efficienza in laboratorio, avvicinando la tecnologia alla commercializzazione.'},
+    {id:'e3', title:'Le big tech puntano sul nucleare di piccola scala (SMR)', source:'Financial Times', date:'04 lug', url:'#', summary:'Nuovi accordi di lungo periodo per alimentare i campus con reattori modulari, nel tentativo di garantire energia stabile e a basse emissioni.'},
+    {id:'e4', title:'La rete elettrica europea sotto pressione per il carico AI', source:'Euractiv', date:'02 lug', url:'#', summary:'Gli operatori di rete segnalano tempi di connessione in aumento per i nuovi impianti, con code di richieste che rallentano gli sviluppi.'}
+  ]},
+  {id:'datacenter', name:'Data center', kicker:'Infrastruttura', articles:[
+    {id:'d1', title:'Microsoft annuncia tre nuovi campus hyperscale in Europa', source:'Data Center Dynamics', date:'08 lug', url:'#', summary:'Il piano di espansione prevede investimenti multimiliardari e nuove region cloud, con focus su sostenibilità e raffreddamento a liquido.'},
+    {id:'d2', title:'Il raffreddamento a liquido diventa standard per i cluster AI', source:'Tom’s Hardware', date:'06 lug', url:'#', summary:'L’aumento della densità termica dei rack GPU rende il direct-to-chip la soluzione predefinita nelle nuove costruzioni.'},
+    {id:'d3', title:'Investimenti in data center oltre i 400 miliardi nel 2026', source:'Synergy Research', date:'04 lug', url:'#', summary:'La spesa in capacità continua a crescere a doppia cifra, trainata dalla domanda di infrastruttura per l’intelligenza artificiale.'},
+    {id:'d4', title:'Google amplia la capacità in Italia con la region di Milano', source:'Corriere Innovazione', date:'01 lug', url:'#', summary:'Nuove zone di disponibilità per servire il mercato italiano, con impegni su energia rinnovabile e sovranità del dato.'}
+  ]},
+  {id:'supply', name:'Supply chain', kicker:'Logistica & Materiali', articles:[
+    {id:'s1', title:'Colli di bottiglia sui substrati ABF: tempi di consegna in aumento', source:'DigiTimes', date:'07 lug', url:'#', summary:'La domanda di package avanzati per GPU supera l’offerta di substrati, allungando i lead time e spingendo i prezzi al rialzo.'},
+    {id:'s2', title:'Le terre rare tornano al centro delle tensioni commerciali', source:'Reuters', date:'05 lug', url:'#', summary:'Nuove restrizioni all’export riaccendono i timori sulla disponibilità di materiali critici per l’elettronica e i magneti.'},
+    {id:'s3', title:'Nearshoring: cresce la produzione in Messico e India', source:'The Economist', date:'03 lug', url:'#', summary:'Le aziende diversificano la catena di fornitura per ridurre i rischi geopolitici e avvicinare la produzione ai mercati finali.'},
+    {id:'s4', title:'La carenza di trasformatori rallenta i nuovi impianti', source:'Bloomberg', date:'01 lug', url:'#', summary:'I tempi di consegna dei trasformatori di potenza superano i due anni, frenando la connessione di data center e impianti rinnovabili.'}
+  ]},
+  {id:'cloud', name:'Cloud', kicker:'Piattaforme & Servizi', articles:[
+    {id:'k1', title:'AWS taglia i prezzi dell’inferenza AI del 30%', source:'TechCrunch', date:'08 lug', url:'#', summary:'La riduzione punta a difendere la quota di mercato sui workload AI, in una fase di forte concorrenza sui costi tra hyperscaler.'},
+    {id:'k2', title:'La spesa cloud globale supera i 100 miliardi a trimestre', source:'Canalys', date:'06 lug', url:'#', summary:'La crescita accelera trainata da AI generativa e migrazione dei carichi enterprise verso il cloud pubblico.'},
+    {id:'k3', title:'Sovranità del dato: cresce la domanda di cloud europei', source:'Handelsblatt', date:'04 lug', url:'#', summary:'Le normative sulla residenza dei dati spingono le imprese verso provider e region con garanzie di sovranità.'},
+    {id:'k4', title:'Kubernetes e workload AI: la nuova frontiera dell’orchestrazione', source:'InfoQ', date:'02 lug', url:'#', summary:'Le piattaforme di orchestrazione evolvono per gestire GPU e pipeline di training su larga scala in modo più efficiente.'}
+  ]}
+];
+const WEEK_LABEL = '06–12 luglio 2026';
+
+/* icone (dai path del concept) */
+const ICON_ATTR = 'viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"';
+const ICONS = {
+  chip:'<svg '+ICON_ATTR+'><rect x="7" y="7" width="10" height="10" rx="1.5"/><rect x="10" y="10" width="4" height="4" rx="0.5"/><path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4"/></svg>',
+  energia:'<svg '+ICON_ATTR+'><path d="M13 2 L5 13.5 h6 l-1 8.5 9-12.5 h-6 z"/></svg>',
+  datacenter:'<svg '+ICON_ATTR+'><rect x="4" y="4" width="16" height="5" rx="1.2"/><rect x="4" y="10.5" width="16" height="5" rx="1.2"/><rect x="4" y="17" width="16" height="3" rx="1.2"/><path d="M7 6.5h.01M7 13h.01"/></svg>',
+  supply:'<svg '+ICON_ATTR+'><rect x="2.5" y="9" width="7" height="6" rx="1"/><rect x="14.5" y="9" width="7" height="6" rx="1"/><path d="M9.5 12h5"/><path d="M12.5 10.5 14.5 12l-2 1.5"/></svg>',
+  cloud:'<svg '+ICON_ATTR+'><path d="M6.5 18 A4 4 0 0 1 6 10.1 A5.2 5.2 0 0 1 16 8.5 A3.7 3.7 0 0 1 17.5 18 z"/></svg>'
+};
+const LOGO_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="#ffdfe6" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h6a8 8 0 0 1 0 16H5z"/><path d="M9 9h2a3 3 0 0 1 0 6H9z" fill="#ffdfe6" stroke="none" opacity=".9"/></svg>';
+
+/* =========================================================================
+   STATO + NAVIGAZIONE (equivalente a DCLogic: view hub/category, cat, art)
+   ========================================================================= */
+const state = {view:'hub', cat:null, art:null};
+const findCat = id => CATEGORIES.find(c => c.id === id);
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+function openArticle(catId, artId){ state.view='category'; state.cat=catId; state.art=artId; render(); window.scrollTo({top:0,behavior:'smooth'}); }
+function openCat(catId){ openArticle(catId, findCat(catId).articles[0].id); }
+function goHome(){ state.view='hub'; state.cat=null; state.art=null; render(); window.scrollTo({top:0}); }
+window.openArticle = openArticle; window.openCat = openCat; window.goHome = goHome;
+
+/* =========================================================================
+   RENDER
+   ========================================================================= */
+const app = document.getElementById('app');
+
+function hubHTML(){
+  const cats = CATEGORIES.map(c =>
+    `<button class="cat-btn" onclick="openCat('${c.id}')">${ICONS[c.id]}<span>${c.name}</span></button>`
+  ).join('');
+
+  const cards = CATEGORIES.map(c => {
+    const arts = c.articles.map(a =>
+      `<button class="art-btn" onclick="openArticle('${c.id}','${a.id}')">${esc(a.title)}</button>`
+    ).join('');
+    return `<div class="card">
+        <div class="card-label">${ICONS[c.id]}<span>${c.name}</span></div>
+        ${arts}
+      </div>`;
+  }).join('');
+
+  return `<div class="fade">
+    <header class="hdr">
+      <button class="logo" onclick="goHome()" title="Digest Research Agent">
+        <span class="mark">${LOGO_SVG}</span><span class="dra">DRA</span>
+      </button>
+      <div class="htitle"><span>Digest</span><span>Research</span><span>Agent</span></div>
+      <div class="weekline"><span class="weekdot"></span>Aggiornamento della settimana · ${WEEK_LABEL}</div>
+    </header>
+    <nav class="cats">${cats}</nav>
+    <div class="sec-head"><h2>Aggiornamento settimanale</h2><span class="rule"></span></div>
+    <div class="grid">${cards}</div>
+  </div>`;
+}
+
+function catHTML(){
+  const c = findCat(state.cat);
+  const a = c.articles.find(x => x.id === state.art) || c.articles[0];
+  const older = c.articles.filter(x => x.id !== a.id).map(x =>
+    `<button class="older" onclick="openArticle('${c.id}','${x.id}')">
+       <span>${esc(x.title)}</span><span class="odate">${x.date}</span>
+     </button>`
+  ).join('');
+
+  return `<div class="fade">
+    <div class="catbar">
+      <button class="back" onclick="goHome()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+        Tutte le categorie
+      </button>
+      <button class="logo-sm" onclick="goHome()" title="Home">
+        <span class="mark">${LOGO_SVG}</span><span class="dra">DRA</span>
+      </button>
+    </div>
+    <div class="kicker">${esc(c.kicker)}</div>
+    <h1 class="catname">${esc(c.name)}</h1>
+
+    <article class="article">
+      <div class="art-meta"><span class="src">${esc(a.source)}</span><span class="sep"></span><span>${a.date}</span></div>
+      <h2>${esc(a.title)}</h2>
+      <p>${esc(a.summary)}</p>
+      <a class="readlink" href="${a.url}" target="_blank" rel="noopener">Leggi l'articolo completo
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+      </a>
+    </article>
+
+    <div class="older-head"><h3>Articoli precedenti</h3><span class="rule"></span></div>
+    ${older}
+  </div>`;
+}
+
+function render(){ app.innerHTML = state.view === 'hub' ? hubHTML() : catHTML(); }
+
+/* =========================================================================
+   SFONDO generato (sostituisce assets/bg.png): campo scuro con glifi tech
+   tenui — così il glow LED li "riaccende" in rosso e le gocce lo distorcono.
+   ========================================================================= */
+function makeBackground(){
+  const w=1600, h=1000, c=document.createElement('canvas'); c.width=w; c.height=h;
+  const x=c.getContext('2d');
+  x.fillStyle='#07080a'; x.fillRect(0,0,w,h);
+  const rnd=(a,b)=>a+Math.random()*(b-a);
+  const glyph=(gx,gy,s,tone)=>{
+    x.save(); x.translate(gx,gy);
+    x.strokeStyle='rgba('+tone+','+tone+','+(tone+6)+',0.9)';
+    x.fillStyle='rgba('+tone+','+tone+','+(tone+6)+',0.9)';
+    x.lineWidth=Math.max(1,s*0.06);
+    const t=Math.floor(Math.random()*4);
+    if(t===0){ x.strokeRect(-s/2,-s/2,s,s); x.strokeRect(-s/6,-s/6,s/3,s/3);
+      for(let k=-1;k<=1;k++){x.beginPath();x.moveTo(k*s/4,-s/2);x.lineTo(k*s/4,-s/2-s*0.22);x.stroke();
+        x.beginPath();x.moveTo(k*s/4,s/2);x.lineTo(k*s/4,s/2+s*0.22);x.stroke();} }
+    else if(t===1){ x.beginPath();x.moveTo(-s/2,0);x.lineTo(s/2,0);x.moveTo(0,-s/2);x.lineTo(0,s/2);x.stroke(); }
+    else if(t===2){ x.beginPath();x.arc(0,0,s*0.16,0,7);x.fill(); }
+    else { x.beginPath();x.moveTo(-s/2,-s/4);x.lineTo(0,-s/4);x.lineTo(0,s/4);x.lineTo(s/2,s/4);x.stroke();
+      x.beginPath();x.arc(-s/2,-s/4,s*0.06,0,7);x.fill();x.beginPath();x.arc(s/2,s/4,s*0.06,0,7);x.fill(); }
+    x.restore();
+  };
+  const step=74;
+  for(let gy=step; gy<h; gy+=step){
+    for(let gx=step; gx<w; gx+=step){
+      if(Math.random()<0.32) continue;
+      glyph(gx+rnd(-14,14), gy+rnd(-14,14), rnd(16,30), Math.floor(rnd(46,96)));
+    }
+  }
+  return c;
+}
+
+/* =========================================================================
+   EFFETTI CANVAS (portati dal concept): LED glow che segue il cursore +
+   gocce d'acqua che distorcono/zoomano lo sfondo attorno al punto d'impatto.
+   ========================================================================= */
+function initFx(){
+  const cv = document.getElementById('fx');
+  const ctx = cv.getContext('2d');
+  const bg = makeBackground();
+  const bgW = bg.width, bgH = bg.height;
+  // stesso sfondo anche come background CSS della pagina (cover, centrato, fisso)
+  document.body.style.backgroundImage = 'url(' + bg.toDataURL() + ')';
+
+  let W=0,H=0,DPR=1;
+  const resize=()=>{ DPR=Math.min(2,window.devicePixelRatio||1); W=innerWidth; H=innerHeight;
+    cv.width=W*DPR; cv.height=H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0); };
+  resize();
+  addEventListener('resize', resize);
+
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const mouse={x:-9999,y:-9999,tx:-9999,ty:-9999,active:false};
+  addEventListener('mousemove', e=>{ mouse.tx=e.clientX; mouse.ty=e.clientY;
+    if(!mouse.active){mouse.x=e.clientX;mouse.y=e.clientY;} mouse.active=true; });
+  addEventListener('mouseout', e=>{ if(!e.relatedTarget) mouse.active=false; });
+
+  const cover=()=>{ const s=Math.max(W/bgW,H/bgH); return {s, offX:(W-bgW*s)/2, offY:(H-bgH*s)/2}; };
+
+  // LED glow: alone rosso + glifi dello sfondo riaccesi in rosso vicino al cursore
+  function glow(cx,cy){
+    const R_GLOW=300, R_LED=190;
+    const halo=ctx.createRadialGradient(cx,cy,0,cx,cy,R_GLOW);
+    halo.addColorStop(0,'rgba(160,10,40,0.42)'); halo.addColorStop(.5,'rgba(120,5,30,0.22)'); halo.addColorStop(1,'rgba(90,0,20,0)');
+    ctx.fillStyle=halo; ctx.fillRect(cx-R_GLOW,cy-R_GLOW,R_GLOW*2,R_GLOW*2);
+    const {s,offX,offY}=cover();
+    ctx.save(); ctx.beginPath(); ctx.arc(cx,cy,R_LED,0,Math.PI*2); ctx.clip();
+    const fade=ctx.createRadialGradient(cx,cy,0,cx,cy,R_LED);
+    fade.addColorStop(0,'rgba(255,255,255,1)'); fade.addColorStop(.75,'rgba(255,255,255,0.6)'); fade.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.globalCompositeOperation='screen'; ctx.drawImage(bg,offX,offY,bgW*s,bgH*s);
+    ctx.globalCompositeOperation='multiply';
+    const col=ctx.createRadialGradient(cx,cy,0,cx,cy,R_LED);
+    col.addColorStop(0,'rgb(255,214,224)'); col.addColorStop(.4,'rgb(255,110,135)'); col.addColorStop(1,'rgb(120,10,35)');
+    ctx.fillStyle=col; ctx.fillRect(cx-R_LED,cy-R_LED,R_LED*2,R_LED*2);
+    ctx.globalCompositeOperation='destination-in'; ctx.fillStyle=fade;
+    ctx.beginPath(); ctx.arc(cx,cy,R_LED,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+    const core=ctx.createRadialGradient(cx,cy,0,cx,cy,58);
+    core.addColorStop(0,'rgba(255,225,232,0.34)'); core.addColorStop(.45,'rgba(255,100,128,0.16)'); core.addColorStop(1,'rgba(255,100,128,0)');
+    ctx.fillStyle=core; ctx.fillRect(cx-58,cy-58,116,116);
+  }
+
+  // goccia d'acqua: distorsione pura — sfondo ridisegnato zoomato, si rilassa espandendosi
+  function drawDrop(cx,cy,rad,zoom,alpha){
+    const {s,offX,offY}=cover();
+    ctx.save(); ctx.beginPath(); ctx.arc(cx,cy,rad,0,Math.PI*2); ctx.clip();
+    ctx.globalAlpha=alpha; ctx.translate(cx,cy); ctx.scale(zoom,zoom); ctx.translate(-cx,-cy);
+    ctx.drawImage(bg,offX,offY,bgW*s,bgH*s);
+    ctx.setTransform(DPR,0,0,DPR,0,0); ctx.globalCompositeOperation='destination-in';
+    const fade=ctx.createRadialGradient(cx,cy,0,cx,cy,rad);
+    fade.addColorStop(0,'rgba(255,255,255,1)'); fade.addColorStop(.7,'rgba(255,255,255,0.85)'); fade.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.fillStyle=fade; ctx.beginPath(); ctx.arc(cx,cy,rad,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+  }
+
+  const drops=[]; let nextDrop=performance.now()+900;
+  function loop(){
+    if(!cv.isConnected) return;
+    ctx.clearRect(0,0,W,H);
+    const now=performance.now();
+    if(now>nextDrop){ drops.push({x:40+Math.random()*(W-80), y:40+Math.random()*(H-80), t:now});
+      if(drops.length>7) drops.shift(); nextDrop=now+700+Math.random()*1100; }
+    for(let i=drops.length-1;i>=0;i--){
+      const d=drops[i], age=(now-d.t)/1000;
+      if(age>1.8){ drops.splice(i,1); continue; }
+      const p=age/1.8, ease=1-Math.pow(1-p,3);
+      const rad=34+ease*150, zoom=1+0.38*(1-ease)+0.03*Math.sin(age*18)*(1-p);
+      const alpha=p<0.12? p/0.12 : (1-(p-0.12)/0.88);
+      drawDrop(d.x,d.y,rad,zoom,alpha);
+    }
+    mouse.x+=(mouse.tx-mouse.x)*0.5; mouse.y+=(mouse.ty-mouse.y)*0.5;
+    if(mouse.active) glow(mouse.x,mouse.y);
+    requestAnimationFrame(loop);
+  }
+  if(!reduce) requestAnimationFrame(loop);
+}
+
+/* avvio */
+render();
+initFx();
+</script>
+</body>
+</html>

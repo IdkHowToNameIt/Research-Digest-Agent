@@ -226,3 +226,21 @@ Fase 8 — Sito web interno [FATTO]:
 - README: aggiunte sezioni "Avvio automatico settimanale (GitHub Actions)" e
   "Bozza visiva (design)".
 =====================================================================
+
+--- Sessione 4 (concept dark riscritto) ---
+- Concept/KVAdra.dc.html (fornito) dipendeva da un framework custom (support.js,
+  <x-dc>/<sc-if>/<sc-for>/DCLogic) + asset mancanti (logo-clean.svg, bg.png).
+- Riscritto in concept-app/index.html con HTML/CSS/JS vanilla autonomo:
+  * stato hub/category + openArticle/openCat/goHome (equivalente a DCLogic);
+  * tema #07080a, accento #e0506e/#f0899c, card glass, Poppins con fallback stack;
+  * sfondo GENERATO via canvas (glifi tech tenui) al posto di bg.png, usato sia
+    come background CSS sia come sorgente per gli effetti;
+  * portati i due effetti canvas: LED glow che segue il cursore (alone rosso +
+    glifi riaccesi) e gocce d'acqua che zoomano/distorcono lo sfondo e svaniscono;
+  * logo placeholder (monogramma) in alto a DESTRA (come da richiesta) + "DRA";
+  * 5 temi con icone del concept, contenuti d'esempio portati 1:1.
+- docker-compose: servizio `concept` (nginx, :8082, bind-mount concept-app/).
+  Verificato: HTTP 200, JS node --check OK.
+- README: sezione "Concept dark alternativo".
+- NB: bozza chiara (design/bozza-homepage.html, :8081) e concept scuro (:8082)
+  sono due direzioni visive alternative; il generatore reale resta src/sito.py.

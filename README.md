@@ -233,6 +233,18 @@ docker compose up bozza            # poi apri http://localhost:8081
 In alternativa si può aprire il file direttamente nel browser (è autonomo, senza
 dipendenze).
 
+### Concept "dark" alternativo
+
+`concept-app/index.html` è la **riscrittura autonoma** del concept scuro
+`Concept/KVAdra.dc.html` (che dipendeva da un framework custom + asset mancanti):
+tema quasi-nero, accento rosa/rosso, card glass, sfondo generato via canvas con
+i due effetti (glow LED che segue il cursore + gocce d'acqua che distorcono lo
+sfondo). HTML/CSS/JS vanilla, zero dipendenze esterne.
+
+```bash
+docker compose up concept          # → http://localhost:8082
+```
+
 ### Modalità reale (Gemini) con Docker
 
 ```bash
