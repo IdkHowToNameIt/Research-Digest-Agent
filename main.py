@@ -17,6 +17,7 @@ from dotenv import load_dotenv
 from src.config import load_config
 from src.notifica import invia_tutti, prepara_invii, spedisci_console
 from src.pipeline import costruisci_digest
+from src.sito import carica_archivio, genera_sito, salva_digest_pubblico
 from src.tools.deliver import deliver_markdown
 
 load_dotenv()
@@ -47,6 +48,17 @@ def main() -> None:
     con_agg = [s.tema.value for s in digest.sezioni if s.articoli]
     print(f"Digest generato ({digest.data_generazione}): {n_articoli} articoli "
           f"in {len(con_agg)} sezioni con aggiornamenti {con_agg} -> {path}")
+
+    # Sito web interno (sez. 18): archivia il digest pubblico e rigenera le pagine.
+    sito_cfg = cfg.get("sito", {})
+    archivio_dir = sito_cfg.get("archivio_dir", "data/archivio")
+    salva_digest_pubblico(digest, archivio_dir)
+    archivio = carica_archivio(archivio_dir)
+    file_sito = genera_sito(
+        digest, archivio, sito_cfg.get("out_dir", "sito"),
+        badge_giorni=int(sito_cfg.get("badge_giorni", 2)),
+    )
+    print(f"Sito aggiornato: {len(file_sito)} pagine in {sito_cfg.get('out_dir', 'sito')}/")
 
     # Email settimanale (sempre una) + eventuale email di note interne (sez. 17).
     invii = prepara_invii(digest, cfg)

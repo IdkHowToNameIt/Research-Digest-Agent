@@ -32,7 +32,7 @@ PIANO A FASI
   Fase 5 — Note interne (fetch_failed / energia 0) [FATTO]
   Fase 6 — Criteri editoriali + sintesi (Gemini)   [FATTO]
   Fase 7 — Email (notifica / reminder)             [FATTO]
-  Fase 8 — Sito web interno                         [da fare]
+  Fase 8 — Sito web interno                         [FATTO]  <-- TUTTE LE FASI FATTE
 
 =====================================================================
  LOG SESSIONI
@@ -162,5 +162,28 @@ Fase 7 — Email [FATTO]:
 - main.py: integra prepara_invii + invia_tutti(spedisci_console).
 - tests/test_notifica.py: 6 test (scenari 17.1 notifica/reminder/una-sola + note
   interne). Suite completa: 78 verdi.
-[Prossimo: Fase 8 — sito web interno (homepage box centrati, cronologia per tema,
- badge "nuovo aggiornamento" lato client, sez. 18)]
+Fase 8 — Sito web interno [FATTO]:
+- src/sito.py: genera_sito(digest_corrente, archivio, out_dir, badge_giorni):
+    index.html (box SOLO per i temi con aggiornamenti della settimana, nav ai 5
+    temi, box centrati via flexbox justify-content:center), tema-<t>.html
+    (cronologia storica completa per tema, 18.3), articolo-<id>.html (sintesi +
+    perche' conta). Badge "nuovo aggiornamento" calcolato LATO CLIENT (JS Date.now,
+    soglia configurabile), non in generazione pagina. note_interne mai nel sito.
+    salva_digest_pubblico()/carica_archivio() = storico JSON pubblico per la cronologia.
+    Stile visivo minimale (rimandato per scelta di progetto, 18.2).
+- main.py: salva digest pubblico + rigenera sito ad ogni run.
+- config.yaml: sito.{out_dir,archivio_dir,badge_giorni}. .gitignore: sito/,
+  data/archivio/.
+- tests/test_sito.py: 10 test (18.2/18.3 + badge lato client + note escluse).
+  Suite completa: 88 verdi. Smoke test end-to-end demo (main.py --demo) OK:
+  digest -> markdown -> 10 pagine sito -> email di notifica.
+
+=====================================================================
+ STATO FINALE: tutte le 8 fasi implementate, 88 test verdi, pushato.
+ Da fare prima del deploy reale (non-bloccante per lo sviluppo):
+ - verifica feed dall'ambiente di produzione (possibili anti-bot da IP cloud);
+ - provider SMTP reale (sez. 17.4) al posto di spedisci_console;
+ - stile visivo del sito (colori/logo, sez. 18, rimandato per scelta);
+ - verifica manuale con una GEMINI_API_KEY reale (i test usano mock);
+ - calibrazione soglia dedup (0.7) ed elenco ENTITA_NOTE sul flusso reale.
+=====================================================================

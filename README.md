@@ -51,6 +51,7 @@ src/
 ├── sintesi.py        sintesi articoli + assemblaggio Digest             [Fase 6]
 ├── pipeline.py       orchestrazione del run completo                    [Fase 6]
 ├── notifica.py       email settimanale (notifica/reminder) + note IT    [Fase 7]
+├── sito.py           generatore sito interno (homepage/tema/articolo)   [Fase 8]
 ├── state.py          memoria persistente (SQLite): dedup + conteggi run
 └── tools/
     ├── fetch.py      raccolta RSS/Atom, stati fetch, troncamento         [Fase 2]
@@ -90,7 +91,12 @@ chiamate al modello**: non serve una API key per svilupparli.
 | 5 | Note interne (fetch_failed ×3, energia 0 ×3) | ✅ |
 | 6 | Criteri editoriali + sintesi Gemini + orchestrazione | ✅ |
 | 7 | Email (notifica / reminder) | ✅ |
-| 8 | Sito web interno | ⏳ |
+| 8 | Sito web interno | ✅ |
+
+Tutte le fasi implementate. La modalità `python main.py --demo` esegue l'intera
+catena offline (digest → Markdown → sito HTML in `sito/` → email su console).
+Restano, prima del deploy reale: verifica dei feed dall'ambiente di produzione,
+provider SMTP (§17.4) e stile visivo del sito (§18, volutamente rimandato).
 
 Dettaglio per sessione: `claude-progress.txt`.
 

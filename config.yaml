@@ -11,6 +11,9 @@ out_dir: "out"                 # output tecnico (il canale reale e' email + sito
 # Sito web interno (Fase 8): la homepage a cui rimanda l'email di notifica.
 sito:
   homepage_url: "https://intranet.example/dra"
+  out_dir: "sito"                 # cartella dei file HTML generati
+  archivio_dir: "data/archivio"   # storico dei digest pubblici (JSON, per la cronologia)
+  badge_giorni: 2                 # soglia "nuovo aggiornamento" (calcolo lato client)
 
 # Email (Fase 7, sez. 17). Liste destinatari nel repo, nessuna sezione admin (17.3).
 email:
