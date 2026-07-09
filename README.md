@@ -221,9 +221,17 @@ ogni lunedì alle 06:00 UTC (e a mano da *Actions → Run workflow*):
 
 ## Bozza visiva (design)
 
-`design/bozza-homepage.html` è una **bozza visiva statica autonoma** (apribile
-direttamente nel browser) per discutere colori/logo/tipografia/animazioni —
-non è l'implementazione finale del sito (`src/sito.py`).
+`design/bozza-homepage.html` è una **bozza visiva statica autonoma** per discutere
+colori/logo/tipografia/animazioni — non è l'implementazione finale del sito
+(`src/sito.py`). Servila live via Docker (bind-mount: basta ricaricare il browser
+dopo una modifica al file):
+
+```bash
+docker compose up bozza            # poi apri http://localhost:8081
+```
+
+In alternativa si può aprire il file direttamente nel browser (è autonomo, senza
+dipendenze).
 
 ### Modalità reale (Gemini) con Docker
 

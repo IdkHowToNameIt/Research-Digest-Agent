@@ -30,6 +30,16 @@ services:
       generator:
         condition: service_completed_successfully
 
+  # Bozza visiva (design): servita live per la revisione, senza build.
+  #   docker compose up bozza   ->  http://localhost:8081
+  # Bind-mount del file: basta ricaricare il browser dopo una modifica.
+  bozza:
+    image: nginx:alpine
+    ports:
+      - "8081:80"
+    volumes:
+      - ./design/bozza-homepage.html:/usr/share/nginx/html/index.html:ro
+
 volumes:
   sito:
   data:
