@@ -1,0 +1,74 @@
+# GitHub Action: esegue il Research Digest Agent una volta a settimana.
+#
+# COSA FA
+#   Ogni lunedì mattina (06:00 UTC) esegue la pipeline reale (con Gemini), rigenera
+#   il sito statico e conserva lo stato tra un run e l'altro (dedup + archivio).
+#
+# PREREQUISITI (una tantum, su GitHub)
+#   Settings > Secrets and variables > Actions > New repository secret:
+#     - GEMINI_API_KEY   (obbligatorio per la sintesi)
+#   (Facoltativi, quando si aggiunge l'invio email reale — sez. 17.4:
+#     SMTP_HOST, SMTP_USER, SMTP_PASS, ...)
+#
+# PERSISTENZA
+#   Il dedup ha bisogno di ricordare gli articoli già pubblicati (data/seen.sqlite3)
+#   e la cronologia del sito (data/archivio/). Questi file sono in .gitignore per lo
+#   sviluppo locale, ma qui vengono ricommittati con `git add -f` così sopravvivono
+#   tra i run settimanali. Il sito generato (sito/) viene committato per essere
+#   pubblicato sulla rete interna (vedi "PUBBLICAZIONE").
+#
+# PUBBLICAZIONE del sito interno (scegliere una via, non incluse qui)
+#   - il server interno fa `git pull` periodico di questo repo e serve la cartella sito/;
+#   - oppure un passo aggiuntivo copia sito/ via scp/rsync/deploy sul server interno;
+#   - l'artifact `sito` allegato al run è comunque scaricabile manualmente.
+
+name: digest-settimanale
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"   # ogni lunedì alle 06:00 UTC
+  workflow_dispatch: {}    # avvio manuale dalla scheda "Actions"
+
+permissions:
+  contents: write          # per ricommittare stato + sito
+
+concurrency:
+  group: digest-settimanale
+  cancel-in-progress: false
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Installa le dipendenze
+        run: pip install -r requirements.txt
+
+      - name: Genera il digest e il sito
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python main.py --config config.yaml
+
+      - name: Salva il sito come artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sito
+          path: sito/
+
+      - name: Persisti stato e sito nel repo
+        run: |
+          git config user.name  "dra-bot"
+          git config user.email "dra-bot@users.noreply.github.com"
+          git add -f data/seen.sqlite3 data/archivio sito out/digest.md || true
+          if git diff --cached --quiet; then
+            echo "Nessuna modifica da committare."
+          else
+            git commit -m "chore(run): digest settimanale $(date -u +%F)"
+            git push
+          fi

@@ -205,6 +205,26 @@ docker compose down                # ferma i container
 docker compose down -v             # rimuove anche i volumi (sito + storico)
 ```
 
+## Avvio — automatico settimanale (GitHub Actions)
+
+Il workflow `.github/workflows/digest-settimanale.yml` esegue la pipeline reale
+ogni lunedì alle 06:00 UTC (e a mano da *Actions → Run workflow*):
+
+1. Su GitHub aggiungi il secret `GEMINI_API_KEY`
+   (*Settings → Secrets and variables → Actions*).
+2. Il job genera digest + sito, allega il sito come artifact e **ricommitta** lo
+   stato (`data/seen.sqlite3`, `data/archivio/`) e `sito/` nel repo, così il dedup
+   ricorda gli articoli già pubblicati tra un run e l'altro.
+3. Pubblicazione sulla rete interna: il server interno fa `git pull` e serve
+   `sito/`, oppure un passo aggiuntivo copia `sito/` via scp/rsync (vedi commenti
+   nel workflow). L'invio email reale (SMTP) è ancora da configurare (sez. 17.4).
+
+## Bozza visiva (design)
+
+`design/bozza-homepage.html` è una **bozza visiva statica autonoma** (apribile
+direttamente nel browser) per discutere colori/logo/tipografia/animazioni —
+non è l'implementazione finale del sito (`src/sito.py`).
+
 ### Modalità reale (Gemini) con Docker
 
 ```bash

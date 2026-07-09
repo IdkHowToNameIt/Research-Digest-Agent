@@ -204,3 +204,25 @@ Fase 8 — Sito web interno [FATTO]:
   struttura, pipeline, schema, config, avvio locale e Docker (demo e reale), stato.
 - Nessuna modifica al codice src/: suite invariata (88 verdi).
 =====================================================================
+
+--- Sessione 3 (GitHub Action + bozza visiva) ---
+- CHIARIMENTO: le sintesi "striminzite" viste erano modalità DEMO (sintesi =
+  estratto grezzo, perche_conta = placeholder). In reale è Gemini a scrivere 3-5
+  frasi secondo src/prompts.py. Non richiesta modifica al codice.
+- .github/workflows/digest-settimanale.yml: cron lunedì 06:00 UTC + workflow_dispatch.
+  Esegue main.py --config config.yaml con secret GEMINI_API_KEY; allega sito come
+  artifact; ricommitta stato (seen.sqlite3, archivio) e sito/ per persistenza dedup
+  tra run. Pubblicazione interna via git pull / rsync (commentata nel workflow).
+  Email SMTP reale ancora da configurare (17.4).
+- design/bozza-homepage.html: bozza visiva statica autonoma (CSS/JS inline, zero
+  dipendenze) per revisione visiva. Palette verde identitario + crema calda +
+  terracotta di supporto; serif caldo (Palatino/Georgia) per i titoli; logo
+  monogramma-foglia in alto a dx; hero con spotlight che segue il cursore; blob
+  animati; box temi centrati; cronologia per tema con "Nuovo aggiornamento"
+  (<=2 giorni, calcolo lato client); tilt 3D card; prefers-reduced-motion.
+  Contenuti di esempio realistici sui 5 temi (energia senza box settimana = gap).
+  JS verificato con node --check. Pubblicata anche come Artifact per anteprima.
+  NB: NON è l'implementazione finale (src/sito.py resta il generatore reale).
+- README: aggiunte sezioni "Avvio automatico settimanale (GitHub Actions)" e
+  "Bozza visiva (design)".
+=====================================================================

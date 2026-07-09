@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DRA — bozza visiva</title>
+<!--
+  BOZZA VISIVA (non implementazione finale) del sito interno del Digest Research Agent.
+  File autonomo: CSS e JS inline, nessuna dipendenza esterna, nessun asset da scaricare.
+  Serve a discutere colori / logo / tipografia / animazioni su qualcosa di concreto.
+  Contenuti di esempio realistici, solo a scopo dimostrativo.
+-->
+<style>
+  :root{
+    /* --- palette: verde distintivo + crema calda (vira sul marroncino) --- */
+    --verde:        #2f6b47;   /* verde erboso profondo, colore identitario */
+    --verde-vivo:   #46a06b;   /* accento più brillante */
+    --verde-scuro:  #1e4a31;
+    --crema:        #f3e9d2;   /* sfondo crema caldo, non bianco puro */
+    --crema-2:      #ece0c4;   /* pannelli leggermente più caldi */
+    --carta:        #fbf5e7;   /* superfici delle card */
+    --inchiostro:   #33291c;   /* testo: marrone caldo scuro, non nero */
+    --inchiostro-2: #6f6046;   /* testo secondario / muted */
+    --terracotta:   #c1743a;   /* terzo colore di supporto, usato con parsimonia */
+    --bordo:        #e2d5b6;
+    --ombra:        rgba(47,107,71,.18);
+    --serif: "Palatino Linotype","Book Antiqua",Palatino,"Iowan Old Style",Georgia,serif;
+    --sans:  "Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+    --mx:50%; --my:0%;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    font-family:var(--sans);
+    color:var(--inchiostro);
+    background:var(--crema);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  /* --- sfondo organico animato (blob crema/verde) --- */
+  .sfondo{position:fixed;inset:0;z-index:-2;overflow:hidden;background:
+      radial-gradient(1200px 800px at 15% -10%, #f7efdb, transparent 60%),
+      radial-gradient(1000px 700px at 110% 10%, #efe3c6, transparent 55%),
+      var(--crema);}
+  .blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:.35;mix-blend-mode:multiply}
+  .blob.b1{width:46vw;height:46vw;left:-8vw;top:-6vw;background:radial-gradient(circle,#8fc7a4,transparent 65%);animation:drift1 26s ease-in-out infinite}
+  .blob.b2{width:40vw;height:40vw;right:-6vw;top:12vh;background:radial-gradient(circle,#cbe3ba,transparent 65%);animation:drift2 32s ease-in-out infinite}
+  .blob.b3{width:38vw;height:38vw;left:22vw;bottom:-14vw;background:radial-gradient(circle,#e7cfa2,transparent 65%);animation:drift3 30s ease-in-out infinite}
+  @keyframes drift1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(4vw,3vh) scale(1.08)}}
+  @keyframes drift2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-3vw,4vh) scale(1.05)}}
+  @keyframes drift3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(2vw,-3vh) scale(1.1)}}
+
+  /* --- header con logo in alto a destra --- */
+  header{display:flex;justify-content:space-between;align-items:center;
+    padding:1.1rem clamp(1rem,4vw,3rem);}
+  .brand-min{font-family:var(--serif);font-weight:600;letter-spacing:.02em;color:var(--verde-scuro);opacity:.85;cursor:pointer}
+  .logo{display:flex;align-items:center;gap:.6rem;text-decoration:none;color:inherit}
+  .logo .mark{width:42px;height:42px;border-radius:12px;background:linear-gradient(150deg,var(--verde),var(--verde-scuro));
+    display:grid;place-items:center;box-shadow:0 6px 16px var(--ombra);transition:transform .3s}
+  .logo:hover .mark{transform:rotate(-6deg) scale(1.05)}
+  .logo .wm{line-height:1}
+  .logo .wm .name{font-family:var(--serif);font-weight:700;font-size:1.05rem;color:var(--verde-scuro)}
+  .logo .wm .sig{font-size:.7rem;letter-spacing:.34em;color:var(--inchiostro-2);text-transform:uppercase}
+
+  /* --- hero --- */
+  .hero{position:relative;text-align:center;padding:3rem 1rem 1rem;}
+  .hero .glow{position:absolute;inset:-20% -10% auto;height:340px;pointer-events:none;z-index:-1;
+    background:radial-gradient(420px 240px at var(--mx) var(--my), rgba(70,160,107,.28), transparent 70%);
+    transition:background .12s ease-out}
+  .kicker{font-size:.8rem;letter-spacing:.34em;text-transform:uppercase;color:var(--verde);font-weight:600}
+  h1.title{font-family:var(--serif);font-weight:700;line-height:1.02;margin:.5rem auto .3rem;
+    font-size:clamp(2.4rem,7vw,4.6rem);letter-spacing:-.01em;
+    background:linear-gradient(180deg,var(--inchiostro),var(--verde-scuro));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero .sub{color:var(--inchiostro-2);max-width:44ch;margin:.4rem auto 0;font-size:1.05rem}
+  .settimana{display:inline-block;margin-top:.9rem;font-size:.85rem;color:var(--verde-scuro);
+    background:var(--carta);border:1px solid var(--bordo);border-radius:999px;padding:.3rem .9rem}
+
+  /* --- navigazione 5 temi: sempre centrata come gruppo --- */
+  .temi-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:.6rem;margin:1.8rem auto;max-width:820px;padding:0 1rem}
+  .pill{font:inherit;font-size:.95rem;cursor:pointer;border:1px solid var(--bordo);
+    background:var(--carta);color:var(--inchiostro);border-radius:999px;padding:.55rem 1.15rem;
+    display:inline-flex;align-items:center;gap:.5rem;transition:transform .18s,box-shadow .18s,background .18s,color .18s;position:relative}
+  .pill .dot{width:.6rem;height:.6rem;border-radius:50%;background:var(--verde-vivo)}
+  .pill:hover{transform:translateY(-3px);box-shadow:0 10px 22px var(--ombra);background:var(--verde);color:#fff}
+  .pill:hover .dot{background:#fff}
+
+  main{max-width:1080px;margin:0 auto;padding:0 clamp(1rem,4vw,2rem) 4rem}
+  .sez-titolo{font-family:var(--serif);font-size:1.5rem;color:var(--verde-scuro);text-align:center;margin:1.5rem 0 .3rem}
+  .sez-nota{text-align:center;color:var(--inchiostro-2);font-size:.92rem;margin-bottom:1.4rem}
+
+  /* --- box "questa settimana": centrati come gruppo, wrap su più righe centrate --- */
+  .boxes{display:flex;flex-wrap:wrap;justify-content:center;gap:1.1rem;margin-top:.6rem}
+  .box{flex:0 1 300px;max-width:340px;background:var(--carta);border:1px solid var(--bordo);
+    border-radius:18px;padding:1.15rem 1.2rem;box-shadow:0 8px 24px rgba(47,107,71,.08);
+    transition:transform .25s,box-shadow .25s;transform-style:preserve-3d;will-change:transform}
+  .box:hover{box-shadow:0 18px 40px var(--ombra)}
+  .box h3{margin:.1rem 0 .2rem;font-family:var(--serif);font-size:1.2rem;color:var(--verde-scuro);
+    display:flex;align-items:center;gap:.5rem}
+  .box .tema-ic{width:1.6rem;height:1.6rem;border-radius:8px;background:var(--verde);opacity:.9;display:inline-block}
+  .box ul{list-style:none;margin:.6rem 0 0;padding:0}
+  .box li{margin:.15rem 0}
+  .box li a{display:block;text-decoration:none;color:var(--inchiostro);padding:.4rem .5rem;border-radius:10px;
+    transition:background .15s,transform .15s;font-size:.95rem}
+  .box li a:hover{background:var(--crema-2);transform:translateX(4px)}
+  .box li small{color:var(--inchiostro-2)}
+  .box .apri{display:inline-block;margin-top:.7rem;font-size:.85rem;color:var(--verde);font-weight:600;cursor:pointer}
+
+  /* --- vista cronologia / articolo --- */
+  .indietro{background:none;border:none;font:inherit;color:var(--verde);cursor:pointer;padding:.3rem 0;margin:.5rem 0}
+  .crono h2,.articolo h1{font-family:var(--serif);color:var(--verde-scuro)}
+  .crono h2{font-size:1.9rem;margin:.2rem 0 1rem}
+  .etichetta-nuovo{display:flex;align-items:center;gap:.6rem;margin:.4rem 0 .2rem;color:var(--terracotta);font-weight:700;letter-spacing:.02em}
+  .etichetta-nuovo::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--terracotta),transparent)}
+  hr.divisore{border:0;border-top:1px dashed var(--bordo);margin:1.4rem 0}
+  .voce{background:var(--carta);border:1px solid var(--bordo);border-radius:14px;padding:1rem 1.15rem;margin:.7rem 0;
+    cursor:pointer;transition:transform .18s,box-shadow .18s,border-color .18s}
+  .voce:hover{transform:translateY(-2px);box-shadow:0 12px 26px var(--ombra);border-color:#cfe0c8}
+  .voce .meta{font-size:.82rem;color:var(--inchiostro-2);display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}
+  .voce h4{margin:.25rem 0;font-family:var(--serif);font-size:1.2rem}
+  .badge-nuovo{background:var(--terracotta);color:#fff;font-size:.68rem;font-weight:700;letter-spacing:.05em;
+    text-transform:uppercase;border-radius:999px;padding:.15rem .5rem}
+  .articolo{max-width:720px}
+  .articolo .fonte{color:var(--verde);font-weight:600}
+  .articolo .perche{background:var(--crema-2);border-left:4px solid var(--verde);border-radius:0 12px 12px 0;
+    padding:.8rem 1rem;margin-top:1.2rem}
+  .articolo .nota{color:var(--inchiostro-2);font-style:italic;margin-top:.6rem}
+
+  footer{text-align:center;color:var(--inchiostro-2);font-size:.82rem;padding:2rem 1rem 3rem}
+
+  /* --- transizioni tra viste + reveal allo scroll --- */
+  .view{animation:fadeup .5s ease both}
+  @keyframes fadeup{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s,transform .6s}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none!important;transition:none!important}
+    .reveal{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+  <div class="sfondo" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span></div>
+
+  <header>
+    <span class="brand-min" onclick="vaiHome()">Digest Research Agent</span>
+    <a class="logo" href="#" onclick="vaiHome();return false" title="DRA">
+      <span class="mark" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M12 3C7 6 5 10 6 15c3 .5 6-.4 8-3s2.5-6 2-9c-1.4.2-2.8.6-4 1z" fill="#eef6ee"/>
+          <path d="M7 16c2-3 4.5-5 8-6" stroke="#2f6b47" stroke-width="1.3" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="wm"><div class="name">DRA</div><div class="sig">Digest</div></span>
+    </a>
+  </header>
+
+  <div id="app"></div>
+
+  <footer>Bozza visiva · contenuti di esempio · sito interno, nessun login</footer>
+
+<script>
+/* ---------------------------------------------------------------------------
+   Dati di esempio (realistici, solo per la revisione visiva).
+   `offset` = giorni fa: la data viene calcolata rispetto a oggi, così la soglia
+   "Nuovo aggiornamento" (<= 2 giorni) e i box "questa settimana" (<= 7 giorni)
+   funzionano sempre, indipendentemente da quando apri il file.
+--------------------------------------------------------------------------- */
+const TEMI = [
+  {id:"chip", nome:"Chip", articoli:[
+    {titolo:"NVIDIA presenta l'acceleratore Blackwell Ultra (GB300) per l'addestramento su larga scala",
+     fonte:"NVIDIA Newsroom", offset:1,
+     sintesi:"NVIDIA ha presentato il GB300, evoluzione della piattaforma Blackwell orientata ai cluster di addestramento più grandi. L'azienda dichiara una banda GPU-to-GPU di 3,2 Tbps e una dotazione di memoria HBM3e ampliata rispetto alla generazione precedente. Il posizionamento è esplicitamente sui carichi di addestramento su scala, dove l'interconnessione è spesso il vero collo di bottiglia. Restano da verificare in campo i consumi effettivi e le tempistiche di disponibilità dichiarate.",
+     perche:"La banda di interconnessione, più della potenza del singolo chip, determina la scalabilità reale dei cluster: è il parametro che pesa sui costi infrastrutturali di chi addestra modelli."},
+    {titolo:"AMD amplia la linea Instinct MI350 puntando sull'efficienza energetica",
+     fonte:"Tom's Hardware", offset:3,
+     sintesi:"AMD ha ampliato la famiglia Instinct MI350, con un messaggio centrato sull'efficienza energetica per watt più che sul picco di prestazioni. La società indica un miglioramento rispetto a MI300 e una disponibilità collocata nella seconda metà dell'anno. La mossa consolida la posizione di AMD come alternativa credibile nel segmento degli acceleratori per data center.",
+     perche:"Un secondo fornitore competitivo riduce la dipendenza da un unico attore e influenza i prezzi degli acceleratori, voce di costo dominante nell'infrastruttura AI."},
+    {titolo:"TSMC conferma l'avvio della produzione a 2 nm per i primi clienti",
+     fonte:"Tom's Hardware", offset:6,
+     sintesi:"TSMC ha confermato l'ingresso in produzione del nodo a 2 nm per i primi clienti, con rese descritte come in linea con le attese. Il nodo introduce transistor a nanofoglio e promette guadagni di efficienza rilevanti per i chip AI di prossima generazione. La capacità iniziale resta limitata e allocata ai clienti principali.",
+     perche:"L'accesso anticipato ai nodi più avanzati è un vantaggio competitivo: chi non è in cima alla lista di allocazione rischia di restare indietro di un'intera generazione."}
+  ]},
+  {id:"energia", nome:"Energia", articoli:[
+    {titolo:"Studio: lo scheduling dei carichi può ridurre il consumo dei data center del 15-20%",
+     fonte:"arXiv", offset:10, nota:"(preprint, non ancora sottoposto a peer review)",
+     sintesi:"I risultati preliminari di uno studio indicano che una strategia di scheduling dei carichi di lavoro può ridurre il consumo energetico dei data center del 15-20% in scenari specifici, senza degradare le prestazioni di inferenza. Gli autori misurano l'effetto su un cluster simulato con carichi misti addestramento/inferenza. Viene discusso il limite della generalizzazione ad ambienti di produzione reali.",
+     perche:"L'energia è il vincolo strutturale della crescita AI: ogni punto percentuale di efficienza si traduce in capacità aggiuntiva a parità di rete elettrica disponibile."},
+    {titolo:"Analisi sui limiti di rete elettrica per i nuovi campus di data center",
+     fonte:"arXiv", offset:26, nota:"(preprint, non ancora sottoposto a peer review)",
+     sintesi:"I risultati preliminari di uno studio indicano che la disponibilità di allacciamento alla rete elettrica, e non il terreno o il capitale, sta diventando il fattore limitante per i nuovi campus di data center in diverse aree. Il lavoro mappa i tempi di attesa per la connessione in alcune regioni.",
+     perche:"Sposta l'attenzione dal capex alla disponibilità fisica di potenza: un tema centrale per chi pianifica capacità a 3-5 anni."}
+  ]},
+  {id:"data_center", nome:"Data center", articoli:[
+    {titolo:"Meta descrive il raffreddamento a liquido diretto nei nuovi cluster di training",
+     fonte:"Meta Engineering", offset:2,
+     sintesi:"Meta ha descritto l'adozione del raffreddamento a liquido diretto-a-chip nei nuovi cluster dedicati all'addestramento. L'azienda riporta densità di potenza per rack più elevate e un impatto favorevole sull'efficienza complessiva. Vengono illustrate le implicazioni impiantistiche, dalla distribuzione idraulica al recupero di calore.",
+     perche:"La densità per rack è ciò che permette di concentrare più calcolo nello stesso spazio e nella stessa fornitura elettrica: abilita la scala senza moltiplicare gli edifici."},
+    {titolo:"Uptime Institute: l'indisponibilità media cala, ma il costo degli outage cresce",
+     fonte:"Uptime Institute Journal", offset:9,
+     sintesi:"Secondo l'ultimo rapporto dell'Uptime Institute, la frequenza degli outage gravi è in calo, mentre il loro costo economico medio continua a salire. L'analisi lega il fenomeno alla crescente concentrazione di carichi critici. Vengono indicate le cause ricorrenti, con il fattore umano ancora prominente.",
+     perche:"Per chi investe in infrastruttura, l'affidabilità è un costo nascosto: outage più rari ma più costosi cambiano il calcolo del rischio."}
+  ]},
+  {id:"supply_chain", nome:"Supply chain", articoli:[
+    {titolo:"Nuove restrizioni all'export di apparecchiature per semiconduttori verso più paesi",
+     fonte:"Federal Register — BIS", offset:1,
+     sintesi:"Il Bureau of Industry and Security ha pubblicato nuove restrizioni all'export di apparecchiature per la produzione di semiconduttori, estendendo l'elenco dei paesi interessati. Il provvedimento aggiorna soglie e categorie tecniche rispetto alle regole precedenti. Gli operatori del settore avranno una finestra per l'adeguamento.",
+     perche:"Le regole sull'export ridisegnano le catene di fornitura globali e possono spostare investimenti e capacità produttiva tra regioni nel giro di pochi trimestri."},
+    {titolo:"ASML: ordini in ripresa, focus sulla litografia EUV High-NA",
+     fonte:"Google News (TSMC/ASML)", offset:5, nota:"ripreso da più testate",
+     sintesi:"Diverse testate riportano una ripresa degli ordini per ASML, trainata dalla domanda per la litografia EUV di nuova generazione High-NA. Le consegne dei primi sistemi ai clienti principali sono descritte come in accelerazione. Restano incertezze sui tempi di industrializzazione presso le fab.",
+     perche:"ASML è un punto di strozzatura unico nella filiera: la cadenza delle sue consegne condiziona di fatto il ritmo di espansione della capacità mondiale di chip avanzati."}
+  ]},
+  {id:"cloud_capacity", nome:"Cloud", articoli:[
+    {titolo:"Google Cloud annuncia una nuova regione con capex dichiarato da 2 miliardi di dollari",
+     fonte:"Google Cloud — Infrastructure", offset:1,
+     sintesi:"Google Cloud ha annunciato una nuova regione cloud con un capex dichiarato di 2 miliardi di dollari, più zone di disponibilità e un cavo sottomarino dedicato per la ridondanza. L'obiettivo comunicato è aumentare la capacità e la resilienza in un'area a forte domanda. La messa in servizio è prevista in fasi.",
+     perche:"Le cifre di investimento dichiarate e la ridondanza fisica sono indicatori concreti di dove i grandi provider stanno spostando capacità di calcolo."},
+    {titolo:"AWS espande la capacità con nuove zone e infrastruttura di rete",
+     fonte:"AWS News Blog", offset:4,
+     sintesi:"AWS ha comunicato l'espansione della propria capacità con nuove zone di disponibilità e potenziamenti dell'infrastruttura di rete. Il messaggio, ripulito dal linguaggio promozionale, contiene riferimenti a capacità aggiuntiva e a miglioramenti di latenza. Le tempistiche di rilascio sono scaglionate per area.",
+     perche:"La distribuzione geografica della capacità cloud determina dove è possibile eseguire carichi AI vicino ai dati e agli utenti, con impatto diretto su costi e latenza."}
+  ]}
+];
+
+const SOGLIA_NUOVO = 2;      // giorni: badge "Nuovo aggiornamento" (calcolo lato client)
+const SOGLIA_SETTIMANA = 7;  // giorni: rientra nel digest "di questa settimana"
+const MESI = ["gen","feb","mar","apr","mag","giu","lug","ago","set","ott","nov","dic"];
+
+function dataDa(offset){ return new Date(Date.now() - offset*86400000); }
+function formatta(d){ return d.getDate()+" "+MESI[d.getMonth()]+" "+d.getFullYear(); }
+function trovaTema(id){ return TEMI.find(t=>t.id===id); }
+function idArticolo(temaId,i){ return temaId+"-"+i; }
+
+const app = document.getElementById('app');
+
+/* ---------------------------- HOMEPAGE ---------------------------- */
+function vaiHome(){
+  const conAgg = TEMI.filter(t => t.articoli.some(a => a.offset <= SOGLIA_SETTIMANA));
+  const oggi = formatta(new Date());
+
+  const nav = TEMI.map(t =>
+    `<button class="pill" onclick="vaiTema('${t.id}')"><span class="dot"></span>${t.nome}</button>`
+  ).join('');
+
+  const boxes = conAgg.map(t=>{
+    const voci = t.articoli.filter(a=>a.offset<=SOGLIA_SETTIMANA).map((a,i)=>{
+      const idx = t.articoli.indexOf(a);
+      return `<li><a onclick="vaiArticolo('${t.id}',${idx})">${a.titolo}
+                <br><small>${a.fonte} · ${formatta(dataDa(a.offset))}</small></a></li>`;
+    }).join('');
+    return `<div class="box reveal" data-tilt>
+        <h3><span class="tema-ic"></span>${t.nome}</h3>
+        <ul>${voci}</ul>
+        <span class="apri" onclick="vaiTema('${t.id}')">Cronologia ${t.nome} →</span>
+      </div>`;
+  }).join('');
+
+  app.innerHTML = `<section class="view">
+    <div class="hero">
+      <div class="glow"></div>
+      <div class="kicker">Digest settimanale interno</div>
+      <h1 class="title">Digest Research Agent</h1>
+      <p class="sub">Infrastruttura &amp; Hardware AI — chip, data center, energia, supply chain, capacità cloud.</p>
+      <div class="settimana">Settimana del ${oggi}</div>
+    </div>
+    <div class="temi-nav">${nav}</div>
+    <main>
+      <div class="sez-titolo">Aggiornamenti di questa settimana</div>
+      <div class="sez-nota">Compaiono solo i temi con novità nella settimana corrente.</div>
+      <div class="boxes">${boxes}</div>
+    </main>
+  </section>`;
+  attivaEffetti();
+}
+
+/* ------------------------- CRONOLOGIA TEMA ------------------------ */
+function vaiTema(id){
+  const t = trovaTema(id);
+  const ordinati = t.articoli.map((a,i)=>({a,i})).sort((x,y)=>x.a.offset-y.a.offset);
+  const nuovi = ordinati.filter(o=>o.a.offset<=SOGLIA_NUOVO);
+  const vecchi = ordinati.filter(o=>o.a.offset>SOGLIA_NUOVO);
+
+  const voce = (o)=>{
+    const a=o.a, nuovo = a.offset<=SOGLIA_NUOVO;
+    return `<div class="voce reveal" onclick="vaiArticolo('${id}',${o.i})">
+        <div class="meta"><span class="fonte" style="color:var(--verde);font-weight:600">${a.fonte}</span>
+          · ${formatta(dataDa(a.offset))} ${nuovo?'<span class="badge-nuovo">Nuovo</span>':''}</div>
+        <h4>${a.titolo}</h4>
+        <div>${a.sintesi.split('. ')[0]}.</div>
+      </div>`;
+  };
+
+  let corpo = '';
+  if(nuovi.length){ corpo += `<div class="etichetta-nuovo">Nuovo aggiornamento</div>` + nuovi.map(voce).join('') + `<hr class="divisore">`; }
+  corpo += vecchi.map(voce).join('') || (nuovi.length?'':'<p class="sez-nota">Nessun articolo in archivio per questo tema.</p>');
+
+  app.innerHTML = `<section class="view"><main class="crono">
+      <button class="indietro" onclick="vaiHome()">← Home</button>
+      <h2>${t.nome} — cronologia</h2>
+      ${corpo}
+    </main></section>`;
+  attivaEffetti();
+}
+
+/* --------------------------- ARTICOLO ---------------------------- */
+function vaiArticolo(id,i){
+  const t = trovaTema(id), a = t.articoli[i];
+  app.innerHTML = `<section class="view"><main class="articolo">
+      <button class="indietro" onclick="vaiTema('${id}')">← ${t.nome}</button>
+      <h1>${a.titolo}</h1>
+      <div class="meta"><span class="fonte">${a.fonte}</span> · ${formatta(dataDa(a.offset))}</div>
+      ${a.nota?`<div class="nota">${a.nota}</div>`:''}
+      <p style="margin-top:1rem">${a.sintesi}</p>
+      <div class="perche"><strong>Perché conta:</strong> ${a.perche}</div>
+    </main></section>`;
+  window.scrollTo({top:0,behavior:'smooth'});
+  attivaEffetti();
+}
+
+/* --------------------- animazioni / micro-interazioni --------------------- */
+function attivaEffetti(){
+  // reveal allo scroll
+  const io = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);} }),{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // spotlight che segue il cursore nell'hero
+  const glow = document.querySelector('.glow');
+  if(glow){
+    const hero = glow.parentElement;
+    hero.onmousemove = e=>{
+      const r = hero.getBoundingClientRect();
+      document.documentElement.style.setProperty('--mx', ((e.clientX-r.left)/r.width*100)+'%');
+      document.documentElement.style.setProperty('--my', ((e.clientY-r.top)/r.height*100)+'%');
+    };
+  }
+
+  // leggero tilt 3D delle card al passaggio del mouse
+  document.querySelectorAll('[data-tilt]').forEach(card=>{
+    card.onmousemove = e=>{
+      const r=card.getBoundingClientRect();
+      const rx=((e.clientY-r.top)/r.height-.5)*-6, ry=((e.clientX-r.left)/r.width-.5)*6;
+      card.style.transform=`perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-4px)`;
+    };
+    card.onmouseleave = ()=> card.style.transform='';
+  });
+}
+
+vaiHome();
+</script>
+</body>
+</html>
