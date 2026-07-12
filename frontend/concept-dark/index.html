@@ -1,318 +1,353 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="it">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DRA — concept (dark)</title>
 <!--
-  Concept "dark" del Digest Research Agent.
-  STESSE FUNZIONALITÀ della bozza chiara (frontend/bozza-homepage.html) — stessi dati,
-  stesso flusso (home -> cronologia tema -> articolo), stessa logica (solo i temi con
-  aggiornamenti della settimana in home, box autocentrati, badge "Nuovo" <=2gg e box
-  "questa settimana" <=7gg calcolati lato client dall'offset) — ma con lo STILE del
-  concept: tema quasi-nero, accento rosa/rosso, card glass, sfondo a matrice di glifi
-  generato via canvas (glow LED che segue il cursore + gocce d'acqua), logo placeholder.
-  File autonomo: nessun JS/asset esterno, servito da nginx senza build
-  (docker compose up concept -> http://localhost:8082).
+  CONCEPT "dark" = la BOZZA (frontend/bozza-homepage.html) con solo lo STILE cambiato.
+  Struttura, layout, markup e JS sono identici alla bozza; cambiano unicamente i
+  colori, i font (Poppins), lo sfondo (matrice di glifi generata via canvas + glow/
+  gocce al posto dei blob), il logo (placeholder KVA) e il trattamento del titolo —
+  cioè l'identità visiva del concept. Il layout ordinato dei box e tutto il resto
+  restano quelli della bozza. File autonomo: nessun asset/JS esterno.
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; }
-  body {
-    min-height: 100vh;
-    background-color: #07080a;
-    color: #e7e9ec;
-    font-family: 'Poppins', system-ui, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
+  :root{
+    /* --- palette CONCEPT (dark, accento rosa) al posto di verde/crema della bozza --- */
+    --verde:        #e0506e;                 /* accento (link, kicker, pill, bordi) */
+    --verde-vivo:   #f0899c;                 /* accento più brillante (dot, hover) */
+    --verde-scuro:  #f2f4f6;                 /* titoli: chiari nel tema dark */
+    --crema:        #07080a;                 /* sfondo quasi-nero */
+    --crema-2:      rgba(255,255,255,.05);   /* superfici hover / box "Perché conta" */
+    --carta:        rgba(18,18,20,.86);      /* superfici delle card (glass) */
+    --inchiostro:   #e7e9ec;                 /* testo */
+    --inchiostro-2: #8a9099;                 /* testo secondario / muted */
+    --terracotta:   #f0899c;                 /* badge "Nuovo" / etichette */
+    --bordo:        rgba(255,255,255,.09);
+    --ombra:        rgba(0,0,0,.5);
+    /* stile dei caratteri del concept: Poppins ovunque */
+    --serif: 'Poppins', system-ui, -apple-system, "Segoe UI", sans-serif;
+    --sans:  'Poppins', system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mx:50vw; --my:30vh;
   }
-  a { color: #e0506e; text-decoration: none; }
-  a:hover { color: #f0899c; }
-  @keyframes kvaFade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-  .view { animation: kvaFade .4s ease both; }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    font-family:var(--sans);
+    color:var(--inchiostro);
+    background-color:var(--crema);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
 
-  header.top { display: flex; justify-content: flex-start; align-items: center; padding: 22px clamp(16px, 4vw, 40px); }
-  .logo-btn { background: none; border: 0; padding: 0; cursor: pointer; display: inline-flex; align-items: flex-end; }
-  .wrap { max-width: 1140px; margin: 0 auto; padding: 0 28px 88px; }
+  /* --- sfondo del concept: matrice di glifi (canvas) + vignetta, al posto dei blob --- */
+  .grad{position:fixed;inset:0;z-index:-1;pointer-events:none;
+    background:linear-gradient(180deg, rgba(0,0,0,.85) 0%, rgba(0,0,0,.5) 14%, rgba(0,0,0,0) 32%),
+      radial-gradient(120% 90% at 50% -10%, rgba(46,20,26,.4) 0%, rgba(7,8,10,0) 45%),
+      radial-gradient(140% 120% at 50% 120%, rgba(0,0,0,.7) 0%, rgba(0,0,0,0) 55%);}
+  #fx{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;}
 
-  /* hero */
-  .hero { text-align: center; padding: clamp(28px, 6vw, 64px) 8px 12px; }
-  .kicker { font-size: 11px; letter-spacing: 0.34em; text-transform: uppercase; color: #e0506e; font-weight: 600; }
-  h1.title { margin: 14px auto 6px; font-weight: 600; font-size: clamp(2.4rem, 7vw, 4.2rem); line-height: 1.05; letter-spacing: -0.02em; color: #f2f4f6; }
-  .hero .sub { color: #9aa0a7; max-width: 60ch; margin: 8px auto 0; font-size: clamp(0.95rem, 1.5vw, 1.1rem); line-height: 1.55; }
-  .settimana { display: inline-flex; align-items: center; gap: 10px; margin-top: 18px; font-size: 12px; color: #c4c8cc; background: rgba(13,13,15,0.8); border: 1px solid rgba(255,255,255,0.13); border-radius: 999px; padding: 7px 16px; }
-  .settimana .dot { width: 6px; height: 6px; border-radius: 50%; background: #e0506e; box-shadow: 0 0 10px rgba(224,80,110,0.9); }
+  /* --- header con logo in alto a SINISTRA (lockup KVA + DRA) --- */
+  header{display:flex;justify-content:flex-start;align-items:center;
+    padding:1.3rem clamp(1rem,4vw,3.5rem);}
+  .logo{display:inline-flex;align-items:flex-end;gap:.2rem;text-decoration:none;color:inherit}
+  .logo .mark{display:inline-flex;transition:transform .3s}
+  .logo .mark svg{height:46px;width:auto;display:block;overflow:visible}
+  .logo:hover .mark{transform:translateY(-2px)}
+  .logo .wm{font-family:var(--sans);font-weight:600;font-size:1rem;letter-spacing:.06em;
+    line-height:1;color:#c4c8cc;margin-bottom:.35rem}
 
-  /* navigazione 5 temi: sempre centrata come gruppo */
-  .temi-nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 30px auto 56px; max-width: 900px; }
-  .pill { font: inherit; font-size: 14px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; background: rgba(13,13,15,0.8); border: 1px solid rgba(255,255,255,0.13); border-radius: 999px; color: #c9ccd0; transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, color .18s ease; }
-  .pill .dot { width: 7px; height: 7px; border-radius: 50%; background: #e0506e; box-shadow: 0 0 8px rgba(224,80,110,0.9); }
-  .pill:hover { transform: translateY(-3px); border-color: rgba(224,80,110,0.5); color: #ffffff; box-shadow: 0 12px 30px rgba(0,0,0,0.55); }
+  /* --- hero --- */
+  .hero{position:relative;text-align:center;padding:clamp(3rem,7vw,6rem) 1rem 1.5rem;overflow:visible;}
+  .kicker{font-size:.85rem;letter-spacing:.36em;text-transform:uppercase;color:var(--verde);font-weight:600}
+  h1.title{font-family:var(--serif);font-weight:600;line-height:1.1;margin:.5rem auto .25rem;padding-bottom:.06em;
+    font-size:clamp(2.6rem,8vw,5.4rem);letter-spacing:-.02em;text-wrap:balance;
+    background:linear-gradient(180deg,#ffffff,var(--verde-scuro));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero .sub{color:var(--inchiostro-2);max-width:56ch;margin:.5rem auto 0;font-size:clamp(1.05rem,1.6vw,1.35rem)}
+  .settimana{display:inline-block;margin-top:.9rem;font-size:.85rem;color:#c4c8cc;
+    background:rgba(13,13,15,.8);border:1px solid var(--bordo);border-radius:999px;padding:.4rem 1rem;
+    box-shadow:0 10px 30px rgba(0,0,0,.4)}
 
-  .sez-titolo { text-align: center; font-weight: 600; font-size: 19px; letter-spacing: -0.01em; color: #e9ebee; margin: 8px 0 4px; }
-  .sez-nota { text-align: center; color: #5c646d; font-size: 12.5px; margin-bottom: 26px; }
+  /* --- navigazione 5 temi: sempre centrata come gruppo --- */
+  .temi-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:.7rem;margin:2rem auto;max-width:min(1100px,94vw);padding:0 1rem}
+  .pill{font:inherit;font-size:.95rem;cursor:pointer;border:1px solid var(--bordo);
+    background:rgba(13,13,15,.8);color:var(--inchiostro);border-radius:999px;padding:.55rem 1.15rem;
+    display:inline-flex;align-items:center;gap:.5rem;transition:transform .18s,box-shadow .18s,background .18s,color .18s,border-color .18s;position:relative}
+  .pill .dot{width:.6rem;height:.6rem;border-radius:50%;background:var(--verde-vivo);box-shadow:0 0 8px rgba(224,80,110,.9)}
+  .pill:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,.55);border-color:rgba(224,80,110,.5);color:#fff}
+  .pill:hover .dot{background:#fff;box-shadow:none}
 
-  /* box "questa settimana": centrati come gruppo, wrap su righe centrate */
-  .boxes { display: flex; flex-wrap: wrap; justify-content: center; gap: 18px; align-items: flex-start; }
-  .box { flex: 1 1 300px; max-width: 360px; display: flex; flex-direction: column; background: rgba(18,18,20,0.86); border: 1px solid rgba(255,255,255,0.09); border-radius: 16px; padding: 20px 20px 12px; transition: border-color .18s ease, box-shadow .18s ease; }
-  .box:hover { border-color: rgba(224,80,110,0.35); box-shadow: 0 14px 44px rgba(0,0,0,0.45); }
-  .box .tema-h { display: flex; align-items: center; gap: 9px; margin-bottom: 6px; color: #e0506e; }
-  .box .tema-h span { font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; }
-  .box .item { display: block; width: 100%; text-align: left; background: none; border: 0; border-top: 1px solid rgba(255,255,255,0.07); padding: 12px 0; color: #b7babe; font: inherit; cursor: pointer; transition: color .15s ease, padding-left .15s ease; }
-  .box .item:hover { color: #f0899c; padding-left: 6px; }
-  .box .item .t { display: block; font-size: 14px; line-height: 1.42; color: inherit; }
-  .box .item .m { display: block; margin-top: 4px; font-size: 11.5px; color: #7c8894; }
-  .box .item .m .nuovo { color: #f0899c; font-weight: 600; }
-  .box .crono-link { margin-top: 10px; align-self: flex-start; background: none; border: 0; padding: 6px 0 0; color: #e0506e; font: inherit; font-size: 12.5px; font-weight: 500; cursor: pointer; transition: color .15s ease; }
-  .box .crono-link:hover { color: #f0899c; }
+  main{max-width:min(1400px,94vw);margin:0 auto;padding:0 clamp(1rem,4vw,2.5rem) 4rem}
+  .sez-titolo{font-family:var(--serif);font-size:clamp(1.5rem,2.6vw,2.1rem);color:var(--verde-scuro);text-align:center;margin:1.8rem 0 .3rem}
+  .sez-nota{text-align:center;color:var(--inchiostro-2);font-size:.92rem;margin-bottom:1.4rem}
 
-  /* barra superiore delle viste interne */
-  .barra { display: flex; align-items: center; justify-content: space-between; margin-bottom: 40px; }
-  .indietro { display: inline-flex; align-items: center; gap: 8px; background: none; border: 0; padding: 0; color: #8b939c; cursor: pointer; font: inherit; font-size: 12px; letter-spacing: 0.04em; transition: color .15s ease; }
-  .indietro:hover { color: #f0899c; }
-  .kick { font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: #e0506e; margin-bottom: 10px; }
-  .h-vista { margin: 0 0 34px; font-weight: 600; font-size: clamp(2rem, 5vw, 40px); line-height: 1.05; letter-spacing: -0.02em; color: #f2f4f6; }
+  /* --- box "questa settimana": centrati come gruppo, wrap su più righe centrate --- */
+  .boxes{display:flex;flex-wrap:wrap;justify-content:center;gap:1.3rem;margin-top:.8rem}
+  .box{flex:1 1 320px;max-width:400px;background:var(--carta);border:1px solid var(--bordo);
+    border-radius:18px;padding:1.35rem 1.4rem;box-shadow:0 8px 24px rgba(0,0,0,.35);
+    transition:transform .25s,box-shadow .25s,border-color .25s;transform-style:preserve-3d;will-change:transform}
+  .box:hover{box-shadow:0 18px 40px var(--ombra);border-color:rgba(224,80,110,.35)}
+  .box h3{margin:.1rem 0 .3rem;font-family:var(--serif);font-weight:600;font-size:1.5rem;color:var(--verde-scuro);
+    display:flex;align-items:center;gap:.55rem}
+  .box .tema-ic{width:1.8rem;height:1.8rem;border-radius:8px;background:var(--verde);opacity:.9;display:inline-block}
+  .box ul{list-style:none;margin:.7rem 0 0;padding:0}
+  .box li{margin:.2rem 0}
+  .box li a{display:block;text-decoration:none;color:var(--inchiostro);padding:.55rem .6rem;border-radius:10px;
+    transition:background .15s,transform .15s,color .15s;font-size:1.15rem;line-height:1.4}
+  .box li a:hover{background:var(--crema-2);transform:translateX(4px);color:var(--verde-vivo)}
+  .box li small{color:var(--inchiostro-2);font-size:.98rem}
+  .box .apri{display:inline-block;margin-top:.85rem;font-size:1rem;color:var(--verde);font-weight:500;cursor:pointer}
+  .box .apri:hover{color:var(--verde-vivo)}
 
-  /* cronologia */
-  .etichetta-nuovo { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; font-size: 11.5px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #f0899c; }
-  .etichetta-nuovo::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, rgba(224,80,110,0.4), transparent); }
-  hr.divisore { border: 0; border-top: 1px dashed rgba(255,255,255,0.15); margin: 34px 0 28px; }
-  .voce { display: block; width: 100%; text-align: left; background: rgba(18,18,20,0.86); border: 1px solid rgba(255,255,255,0.09); border-radius: 16px; padding: 20px 24px; margin: 14px 0; cursor: pointer; transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
-  .voce:hover { transform: translateY(-2px); box-shadow: 0 14px 44px rgba(0,0,0,0.45); border-color: rgba(224,80,110,0.5); }
-  .voce .meta { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; font-size: 11.5px; color: #7c8894; }
-  .voce .meta .fonte { color: #f0899c; }
-  .voce .meta .sep { width: 3px; height: 3px; border-radius: 50%; background: #4a545e; }
-  .voce h4 { margin: 0 0 8px; font-weight: 600; font-size: 17.5px; line-height: 1.35; letter-spacing: -0.01em; color: #e6e9ec; }
-  .voce p { margin: 0; font-size: 14px; line-height: 1.6; color: #9aa0a7; }
-  .badge-nuovo { padding: 3px 10px; border-radius: 999px; background: rgba(224,80,110,0.16); border: 1px solid rgba(224,80,110,0.5); color: #f0899c; font-size: 9px; font-weight: 600; letter-spacing: 0.14em; }
+  /* --- vista cronologia / articolo --- */
+  .indietro{background:none;border:none;font:inherit;color:var(--verde);cursor:pointer;padding:.3rem 0;margin:.5rem 0}
+  .indietro:hover{color:var(--verde-vivo)}
+  .crono h2,.articolo h1{font-family:var(--serif);font-weight:600;color:var(--verde-scuro)}
+  .crono h2{font-size:1.9rem;margin:.2rem 0 1rem}
+  .etichetta-nuovo{display:flex;align-items:center;gap:.6rem;margin:.4rem 0 .2rem;color:var(--terracotta);font-weight:600;letter-spacing:.02em}
+  .etichetta-nuovo::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--terracotta),transparent)}
+  hr.divisore{border:0;border-top:1px dashed var(--bordo);margin:1.4rem 0}
+  .voce{background:var(--carta);border:1px solid var(--bordo);border-radius:14px;padding:1rem 1.15rem;margin:.7rem 0;
+    cursor:pointer;transition:transform .18s,box-shadow .18s,border-color .18s}
+  .voce:hover{transform:translateY(-2px);box-shadow:0 12px 26px var(--ombra);border-color:rgba(224,80,110,.5)}
+  .voce .meta{font-size:.82rem;color:var(--inchiostro-2);display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}
+  .voce h4{margin:.25rem 0;font-family:var(--serif);font-weight:600;font-size:1.2rem;color:#e6e9ec}
+  .badge-nuovo{background:var(--terracotta);color:#1a0d11;font-size:.68rem;font-weight:700;letter-spacing:.05em;
+    text-transform:uppercase;border-radius:999px;padding:.15rem .5rem}
+  .articolo{max-width:760px}
+  .articolo .fonte{color:var(--verde);font-weight:600}
+  /* corpo principale del report: sintesi ingrandita per la leggibilità */
+  .articolo p{font-size:1.24rem;line-height:1.75}
+  .articolo .perche{background:var(--crema-2);border-left:4px solid var(--verde);border-radius:0 12px 12px 0;
+    padding:1rem 1.15rem;margin-top:1.3rem;font-size:1.16rem;line-height:1.7}
+  .articolo .nota{color:var(--inchiostro-2);font-style:italic;margin-top:.6rem}
 
-  /* articolo */
-  .articolo { max-width: 760px; }
-  .articolo .meta { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; font-size: 12px; color: #7c8894; }
-  .articolo .meta .fonte { color: #f0899c; }
-  .articolo .meta .sep { width: 3px; height: 3px; border-radius: 50%; background: #4a545e; }
-  .articolo .nota { color: #8a9099; font-style: italic; margin: 0 0 14px; font-size: 13px; }
-  .articolo p.corpo { font-size: 17px; line-height: 1.75; color: #c2c6cb; max-width: 70ch; }
-  .articolo .perche { background: rgba(224,80,110,0.08); border-left: 3px solid #e0506e; border-radius: 0 12px 12px 0; padding: 16px 20px; margin-top: 24px; font-size: 15.5px; line-height: 1.7; color: #cdd1d6; }
-  .articolo .perche strong { color: #f0899c; }
+  footer{text-align:center;color:var(--inchiostro-2);font-size:.82rem;padding:2rem 1rem 3rem}
 
-  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+  /* --- transizioni tra viste + reveal allo scroll --- */
+  .view{animation:fadeup .5s ease both}
+  @keyframes fadeup{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s,transform .6s}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none!important;transition:none!important}
+    .reveal{opacity:1;transform:none}
+  }
 </style>
 </head>
 <body>
+  <div class="grad" aria-hidden="true"></div>
+  <canvas id="fx" aria-hidden="true"></canvas>
 
-<div style="position:fixed;inset:0;pointer-events:none;z-index:0;background:linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 14%, rgba(0,0,0,0) 32%), radial-gradient(120% 90% at 50% -10%, rgba(46,20,26,0.4) 0%, rgba(7,8,10,0) 45%), radial-gradient(140% 120% at 50% 120%, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 55%);"></div>
-<canvas id="fx" style="position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
-
-<div style="position:relative;z-index:1;">
-  <header class="top">
-    <button class="logo-btn" data-act="home" title="Digest Research Agent (DRA)" id="logo-top"></button>
+  <header>
+    <a class="logo" href="#" onclick="vaiHome();return false" title="Digest Research Agent (DRA)">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 82 34" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="kvg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e0506e"/><stop offset="1" stop-color="#41acdf"/></linearGradient></defs>
+          <text x="0" y="26" font-family="Poppins,system-ui,sans-serif" font-weight="700" font-size="28" letter-spacing="-1" fill="url(#kvg)">KVA</text>
+        </svg>
+      </span>
+      <span class="wm">DRA</span>
+    </a>
   </header>
-  <div class="wrap"><div id="app"></div></div>
-</div>
+
+  <div id="app"></div>
+
+  <footer>Bozza visiva · contenuti di esempio · sito interno, nessun login</footer>
 
 <script>
+/* ---------------------------------------------------------------------------
+   Dati di esempio (realistici, solo per la revisione visiva).
+   `offset` = giorni fa: la data viene calcolata rispetto a oggi, così la soglia
+   "Nuovo aggiornamento" (<= 2 giorni) e i box "questa settimana" (<= 7 giorni)
+   funzionano sempre, indipendentemente da quando apri il file.
+--------------------------------------------------------------------------- */
+const TEMI = [
+  {id:"chip", nome:"Chip", articoli:[
+    {titolo:"NVIDIA presenta l'acceleratore Blackwell Ultra (GB300) per l'addestramento su larga scala",
+     fonte:"NVIDIA Newsroom", offset:1,
+     sintesi:"NVIDIA ha presentato il GB300, evoluzione della piattaforma Blackwell orientata ai cluster di addestramento più grandi. L'azienda dichiara una banda GPU-to-GPU di 3,2 Tbps e una dotazione di memoria HBM3e ampliata rispetto alla generazione precedente. Il posizionamento è esplicitamente sui carichi di addestramento su scala, dove l'interconnessione è spesso il vero collo di bottiglia. Restano da verificare in campo i consumi effettivi e le tempistiche di disponibilità dichiarate.",
+     perche:"La banda di interconnessione, più della potenza del singolo chip, determina la scalabilità reale dei cluster: è il parametro che pesa sui costi infrastrutturali di chi addestra modelli."},
+    {titolo:"AMD amplia la linea Instinct MI350 puntando sull'efficienza energetica",
+     fonte:"Tom's Hardware", offset:3,
+     sintesi:"AMD ha ampliato la famiglia Instinct MI350, con un messaggio centrato sull'efficienza energetica per watt più che sul picco di prestazioni. La società indica un miglioramento rispetto a MI300 e una disponibilità collocata nella seconda metà dell'anno. La mossa consolida la posizione di AMD come alternativa credibile nel segmento degli acceleratori per data center.",
+     perche:"Un secondo fornitore competitivo riduce la dipendenza da un unico attore e influenza i prezzi degli acceleratori, voce di costo dominante nell'infrastruttura AI."},
+    {titolo:"TSMC conferma l'avvio della produzione a 2 nm per i primi clienti",
+     fonte:"Tom's Hardware", offset:6,
+     sintesi:"TSMC ha confermato l'ingresso in produzione del nodo a 2 nm per i primi clienti, con rese descritte come in linea con le attese. Il nodo introduce transistor a nanofoglio e promette guadagni di efficienza rilevanti per i chip AI di prossima generazione. La capacità iniziale resta limitata e allocata ai clienti principali.",
+     perche:"L'accesso anticipato ai nodi più avanzati è un vantaggio competitivo: chi non è in cima alla lista di allocazione rischia di restare indietro di un'intera generazione."}
+  ]},
+  {id:"energia", nome:"Energia", articoli:[
+    {titolo:"Studio: lo scheduling dei carichi può ridurre il consumo dei data center del 15-20%",
+     fonte:"arXiv", offset:10, nota:"(preprint, non ancora sottoposto a peer review)",
+     sintesi:"I risultati preliminari di uno studio indicano che una strategia di scheduling dei carichi di lavoro può ridurre il consumo energetico dei data center del 15-20% in scenari specifici, senza degradare le prestazioni di inferenza. Gli autori misurano l'effetto su un cluster simulato con carichi misti addestramento/inferenza. Viene discusso il limite della generalizzazione ad ambienti di produzione reali.",
+     perche:"L'energia è il vincolo strutturale della crescita AI: ogni punto percentuale di efficienza si traduce in capacità aggiuntiva a parità di rete elettrica disponibile."},
+    {titolo:"Analisi sui limiti di rete elettrica per i nuovi campus di data center",
+     fonte:"arXiv", offset:26, nota:"(preprint, non ancora sottoposto a peer review)",
+     sintesi:"I risultati preliminari di uno studio indicano che la disponibilità di allacciamento alla rete elettrica, e non il terreno o il capitale, sta diventando il fattore limitante per i nuovi campus di data center in diverse aree. Il lavoro mappa i tempi di attesa per la connessione in alcune regioni.",
+     perche:"Sposta l'attenzione dal capex alla disponibilità fisica di potenza: un tema centrale per chi pianifica capacità a 3-5 anni."}
+  ]},
+  {id:"data_center", nome:"Data center", articoli:[
+    {titolo:"Meta descrive il raffreddamento a liquido diretto nei nuovi cluster di training",
+     fonte:"Meta Engineering", offset:2,
+     sintesi:"Meta ha descritto l'adozione del raffreddamento a liquido diretto-a-chip nei nuovi cluster dedicati all'addestramento. L'azienda riporta densità di potenza per rack più elevate e un impatto favorevole sull'efficienza complessiva. Vengono illustrate le implicazioni impiantistiche, dalla distribuzione idraulica al recupero di calore.",
+     perche:"La densità per rack è ciò che permette di concentrare più calcolo nello stesso spazio e nella stessa fornitura elettrica: abilita la scala senza moltiplicare gli edifici."},
+    {titolo:"Uptime Institute: l'indisponibilità media cala, ma il costo degli outage cresce",
+     fonte:"Uptime Institute Journal", offset:9,
+     sintesi:"Secondo l'ultimo rapporto dell'Uptime Institute, la frequenza degli outage gravi è in calo, mentre il loro costo economico medio continua a salire. L'analisi lega il fenomeno alla crescente concentrazione di carichi critici. Vengono indicate le cause ricorrenti, con il fattore umano ancora prominente.",
+     perche:"Per chi investe in infrastruttura, l'affidabilità è un costo nascosto: outage più rari ma più costosi cambiano il calcolo del rischio."}
+  ]},
+  {id:"supply_chain", nome:"Supply chain", articoli:[
+    {titolo:"Nuove restrizioni all'export di apparecchiature per semiconduttori verso più paesi",
+     fonte:"Federal Register — BIS", offset:1,
+     sintesi:"Il Bureau of Industry and Security ha pubblicato nuove restrizioni all'export di apparecchiature per la produzione di semiconduttori, estendendo l'elenco dei paesi interessati. Il provvedimento aggiorna soglie e categorie tecniche rispetto alle regole precedenti. Gli operatori del settore avranno una finestra per l'adeguamento.",
+     perche:"Le regole sull'export ridisegnano le catene di fornitura globali e possono spostare investimenti e capacità produttiva tra regioni nel giro di pochi trimestri."},
+    {titolo:"ASML: ordini in ripresa, focus sulla litografia EUV High-NA",
+     fonte:"Google News (TSMC/ASML)", offset:5, nota:"ripreso da più testate",
+     sintesi:"Diverse testate riportano una ripresa degli ordini per ASML, trainata dalla domanda per la litografia EUV di nuova generazione High-NA. Le consegne dei primi sistemi ai clienti principali sono descritte come in accelerazione. Restano incertezze sui tempi di industrializzazione presso le fab.",
+     perche:"ASML è un punto di strozzatura unico nella filiera: la cadenza delle sue consegne condiziona di fatto il ritmo di espansione della capacità mondiale di chip avanzati."}
+  ]},
+  {id:"cloud_capacity", nome:"Cloud", articoli:[
+    {titolo:"Google Cloud annuncia una nuova regione con capex dichiarato da 2 miliardi di dollari",
+     fonte:"Google Cloud — Infrastructure", offset:1,
+     sintesi:"Google Cloud ha annunciato una nuova regione cloud con un capex dichiarato di 2 miliardi di dollari, più zone di disponibilità e un cavo sottomarino dedicato per la ridondanza. L'obiettivo comunicato è aumentare la capacità e la resilienza in un'area a forte domanda. La messa in servizio è prevista in fasi.",
+     perche:"Le cifre di investimento dichiarate e la ridondanza fisica sono indicatori concreti di dove i grandi provider stanno spostando capacità di calcolo."},
+    {titolo:"AWS espande la capacità con nuove zone e infrastruttura di rete",
+     fonte:"AWS News Blog", offset:4,
+     sintesi:"AWS ha comunicato l'espansione della propria capacità con nuove zone di disponibilità e potenziamenti dell'infrastruttura di rete. Il messaggio, ripulito dal linguaggio promozionale, contiene riferimenti a capacità aggiuntiva e a miglioramenti di latenza. Le tempistiche di rilascio sono scaglionate per area.",
+     perche:"La distribuzione geografica della capacità cloud determina dove è possibile eseguire carichi AI vicino ai dati e agli utenti, con impatto diretto su costi e latenza."}
+  ]}
+];
+
+const SOGLIA_NUOVO = 2;      // giorni: badge "Nuovo aggiornamento" (calcolo lato client)
+const SOGLIA_SETTIMANA = 7;  // giorni: rientra nel digest "di questa settimana"
+const MESI = ["gen","feb","mar","apr","mag","giu","lug","ago","set","ott","nov","dic"];
+
+function dataDa(offset){ return new Date(Date.now() - offset*86400000); }
+function formatta(d){ return d.getDate()+" "+MESI[d.getMonth()]+" "+d.getFullYear(); }
+function trovaTema(id){ return TEMI.find(t=>t.id===id); }
+function idArticolo(temaId,i){ return temaId+"-"+i; }
+
+const app = document.getElementById('app');
+
+/* ---------------------------- HOMEPAGE ---------------------------- */
+function vaiHome(){
+  const conAgg = TEMI.filter(t => t.articoli.some(a => a.offset <= SOGLIA_SETTIMANA));
+  const oggi = formatta(new Date());
+
+  const nav = TEMI.map(t =>
+    `<button class="pill" onclick="vaiTema('${t.id}')"><span class="dot"></span>${t.nome}</button>`
+  ).join('');
+
+  const boxes = conAgg.map(t=>{
+    const voci = t.articoli.filter(a=>a.offset<=SOGLIA_SETTIMANA).map((a,i)=>{
+      const idx = t.articoli.indexOf(a);
+      return `<li><a onclick="vaiArticolo('${t.id}',${idx})">${a.titolo}
+                <br><small>${a.fonte} · ${formatta(dataDa(a.offset))}</small></a></li>`;
+    }).join('');
+    return `<div class="box reveal" data-tilt>
+        <h3><span class="tema-ic"></span>${t.nome}</h3>
+        <ul>${voci}</ul>
+        <span class="apri" onclick="vaiTema('${t.id}')">Cronologia ${t.nome} →</span>
+      </div>`;
+  }).join('');
+
+  app.innerHTML = `<section class="view">
+    <div class="hero">
+      <div class="kicker">Digest settimanale interno</div>
+      <h1 class="title">Digest Research Agent</h1>
+      <p class="sub">Infrastruttura &amp; Hardware AI — chip, data center, energia, supply chain, capacità cloud.</p>
+      <div class="settimana">Settimana del ${oggi}</div>
+    </div>
+    <div class="temi-nav">${nav}</div>
+    <main>
+      <div class="sez-titolo">Aggiornamenti di questa settimana</div>
+      <div class="sez-nota">Compaiono solo i temi con novità nella settimana corrente.</div>
+      <div class="boxes">${boxes}</div>
+    </main>
+  </section>`;
+  attivaEffetti();
+}
+
+/* ------------------------- CRONOLOGIA TEMA ------------------------ */
+function vaiTema(id){
+  const t = trovaTema(id);
+  const ordinati = t.articoli.map((a,i)=>({a,i})).sort((x,y)=>x.a.offset-y.a.offset);
+  const nuovi = ordinati.filter(o=>o.a.offset<=SOGLIA_NUOVO);
+  const vecchi = ordinati.filter(o=>o.a.offset>SOGLIA_NUOVO);
+
+  const voce = (o)=>{
+    const a=o.a, nuovo = a.offset<=SOGLIA_NUOVO;
+    return `<div class="voce reveal" onclick="vaiArticolo('${id}',${o.i})">
+        <div class="meta"><span class="fonte" style="color:var(--verde);font-weight:600">${a.fonte}</span>
+          · ${formatta(dataDa(a.offset))} ${nuovo?'<span class="badge-nuovo">Nuovo</span>':''}</div>
+        <h4>${a.titolo}</h4>
+        <div>${a.sintesi.split('. ')[0]}.</div>
+      </div>`;
+  };
+
+  let corpo = '';
+  if(nuovi.length){ corpo += `<div class="etichetta-nuovo">Nuovo aggiornamento</div>` + nuovi.map(voce).join('') + `<hr class="divisore">`; }
+  corpo += vecchi.map(voce).join('') || (nuovi.length?'':'<p class="sez-nota">Nessun articolo in archivio per questo tema.</p>');
+
+  app.innerHTML = `<section class="view"><main class="crono">
+      <button class="indietro" onclick="vaiHome()">← Home</button>
+      <h2>${t.nome} — cronologia</h2>
+      ${corpo}
+    </main></section>`;
+  attivaEffetti();
+}
+
+/* --------------------------- ARTICOLO ---------------------------- */
+function vaiArticolo(id,i){
+  const t = trovaTema(id), a = t.articoli[i];
+  app.innerHTML = `<section class="view"><main class="articolo">
+      <button class="indietro" onclick="vaiTema('${id}')">← ${t.nome}</button>
+      <h1>${a.titolo}</h1>
+      <div class="meta"><span class="fonte">${a.fonte}</span> · ${formatta(dataDa(a.offset))}</div>
+      ${a.nota?`<div class="nota">${a.nota}</div>`:''}
+      <p style="margin-top:1rem">${a.sintesi}</p>
+      <div class="perche"><strong>Perché conta:</strong> ${a.perche}</div>
+    </main></section>`;
+  window.scrollTo({top:0,behavior:'smooth'});
+  attivaEffetti();
+}
+
+/* --------------------- animazioni / micro-interazioni --------------------- */
+function attivaEffetti(){
+  // reveal allo scroll
+  const io = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);} }),{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // leggero tilt 3D delle card al passaggio del mouse
+  document.querySelectorAll('[data-tilt]').forEach(card=>{
+    card.onmousemove = e=>{
+      const r=card.getBoundingClientRect();
+      const rx=((e.clientY-r.top)/r.height-.5)*-6, ry=((e.clientX-r.left)/r.width-.5)*6;
+      card.style.transform=`perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-4px)`;
+    };
+    card.onmouseleave = ()=> card.style.transform='';
+  });
+}
+
+vaiHome();
+</script>
+
+<script>
+/* =========================================================================
+   SFONDO DEL CONCEPT — matrice di glifi generata via canvas (sostituisce i blob
+   della bozza) + due effetti: glow LED che segue il cursore e gocce d'acqua che
+   distorcono lo sfondo. Indipendente dalla logica dell'app qui sopra.
+========================================================================= */
 (function () {
   "use strict";
 
-  // ===== DATI (identici alla bozza chiara). `offset` = giorni fa: date e badge sono
-  // calcolati rispetto a oggi, così "questa settimana" (<=7gg) e "Nuovo" (<=2gg)
-  // funzionano sempre, indipendentemente da quando apri il file. =====
-  const TEMI = [
-    { id: "chip", nome: "Chip", articoli: [
-      { titolo: "NVIDIA presenta l'acceleratore Blackwell Ultra (GB300) per l'addestramento su larga scala",
-        fonte: "NVIDIA Newsroom", offset: 1,
-        sintesi: "NVIDIA ha presentato il GB300, evoluzione della piattaforma Blackwell orientata ai cluster di addestramento più grandi. L'azienda dichiara una banda GPU-to-GPU di 3,2 Tbps e una dotazione di memoria HBM3e ampliata rispetto alla generazione precedente. Il posizionamento è esplicitamente sui carichi di addestramento su scala, dove l'interconnessione è spesso il vero collo di bottiglia. Restano da verificare in campo i consumi effettivi e le tempistiche di disponibilità dichiarate.",
-        perche: "La banda di interconnessione, più della potenza del singolo chip, determina la scalabilità reale dei cluster: è il parametro che pesa sui costi infrastrutturali di chi addestra modelli." },
-      { titolo: "AMD amplia la linea Instinct MI350 puntando sull'efficienza energetica",
-        fonte: "Tom's Hardware", offset: 3,
-        sintesi: "AMD ha ampliato la famiglia Instinct MI350, con un messaggio centrato sull'efficienza energetica per watt più che sul picco di prestazioni. La società indica un miglioramento rispetto a MI300 e una disponibilità collocata nella seconda metà dell'anno. La mossa consolida la posizione di AMD come alternativa credibile nel segmento degli acceleratori per data center.",
-        perche: "Un secondo fornitore competitivo riduce la dipendenza da un unico attore e influenza i prezzi degli acceleratori, voce di costo dominante nell'infrastruttura AI." },
-      { titolo: "TSMC conferma l'avvio della produzione a 2 nm per i primi clienti",
-        fonte: "Tom's Hardware", offset: 6,
-        sintesi: "TSMC ha confermato l'ingresso in produzione del nodo a 2 nm per i primi clienti, con rese descritte come in linea con le attese. Il nodo introduce transistor a nanofoglio e promette guadagni di efficienza rilevanti per i chip AI di prossima generazione. La capacità iniziale resta limitata e allocata ai clienti principali.",
-        perche: "L'accesso anticipato ai nodi più avanzati è un vantaggio competitivo: chi non è in cima alla lista di allocazione rischia di restare indietro di un'intera generazione." }
-    ] },
-    { id: "energia", nome: "Energia", articoli: [
-      { titolo: "Studio: lo scheduling dei carichi può ridurre il consumo dei data center del 15-20%",
-        fonte: "arXiv", offset: 10, nota: "(preprint, non ancora sottoposto a peer review)",
-        sintesi: "I risultati preliminari di uno studio indicano che una strategia di scheduling dei carichi di lavoro può ridurre il consumo energetico dei data center del 15-20% in scenari specifici, senza degradare le prestazioni di inferenza. Gli autori misurano l'effetto su un cluster simulato con carichi misti addestramento/inferenza. Viene discusso il limite della generalizzazione ad ambienti di produzione reali.",
-        perche: "L'energia è il vincolo strutturale della crescita AI: ogni punto percentuale di efficienza si traduce in capacità aggiuntiva a parità di rete elettrica disponibile." },
-      { titolo: "Analisi sui limiti di rete elettrica per i nuovi campus di data center",
-        fonte: "arXiv", offset: 26, nota: "(preprint, non ancora sottoposto a peer review)",
-        sintesi: "I risultati preliminari di uno studio indicano che la disponibilità di allacciamento alla rete elettrica, e non il terreno o il capitale, sta diventando il fattore limitante per i nuovi campus di data center in diverse aree. Il lavoro mappa i tempi di attesa per la connessione in alcune regioni.",
-        perche: "Sposta l'attenzione dal capex alla disponibilità fisica di potenza: un tema centrale per chi pianifica capacità a 3-5 anni." }
-    ] },
-    { id: "data_center", nome: "Data center", articoli: [
-      { titolo: "Meta descrive il raffreddamento a liquido diretto nei nuovi cluster di training",
-        fonte: "Meta Engineering", offset: 2,
-        sintesi: "Meta ha descritto l'adozione del raffreddamento a liquido diretto-a-chip nei nuovi cluster dedicati all'addestramento. L'azienda riporta densità di potenza per rack più elevate e un impatto favorevole sull'efficienza complessiva. Vengono illustrate le implicazioni impiantistiche, dalla distribuzione idraulica al recupero di calore.",
-        perche: "La densità per rack è ciò che permette di concentrare più calcolo nello stesso spazio e nella stessa fornitura elettrica: abilita la scala senza moltiplicare gli edifici." },
-      { titolo: "Uptime Institute: l'indisponibilità media cala, ma il costo degli outage cresce",
-        fonte: "Uptime Institute Journal", offset: 9,
-        sintesi: "Secondo l'ultimo rapporto dell'Uptime Institute, la frequenza degli outage gravi è in calo, mentre il loro costo economico medio continua a salire. L'analisi lega il fenomeno alla crescente concentrazione di carichi critici. Vengono indicate le cause ricorrenti, con il fattore umano ancora prominente.",
-        perche: "Per chi investe in infrastruttura, l'affidabilità è un costo nascosto: outage più rari ma più costosi cambiano il calcolo del rischio." }
-    ] },
-    { id: "supply_chain", nome: "Supply chain", articoli: [
-      { titolo: "Nuove restrizioni all'export di apparecchiature per semiconduttori verso più paesi",
-        fonte: "Federal Register — BIS", offset: 1,
-        sintesi: "Il Bureau of Industry and Security ha pubblicato nuove restrizioni all'export di apparecchiature per la produzione di semiconduttori, estendendo l'elenco dei paesi interessati. Il provvedimento aggiorna soglie e categorie tecniche rispetto alle regole precedenti. Gli operatori del settore avranno una finestra per l'adeguamento.",
-        perche: "Le regole sull'export ridisegnano le catene di fornitura globali e possono spostare investimenti e capacità produttiva tra regioni nel giro di pochi trimestri." },
-      { titolo: "ASML: ordini in ripresa, focus sulla litografia EUV High-NA",
-        fonte: "Google News (TSMC/ASML)", offset: 5, nota: "ripreso da più testate",
-        sintesi: "Diverse testate riportano una ripresa degli ordini per ASML, trainata dalla domanda per la litografia EUV di nuova generazione High-NA. Le consegne dei primi sistemi ai clienti principali sono descritte come in accelerazione. Restano incertezze sui tempi di industrializzazione presso le fab.",
-        perche: "ASML è un punto di strozzatura unico nella filiera: la cadenza delle sue consegne condiziona di fatto il ritmo di espansione della capacità mondiale di chip avanzati." }
-    ] },
-    { id: "cloud_capacity", nome: "Cloud", articoli: [
-      { titolo: "Google Cloud annuncia una nuova regione con capex dichiarato da 2 miliardi di dollari",
-        fonte: "Google Cloud — Infrastructure", offset: 1,
-        sintesi: "Google Cloud ha annunciato una nuova regione cloud con un capex dichiarato di 2 miliardi di dollari, più zone di disponibilità e un cavo sottomarino dedicato per la ridondanza. L'obiettivo comunicato è aumentare la capacità e la resilienza in un'area a forte domanda. La messa in servizio è prevista in fasi.",
-        perche: "Le cifre di investimento dichiarate e la ridondanza fisica sono indicatori concreti di dove i grandi provider stanno spostando capacità di calcolo." },
-      { titolo: "AWS espande la capacità con nuove zone e infrastruttura di rete",
-        fonte: "AWS News Blog", offset: 4,
-        sintesi: "AWS ha comunicato l'espansione della propria capacità con nuove zone di disponibilità e potenziamenti dell'infrastruttura di rete. Il messaggio, ripulito dal linguaggio promozionale, contiene riferimenti a capacità aggiuntiva e a miglioramenti di latenza. Le tempistiche di rilascio sono scaglionate per area.",
-        perche: "La distribuzione geografica della capacità cloud determina dove è possibile eseguire carichi AI vicino ai dati e agli utenti, con impatto diretto su costi e latenza." }
-    ] }
-  ];
-
-  // ===== LOGICA DATE (identica alla bozza chiara) =====
-  const SOGLIA_NUOVO = 2;      // giorni: badge "Nuovo" (calcolo lato client)
-  const SOGLIA_SETTIMANA = 7;  // giorni: rientra negli aggiornamenti "di questa settimana"
-  const MESI = ['gen', 'feb', 'mar', 'apr', 'mag', 'giu', 'lug', 'ago', 'set', 'ott', 'nov', 'dic'];
-  const dataDa = (offset) => new Date(Date.now() - offset * 86400000);
-  const formatta = (d) => d.getDate() + ' ' + MESI[d.getMonth()] + ' ' + d.getFullYear();
-  const trovaTema = (id) => TEMI.find(t => t.id === id);
-  const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-
-  // ===== ICONE per tema (SVG inline, dal concept originale) =====
-  const ICON_TEMA = {
-    chip: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="7" y="7" width="10" height="10" rx="1.5"/><path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4"/></svg>',
-    energia: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><path d="M13 2 L5 13.5 h6 l-1 8.5 9-12.5 h-6 z"/></svg>',
-    data_center: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="4" y="4" width="16" height="5" rx="1.2"/><rect x="4" y="10.5" width="16" height="5" rx="1.2"/><rect x="4" y="17" width="16" height="3" rx="1.2"/></svg>',
-    supply_chain: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="9" width="7" height="6" rx="1"/><rect x="14.5" y="9" width="7" height="6" rx="1"/><path d="M9.5 12h5"/><path d="M12.5 10.5 14.5 12l-2 1.5"/></svg>',
-    cloud_capacity: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><path d="M6.5 18 A4 4 0 0 1 6 10.1 A5.2 5.2 0 0 1 16 8.5 A3.7 3.7 0 0 1 17.5 18 z"/></svg>',
-    back: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>'
-  };
-
-  // Logo placeholder (sostituisce assets/logo-clean.svg mancante)
-  const logo = (h) => '<svg viewBox="0 0 82 34" height="' + h + '" width="' + Math.round(h * 82 / 34) + '" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible;">' +
-    '<defs><linearGradient id="kvg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e0506e"/><stop offset="1" stop-color="#41acdf"/></linearGradient></defs>' +
-    '<text x="0" y="26" font-family="Poppins,system-ui,sans-serif" font-weight="700" font-size="28" letter-spacing="-1" fill="url(#kvg)">KVA</text></svg>';
-  const lockup = (h, colDra) => logo(h) + '<span style="font-family:\'Poppins\',sans-serif;font-weight:600;font-size:' + Math.round(h * 0.19) + 'px;color:' + colDra + ';margin-left:3px;margin-bottom:2px;letter-spacing:0.06em;">DRA</span>';
-
-  const app = document.getElementById('app');
-  document.getElementById('logo-top').innerHTML = lockup(30, '#c4c8cc');
-
-  // ===== HOMEPAGE ===== (come vaiHome della bozza)
-  function vaiHome() {
-    const conAgg = TEMI.filter(t => t.articoli.some(a => a.offset <= SOGLIA_SETTIMANA));
-    const oggi = formatta(new Date());
-
-    const nav = TEMI.map(t =>
-      '<button class="pill" data-act="tema" data-cat="' + t.id + '"><span class="dot"></span>' + esc(t.nome) + '</button>'
-    ).join('');
-
-    const boxes = conAgg.map(t => {
-      const voci = t.articoli.filter(a => a.offset <= SOGLIA_SETTIMANA).map(a => {
-        const idx = t.articoli.indexOf(a);
-        const nuovo = a.offset <= SOGLIA_NUOVO;
-        return '<button class="item" data-act="articolo" data-cat="' + t.id + '" data-idx="' + idx + '">' +
-          '<span class="t">' + esc(a.titolo) + '</span>' +
-          '<span class="m">' + esc(a.fonte) + ' · ' + formatta(dataDa(a.offset)) + (nuovo ? ' <span class="nuovo">· Nuovo</span>' : '') + '</span>' +
-        '</button>';
-      }).join('');
-      return '<div class="box">' +
-        '<div class="tema-h">' + (ICON_TEMA[t.id] || '') + '<span>' + esc(t.nome) + '</span></div>' +
-        voci +
-        '<button class="crono-link" data-act="tema" data-cat="' + t.id + '">Cronologia ' + esc(t.nome) + ' →</button>' +
-      '</div>';
-    }).join('');
-
-    app.innerHTML = '<section class="view">' +
-      '<div class="hero">' +
-        '<div class="kicker">Digest settimanale interno</div>' +
-        '<h1 class="title">Digest Research Agent</h1>' +
-        '<p class="sub">Infrastruttura &amp; Hardware AI — chip, data center, energia, supply chain, capacità cloud.</p>' +
-        '<div class="settimana"><span class="dot"></span>Settimana del ' + oggi + '</div>' +
-      '</div>' +
-      '<div class="temi-nav">' + nav + '</div>' +
-      '<div class="sez-titolo">Aggiornamenti di questa settimana</div>' +
-      '<div class="sez-nota">Compaiono solo i temi con novità nella settimana corrente.</div>' +
-      '<div class="boxes">' + (boxes || '<div class="sez-nota">Nessun aggiornamento in questa settimana.</div>') + '</div>' +
-    '</section>';
-    window.scrollTo(0, 0);
-  }
-
-  // ===== CRONOLOGIA TEMA ===== (come vaiTema della bozza)
-  function vaiTema(id) {
-    const t = trovaTema(id);
-    const ordinati = t.articoli.map((a, i) => ({ a, i })).sort((x, y) => x.a.offset - y.a.offset);
-    const nuovi = ordinati.filter(o => o.a.offset <= SOGLIA_NUOVO);
-    const vecchi = ordinati.filter(o => o.a.offset > SOGLIA_NUOVO);
-
-    const voce = (o) => {
-      const a = o.a, nuovo = a.offset <= SOGLIA_NUOVO;
-      return '<button class="voce" data-act="articolo" data-cat="' + id + '" data-idx="' + o.i + '">' +
-        '<div class="meta"><span class="fonte">' + esc(a.fonte) + '</span><span class="sep"></span><span>' + formatta(dataDa(a.offset)) + '</span>' + (nuovo ? '<span class="badge-nuovo">NUOVO</span>' : '') + '</div>' +
-        '<h4>' + esc(a.titolo) + '</h4>' +
-        '<p>' + esc(a.sintesi.split('. ')[0]) + '.</p>' +
-      '</button>';
-    };
-
-    let corpo = '';
-    if (nuovi.length) { corpo += '<div class="etichetta-nuovo">Nuovo aggiornamento</div>' + nuovi.map(voce).join('') + '<hr class="divisore">'; }
-    corpo += vecchi.map(voce).join('') || (nuovi.length ? '' : '<p class="sez-nota">Nessun articolo in archivio per questo tema.</p>');
-
-    app.innerHTML = '<section class="view articolo-wrap">' +
-      '<div class="barra">' +
-        '<button class="indietro" data-act="home">' + ICON_TEMA.back + 'Home</button>' +
-        '<button class="logo-btn" data-act="home" aria-label="Home">' + lockup(25, '#aeb4ba') + '</button>' +
-      '</div>' +
-      '<div class="kick">' + esc(t.nome) + '</div>' +
-      '<h1 class="h-vista">' + esc(t.nome) + ' — cronologia</h1>' +
-      corpo +
-    '</section>';
-    window.scrollTo(0, 0);
-  }
-
-  // ===== ARTICOLO ===== (come vaiArticolo della bozza)
-  function vaiArticolo(id, i) {
-    const t = trovaTema(id), a = t.articoli[i];
-    app.innerHTML = '<section class="view">' +
-      '<div class="barra">' +
-        '<button class="indietro" data-act="tema" data-cat="' + id + '">' + ICON_TEMA.back + esc(t.nome) + '</button>' +
-        '<button class="logo-btn" data-act="home" aria-label="Home">' + lockup(25, '#aeb4ba') + '</button>' +
-      '</div>' +
-      '<div class="articolo">' +
-        '<div class="kick">' + esc(t.nome) + '</div>' +
-        '<h1 class="h-vista">' + esc(a.titolo) + '</h1>' +
-        '<div class="meta"><span class="fonte">' + esc(a.fonte) + '</span><span class="sep"></span><span>' + formatta(dataDa(a.offset)) + '</span></div>' +
-        (a.nota ? '<div class="nota">' + esc(a.nota) + '</div>' : '') +
-        '<p class="corpo">' + esc(a.sintesi) + '</p>' +
-        '<div class="perche"><strong>Perché conta:</strong> ' + esc(a.perche) + '</div>' +
-      '</div>' +
-    '</section>';
-    window.scrollTo(0, 0);
-  }
-
-  // ===== EVENTI (delega) =====
-  document.body.addEventListener('click', (e) => {
-    const el = e.target.closest('[data-act]');
-    if (!el) return;
-    const act = el.dataset.act;
-    if (act === 'home') vaiHome();
-    else if (act === 'tema') vaiTema(el.dataset.cat);
-    else if (act === 'articolo') vaiArticolo(el.dataset.cat, parseInt(el.dataset.idx, 10));
-  });
-
-  vaiHome();
-
-  // ===== SFONDO GENERATO + EFFETTO CANVAS =====
-  // Sostituisce assets/bg.png: matrice di glifi dim generata proceduralmente, usata sia
-  // come background CSS (ripetuto in verticale) sia come sorgente per glow/ripple sul canvas.
   function makeBackground() {
     const P = 48, cols = 26, rows = 26, pad = 8;
     const W = P * cols, H = P * rows;
