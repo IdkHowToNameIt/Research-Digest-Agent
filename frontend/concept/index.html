@@ -3,16 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DRA — concept (dark)</title>
+<title>DRA — concept</title>
 <!--
-  CONCEPT "dark" = la BOZZA (frontend/bozza-homepage.html) con solo lo STILE cambiato.
-  Struttura, layout, markup e JS sono identici alla bozza; cambiano unicamente i
-  colori, i font (Poppins), lo sfondo (gli 8 simboli reali di kakashi.ventures
-  disposti sparsi su canvas, che si accendono di rosso vicino al cursore, al posto
-  dei blob), il logo (placeholder KVA) e il trattamento del titolo — cioè l'identità
-  visiva del concept. La homepage è compattata per stare in una sola schermata senza
-  scorrimento. Il layout ordinato dei box e tutto il resto restano quelli della
-  bozza. File autonomo: nessun asset/JS esterno (i simboli sono incorporati).
+  CONCEPT definitivo dell'interfaccia web del Digest Research Agent (tema scuro,
+  accento rosa). Identità visiva: font Poppins, sfondo con gli 8 simboli reali di
+  kakashi.ventures disposti sparsi su canvas, che si accendono di rosso vicino al
+  cursore, logo (placeholder KVA) e titolo in gradiente. La homepage è compattata
+  per stare in una sola schermata senza scorrimento. File autonomo: nessun asset/JS
+  esterno (i simboli sono incorporati). Contenuti di esempio, solo per la revisione
+  visiva: la generazione reale delle pagine è nel backend (src/consegna/sito.py).
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -118,7 +117,7 @@
   /* --- box "questa settimana": centrati come gruppo, wrap su più righe centrate --- */
   .boxes{display:flex;flex-wrap:wrap;justify-content:center;gap:1.3rem;margin-top:.8rem}
   .box{flex:1 1 320px;max-width:400px;background:var(--carta);border:1px solid var(--bordo);
-    border-radius:18px;padding:1.35rem 1.4rem;box-shadow:0 8px 24px rgba(0,0,0,.35);
+    border-radius:18px;padding:1.35rem 1.4rem;box-shadow:0 8px 24px rgba(0,0,0,.35);cursor:default;
     transition:transform .25s,box-shadow .25s,border-color .25s;transform-style:preserve-3d;will-change:transform}
   .box:hover{box-shadow:0 18px 40px var(--ombra);border-color:rgba(224,80,110,.35)}
   .box h3{margin:.1rem 0 .3rem;font-family:var(--serif);font-weight:600;font-size:1.5rem;color:var(--verde-scuro);
@@ -126,7 +125,7 @@
   .box .tema-ic{width:1.8rem;height:1.8rem;border-radius:8px;background:var(--verde);opacity:.9;display:inline-block}
   .box ul{list-style:none;margin:.7rem 0 0;padding:0}
   .box li{margin:.2rem 0}
-  .box li a{display:block;text-decoration:none;color:var(--inchiostro);padding:.55rem .6rem;border-radius:10px;
+  .box li a{display:block;text-decoration:none;color:var(--inchiostro);padding:.55rem .6rem;border-radius:10px;cursor:pointer;
     transition:background .15s,transform .15s,color .15s;font-size:1.15rem;line-height:1.4}
   .box li a:hover{background:var(--crema-2);transform:translateX(4px);color:var(--verde-vivo)}
   .box li small{color:var(--inchiostro-2);font-size:.98rem}
