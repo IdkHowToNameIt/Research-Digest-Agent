@@ -12,9 +12,9 @@ stato standard "nessun_aggiornamento" per quella settimana (sez. 16.3).
 """
 from __future__ import annotations
 
-from .schemas import NotaInterna, Tema, TipoNotaInterna
-from .state import SeenStore
-from .tools.fetch import STATO_FETCH_FAILED, EsitoFonte
+from ..schemas import NotaInterna, Tema, TipoNotaInterna
+from ..state import SeenStore
+from ..raccolta.fetch import STATO_FETCH_FAILED, EsitoFonte
 
 # Numero di run consecutivi che fa scattare una nota (parametro, non fisso).
 SOGLIA_RUN_CONSECUTIVI = 3

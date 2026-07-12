@@ -13,7 +13,7 @@ from __future__ import annotations
 from typing import Callable
 
 from .prompts import NOTA_PREPRINT, e_arxiv, prompt_sintesi
-from .schemas import (
+from ..schemas import (
     TEMI_ORDINE,
     Articolo,
     Digest,
@@ -23,7 +23,7 @@ from .schemas import (
     Stato,
     Tema,
 )
-from .tools.fetch import Candidato
+from ..raccolta.fetch import Candidato
 
 Generatore = Callable[[str], dict]
 

@@ -10,7 +10,7 @@ Il parser dei feed e' iniettato (`parse=`): nessuna dipendenza dalla rete.
 """
 from pathlib import Path
 
-from src.tools.fetch import (
+from src.raccolta.fetch import (
     STATO_FETCH_FAILED,
     STATO_OK,
     fetch_candidates,

@@ -11,7 +11,7 @@ Piu' hash esatto, finestra temporale 4-6 settimane e dedup nello stesso run.
 from datetime import datetime, timedelta, timezone
 
 from src.state import SeenStore
-from src.tools.dedup import (
+from src.raccolta.dedup import (
     deduplica,
     estrai_numeri,
     hash_esatto,
@@ -21,7 +21,7 @@ from src.tools.dedup import (
     registra_pubblicati,
     valuta_coppia,
 )
-from src.tools.fetch import Candidato
+from src.raccolta.fetch import Candidato
 
 ORA = datetime(2026, 7, 9, tzinfo=timezone.utc)
 
@@ -178,7 +178,7 @@ def test_overlap_basso_incluso_come_nuovo():
 # --- compatibilita': filtra_nuove (dedup esatto per URL) --------------------
 
 def test_filtra_nuove_persistente(tmp_path):
-    from src.tools.dedup import filtra_nuove
+    from src.raccolta.dedup import filtra_nuove
     store = SeenStore(str(tmp_path / "seen.sqlite3"))
     cands = [_cand("t", url="https://a.com/1"), _cand("t", url="https://a.com/2"),
              _cand("t", url="https://a.com/1")]

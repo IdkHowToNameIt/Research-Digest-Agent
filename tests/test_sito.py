@@ -19,7 +19,7 @@ from src.schemas import (
     TipoNotaInterna,
     sezione_vuota,
 )
-from src.sito import (
+from src.consegna.sito import (
     carica_archivio,
     genera_sito,
     raccogli_per_tema,

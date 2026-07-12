@@ -10,13 +10,13 @@ from datetime import datetime, timezone
 
 import feedparser
 
-from .classify import raggruppa_per_tema
-from .note_interne import aggiorna_e_genera_note
+from .raccolta.classify import raggruppa_per_tema
+from .consegna.note_interne import aggiorna_e_genera_note
 from .schemas import Digest, Tema
-from .sintesi import Generatore, assembla_digest
+from .modello.sintesi import Generatore, assembla_digest
 from .state import SeenStore
-from .tools.dedup import deduplica, registra_pubblicati
-from .tools.fetch import fetch_tutte
+from .raccolta.dedup import deduplica, registra_pubblicati
+from .raccolta.fetch import fetch_tutte
 
 
 def costruisci_digest(

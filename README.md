@@ -79,21 +79,23 @@ quindi *generazione* (Python) vs *servizio dei file* (nginx), come nel
 
 ```
 src/
-├── schemas.py        schema dati (5 sezioni fisse, enum, note_interne)   [Fase 1]
-├── config.py         caricamento/validazione config                     [Fase 2]
-├── classify.py       classificazione tema + filtro rilevanza            [Fase 3]
-├── note_interne.py   note interne (fetch_failed / energia a zero)       [Fase 5]
-├── prompts.py        criteri editoriali + prompt di sintesi             [Fase 6]
-├── gemini.py         adattatore modello (solo sintesi)                  [Fase 6]
-├── sintesi.py        sintesi articoli + assemblaggio Digest             [Fase 6]
-├── pipeline.py       orchestrazione del run completo                    [Fase 6]
-├── notifica.py       email settimanale (notifica/reminder) + note IT    [Fase 7]
-├── sito.py           generatore sito interno (homepage/tema/articolo)   [Fase 8]
-├── state.py          memoria persistente (SQLite): dedup + conteggi run
-└── tools/
-    ├── fetch.py      raccolta RSS/Atom, stati fetch, troncamento         [Fase 2]
-    ├── dedup.py      anti-duplicati esatto + fuzzy + segnali            [Fase 4]
-    └── deliver.py    consegna Markdown di anteprima                     [Fase 6]
+├── schemas.py          schema dati (5 sezioni fisse, enum, note_interne)   [Fase 1]
+├── config.py           caricamento/validazione config                     [Fase 2]
+├── state.py            memoria persistente (SQLite): dedup + conteggi run
+├── pipeline.py         orchestrazione del run completo                    [Fase 6]
+├── raccolta/           acquisizione e selezione dei candidati
+│   ├── fetch.py        raccolta RSS/Atom, stati fetch, troncamento         [Fase 2]
+│   ├── dedup.py        anti-duplicati esatto + fuzzy + segnali             [Fase 4]
+│   └── classify.py     classificazione tema + filtro rilevanza            [Fase 3]
+├── modello/            sintesi tramite modello (solo ~20% del lavoro)
+│   ├── prompts.py      criteri editoriali + prompt di sintesi             [Fase 6]
+│   ├── gemini.py       adattatore modello (solo sintesi)                  [Fase 6]
+│   └── sintesi.py      sintesi articoli + assemblaggio Digest             [Fase 6]
+└── consegna/           output verso i canali reali
+    ├── deliver.py      consegna Markdown di anteprima                     [Fase 6]
+    ├── sito.py         generatore sito interno (homepage/tema/articolo)   [Fase 8]
+    ├── notifica.py     email settimanale (notifica/reminder) + note IT    [Fase 7]
+    └── note_interne.py note interne (fetch_failed / energia a zero)       [Fase 5]
 
 main.py               entrypoint (--demo / Gemini reale)
 config.yaml           beat, 12 fonti, dedup, sito, email  (produzione)
@@ -106,28 +108,28 @@ claude-progress.txt   log di avanzamento per sessione
 
 ## Come funziona (pipeline)
 
-1. **Fetch** (`tools/fetch.py`): legge i 12 feed, *fail-soft* (una fonte KO non
+1. **Fetch** (`raccolta/fetch.py`): legge i 12 feed, *fail-soft* (una fonte KO non
    blocca le altre). Distingue `fetch_ok` da `fetch_failed`. Tronca gli estratti a
    500 caratteri su confine di parola, tranne arXiv / Google Cloud Blog / Google
    Cloud Infrastructure (nessun limite).
-2. **Deduplicazione** (`tools/dedup.py`): hash esatto (titolo+URL) su tutto lo
+2. **Deduplicazione** (`raccolta/dedup.py`): hash esatto (titolo+URL) su tutto lo
    storico, poi confronto *fuzzy* nella finestra di 4–6 settimane. Se l'overlap di
    parole/entità (Jaccard) supera la soglia (0,7) si valutano 3 segnali di novità
    (numerico, temporale, entità): almeno uno → aggiornamento legittimo; nessuno →
    duplicato scartato.
-3. **Classificazione** (`classify.py`): ogni articolo a esattamente 1 dei 5 temi o
+3. **Classificazione** (`raccolta/classify.py`): ogni articolo a esattamente 1 dei 5 temi o
    a `null` (revisione manuale). Filtro di rilevanza a monte per Google Cloud Blog
    (scarta database/sicurezza/off-beat prima della sintesi).
-4. **Note interne** (`note_interne.py`): contatori di run consecutivi; `fetch_failed`
+4. **Note interne** (`consegna/note_interne.py`): contatori di run consecutivi; `fetch_failed`
    ×3 o energia a 0 ×3 → nota per l'IT. Mai un blocco automatico.
-5. **Sintesi** (`sintesi.py` + `gemini.py`): per ogni articolo il modello scrive
+5. **Sintesi** (`modello/sintesi.py` + `modello/gemini.py`): per ogni articolo il modello scrive
    `sintesi` e `perche_conta` in italiano seguendo i criteri editoriali
-   (`prompts.py`); i metadati (titolo, fonte, link, data) restano quelli reali
+   (`modello/prompts.py`); i metadati (titolo, fonte, link, data) restano quelli reali
    (grounding). arXiv → formula "I risultati preliminari di uno studio indicano
    che…" + nota preprint aggiunta dal codice.
 6. **Assemblaggio** (`sintesi.assembla_digest`): costruisce il `Digest` con le 5
    sezioni; le sezioni vuote non invocano il modello.
-7. **Consegna** (`notifica.py`, `sito.py`): email + sito statico.
+7. **Consegna** (`consegna/notifica.py`, `consegna/sito.py`): email + sito statico.
 
 ## Schema dati (sintesi)
 
@@ -243,19 +245,18 @@ dipendenze).
 
 ### Concept "dark" alternativo
 
-`frontend/concept-dark/index.html` è la **riscrittura autonoma** in vanilla JS del
-concept "KVAdra" (originariamente in formato `.dc`, un framework proprietario
-`<x-dc>`/`<sc-if>`/`<sc-for>` + `support.js`, con asset mancanti `assets/bg.png` e
-`assets/logo-clean.svg`). Prototipo **interattivo** a tre viste — hub con box per
-tema, vista categoria (articolo + precedenti), cronologia — con dati mock; tema
-quasi-nero, accento rosa/rosso, card glass, sfondo a matrice di glifi generato via
-canvas con i due effetti (glow LED che segue il cursore + gocce d'acqua che
-distorcono lo sfondo), logo placeholder. HTML/CSS/JS vanilla, zero dipendenze esterne.
+`frontend/concept-dark/index.html` ha **le stesse funzionalità della bozza chiara**
+(`bozza-homepage.html`) ma con **stile dark**: stessi dati e stesso flusso
+(home → cronologia tema → articolo con "Perché conta" e nota preprint), stessa
+logica (in home solo i temi con aggiornamenti della settimana, box **autocentrati**,
+badge "Nuovo" ≤2 gg e finestra settimana ≤7 gg calcolati lato client dall'`offset`).
 
-Le **funzionalità** replicano quelle della bozza chiara mantenendo lo stile dark: in
-home compaiono solo i temi con aggiornamenti nella settimana corrente, i box si
-**centrano dinamicamente** come gruppo, e date / badge "Nuovo" sono calcolati lato
-client dall'`offset` in giorni (evergreen).
+Lo stile è quello del concept "KVAdra" (originariamente in formato `.dc`, un framework
+proprietario `<x-dc>`/`<sc-if>`/`<sc-for>` + `support.js`, con asset mancanti
+`assets/bg.png` e `assets/logo-clean.svg`), qui reso autonomo in vanilla JS: tema
+quasi-nero, accento rosa/rosso, card glass, sfondo a matrice di glifi generato via
+canvas con i due effetti (glow LED che segue il cursore + gocce d'acqua che distorcono
+lo sfondo), logo placeholder. HTML/CSS/JS vanilla, zero dipendenze esterne.
 
 ```bash
 docker compose up concept          # → http://localhost:8082

@@ -7,7 +7,7 @@ Basati sugli scenari Given/When/Then della sez. 17.1:
 - esattamente un'email settimanale (mai entrambe, mai nessuna).
 Piu' l'email separata di note interne (17.2).
 """
-from src.notifica import (
+from src.consegna.notifica import (
     CORPO_REMINDER,
     DIGEST_AGGIORNAMENTI,
     DIGEST_REMINDER,

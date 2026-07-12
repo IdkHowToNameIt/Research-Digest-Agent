@@ -21,7 +21,7 @@ import json
 import re
 from pathlib import Path
 
-from .schemas import TEMI_ORDINE, Digest, Stato, Tema
+from ..schemas import TEMI_ORDINE, Digest, Stato, Tema
 
 ETICHETTE = {
     Tema.chip: "Chip",

@@ -15,10 +15,10 @@ import sys
 from dotenv import load_dotenv
 
 from src.config import load_config
-from src.notifica import invia_tutti, prepara_invii, spedisci_console
+from src.consegna.notifica import invia_tutti, prepara_invii, spedisci_console
 from src.pipeline import costruisci_digest
-from src.sito import carica_archivio, genera_sito, salva_digest_pubblico
-from src.tools.deliver import deliver_markdown
+from src.consegna.sito import carica_archivio, genera_sito, salva_digest_pubblico
+from src.consegna.deliver import deliver_markdown
 
 load_dotenv()
 
@@ -34,7 +34,7 @@ def main() -> None:
     if args.demo:
         genera = None
     else:
-        from src.gemini import GeminiNonConfigurato, crea_generatore
+        from src.modello.gemini import GeminiNonConfigurato, crea_generatore
         try:
             genera = crea_generatore(model=cfg.get("model"))
         except GeminiNonConfigurato as exc:

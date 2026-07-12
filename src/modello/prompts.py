@@ -7,8 +7,8 @@ Metadati (titolo, fonte, link, data) restano quelli reali del candidato.
 """
 from __future__ import annotations
 
-from .schemas import Tema
-from .tools.fetch import Candidato
+from ..schemas import Tema
+from ..raccolta.fetch import Candidato
 
 # Formula di apertura fissa per gli articoli arXiv (sez. 14.8).
 APERTURA_ARXIV = "I risultati preliminari di uno studio indicano che"

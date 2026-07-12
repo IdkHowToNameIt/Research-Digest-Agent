@@ -3,9 +3,9 @@
 Basati sui criteri di accettazione del Tester, Notion sez. 16.3 (classificazione)
 e sez. 13/16.2 (filtro di rilevanza tematica a monte per Google Cloud Blog).
 """
-from src.classify import classifica, is_rilevante, raggruppa_per_tema
+from src.raccolta.classify import classifica, is_rilevante, raggruppa_per_tema
 from src.schemas import Tema
-from src.tools.fetch import Candidato
+from src.raccolta.fetch import Candidato
 
 
 def _cand(titolo="T", estratto="", tema="chip", filtro=False, url="https://x/1"):

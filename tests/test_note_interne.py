@@ -5,10 +5,10 @@ ripetuto) e 16.3 (sezione energia a zero ripetuta), inclusi gli scenari
 Given/When/Then "Fetch fallito ... 3 run consecutivi" e "Sezione energia a zero
 per piu' settimane consecutive".
 """
-from src.note_interne import aggiorna_e_genera_note
+from src.consegna.note_interne import aggiorna_e_genera_note
 from src.schemas import Tema, TipoNotaInterna
 from src.state import SeenStore
-from src.tools.fetch import STATO_FETCH_FAILED, STATO_OK, EsitoFonte
+from src.raccolta.fetch import STATO_FETCH_FAILED, STATO_OK, EsitoFonte
 
 # conteggio con almeno un articolo energia (nessuna nota energia)
 _ENERGIA_OK = {Tema.energia: 2}

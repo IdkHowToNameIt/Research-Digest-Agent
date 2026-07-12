@@ -2,7 +2,7 @@
 # Serve alla modalità --demo e al container Docker di test.
 beat: "Infrastruttura & Hardware AI (demo)"
 beat_slug: "infra-hardware-ai-demo"
-model: "gemini-2.5-flash"
+model: "gemini-2.5-flash-lite"   # (in demo il modello non viene chiamato; valore per coerenza)
 
 db_path: "data/seen.sqlite3"
 out_dir: "out"

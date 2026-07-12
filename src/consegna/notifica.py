@@ -15,7 +15,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Callable
 
-from .schemas import Digest, NotaInterna, Stato
+from ..schemas import Digest, NotaInterna, Stato
 
 SUFFISSO_OGGETTO = "- DRA"
 

@@ -15,8 +15,8 @@ Regole (tutto script, nessun giudizio del modello — coerente con ~80% script):
 """
 from __future__ import annotations
 
-from .schemas import Tema
-from .tools.fetch import Candidato
+from ..schemas import Tema
+from .fetch import Candidato
 
 # Parole chiave che qualificano un contenuto come "in beat" (Infrastruttura &
 # Hardware AI). Usate solo per il filtro di rilevanza delle fonti aggregatrici.

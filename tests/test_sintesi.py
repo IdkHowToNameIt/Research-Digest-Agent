@@ -6,10 +6,10 @@ Basati sui criteri editoriali (sez. 14) e sullo schema (16.6/16.7):
 - fonti senza estratto: sintesi minima dal titolo (14.6);
 - 5 sezioni fisse, il modello non viene invocato per le sezioni vuote (15/16.6).
 """
-from src.prompts import APERTURA_ARXIV, NOTA_PREPRINT, prompt_sintesi
+from src.modello.prompts import APERTURA_ARXIV, NOTA_PREPRINT, prompt_sintesi
 from src.schemas import Stato, Tema
-from src.sintesi import assembla_digest, sintetizza_candidato
-from src.tools.fetch import Candidato
+from src.modello.sintesi import assembla_digest, sintetizza_candidato
+from src.raccolta.fetch import Candidato
 
 
 def _cand(titolo="Titolo reale", estratto="Un estratto con dati.", tema="chip",
