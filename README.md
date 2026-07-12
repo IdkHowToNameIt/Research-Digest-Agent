@@ -255,7 +255,8 @@ Lo stile è quello del concept "KVAdra" (originariamente in formato `.dc`, un fr
 proprietario `<x-dc>`/`<sc-if>`/`<sc-for>` + `support.js`, con asset mancanti
 `assets/bg.png` e `assets/logo-clean.svg`), qui reso autonomo in vanilla JS: tema
 quasi-nero, accento rosa/rosso, card glass, **sfondo ripreso da kakashi.ventures**
-(matrice di glifi su canvas che si accende di rosso vicino al cursore + onde al click),
+(gli 8 simboli reali del sito, incorporati e disposti sparsi su canvas, che si
+accendono di rosso vicino al cursore), homepage compatta in una sola schermata,
 logo placeholder KVA. HTML/CSS/JS vanilla, zero dipendenze esterne.
 
 ```bash
