@@ -17,8 +17,8 @@ sito:
 
 # Email (Fase 7, sez. 17). Liste destinatari nel repo, nessuna sezione admin (17.3).
 email:
-  destinatari_digest: ["@example.com"]           # lettori del digest
-  destinatari_note_interne: ["it@example.com"]        # comparto IT (note interne, 17.2)
+  destinatari_digest: ["nicolo.lingua@edu-its.it","alessio.donisi@edu-its.it", "matteo.abis@edu-its.it","tobia.poggio@edu-its.it"]           # lettori del digest
+  destinatari_note_interne: ["matteo.abis@edu-its.it"]        # comparto IT (note interne, 17.2)
 
 # Finestra (in settimane) per il confronto fuzzy anti-duplicati (Fase 4, sez. 16.4).
 finestra_dedup_settimane: 6
