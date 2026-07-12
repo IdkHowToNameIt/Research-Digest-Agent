@@ -7,12 +7,20 @@ Regole (17.1):
 - la notifica rimanda alla homepage del sito, senza elencare tema/titolo/link.
 - le note interne (se presenti) vanno in un'email SEPARATA al comparto IT (17.2).
 
-La composizione (testata) e' separata dall'invio (I/O, provider deferito a 17.4):
-`invia_tutti` accetta una callable `spedisci` iniettabile.
+La composizione (testata) e' separata dall'invio (I/O): `invia_tutti` accetta una
+callable `spedisci` iniettabile. Sender disponibili:
+- `spedisci_console`: stampa l'email (sviluppo locale, nessuna credenziale);
+- sender SMTP reale (`crea_sender_smtp`, Gmail di default) selezionato in automatico
+  da `crea_sender` quando sono presenti le credenziali SMTP (sez. 17.4).
 """
 from __future__ import annotations
 
+import os
+import smtplib
+import ssl
+import sys
 from dataclasses import dataclass
+from email.message import EmailMessage
 from typing import Callable
 
 from ..schemas import Digest, NotaInterna, Stato
@@ -96,9 +104,101 @@ def invia_tutti(messaggi: list[Messaggio], spedisci: Callable[[Messaggio], None]
 
 
 def spedisci_console(m: Messaggio) -> None:
-    """Sender di default: stampa l'email invece di spedirla (provider SMTP reale
-    rimandato, sez. 17.4). Utile per demo e sviluppo."""
+    """Sender di sviluppo: stampa l'email invece di spedirla (nessuna credenziale).
+    Usato in locale e come fallback quando SMTP non e' configurato."""
     print(f"[email:{m.tipo}] a {', '.join(m.destinatari) or '(nessun destinatario)'}")
     print(f"  Oggetto: {m.oggetto}")
     for riga in m.corpo.splitlines() or [m.corpo]:
         print(f"  {riga}")
+
+
+# --- invio SMTP reale (Gmail di default), sez. 17.4 -------------------------
+
+@dataclass
+class ConfigSMTP:
+    host: str
+    port: int
+    user: str
+    password: str
+    mittente: str  # header From (default = user)
+
+
+def leggi_config_smtp(env: dict | None = None) -> ConfigSMTP | None:
+    """Legge la config SMTP dalle variabili d'ambiente. Ritorna None se mancano le
+    credenziali (SMTP_USER + SMTP_PASS), cosi' il chiamante ricade sulla console.
+
+    Gmail: host=smtp.gmail.com, port=587 (STARTTLS), user=indirizzo@gmail.com,
+    password = **App Password** a 16 cifre (richiede la 2FA sull'account Google;
+    la normale password dell'account NON funziona con SMTP).
+    """
+    env = os.environ if env is None else env
+    user = (env.get("SMTP_USER") or "").strip()
+    password = (env.get("SMTP_PASS") or "").strip()
+    if not user or not password:
+        return None
+    return ConfigSMTP(
+        host=(env.get("SMTP_HOST") or "smtp.gmail.com").strip(),
+        port=int(env.get("SMTP_PORT") or "587"),
+        user=user,
+        password=password,
+        mittente=(env.get("SMTP_FROM") or user).strip(),
+    )
+
+
+def componi_mime(m: Messaggio, mittente: str) -> EmailMessage:
+    """Costruisce il messaggio MIME (testo semplice) da un Messaggio."""
+    msg = EmailMessage()
+    msg["Subject"] = m.oggetto
+    msg["From"] = mittente
+    msg["To"] = ", ".join(m.destinatari)
+    msg.set_content(m.corpo)
+    return msg
+
+
+def crea_sender_smtp(
+    cfg: ConfigSMTP,
+    connetti: Callable[[], smtplib.SMTP] | None = None,
+) -> Callable[[Messaggio], None]:
+    """Crea un sender che spedisce via SMTP secondo `cfg`.
+
+    `connetti` e' iniettabile per i test (deve ritornare un oggetto SMTP usabile
+    come context manager). Di default apre una connessione reale: STARTTLS su
+    porta 587, SMTP_SSL su porta 465.
+    """
+    usa_ssl = cfg.port == 465
+
+    def _connetti_reale() -> smtplib.SMTP:
+        if usa_ssl:
+            return smtplib.SMTP_SSL(cfg.host, cfg.port,
+                                    context=ssl.create_default_context())
+        return smtplib.SMTP(cfg.host, cfg.port)
+
+    apri = connetti or _connetti_reale
+
+    def spedisci(m: Messaggio) -> None:
+        if not m.destinatari:
+            print(f"[email:{m.tipo}] nessun destinatario: invio saltato.",
+                  file=sys.stderr)
+            return
+        msg = componi_mime(m, cfg.mittente)
+        with apri() as server:
+            if not usa_ssl:
+                server.starttls(context=ssl.create_default_context())
+            server.login(cfg.user, cfg.password)
+            server.send_message(msg)
+        print(f"[email:{m.tipo}] inviata a {', '.join(m.destinatari)}")
+
+    return spedisci
+
+
+def crea_sender(env: dict | None = None) -> Callable[[Messaggio], None]:
+    """Sceglie il sender: SMTP reale se le credenziali sono presenti, altrimenti
+    la console (con avviso). Usato da main.py."""
+    cfg = leggi_config_smtp(env)
+    if cfg is None:
+        print("[email] SMTP non configurato (manca SMTP_USER/SMTP_PASS): "
+              "le email vengono solo stampate.", file=sys.stderr)
+        return spedisci_console
+    print(f"[email] invio SMTP attivo via {cfg.host}:{cfg.port} (da {cfg.mittente}).",
+          file=sys.stderr)
+    return crea_sender_smtp(cfg)

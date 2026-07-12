@@ -8,8 +8,11 @@
 # PREREQUISITI (una tantum, su GitHub)
 #   Settings > Secrets and variables > Actions > New repository secret:
 #     - GEMINI_API_KEY   (obbligatorio per la sintesi)
-#   (Facoltativi, quando si aggiunge l'invio email reale — sez. 17.4:
-#     SMTP_HOST, SMTP_USER, SMTP_PASS, ...)
+#   Per l'invio email reale (Gmail):
+#     - SMTP_USER        (indirizzo@gmail.com)
+#     - SMTP_PASS        (App Password a 16 cifre, non la password dell'account)
+#   Facoltativi: SMTP_HOST (default smtp.gmail.com), SMTP_PORT (default 587), SMTP_FROM.
+#   Se SMTP_USER/SMTP_PASS mancano, le email vengono solo stampate nel log del run.
 #
 # PERSISTENZA
 #   Il dedup ha bisogno di ricordare gli articoli già pubblicati (data/seen.sqlite3)
@@ -55,6 +58,11 @@ jobs:
       - name: Genera il digest e il sito
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_FROM: ${{ secrets.SMTP_FROM }}
         run: python main.py --config config.yaml
 
       - name: Salva il sito come artifact

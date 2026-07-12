@@ -14,7 +14,7 @@ import sys
 from dotenv import load_dotenv
 
 from src.config import load_config
-from src.consegna.notifica import invia_tutti, prepara_invii, spedisci_console
+from src.consegna.notifica import crea_sender, invia_tutti, prepara_invii
 from src.pipeline import costruisci_digest
 from src.consegna.sito import carica_archivio, genera_sito, salva_digest_pubblico
 from src.consegna.deliver import deliver_markdown
@@ -58,8 +58,9 @@ def main() -> None:
           f"(data.json + index.html)")
 
     # Email settimanale (sempre una) + eventuale email di note interne (sez. 17).
+    # Sender scelto in automatico: SMTP reale se configurato, altrimenti console.
     invii = prepara_invii(digest, cfg)
-    invia_tutti(invii, spedisci_console)
+    invia_tutti(invii, crea_sender())
     if digest.note_interne:
         print(f"[note interne] {len(digest.note_interne)} segnalazione/i per il team.",
               file=sys.stderr)

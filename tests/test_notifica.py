@@ -13,9 +13,14 @@ from src.consegna.notifica import (
     DIGEST_REMINDER,
     NOTE_INTERNE,
     OGGETTO_REMINDER,
+    Messaggio,
     componi_email_note_interne,
+    crea_sender,
+    crea_sender_smtp,
+    leggi_config_smtp,
     invia_tutti,
     prepara_invii,
+    spedisci_console,
 )
 from src.schemas import (
     Articolo,
@@ -125,3 +130,85 @@ def test_invia_tutti_usa_il_sender_iniettato():
     n = invia_tutti(prepara_invii(digest_vuoto("2026-07-09"), CFG), inviati.append)
     assert n == 1
     assert len(inviati) == 1
+
+
+# --- invio SMTP reale (sez. 17.4) -------------------------------------------
+
+class FakeSMTP:
+    """Doppio di test per smtplib.SMTP: registra le chiamate, non apre connessioni."""
+    def __init__(self):
+        self.starttls_chiamato = False
+        self.login_args = None
+        self.inviati = []
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        return False
+
+    def starttls(self, context=None):
+        self.starttls_chiamato = True
+
+    def login(self, user, password):
+        self.login_args = (user, password)
+
+    def send_message(self, msg):
+        self.inviati.append(msg)
+
+
+def _cfg_smtp(**kw):
+    base = dict(host="smtp.gmail.com", port=587, user="me@gmail.com",
+                password="app-pw", mittente="me@gmail.com")
+    base.update(kw)
+    return leggi_config_smtp({
+        "SMTP_HOST": base["host"], "SMTP_PORT": str(base["port"]),
+        "SMTP_USER": base["user"], "SMTP_PASS": base["password"],
+        "SMTP_FROM": base["mittente"],
+    })
+
+
+def test_leggi_config_smtp_default_gmail():
+    assert leggi_config_smtp({}) is None
+    assert leggi_config_smtp({"SMTP_USER": "u"}) is None          # manca la password
+    assert leggi_config_smtp({"SMTP_PASS": "p"}) is None          # manca l'utente
+    cfg = leggi_config_smtp({"SMTP_USER": "u@gmail.com", "SMTP_PASS": "pw"})
+    assert cfg.host == "smtp.gmail.com" and cfg.port == 587
+    assert cfg.user == "u@gmail.com" and cfg.mittente == "u@gmail.com"
+
+
+def test_sender_smtp_starttls_login_e_invio():
+    fake = FakeSMTP()
+    sender = crea_sender_smtp(_cfg_smtp(), connetti=lambda: fake)
+    m = Messaggio("Oggetto - DRA", "Corpo\nseconda riga",
+                  ["a@x.com", "b@y.com"], DIGEST_AGGIORNAMENTI)
+    sender(m)
+    assert fake.starttls_chiamato is True
+    assert fake.login_args == ("me@gmail.com", "app-pw")
+    assert len(fake.inviati) == 1
+    msg = fake.inviati[0]
+    assert msg["Subject"] == "Oggetto - DRA"
+    assert msg["From"] == "me@gmail.com"
+    assert msg["To"] == "a@x.com, b@y.com"
+    assert "seconda riga" in msg.get_content()
+
+
+def test_sender_smtp_porta_465_usa_ssl_senza_starttls():
+    fake = FakeSMTP()
+    sender = crea_sender_smtp(_cfg_smtp(port=465), connetti=lambda: fake)
+    sender(Messaggio("o", "c", ["a@x.com"], DIGEST_REMINDER))
+    assert fake.starttls_chiamato is False   # su 465 la cifratura è già a livello di socket
+    assert len(fake.inviati) == 1
+
+
+def test_sender_smtp_senza_destinatari_non_invia():
+    fake = FakeSMTP()
+    sender = crea_sender_smtp(_cfg_smtp(), connetti=lambda: fake)
+    sender(Messaggio("o", "c", [], DIGEST_REMINDER))
+    assert fake.inviati == [] and fake.login_args is None
+
+
+def test_crea_sender_fallback_console_e_smtp():
+    assert crea_sender({}) is spedisci_console               # niente credenziali -> console
+    sender = crea_sender({"SMTP_USER": "u@gmail.com", "SMTP_PASS": "pw"})
+    assert callable(sender) and sender is not spedisci_console  # credenziali -> SMTP

@@ -155,8 +155,10 @@ Tutto in `config.yaml`:
   che l'email di notifica manda ai lettori), `out_dir`, `archivio_dir`,
   `badge_giorni` (soglia badge), `template` (default `frontend/concept/index.html`).
 - `email`: `destinatari_digest`, `destinatari_note_interne` (liste nel repo).
-  **NB:** l'invio SMTP reale non è ancora implementato (sez. 17.4): oggi le email
-  vengono solo stampate a log. Inserire gli indirizzi qui non basta a recapitarle.
+  L'**invio** avviene via SMTP (Gmail) se sono presenti le variabili d'ambiente
+  `SMTP_USER`/`SMTP_PASS` (vedi `.env.example`); altrimenti le email vengono solo
+  stampate a log. Con Gmail `SMTP_PASS` è una **App Password** a 16 cifre (richiede
+  la verifica in due passaggi), non la password dell'account.
 
 ---
 
@@ -167,16 +169,16 @@ python -m venv .venv
 .venv\Scripts\activate            # Windows  (Linux/macOS: source .venv/bin/activate)
 pip install -r requirements.txt
 
-python -m pytest -q                # 87 test, offline, Gemini mockato
+python -m pytest -q                # 92 test, offline, Gemini e SMTP mockati
 
 cp .env.example .env               # inserisci GEMINI_API_KEY
 python main.py --config config.yaml
 ```
 
-Il run scrive `out/digest.md`, genera `sito/data.json` + `sito/index.html` e stampa
-l'email sul terminale (SMTP reale non ancora attivo, sez. 17.4). Il sito usa
-`fetch('data.json')`, quindi **va servito via http** (aprire `index.html` da
-`file://` non carica i dati):
+Il run scrive `out/digest.md`, genera `sito/data.json` + `sito/index.html` e invia
+l'email via SMTP se `SMTP_USER`/`SMTP_PASS` sono impostate, altrimenti la stampa sul
+terminale. Il sito usa `fetch('data.json')`, quindi **va servito via http** (aprire
+`index.html` da `file://` non carica i dati):
 
 ```bash
 python -m http.server -d sito 8080   # poi apri http://localhost:8080
@@ -231,7 +233,8 @@ ogni lunedì alle 06:00 UTC (e a mano da *Actions → Run workflow*):
    Render fa auto-deploy a ogni push: quando il workflow ricommitta `sito/`, il sito
    si aggiorna da solo. (Un *Private Service* non ha URL pubblico e **non** è adatto
    a servire il sito.) Impostare poi `sito.homepage_url` in `config.yaml` con l'URL
-   Render. L'invio email reale (SMTP) è ancora da configurare (sez. 17.4).
+   Render. Per l'invio email aggiungere i secret `SMTP_USER`/`SMTP_PASS` (App
+   Password Gmail) su GitHub; senza, le email restano solo nel log del run.
 
 ## Interfaccia web (frontend/concept)
 
@@ -261,12 +264,10 @@ docker compose up web              # sito generato con i dati → http://localho
 ## Stato
 
 Tutte le 8 fasi sono implementate (`claude-progress.txt` per il dettaglio); la
-suite conta **88 test verdi**. Prima del deploy reale restano (non-bloccanti):
+suite conta **92 test verdi**. Prima del deploy reale restano (non-bloccanti):
 
 - verifica dei feed dall'ambiente di produzione (possibili anti-bot da IP cloud);
-- provider **SMTP reale** al posto della stampa su console (sez. 17.4);
-- **stile visivo** del sito — colori/logo (sez. 18, volutamente rimandato);
-- verifica manuale con una `GEMINI_API_KEY` reale;
+- verifica manuale con una `GEMINI_API_KEY` reale e con SMTP Gmail reale;
 - calibrazione della soglia di dedup (0.7) e dell'elenco entità note sul flusso reale.
 
 ## Test
