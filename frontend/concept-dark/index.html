@@ -7,9 +7,10 @@
 <!--
   CONCEPT "dark" = la BOZZA (frontend/bozza-homepage.html) con solo lo STILE cambiato.
   Struttura, layout, markup e JS sono identici alla bozza; cambiano unicamente i
-  colori, i font (Poppins), lo sfondo (matrice di glifi generata via canvas + glow/
-  gocce al posto dei blob), il logo (placeholder KVA) e il trattamento del titolo —
-  cioè l'identità visiva del concept. Il layout ordinato dei box e tutto il resto
+  colori, i font (Poppins), lo sfondo (matrice di glifi su canvas ripresa da
+  kakashi.ventures: si accende di rosso vicino al cursore + ripple al click, al
+  posto dei blob), il logo (placeholder KVA) e il trattamento del titolo — cioè
+  l'identità visiva del concept. Il layout ordinato dei box e tutto il resto
   restano quelli della bozza. File autonomo: nessun asset/JS esterno.
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,7 +22,7 @@
     --verde:        #e0506e;                 /* accento (link, kicker, pill, bordi) */
     --verde-vivo:   #f0899c;                 /* accento più brillante (dot, hover) */
     --verde-scuro:  #f2f4f6;                 /* titoli: chiari nel tema dark */
-    --crema:        #07080a;                 /* sfondo quasi-nero */
+    --crema:        #0B0A0A;                 /* sfondo quasi-nero (come kakashi.ventures) */
     --crema-2:      rgba(255,255,255,.05);   /* superfici hover / box "Perché conta" */
     --carta:        rgba(18,18,20,.86);      /* superfici delle card (glass) */
     --inchiostro:   #e7e9ec;                 /* testo */
@@ -45,12 +46,14 @@
     overflow-x:hidden;
   }
 
-  /* --- sfondo del concept: matrice di glifi (canvas) + vignetta, al posto dei blob --- */
+  /* --- sfondo del concept (ripreso da kakashi.ventures): matrice di glifi su canvas
+         che si accende di rosso vicino al cursore + ripple al click; vignetta ai bordi --- */
+  #fx{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;
+    -webkit-mask-image:linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);
+    mask-image:linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);}
   .grad{position:fixed;inset:0;z-index:-1;pointer-events:none;
-    background:linear-gradient(180deg, rgba(0,0,0,.85) 0%, rgba(0,0,0,.5) 14%, rgba(0,0,0,0) 32%),
-      radial-gradient(120% 90% at 50% -10%, rgba(46,20,26,.4) 0%, rgba(7,8,10,0) 45%),
-      radial-gradient(140% 120% at 50% 120%, rgba(0,0,0,.7) 0%, rgba(0,0,0,0) 55%);}
-  #fx{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;}
+    background:radial-gradient(120% 90% at 50% -8%, rgba(154,3,30,.10) 0%, rgba(11,10,10,0) 42%),
+      radial-gradient(130% 95% at 50% 40%, rgba(11,10,10,0) 54%, rgba(0,0,0,.55) 100%);}
 
   /* --- header con logo in alto a SINISTRA (lockup KVA + DRA) --- */
   header{display:flex;justify-content:flex-start;align-items:center;
@@ -142,8 +145,8 @@
 </style>
 </head>
 <body>
-  <div class="grad" aria-hidden="true"></div>
   <canvas id="fx" aria-hidden="true"></canvas>
+  <div class="grad" aria-hidden="true"></div>
 
   <header>
     <a class="logo" href="#" onclick="vaiHome();return false" title="Digest Research Agent (DRA)">
@@ -341,258 +344,126 @@ vaiHome();
 
 <script>
 /* =========================================================================
-   SFONDO DEL CONCEPT — matrice di glifi generata via canvas (sostituisce i blob
-   della bozza) + due effetti: glow LED che segue il cursore e gocce d'acqua che
-   distorcono lo sfondo. Indipendente dalla logica dell'app qui sopra.
+   SFONDO DEL CONCEPT — ripreso da kakashi.ventures (KVA).
+   Matrice densa di glifi grigi su #0B0A0A; vicino al cursore i glifi si accendono
+   di rosso (rgb 154,3,30 = #9A031E) con un glow radiale; un click genera un'onda
+   (ripple) che si propaga nella griglia. Indipendente dall'app qui sopra.
 ========================================================================= */
 (function () {
   "use strict";
+  var cv = document.getElementById('fx');
+  if (!cv) return;
+  var ctx = cv.getContext('2d');
+  var RED = '154,3,30';            // accento rosso del sito (#9A031E)
+  var CELL = 26;                   // passo della griglia (px)
+  var FONT = '13px ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace';
+  var GLYPHS = ['ア','キ','テ','ネ','ナ','ム','メ','+','=','/','<','>','{','}','·','×','7','2','9','◇'];
 
-  function makeBackground() {
-    const P = 48, cols = 26, rows = 26, pad = 8;
-    const W = P * cols, H = P * rows;
-    const c = document.createElement('canvas');
-    c.width = W; c.height = H;
-    const g = c.getContext('2d');
-    g.fillStyle = '#07080a';
-    g.fillRect(0, 0, W, H);
-    const tiles = [];
-    let seed = 1234567;
-    const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
-    for (let r = 0; r < rows; r++) for (let col = 0; col < cols; col++) {
-      if (rnd() > 0.46) continue;
-      const x0 = col * P + pad, y0 = r * P + pad, x1 = (col + 1) * P - pad, y1 = (r + 1) * P - pad;
-      const w = x1 - x0, h = y1 - y0;
-      g.strokeStyle = 'rgba(120,126,134,0.16)';
-      g.lineWidth = 1.3;
-      g.beginPath(); g.roundRect(x0, y0, w, h, 5); g.stroke();
-      g.strokeStyle = 'rgba(150,156,164,0.24)';
-      g.lineWidth = 2; g.lineCap = 'round';
-      const gx = x0 + w * 0.28, gy = y0 + h * 0.26, gw = w * 0.44, gh = h * 0.48;
-      g.beginPath();
-      const type = (rnd() * 4) | 0;
-      if (type === 0) { g.moveTo(gx, gy + gh); g.lineTo(gx, gy); g.lineTo(gx + gw, gy); }
-      else if (type === 1) { g.moveTo(gx, gy); g.lineTo(gx + gw, gy + gh); g.moveTo(gx + gw, gy); g.lineTo(gx, gy + gh); }
-      else if (type === 2) { g.moveTo(gx, gy); g.lineTo(gx, gy + gh); g.lineTo(gx + gw, gy + gh); }
-      else { g.moveTo(gx, gy + gh * 0.5); g.lineTo(gx + gw, gy + gh * 0.5); g.moveTo(gx + gw * 0.5, gy); g.lineTo(gx + gw * 0.5, gy + gh); }
-      g.stroke();
-      tiles.push({ x0: x0 - 2, y0: y0 - 2, x1: x1 + 2, y1: y1 + 2 });
-    }
-    return { canvas: c, tiles: tiles };
-  }
+  var W = 0, H = 0, DPR = 1, cols = 0, rows = 0, cells = [], base = null;
 
-  const bgData = makeBackground();
-  const bg = bgData.canvas;
-  const bgW = bg.width, bgH = bg.height;
-  const tiles = bgData.tiles;
-
-  document.body.style.backgroundImage = 'url(' + bg.toDataURL() + ')';
-  document.body.style.backgroundRepeat = 'repeat-y';
-  document.body.style.backgroundPosition = 'top center';
-  document.body.style.backgroundSize = '100% auto';
-
-  const redBg = document.createElement('canvas');
-  redBg.width = bgW; redBg.height = bgH;
-  (function () {
-    const rctx = redBg.getContext('2d');
-    rctx.filter = 'brightness(3.4) saturate(0)';
-    rctx.drawImage(bg, 0, 0);
-    rctx.filter = 'none';
-    rctx.globalCompositeOperation = 'multiply';
-    rctx.fillStyle = 'rgb(255,62,88)';
-    rctx.fillRect(0, 0, redBg.width, redBg.height);
-  })();
-
-  const cv = document.getElementById('fx');
-  const ctx = cv.getContext('2d');
-  let W = 0, H = 0, DPR = 1;
-  const resize = () => {
+  function build() {
     DPR = Math.min(2, window.devicePixelRatio || 1);
     W = window.innerWidth; H = window.innerHeight;
     cv.width = W * DPR; cv.height = H * DPR;
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-  };
-  resize();
-
-  const mouse = { x: -9999, y: -9999, tx: -9999, ty: -9999, active: false };
-  const drops = [];
-  const splashes = [];
-  let lastX = 0, lastY = 0, lastSpawn = 0;
-  const onMove = (e) => {
-    mouse.tx = e.clientX; mouse.ty = e.clientY;
-    if (!mouse.active) { mouse.x = e.clientX; mouse.y = e.clientY; }
-    mouse.active = true;
-    const dd = Math.hypot(e.clientX - lastX, e.clientY - lastY);
-    const now = performance.now();
-    if (dd > 38 && now - lastSpawn > 100) {
-      drops.push({ x: e.clientX, y: e.clientY, t: now });
-      if (drops.length > 10) drops.shift();
-      lastX = e.clientX; lastY = e.clientY; lastSpawn = now;
+    cols = Math.ceil(W / CELL) + 1;
+    rows = Math.ceil(H / CELL) + 1;
+    var seed = 987654321;
+    var rnd = function () { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+    cells = [];
+    for (var r = 0; r < rows; r++) for (var c = 0; c < cols; c++) {
+      cells.push({
+        x: c * CELL + CELL / 2,
+        y: r * CELL + CELL / 2,
+        ch: GLYPHS[(rnd() * GLYPHS.length) | 0],
+        a: 0.05 + rnd() * 0.09,
+        ig: 0
+      });
     }
-  };
-  const onLeave = (e) => { if (!e.relatedTarget) mouse.active = false; };
-  window.addEventListener('resize', resize);
-  window.addEventListener('mousemove', onMove);
-  window.addEventListener('mouseout', onLeave);
-
-  const heat = new Map();
-  const bgMap = () => {
-    const iw = bgW, ih = bgH;
-    const s = W / iw;
-    return { iw: iw, ih: ih, s: s, tileH: ih * s };
-  };
-
-  const glow = (cx, cy) => {
-    if (!tiles.length) return;
-    const m = bgMap();
-    const s = m.s;
-    const scroll = window.scrollY || 0;
-    const RANGE = 200;
-    const halo = ctx.createRadialGradient(cx, cy, 0, cx, cy, 150);
-    halo.addColorStop(0, 'rgba(210,30,60,0.22)');
-    halo.addColorStop(0.55, 'rgba(180,15,45,0.10)');
-    halo.addColorStop(1, 'rgba(160,10,40,0)');
-    ctx.fillStyle = halo;
-    ctx.fillRect(cx - 150, cy - 150, 300, 300);
-    const n0 = Math.floor(scroll / m.tileH), n1 = Math.floor((scroll + H) / m.tileH);
-    for (let n = n0; n <= n1; n++) {
-      const yOff = n * m.tileH - scroll;
-      for (let i = 0; i < tiles.length; i++) {
-        const t = tiles[i];
-        const tx = ((t.x0 + t.x1) / 2) * s;
-        const ty = yOff + ((t.y0 + t.y1) / 2) * s;
-        const dist = Math.hypot(tx - cx, ty - cy);
-        const target = dist < RANGE ? Math.pow(1 - dist / RANGE, 1.6) : 0;
-        const key = n * 100000 + i;
-        const cur = heat.get(key) || 0;
-        const nv = target > cur ? cur + (target - cur) * 0.35 : cur * 0.90;
-        if (nv < 0.01) { heat.delete(key); continue; }
-        heat.set(key, nv);
-      }
+    // layer statico: la matrice grigia, disegnata una volta e ridisegnata al resize
+    base = document.createElement('canvas');
+    base.width = W * DPR; base.height = H * DPR;
+    var b = base.getContext('2d');
+    b.setTransform(DPR, 0, 0, DPR, 0, 0);
+    b.font = FONT; b.textAlign = 'center'; b.textBaseline = 'middle';
+    for (var i = 0; i < cells.length; i++) {
+      var cc = cells[i];
+      b.fillStyle = 'rgba(150,156,164,' + cc.a.toFixed(3) + ')';
+      b.fillText(cc.ch, cc.x, cc.y);
     }
-    for (const [key, v] of heat) {
-      const n = Math.floor(key / 100000), i = key % 100000;
-      const t = tiles[i];
-      if (!t) { heat.delete(key); continue; }
-      const yOff = n * m.tileH - scroll;
-      const x = t.x0 * s, y = yOff + t.y0 * s;
-      const w2 = (t.x1 - t.x0) * s, h2 = (t.y1 - t.y0) * s;
-      const pad = 3 * s;
-      const r = Math.min(10 * s, w2 * 0.2);
-      ctx.fillStyle = 'rgba(210,35,65,' + (0.09 * v).toFixed(3) + ')';
-      ctx.beginPath();
-      ctx.roundRect(x - pad, y - pad, w2 + pad * 2, h2 + pad * 2, r);
-      ctx.fill();
-      ctx.globalAlpha = Math.min(1, v);
-      ctx.globalCompositeOperation = 'screen';
-      ctx.drawImage(redBg, t.x0, t.y0, t.x1 - t.x0, t.y1 - t.y0, x, y, w2, h2);
-      ctx.globalCompositeOperation = 'source-over';
-      ctx.globalAlpha = 1;
-    }
-  };
+  }
+  build();
+  window.addEventListener('resize', build);
 
-  const drawDrop = (cx, cy, rad, zoom, alpha) => {
-    const m = bgMap();
-    const scroll = window.scrollY || 0;
-    const y0 = -(scroll % m.tileH);
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(cx, cy, rad, 0, Math.PI * 2);
-    ctx.clip();
-    ctx.globalAlpha = alpha;
-    ctx.translate(cx, cy);
-    ctx.scale(zoom, zoom);
-    ctx.translate(-cx, -cy);
-    for (let y = y0 - m.tileH; y < H + m.tileH; y += m.tileH) ctx.drawImage(bg, 0, y, W, m.tileH);
-    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-    ctx.globalCompositeOperation = 'destination-in';
-    const fade = ctx.createRadialGradient(cx, cy, 0, cx, cy, rad);
-    fade.addColorStop(0, 'rgba(255,255,255,1)');
-    fade.addColorStop(0.7, 'rgba(255,255,255,0.85)');
-    fade.addColorStop(1, 'rgba(255,255,255,0)');
-    ctx.fillStyle = fade;
-    ctx.beginPath();
-    ctx.arc(cx, cy, rad, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.restore();
-  };
+  var mouse = { x: -9999, y: -9999, on: false };
+  window.addEventListener('mousemove', function (e) { mouse.x = e.clientX; mouse.y = e.clientY; mouse.on = true; }, { passive: true });
+  window.addEventListener('mouseout', function (e) { if (!e.relatedTarget) mouse.on = false; });
+  var ripples = [];
+  window.addEventListener('mousedown', function (e) {
+    ripples.push({ x: e.clientX, y: e.clientY, t: performance.now() });
+    if (ripples.length > 6) ripples.shift();
+  }, { passive: true });
 
-  const drawRing = (cx, cy, r0, r1, zoom, alpha) => {
-    if (r1 <= 2) return;
-    const m = bgMap();
-    const scroll = window.scrollY || 0;
-    const y0 = -(scroll % m.tileH);
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(cx, cy, r1, 0, Math.PI * 2);
-    ctx.arc(cx, cy, Math.max(0, r0), 0, Math.PI * 2, true);
-    ctx.clip();
-    ctx.globalAlpha = alpha;
-    ctx.translate(cx, cy);
-    ctx.scale(zoom, zoom);
-    ctx.translate(-cx, -cy);
-    for (let y = y0 - m.tileH; y < H + m.tileH; y += m.tileH) ctx.drawImage(bg, 0, y, W, m.tileH);
-    ctx.restore();
-  };
+  var RANGE = 155;          // raggio d'influenza del cursore (px)
+  var RIPPLE_LIFE = 1.7;    // durata onda (s)
+  var RIPPLE_SPEED = 300;   // px/s
 
-  let nextSplash = performance.now() + 1800;
-  const loop = () => {
+  function frame() {
     ctx.clearRect(0, 0, W, H);
-    const now = performance.now();
+    ctx.drawImage(base, 0, 0, base.width, base.height, 0, 0, W, H);
+    var now = performance.now();
+    ctx.font = FONT; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
 
-    for (let i = drops.length - 1; i >= 0; i--) {
-      const d = drops[i];
-      const age = (now - d.t) / 1000;
-      if (age > 1.8) { drops.splice(i, 1); continue; }
-      const p = age / 1.8;
-      const ease = 1 - Math.pow(1 - p, 3);
-      const rad = 38 + ease * 165;
-      const zoom = 1 + 0.55 * (1 - ease) + 0.05 * Math.sin(age * 18) * (1 - p);
-      const alpha = p < 0.12 ? p / 0.12 : (1 - (p - 0.12) / 0.88);
-      drawDrop(d.x, d.y, rad, zoom, alpha);
+    // alone morbido attorno al cursore
+    if (mouse.on) {
+      var halo = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, RANGE);
+      halo.addColorStop(0, 'rgba(' + RED + ',0.14)');
+      halo.addColorStop(0.6, 'rgba(' + RED + ',0.05)');
+      halo.addColorStop(1, 'rgba(' + RED + ',0)');
+      ctx.fillStyle = halo;
+      ctx.fillRect(mouse.x - RANGE, mouse.y - RANGE, RANGE * 2, RANGE * 2);
     }
 
-    mouse.x += (mouse.tx - mouse.x) * 0.5;
-    mouse.y += (mouse.ty - mouse.y) * 0.5;
-
-    if (mouse.active && now > nextSplash) {
-      splashes.push({ x: mouse.tx, y: mouse.ty, t: now });
-      if (splashes.length > 4) splashes.shift();
-      nextSplash = now + 2400 + Math.random() * 1300;
-    }
-    for (let i = splashes.length - 1; i >= 0; i--) {
-      const sp = splashes[i];
-      const age = (now - sp.t) / 1000;
-      if (age > 2.1) { splashes.splice(i, 1); continue; }
-      const p = age / 2.1;
-      for (let k = 0; k < 3; k++) {
-        const rp = p * 1.25 - k * 0.14;
-        if (rp <= 0 || rp >= 1) continue;
-        const er = 1 - Math.pow(1 - rp, 2.2);
-        const rad = 18 + er * 230;
-        const width = 30 * (1 - rp) + 10;
-        const zoom = 1 + (0.42 - k * 0.11) * (1 - er);
-        const alpha = (1 - rp) * (1 - k * 0.25);
-        drawRing(sp.x, sp.y, rad - width, rad + width, zoom, alpha);
+    for (var i = 0; i < cells.length; i++) {
+      var c = cells[i];
+      var target = 0;
+      if (mouse.on) {
+        var d = Math.hypot(c.x - mouse.x, c.y - mouse.y);
+        if (d < RANGE) target = Math.pow(1 - d / RANGE, 1.7);
       }
-      if (p < 0.22) {
-        const ip = p / 0.22;
-        drawDrop(sp.x, sp.y, 26 + ip * 20, 1 + 0.5 * (1 - ip), 1 - ip * 0.4);
+      for (var k = 0; k < ripples.length; k++) {
+        var rp = ripples[k];
+        var age = (now - rp.t) / 1000;
+        if (age > RIPPLE_LIFE) continue;
+        var rad = age * RIPPLE_SPEED;
+        var band = Math.abs(Math.hypot(c.x - rp.x, c.y - rp.y) - rad);
+        if (band < 30) {
+          var p = (1 - band / 30) * (1 - age / RIPPLE_LIFE);
+          if (p > target) target = p;
+        }
       }
+      c.ig += (target - c.ig) * (target > c.ig ? 0.35 : 0.10);
+      if (c.ig < 0.02) continue;
+
+      var rr = CELL * (0.9 + 1.7 * c.ig);
+      var g = ctx.createRadialGradient(c.x, c.y, 0, c.x, c.y, rr);
+      g.addColorStop(0, 'rgba(' + RED + ',' + (0.55 * c.ig).toFixed(3) + ')');
+      g.addColorStop(1, 'rgba(' + RED + ',0)');
+      ctx.fillStyle = g;
+      ctx.beginPath(); ctx.arc(c.x, c.y, rr, 0, 6.2832); ctx.fill();
+
+      // il glifo si accende: da rosso a quasi-bianco al massimo dell'intensità
+      var lift = Math.min(1, c.ig * 1.25);
+      ctx.fillStyle = 'rgba(' + Math.round(224 + 31 * lift) + ',' + Math.round(70 + 150 * lift) + ',' + Math.round(90 + 120 * lift) + ',' + lift.toFixed(3) + ')';
+      ctx.fillText(c.ch, c.x, c.y);
     }
 
-    if (mouse.active) {
-      const ph = (now % 1300) / 1300;
-      const ease = 1 - Math.pow(1 - ph, 3);
-      const rad = 34 + ease * 150;
-      const zoom = 1 + 0.5 * (1 - ease);
-      const alpha = Math.sin(ph * Math.PI);
-      drawDrop(mouse.x, mouse.y, rad, zoom, alpha);
+    for (var j = ripples.length - 1; j >= 0; j--) {
+      if ((now - ripples[j].t) / 1000 > RIPPLE_LIFE) ripples.splice(j, 1);
     }
-    if (mouse.active) glow(mouse.x, mouse.y);
-    requestAnimationFrame(loop);
-  };
-  requestAnimationFrame(loop);
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
 })();
 </script>
 </body>

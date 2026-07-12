@@ -254,9 +254,9 @@ badge "Nuovo" ≤2 gg e finestra settimana ≤7 gg calcolati lato client dall'`o
 Lo stile è quello del concept "KVAdra" (originariamente in formato `.dc`, un framework
 proprietario `<x-dc>`/`<sc-if>`/`<sc-for>` + `support.js`, con asset mancanti
 `assets/bg.png` e `assets/logo-clean.svg`), qui reso autonomo in vanilla JS: tema
-quasi-nero, accento rosa/rosso, card glass, sfondo a matrice di glifi generato via
-canvas con i due effetti (glow LED che segue il cursore + gocce d'acqua che distorcono
-lo sfondo), logo placeholder. HTML/CSS/JS vanilla, zero dipendenze esterne.
+quasi-nero, accento rosa/rosso, card glass, **sfondo ripreso da kakashi.ventures**
+(matrice di glifi su canvas che si accende di rosso vicino al cursore + onde al click),
+logo placeholder KVA. HTML/CSS/JS vanilla, zero dipendenze esterne.
 
 ```bash
 docker compose up concept          # → http://localhost:8082
