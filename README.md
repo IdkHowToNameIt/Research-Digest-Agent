@@ -225,9 +225,9 @@ I prototipi visivi statici stanno tutti in `frontend/`, separati dal backend Pyt
 (`src/`, `main.py`):
 
 - `frontend/bozza-homepage.html` — bozza chiara
-- `frontend/concept-dark/index.html` — concept scuro vanilla (servito da Docker)
-- `frontend/concept-original.html` — concept scuro originale (storico, dipendeva da un
-  framework custom)
+- `frontend/concept-dark/index.html` — concept scuro vanilla interattivo (servito da Docker)
+- `frontend/storico/` — prototipi superati tenuti come storico (es. `concept-original.html`,
+  che dipendeva da un framework custom + asset mancanti)
 
 `frontend/bozza-homepage.html` è una **bozza visiva statica autonoma** per discutere
 colori/logo/tipografia/animazioni — non è l'implementazione finale del sito
@@ -243,11 +243,19 @@ dipendenze).
 
 ### Concept "dark" alternativo
 
-`frontend/concept-dark/index.html` è la **riscrittura autonoma** del concept scuro
-`frontend/concept-original.html` (che dipendeva da un framework custom + asset mancanti):
-tema quasi-nero, accento rosa/rosso, card glass, sfondo generato via canvas con
-i due effetti (glow LED che segue il cursore + gocce d'acqua che distorcono lo
-sfondo). HTML/CSS/JS vanilla, zero dipendenze esterne.
+`frontend/concept-dark/index.html` è la **riscrittura autonoma** in vanilla JS del
+concept "KVAdra" (originariamente in formato `.dc`, un framework proprietario
+`<x-dc>`/`<sc-if>`/`<sc-for>` + `support.js`, con asset mancanti `assets/bg.png` e
+`assets/logo-clean.svg`). Prototipo **interattivo** a tre viste — hub con box per
+tema, vista categoria (articolo + precedenti), cronologia — con dati mock; tema
+quasi-nero, accento rosa/rosso, card glass, sfondo a matrice di glifi generato via
+canvas con i due effetti (glow LED che segue il cursore + gocce d'acqua che
+distorcono lo sfondo), logo placeholder. HTML/CSS/JS vanilla, zero dipendenze esterne.
+
+Le **funzionalità** replicano quelle della bozza chiara mantenendo lo stile dark: in
+home compaiono solo i temi con aggiornamenti nella settimana corrente, i box si
+**centrano dinamicamente** come gruppo, e date / badge "Nuovo" sono calcolati lato
+client dall'`offset` in giorni (evergreen).
 
 ```bash
 docker compose up concept          # → http://localhost:8082

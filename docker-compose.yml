@@ -40,7 +40,7 @@ services:
     volumes:
       - ./frontend/bozza-homepage.html:/usr/share/nginx/html/index.html:ro
 
-  # Concept dark (riscrittura autonoma di frontend/concept-original.html): live per revisione.
+  # Concept dark (riscrittura vanilla del concept KVAdra, ex .dc): live per revisione.
   #   docker compose up concept  ->  http://localhost:8082
   concept:
     image: nginx:alpine

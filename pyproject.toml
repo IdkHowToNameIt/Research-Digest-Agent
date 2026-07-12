@@ -1,7 +1,8 @@
 [project]
-name = "agent-starter-python"
+name = "dra-research-digest-agent"
 version = "0.1.0"
-description = "Add your description here"
+description = "Digest settimanale su infrastruttura & hardware AI (chip, data center, energia, supply chain, cloud) da fonti RSS/Atom, con notifica email e sito interno."
 readme = "README.md"
 requires-python = ">=3.11"
+# Dipendenze runtime/dev gestite in requirements.txt (usato da Dockerfile e CI).
 dependencies = []
