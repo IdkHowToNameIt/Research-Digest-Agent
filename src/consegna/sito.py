@@ -1,24 +1,28 @@
-"""Generatore del sito web interno (sez. 18).
+"""Generazione dei dati del sito web interno (sez. 18).
 
-Sito interno/privato, senza login. Presenta articoli individuali raggruppati per
-tema (18.1). Genera:
-- index.html: homepage con box SOLO per i temi con aggiornamenti nella settimana
-  corrente (18.2), navigazione ai 5 temi, box centrati come gruppo;
-- tema-<tema>.html: cronologia storica completa del tema (18.3);
-- articolo-<id>.html: una pagina per articolo (sintesi + perche' conta).
+Separazione netta backend/frontend: il backend NON genera più HTML. Produce un
+unico file `data.json` (contratto dati) che il frontend statico
+(`frontend/concept/index.html`) legge via fetch e con cui genera da solo, lato
+client, le pagine richieste: homepage (box solo per i temi con aggiornamenti nella
+settimana), cronologia per tema e pagina del singolo articolo.
 
-Il badge "nuovo aggiornamento" (soglia configurabile, default 2 giorni) e'
-calcolato LATO CLIENT via JavaScript (CLAUDE.md / 18.3): la generazione della
-pagina NON marca staticamente gli articoli come nuovi.
+`genera_sito`:
+- scrive `<out_dir>/data.json` = archivio storico aggregato per tema + soglie;
+- copia il template del frontend in `<out_dir>/index.html`, così `<out_dir>/` è
+  la publish-dir pronta per un hosting statico (es. Render Static Site).
 
-`note_interne` non compare MAI nel sito (16.7): si lavora sul contenuto pubblico.
-Lo stile visivo (colori, logo) e' volutamente minimale: rimandato (sez. 18.2).
+Il badge "nuovo aggiornamento" (soglia configurabile, default 2 giorni) e la vista
+"questa settimana" (7 giorni) sono calcolati LATO CLIENT dal frontend a partire
+dalle date assolute presenti nei dati: qui non marchiamo nulla staticamente.
+
+`note_interne` non entra MAI nei dati del sito (16.7): `data.json` è costruito solo
+dall'archivio pubblico (contenuto_pubblico(), che le esclude) e dalla data del
+digest corrente, mai dalle note interne.
 """
 from __future__ import annotations
 
-import html
 import json
-import re
+import shutil
 from pathlib import Path
 
 from ..schemas import TEMI_ORDINE, Digest, Stato, Tema
@@ -32,89 +36,22 @@ ETICHETTE = {
 }
 
 BADGE_GIORNI_DEFAULT = 2
-
-_CSS = """
-:root{--bg:#fff;--fg:#111;--muted:#666;--bd:#ddd}
-@media (prefers-color-scheme:dark){:root{--bg:#111;--fg:#eee;--muted:#aaa;--bd:#333}}
-body{background:var(--bg);color:var(--fg);font-family:system-ui,sans-serif;margin:0;padding:1.5rem;line-height:1.5}
-header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--bd);padding-bottom:.75rem}
-.logo{font-weight:700}
-nav{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;margin:1rem 0}
-nav a{border:1px solid var(--bd);border-radius:999px;padding:.35rem .9rem;text-decoration:none;color:var(--fg)}
-/* box homepage: sempre centrati come gruppo, 1-4 su una riga, 5 su due righe centrate */
-.boxes{display:flex;flex-wrap:wrap;justify-content:center;gap:1rem;margin-top:1rem}
-.box{border:1px solid var(--bd);border-radius:12px;padding:1rem;min-width:220px;max-width:320px;flex:0 1 260px}
-.box h2{margin:.2rem 0 .6rem}
-.muted{color:var(--muted)}
-.divisore{border:0;border-top:2px dashed var(--bd);margin:1.5rem 0}
-article{border-bottom:1px solid var(--bd);padding:1rem 0}
-""".strip()
-
-
-def _badge_js(soglia_giorni: int) -> str:
-    """JS che, LATO CLIENT, evidenzia gli articoli pubblicati entro la soglia dal
-    momento della visita, spostandoli in cima sotto "Nuovo aggiornamento"."""
-    return (
-        "<script>(function(){"
-        f"var SOGLIA={soglia_giorni}*24*60*60*1000;"
-        "var ora=Date.now();"
-        "document.querySelectorAll('[data-cronologia]').forEach(function(cont){"
-        "var nuovi=[],vecchi=[];"
-        "cont.querySelectorAll('[data-ts]').forEach(function(el){"
-        "var t=Date.parse(el.getAttribute('data-ts'));"
-        "if(!isNaN(t)&&(ora-t)<=SOGLIA){nuovi.push(el);}else{vecchi.push(el);}});"
-        "if(nuovi.length){var h=document.createElement('h3');h.textContent='Nuovo aggiornamento';"
-        "cont.prepend(document.createElement('hr'));"
-        "vecchi.forEach(function(e){cont.appendChild(e);});"
-        "var div=document.createElement('hr');div.className='divisore';"
-        "cont.insertBefore(div,vecchi[0]||null);"
-        "nuovi.reverse().forEach(function(e){cont.prepend(e);});"
-        "cont.prepend(h);}"
-        "});})();</script>"
-    )
-
-
-def slug(testo: str) -> str:
-    s = re.sub(r"[^\w\s-]", "", testo.lower()).strip()
-    s = re.sub(r"[\s_-]+", "-", s)
-    return s[:60].strip("-") or "articolo"
-
-
-def _id_articolo(art_dict: dict) -> str:
-    link = (art_dict.get("fonti") or [{}])[0].get("link", "")
-    base = f"{art_dict.get('titolo','')}-{link}"
-    import hashlib
-    return slug(art_dict.get("titolo", "")) + "-" + hashlib.sha1(base.encode()).hexdigest()[:8]
-
-
-def _pagina(titolo: str, corpo: str, badge_js: str = "") -> str:
-    return (
-        "<!doctype html><html lang='it'><head><meta charset='utf-8'>"
-        "<meta name='viewport' content='width=device-width,initial-scale=1'>"
-        f"<title>{html.escape(titolo)}</title><style>{_CSS}</style></head><body>"
-        "<header><span>Digest Research Agent</span>"
-        "<span class='logo'>DRA</span></header>"
-        f"{corpo}{badge_js}</body></html>"
-    )
-
-
-def _nav() -> str:
-    voci = "".join(
-        f"<a href='tema-{t.value}.html'>{html.escape(ETICHETTE[t])}</a>" for t in TEMI_ORDINE
-    )
-    return f"<nav>{voci}</nav>"
+SETTIMANA_GIORNI_DEFAULT = 7
+# Template del frontend copiato accanto a data.json come index.html della publish-dir.
+TEMPLATE_DEFAULT = "frontend/concept/index.html"
 
 
 def temi_con_aggiornamenti(digest: Digest) -> list[Tema]:
-    """Temi con stato con_aggiornamenti nel digest corrente (per i box homepage)."""
+    """Temi con stato con_aggiornamenti nel digest corrente (informativo)."""
     return [s.tema for s in digest.sezioni if s.stato is Stato.con_aggiornamenti and s.articoli]
 
 
 def raccogli_per_tema(archivio: list[dict]) -> dict[Tema, list[dict]]:
-    """Aggrega gli articoli pubblici dell'archivio per tema, piu' recenti prima.
+    """Aggrega gli articoli pubblici dell'archivio per tema, più recenti prima.
 
     `archivio` = lista di digest pubblici (dict, es. Digest.contenuto_pubblico()),
-    ciascuno con `data_generazione`. Ogni articolo eredita quel timestamp (`_ts`).
+    ciascuno con `data_generazione`. Ogni articolo eredita quel timestamp (`_ts`)
+    quando manca una data propria.
     """
     per_tema: dict[Tema, list[dict]] = {t: [] for t in Tema}
     for pub in sorted(archivio, key=lambda d: d.get("data_generazione", ""), reverse=True):
@@ -131,34 +68,45 @@ def raccogli_per_tema(archivio: list[dict]) -> dict[Tema, list[dict]]:
     return per_tema
 
 
-def _card_articolo(art: dict, con_link: bool = True) -> str:
-    titolo = html.escape(art.get("titolo", ""))
-    ts = html.escape(art.get("_ts", art.get("data", "")))
-    idf = _id_articolo(art)
-    testa = f"<a href='articolo-{idf}.html'>{titolo}</a>" if con_link else titolo
-    return (
-        f"<article data-ts='{ts}'><h3 style='margin:.2rem 0'>{testa}</h3>"
-        f"<div class='muted'>{ts}</div></article>"
-    )
+def costruisci_dati(
+    digest_corrente: Digest,
+    archivio: list[dict],
+    badge_giorni: int = BADGE_GIORNI_DEFAULT,
+    settimana_giorni: int = SETTIMANA_GIORNI_DEFAULT,
+) -> dict:
+    """Costruisce il contratto dati (`data.json`) consumato dal frontend.
 
-
-def _pagina_articolo(art: dict) -> str:
-    titolo = html.escape(art.get("titolo", ""))
-    fonti = " · ".join(
-        f"<a href='{html.escape(f.get('link',''))}'>{html.escape(f.get('nome',''))}</a>"
-        for f in art.get("fonti", [])
-    )
-    nota = art.get("note")
-    corpo = [
-        _nav(),
-        f"<h1>{titolo}</h1>",
-        f"<div class='muted'>Fonti: {fonti} — {html.escape(art.get('data',''))}</div>",
-    ]
-    if nota:
-        corpo.append(f"<p class='muted'>{html.escape(nota)}</p>")
-    corpo.append(f"<p>{html.escape(art.get('sintesi',''))}</p>")
-    corpo.append(f"<p><strong>Perché conta:</strong> {html.escape(art.get('perche_conta',''))}</p>")
-    return _pagina(titolo, "".join(corpo))
+    Forma:
+        {
+          "generato": "YYYY-MM-DD",
+          "badge_giorni": 2,
+          "settimana_giorni": 7,
+          "temi": [ {"id","nome","articoli":[
+              {"titolo","fonti":[{nome,link}],"data","sintesi","perche_conta","note"} ]}, ... ]
+        }
+    I 5 temi sono sempre presenti e in ordine canonico (anche senza articoli).
+    """
+    per_tema = raccogli_per_tema(archivio)
+    temi = []
+    for tema in TEMI_ORDINE:
+        articoli = [
+            {
+                "titolo": a.get("titolo", ""),
+                "fonti": a.get("fonti", []),
+                "data": a.get("data") or a.get("_ts", ""),
+                "sintesi": a.get("sintesi", ""),
+                "perche_conta": a.get("perche_conta", ""),
+                "note": a.get("note"),
+            }
+            for a in per_tema.get(tema, [])
+        ]
+        temi.append({"id": tema.value, "nome": ETICHETTE[tema], "articoli": articoli})
+    return {
+        "generato": digest_corrente.data_generazione,
+        "badge_giorni": badge_giorni,
+        "settimana_giorni": settimana_giorni,
+        "temi": temi,
+    }
 
 
 def genera_sito(
@@ -166,58 +114,29 @@ def genera_sito(
     archivio: list[dict],
     out_dir: str,
     badge_giorni: int = BADGE_GIORNI_DEFAULT,
+    template_path: str = TEMPLATE_DEFAULT,
 ) -> list[str]:
-    """Genera i file del sito e restituisce i percorsi scritti."""
+    """Scrive data.json e copia il template frontend in index.html.
+
+    Ritorna i percorsi scritti. La cartella `out_dir` diventa la publish-dir del
+    sito statico (index.html + data.json).
+    """
     base = Path(out_dir)
     base.mkdir(parents=True, exist_ok=True)
     scritti: list[str] = []
-    per_tema = raccogli_per_tema(archivio)
 
-    # --- homepage: box solo per i temi con aggiornamenti nella settimana ------
-    aggiornati = temi_con_aggiornamenti(digest_corrente)
-    boxes = []
-    for sez in digest_corrente.sezioni:
-        if sez.tema not in aggiornati:
-            continue  # mai box per temi senza aggiornamenti (18.2)
-        voci = "".join(
-            f"<li><a href='articolo-{_id_articolo(a.model_dump(mode='json'))}.html'>"
-            f"{html.escape(a.titolo)}</a></li>"
-            for a in sez.articoli
-        )
-        boxes.append(f"<section class='box'><h2>{html.escape(ETICHETTE[sez.tema])}</h2><ul>{voci}</ul></section>")
-    corpo_home = [
-        _nav(),
-        "<h1>Digest Research Agent</h1>",
-    ]
-    if boxes:
-        corpo_home.append(f"<div class='boxes'>{''.join(boxes)}</div>")
-    else:
-        corpo_home.append("<p class='muted'>Nessun aggiornamento questa settimana.</p>")
-    (base / "index.html").write_text(_pagina("Digest Research Agent", "".join(corpo_home)), encoding="utf-8")
-    scritti.append(str(base / "index.html"))
+    dati = costruisci_dati(digest_corrente, archivio, badge_giorni)
+    percorso_dati = base / "data.json"
+    percorso_dati.write_text(
+        json.dumps(dati, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
+    scritti.append(str(percorso_dati))
 
-    # --- pagine cronologia per tema (18.3) + pagine articolo ------------------
-    articoli_visti: dict[str, dict] = {}
-    for tema in TEMI_ORDINE:
-        articoli = per_tema.get(tema, [])
-        cronologia = "".join(_card_articolo(a) for a in articoli)
-        corpo = [
-            _nav(),
-            f"<h1>{html.escape(ETICHETTE[tema])} — cronologia</h1>",
-        ]
-        if articoli:
-            corpo.append(f"<div data-cronologia>{cronologia}</div>")
-        else:
-            corpo.append("<p class='muted'>Nessun articolo in archivio per questo tema.</p>")
-        pagina = _pagina(ETICHETTE[tema], "".join(corpo), badge_js=_badge_js(badge_giorni))
-        (base / f"tema-{tema.value}.html").write_text(pagina, encoding="utf-8")
-        scritti.append(str(base / f"tema-{tema.value}.html"))
-        for a in articoli:
-            articoli_visti[_id_articolo(a)] = a
-
-    for idf, art in articoli_visti.items():
-        (base / f"articolo-{idf}.html").write_text(_pagina_articolo(art), encoding="utf-8")
-        scritti.append(str(base / f"articolo-{idf}.html"))
+    tpl = Path(template_path)
+    if tpl.exists():
+        destinazione = base / "index.html"
+        shutil.copyfile(tpl, destinazione)
+        scritti.append(str(destinazione))
 
     return scritti
 

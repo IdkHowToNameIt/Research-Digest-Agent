@@ -191,93 +191,82 @@
 
 <script>
 /* ---------------------------------------------------------------------------
-   Dati di esempio (realistici, solo per la revisione visiva).
-   `offset` = giorni fa: la data viene calcolata rispetto a oggi, così la soglia
-   "Nuovo aggiornamento" (<= 2 giorni) e i box "questa settimana" (<= 7 giorni)
-   funzionano sempre, indipendentemente da quando apri il file.
+   App del sito interno: legge i dati REALI da data.json (prodotto dal backend)
+   e genera lato client le pagine — homepage, cronologia per tema, articolo.
+   Le date degli articoli sono assolute (YYYY-MM-DD): da esse si derivano la
+   soglia "Nuovo aggiornamento" (badge_giorni) e la vista "questa settimana"
+   (settimana_giorni), entrambe lette da data.json.
 --------------------------------------------------------------------------- */
-const TEMI = [
-  {id:"chip", nome:"Chip", articoli:[
-    {titolo:"NVIDIA presenta l'acceleratore Blackwell Ultra (GB300) per l'addestramento su larga scala",
-     fonte:"NVIDIA Newsroom", offset:1,
-     sintesi:"NVIDIA ha presentato il GB300, evoluzione della piattaforma Blackwell orientata ai cluster di addestramento più grandi. L'azienda dichiara una banda GPU-to-GPU di 3,2 Tbps e una dotazione di memoria HBM3e ampliata rispetto alla generazione precedente. Il posizionamento è esplicitamente sui carichi di addestramento su scala, dove l'interconnessione è spesso il vero collo di bottiglia. Restano da verificare in campo i consumi effettivi e le tempistiche di disponibilità dichiarate.",
-     perche:"La banda di interconnessione, più della potenza del singolo chip, determina la scalabilità reale dei cluster: è il parametro che pesa sui costi infrastrutturali di chi addestra modelli."},
-    {titolo:"AMD amplia la linea Instinct MI350 puntando sull'efficienza energetica",
-     fonte:"Tom's Hardware", offset:3,
-     sintesi:"AMD ha ampliato la famiglia Instinct MI350, con un messaggio centrato sull'efficienza energetica per watt più che sul picco di prestazioni. La società indica un miglioramento rispetto a MI300 e una disponibilità collocata nella seconda metà dell'anno. La mossa consolida la posizione di AMD come alternativa credibile nel segmento degli acceleratori per data center.",
-     perche:"Un secondo fornitore competitivo riduce la dipendenza da un unico attore e influenza i prezzi degli acceleratori, voce di costo dominante nell'infrastruttura AI."},
-    {titolo:"TSMC conferma l'avvio della produzione a 2 nm per i primi clienti",
-     fonte:"Tom's Hardware", offset:6,
-     sintesi:"TSMC ha confermato l'ingresso in produzione del nodo a 2 nm per i primi clienti, con rese descritte come in linea con le attese. Il nodo introduce transistor a nanofoglio e promette guadagni di efficienza rilevanti per i chip AI di prossima generazione. La capacità iniziale resta limitata e allocata ai clienti principali.",
-     perche:"L'accesso anticipato ai nodi più avanzati è un vantaggio competitivo: chi non è in cima alla lista di allocazione rischia di restare indietro di un'intera generazione."}
-  ]},
-  {id:"energia", nome:"Energia", articoli:[
-    {titolo:"Studio: lo scheduling dei carichi può ridurre il consumo dei data center del 15-20%",
-     fonte:"arXiv", offset:10, nota:"(preprint, non ancora sottoposto a peer review)",
-     sintesi:"I risultati preliminari di uno studio indicano che una strategia di scheduling dei carichi di lavoro può ridurre il consumo energetico dei data center del 15-20% in scenari specifici, senza degradare le prestazioni di inferenza. Gli autori misurano l'effetto su un cluster simulato con carichi misti addestramento/inferenza. Viene discusso il limite della generalizzazione ad ambienti di produzione reali.",
-     perche:"L'energia è il vincolo strutturale della crescita AI: ogni punto percentuale di efficienza si traduce in capacità aggiuntiva a parità di rete elettrica disponibile."},
-    {titolo:"Analisi sui limiti di rete elettrica per i nuovi campus di data center",
-     fonte:"arXiv", offset:26, nota:"(preprint, non ancora sottoposto a peer review)",
-     sintesi:"I risultati preliminari di uno studio indicano che la disponibilità di allacciamento alla rete elettrica, e non il terreno o il capitale, sta diventando il fattore limitante per i nuovi campus di data center in diverse aree. Il lavoro mappa i tempi di attesa per la connessione in alcune regioni.",
-     perche:"Sposta l'attenzione dal capex alla disponibilità fisica di potenza: un tema centrale per chi pianifica capacità a 3-5 anni."}
-  ]},
-  {id:"data_center", nome:"Data center", articoli:[
-    {titolo:"Meta descrive il raffreddamento a liquido diretto nei nuovi cluster di training",
-     fonte:"Meta Engineering", offset:2,
-     sintesi:"Meta ha descritto l'adozione del raffreddamento a liquido diretto-a-chip nei nuovi cluster dedicati all'addestramento. L'azienda riporta densità di potenza per rack più elevate e un impatto favorevole sull'efficienza complessiva. Vengono illustrate le implicazioni impiantistiche, dalla distribuzione idraulica al recupero di calore.",
-     perche:"La densità per rack è ciò che permette di concentrare più calcolo nello stesso spazio e nella stessa fornitura elettrica: abilita la scala senza moltiplicare gli edifici."},
-    {titolo:"Uptime Institute: l'indisponibilità media cala, ma il costo degli outage cresce",
-     fonte:"Uptime Institute Journal", offset:9,
-     sintesi:"Secondo l'ultimo rapporto dell'Uptime Institute, la frequenza degli outage gravi è in calo, mentre il loro costo economico medio continua a salire. L'analisi lega il fenomeno alla crescente concentrazione di carichi critici. Vengono indicate le cause ricorrenti, con il fattore umano ancora prominente.",
-     perche:"Per chi investe in infrastruttura, l'affidabilità è un costo nascosto: outage più rari ma più costosi cambiano il calcolo del rischio."}
-  ]},
-  {id:"supply_chain", nome:"Supply chain", articoli:[
-    {titolo:"Nuove restrizioni all'export di apparecchiature per semiconduttori verso più paesi",
-     fonte:"Federal Register — BIS", offset:1,
-     sintesi:"Il Bureau of Industry and Security ha pubblicato nuove restrizioni all'export di apparecchiature per la produzione di semiconduttori, estendendo l'elenco dei paesi interessati. Il provvedimento aggiorna soglie e categorie tecniche rispetto alle regole precedenti. Gli operatori del settore avranno una finestra per l'adeguamento.",
-     perche:"Le regole sull'export ridisegnano le catene di fornitura globali e possono spostare investimenti e capacità produttiva tra regioni nel giro di pochi trimestri."},
-    {titolo:"ASML: ordini in ripresa, focus sulla litografia EUV High-NA",
-     fonte:"Google News (TSMC/ASML)", offset:5, nota:"ripreso da più testate",
-     sintesi:"Diverse testate riportano una ripresa degli ordini per ASML, trainata dalla domanda per la litografia EUV di nuova generazione High-NA. Le consegne dei primi sistemi ai clienti principali sono descritte come in accelerazione. Restano incertezze sui tempi di industrializzazione presso le fab.",
-     perche:"ASML è un punto di strozzatura unico nella filiera: la cadenza delle sue consegne condiziona di fatto il ritmo di espansione della capacità mondiale di chip avanzati."}
-  ]},
-  {id:"cloud_capacity", nome:"Cloud", articoli:[
-    {titolo:"Google Cloud annuncia una nuova regione con capex dichiarato da 2 miliardi di dollari",
-     fonte:"Google Cloud — Infrastructure", offset:1,
-     sintesi:"Google Cloud ha annunciato una nuova regione cloud con un capex dichiarato di 2 miliardi di dollari, più zone di disponibilità e un cavo sottomarino dedicato per la ridondanza. L'obiettivo comunicato è aumentare la capacità e la resilienza in un'area a forte domanda. La messa in servizio è prevista in fasi.",
-     perche:"Le cifre di investimento dichiarate e la ridondanza fisica sono indicatori concreti di dove i grandi provider stanno spostando capacità di calcolo."},
-    {titolo:"AWS espande la capacità con nuove zone e infrastruttura di rete",
-     fonte:"AWS News Blog", offset:4,
-     sintesi:"AWS ha comunicato l'espansione della propria capacità con nuove zone di disponibilità e potenziamenti dell'infrastruttura di rete. Il messaggio, ripulito dal linguaggio promozionale, contiene riferimenti a capacità aggiuntiva e a miglioramenti di latenza. Le tempistiche di rilascio sono scaglionate per area.",
-     perche:"La distribuzione geografica della capacità cloud determina dove è possibile eseguire carichi AI vicino ai dati e agli utenti, con impatto diretto su costi e latenza."}
-  ]}
-];
-
-const SOGLIA_NUOVO = 2;      // giorni: badge "Nuovo aggiornamento" (calcolo lato client)
-const SOGLIA_SETTIMANA = 7;  // giorni: rientra nel digest "di questa settimana"
+let TEMI = [];
+let SOGLIA_NUOVO = 2;      // giorni: badge "Nuovo aggiornamento" (sovrascritto da data.json)
+let SOGLIA_SETTIMANA = 7;  // giorni: rientra nel digest "di questa settimana"
 const MESI = ["gen","feb","mar","apr","mag","giu","lug","ago","set","ott","nov","dic"];
 
-function dataDa(offset){ return new Date(Date.now() - offset*86400000); }
-function formatta(d){ return d.getDate()+" "+MESI[d.getMonth()]+" "+d.getFullYear(); }
+function giorniFa(iso){
+  if(!iso) return 99999;
+  const d = new Date(iso + "T00:00:00");
+  if(isNaN(d.getTime())) return 99999;
+  const oggi = new Date(); oggi.setHours(0,0,0,0);
+  return Math.round((oggi - d) / 86400000);
+}
+function fmtData(iso){
+  const d = new Date((iso||"") + "T00:00:00");
+  if(isNaN(d.getTime())) return iso || "";
+  return d.getDate()+" "+MESI[d.getMonth()]+" "+d.getFullYear();
+}
 function trovaTema(id){ return TEMI.find(t=>t.id===id); }
-function idArticolo(temaId,i){ return temaId+"-"+i; }
 
 const app = document.getElementById('app');
 
+/* --------- caricamento dei dati reali (data.json, accanto a index.html) --------- */
+async function caricaDati(){
+  try{
+    const resp = await fetch('data.json', {cache:'no-store'});
+    if(!resp.ok) throw new Error('HTTP '+resp.status);
+    const dati = await resp.json();
+    if(dati.badge_giorni != null) SOGLIA_NUOVO = dati.badge_giorni;
+    if(dati.settimana_giorni != null) SOGLIA_SETTIMANA = dati.settimana_giorni;
+    TEMI = (dati.temi||[]).map(function(t){
+      return {
+        id: t.id, nome: t.nome,
+        articoli: (t.articoli||[]).map(function(a){
+          return {
+            titolo: a.titolo,
+            fonte: (a.fonti||[]).map(function(f){return f.nome;}).join(' · '),
+            fonti: a.fonti||[],
+            data: a.data,
+            giorni: giorniFa(a.data),
+            sintesi: a.sintesi||'',
+            perche: a.perche_conta||'',
+            nota: a.note||null
+          };
+        })
+      };
+    });
+    vaiHome();
+  }catch(err){
+    app.innerHTML = '<section class="view home"><div class="hero">'
+      + '<div class="kicker">Digest settimanale interno</div>'
+      + '<h1 class="title">Digest Research Agent</h1>'
+      + '<p class="sub">Dati non ancora disponibili ('+err.message+'). '
+      + 'Il digest viene rigenerato ogni settimana.</p></div></section>';
+  }
+}
+
 /* ---------------------------- HOMEPAGE ---------------------------- */
 function vaiHome(){
-  const conAgg = TEMI.filter(t => t.articoli.some(a => a.offset <= SOGLIA_SETTIMANA));
-  const oggi = formatta(new Date());
+  const conAgg = TEMI.filter(t => t.articoli.some(a => a.giorni <= SOGLIA_SETTIMANA));
+  const oggi = fmtData(new Date().toISOString().slice(0,10));
 
   const nav = TEMI.map(t =>
     `<button class="pill" onclick="vaiTema('${t.id}')"><span class="dot"></span>${t.nome}</button>`
   ).join('');
 
   const boxes = conAgg.map(t=>{
-    const voci = t.articoli.filter(a=>a.offset<=SOGLIA_SETTIMANA).map((a,i)=>{
+    const voci = t.articoli.filter(a=>a.giorni<=SOGLIA_SETTIMANA).map((a)=>{
       const idx = t.articoli.indexOf(a);
       return `<li><a onclick="vaiArticolo('${t.id}',${idx})">${a.titolo}
-                <br><small>${a.fonte} · ${formatta(dataDa(a.offset))}</small></a></li>`;
+                <br><small>${a.fonte} · ${fmtData(a.data)}</small></a></li>`;
     }).join('');
     return `<div class="box reveal" data-tilt>
         <h3><span class="tema-ic"></span>${t.nome}</h3>
@@ -285,6 +274,8 @@ function vaiHome(){
         <span class="apri" onclick="vaiTema('${t.id}')">Cronologia ${t.nome} →</span>
       </div>`;
   }).join('');
+
+  const contenuto = boxes || '<p class="sez-nota">Nessun aggiornamento questa settimana.</p>';
 
   app.innerHTML = `<section class="view home">
     <div class="hero">
@@ -297,7 +288,7 @@ function vaiHome(){
     <main>
       <div class="sez-titolo">Aggiornamenti di questa settimana</div>
       <div class="sez-nota">Compaiono solo i temi con novità nella settimana corrente.</div>
-      <div class="boxes">${boxes}</div>
+      <div class="boxes">${contenuto}</div>
     </main>
   </section>`;
   attivaEffetti();
@@ -306,17 +297,17 @@ function vaiHome(){
 /* ------------------------- CRONOLOGIA TEMA ------------------------ */
 function vaiTema(id){
   const t = trovaTema(id);
-  const ordinati = t.articoli.map((a,i)=>({a,i})).sort((x,y)=>x.a.offset-y.a.offset);
-  const nuovi = ordinati.filter(o=>o.a.offset<=SOGLIA_NUOVO);
-  const vecchi = ordinati.filter(o=>o.a.offset>SOGLIA_NUOVO);
+  const ordinati = t.articoli.map((a,i)=>({a,i})).sort((x,y)=>x.a.giorni-y.a.giorni);
+  const nuovi = ordinati.filter(o=>o.a.giorni<=SOGLIA_NUOVO);
+  const vecchi = ordinati.filter(o=>o.a.giorni>SOGLIA_NUOVO);
 
   const voce = (o)=>{
-    const a=o.a, nuovo = a.offset<=SOGLIA_NUOVO;
+    const a=o.a, nuovo = a.giorni<=SOGLIA_NUOVO;
     return `<div class="voce reveal" onclick="vaiArticolo('${id}',${o.i})">
         <div class="meta"><span class="fonte" style="color:var(--verde);font-weight:600">${a.fonte}</span>
-          · ${formatta(dataDa(a.offset))} ${nuovo?'<span class="badge-nuovo">Nuovo</span>':''}</div>
+          · ${fmtData(a.data)} ${nuovo?'<span class="badge-nuovo">Nuovo</span>':''}</div>
         <h4>${a.titolo}</h4>
-        <div>${a.sintesi.split('. ')[0]}.</div>
+        <div>${(a.sintesi||'').split('. ')[0]}.</div>
       </div>`;
   };
 
@@ -338,7 +329,7 @@ function vaiArticolo(id,i){
   app.innerHTML = `<section class="view"><main class="articolo">
       <button class="indietro" onclick="vaiTema('${id}')">← ${t.nome}</button>
       <h1>${a.titolo}</h1>
-      <div class="meta"><span class="fonte">${a.fonte}</span> · ${formatta(dataDa(a.offset))}</div>
+      <div class="meta"><span class="fonte">${a.fonte}</span> · ${fmtData(a.data)}</div>
       ${a.nota?`<div class="nota">${a.nota}</div>`:''}
       <p style="margin-top:1rem">${a.sintesi}</p>
       <div class="perche"><strong>Perché conta:</strong> ${a.perche}</div>
@@ -364,7 +355,7 @@ function attivaEffetti(){
   });
 }
 
-vaiHome();
+caricaDati();
 </script>
 
 <script>

@@ -25,8 +25,8 @@ def _leggi_api_key(api_key: str | None) -> str:
     key = api_key or os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
     if not key:
         raise GeminiNonConfigurato(
-            "Manca la API key di Gemini (GEMINI_API_KEY). Usa la modalita' --demo "
-            "per girare senza modello."
+            "Manca la API key di Gemini: imposta GEMINI_API_KEY (in locale nel file "
+            ".env, in produzione come secret di GitHub Actions)."
         )
     return key
 

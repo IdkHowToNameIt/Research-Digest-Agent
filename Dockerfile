@@ -11,7 +11,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# Default: genera il sito in modalità demo offline (nessuna rete, nessuna API key).
-# Per la modalità reale (Gemini): passare GEMINI_API_KEY e sovrascrivere il comando
-#   con `python main.py --config config.yaml`.
-CMD ["python", "main.py", "--demo", "--config", "config.demo.yaml"]
+# Genera i dati del sito (data.json) e copia il frontend in /app/sito.
+# Richiede GEMINI_API_KEY (per la sintesi): passarla come variabile d'ambiente.
+CMD ["python", "main.py", "--config", "config.yaml"]

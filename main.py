@@ -1,11 +1,10 @@
 """Entrypoint del Research Digest Agent — DRA.
 
-Due modalità:
-  python main.py            -> con modello (Gemini): richiede GEMINI_API_KEY
-  python main.py --demo     -> demo offline (sintesi deterministica, nessuna key)
+  python main.py [--config config.yaml]   -> richiede GEMINI_API_KEY
 
 La pipeline è ~80% script (fetch, dedup, classificazione, note interne,
-assemblaggio); il modello interviene solo sulla sintesi testuale degli articoli.
+assemblaggio); il modello (Gemini) interviene solo sulla sintesi testuale degli
+articoli.
 """
 from __future__ import annotations
 
@@ -25,21 +24,17 @@ load_dotenv()
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Research Digest Agent — DRA")
-    parser.add_argument("--demo", action="store_true", help="Modalità offline senza modello")
     parser.add_argument("--config", default="config.yaml")
     args = parser.parse_args()
 
     cfg = load_config(args.config)
 
-    if args.demo:
-        genera = None
-    else:
-        from src.modello.gemini import GeminiNonConfigurato, crea_generatore
-        try:
-            genera = crea_generatore(model=cfg.get("model"))
-        except GeminiNonConfigurato as exc:
-            print(f"[errore] {exc}", file=sys.stderr)
-            sys.exit(2)
+    from src.modello.gemini import GeminiNonConfigurato, crea_generatore
+    try:
+        genera = crea_generatore(model=cfg.get("model"))
+    except GeminiNonConfigurato as exc:
+        print(f"[errore] {exc}", file=sys.stderr)
+        sys.exit(2)
 
     digest = costruisci_digest(cfg, genera)
     path = deliver_markdown(digest, cfg.get("out_dir", "out"))
@@ -57,8 +52,10 @@ def main() -> None:
     file_sito = genera_sito(
         digest, archivio, sito_cfg.get("out_dir", "sito"),
         badge_giorni=int(sito_cfg.get("badge_giorni", 2)),
+        template_path=sito_cfg.get("template", "frontend/concept/index.html"),
     )
-    print(f"Sito aggiornato: {len(file_sito)} pagine in {sito_cfg.get('out_dir', 'sito')}/")
+    print(f"Sito aggiornato: {len(file_sito)} file in {sito_cfg.get('out_dir', 'sito')}/ "
+          f"(data.json + index.html)")
 
     # Email settimanale (sempre una) + eventuale email di note interne (sez. 17).
     invii = prepara_invii(digest, cfg)

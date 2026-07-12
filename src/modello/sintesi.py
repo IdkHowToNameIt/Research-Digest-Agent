@@ -4,9 +4,9 @@ Il modello produce solo i campi testuali (`sintesi`, `perche_conta`, `note`);
 i metadati (titolo, fonte, link, data) restano quelli reali del candidato
 (grounding: nessun URL inventato). L'assemblaggio nelle 5 sezioni fisse e' codice.
 
-Due modalita':
-- con generatore (Gemini o mock nei test): `genera(prompt) -> dict`.
-- demo (`genera=None`): sintesi deterministica dal titolo/estratto, senza modello.
+Il generatore e' iniettabile: `genera(prompt) -> dict` (Gemini in produzione, un
+mock nei test). Come fallback interno, `genera=None` produce una sintesi
+deterministica dal titolo/estratto senza modello (usato solo dai test).
 """
 from __future__ import annotations
 
@@ -28,12 +28,12 @@ from ..raccolta.fetch import Candidato
 Generatore = Callable[[str], dict]
 
 
-def _sintesi_demo(c: Candidato) -> dict:
-    """Sintesi deterministica senza modello (modalita' --demo)."""
+def _sintesi_fallback(c: Candidato) -> dict:
+    """Sintesi deterministica senza modello (fallback interno, usato dai test)."""
     base = c.estratto.strip() or c.titolo.strip()
     return {
         "sintesi": base,
-        "perche_conta": f"(demo) rilevante per il tema {c.tema}.",
+        "perche_conta": f"Rilevante per il tema {c.tema}.",
         "note": "",
     }
 
@@ -48,7 +48,7 @@ def _con_nota_arxiv(c: Candidato, note: str | None) -> str | None:
 
 def sintetizza_candidato(c: Candidato, genera: Generatore | None) -> Articolo:
     """Sintetizza un singolo candidato in un Articolo (metadati reali del candidato)."""
-    dati = _sintesi_demo(c) if genera is None else genera(prompt_sintesi(c))
+    dati = _sintesi_fallback(c) if genera is None else genera(prompt_sintesi(c))
     sintesi = str(dati.get("sintesi", "")).strip() or c.titolo.strip()
     perche = str(dati.get("perche_conta", "")).strip()
     note = _con_nota_arxiv(c, (dati.get("note") or "").strip() or None)

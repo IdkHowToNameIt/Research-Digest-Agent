@@ -93,13 +93,13 @@ src/
 │   └── sintesi.py      sintesi articoli + assemblaggio Digest             [Fase 6]
 └── consegna/           output verso i canali reali
     ├── deliver.py      consegna Markdown di anteprima                     [Fase 6]
-    ├── sito.py         generatore sito interno (homepage/tema/articolo)   [Fase 8]
+    ├── sito.py         backend del sito: genera data.json + copia il front [Fase 8]
     ├── notifica.py     email settimanale (notifica/reminder) + note IT    [Fase 7]
     └── note_interne.py note interne (fetch_failed / energia a zero)       [Fase 5]
 
-main.py               entrypoint (--demo / Gemini reale)
+frontend/concept/     interfaccia web (legge data.json e genera le pagine)
+main.py               entrypoint (Gemini)
 config.yaml           beat, 12 fonti, dedup, sito, email  (produzione)
-config.demo.yaml      config offline con feed locali        (demo/Docker)
 Dockerfile            immagine del backend/generatore
 docker-compose.yml    backend (generator) + frontend (nginx)
 tests/                test deterministici (offline, Gemini mockato)
@@ -129,7 +129,10 @@ claude-progress.txt   log di avanzamento per sessione
    che…" + nota preprint aggiunta dal codice.
 6. **Assemblaggio** (`sintesi.assembla_digest`): costruisce il `Digest` con le 5
    sezioni; le sezioni vuote non invocano il modello.
-7. **Consegna** (`consegna/notifica.py`, `consegna/sito.py`): email + sito statico.
+7. **Consegna** (`consegna/notifica.py`, `consegna/sito.py`): email + dati del sito.
+   Il backend scrive `sito/data.json` (archivio pubblico aggregato per tema) e
+   copia `frontend/concept/index.html` in `sito/index.html`. Il frontend statico
+   legge `data.json` e genera lato client homepage, cronologie e pagine articolo.
 
 ## Schema dati (sintesi)
 
@@ -143,13 +146,17 @@ Articolo    = { titolo, fonti:[{nome,link}], data, sintesi, perche_conta, note? 
 
 ## Configurazione
 
-Tutto in `config.yaml` (produzione) o `config.demo.yaml` (offline):
+Tutto in `config.yaml`:
 
 - `fonti`: elenco con `nome`, `url`, `tema`, `max`, `troncamento` (int o `null`),
   `filtro_rilevanza` (solo Google Cloud Blog).
 - `soglia_overlap_dedup` (0.7) e `finestra_dedup_settimane` (6) — calibrabili.
-- `sito`: `homepage_url`, `out_dir`, `archivio_dir`, `badge_giorni` (soglia badge).
+- `sito`: `homepage_url` (URL pubblico del sito, es. quello di Render — è il link
+  che l'email di notifica manda ai lettori), `out_dir`, `archivio_dir`,
+  `badge_giorni` (soglia badge), `template` (default `frontend/concept/index.html`).
 - `email`: `destinatari_digest`, `destinatari_note_interne` (liste nel repo).
+  **NB:** l'invio SMTP reale non è ancora implementato (sez. 17.4): oggi le email
+  vengono solo stampate a log. Inserire gli indirizzi qui non basta a recapitarle.
 
 ---
 
@@ -160,27 +167,28 @@ python -m venv .venv
 .venv\Scripts\activate            # Windows  (Linux/macOS: source .venv/bin/activate)
 pip install -r requirements.txt
 
-python -m pytest -q                # 88 test, offline, nessuna API key
-python main.py --demo --config config.demo.yaml   # run offline completo
+python -m pytest -q                # 87 test, offline, Gemini mockato
+
+cp .env.example .env               # inserisci GEMINI_API_KEY
+python main.py --config config.yaml
 ```
 
-Il run demo scrive `out/digest.md`, genera il sito in `sito/` e stampa l'email
-sul terminale. Apri `sito/index.html` nel browser per vedere il risultato.
+Il run scrive `out/digest.md`, genera `sito/data.json` + `sito/index.html` e stampa
+l'email sul terminale (SMTP reale non ancora attivo, sez. 17.4). Il sito usa
+`fetch('data.json')`, quindi **va servito via http** (aprire `index.html` da
+`file://` non carica i dati):
+
+```bash
+python -m http.server -d sito 8080   # poi apri http://localhost:8080
+```
 
 > **Nota Python 3.14**: se `pydantic` non importa (`_pydantic_core` mancante),
 > reinstallalo con `pip install --force-reinstall --no-cache-dir pydantic`
 > (un wheel cp311 in cache non è compatibile). Con Docker il problema non si pone
 > (l'immagine usa Python 3.12).
 
-### Modalità reale (Gemini)
-
-```bash
-cp .env.example .env              # inserisci GEMINI_API_KEY
-python main.py --config config.yaml
-```
-
 I test **mockano sempre** le chiamate al modello: non serve una API key per la
-suite automatica, solo per una verifica manuale.
+suite automatica, solo per un run reale.
 
 ---
 
@@ -190,12 +198,13 @@ Lo stack ha due servizi: `generator` (backend Python, gira una volta e termina) 
 `web` (nginx, serve il sito quando il generatore ha finito).
 
 ```bash
-docker compose up --build          # genera il sito e lo serve
+export GEMINI_API_KEY=...           # (PowerShell: $env:GEMINI_API_KEY="...")
+docker compose up --build           # genera il sito e lo serve
 # poi apri:  http://localhost:8080
 ```
 
-- `generator` esegue di default `main.py --demo --config config.demo.yaml`
-  (offline, nessuna API key) e scrive i file nel volume `sito`.
+- `generator` esegue `main.py --config config.yaml` (richiede `GEMINI_API_KEY`)
+  e scrive `data.json` + `index.html` nel volume `sito`.
 - `web` (nginx) pubblica quei file su **http://localhost:8080**.
 
 Per rigenerare dopo una modifica: `docker compose up --build --force-recreate`.
@@ -214,61 +223,37 @@ ogni lunedì alle 06:00 UTC (e a mano da *Actions → Run workflow*):
 
 1. Su GitHub aggiungi il secret `GEMINI_API_KEY`
    (*Settings → Secrets and variables → Actions*).
-2. Il job genera digest + sito, allega il sito come artifact e **ricommitta** lo
-   stato (`data/seen.sqlite3`, `data/archivio/`) e `sito/` nel repo, così il dedup
-   ricorda gli articoli già pubblicati tra un run e l'altro.
-3. Pubblicazione sulla rete interna: il server interno fa `git pull` e serve
-   `sito/`, oppure un passo aggiuntivo copia `sito/` via scp/rsync (vedi commenti
-   nel workflow). L'invio email reale (SMTP) è ancora da configurare (sez. 17.4).
+2. Il job genera digest + `sito/` (`data.json` + `index.html`), lo allega come
+   artifact e **ricommitta** lo stato (`data/seen.sqlite3`, `data/archivio/`) e
+   `sito/` nel repo, così il dedup ricorda gli articoli già pubblicati.
+3. **Pubblicazione (Render).** Il sito è statico → su Render creare un **Static Site**
+   collegato a questo repo, *Publish directory* = `sito/`, nessun comando di build.
+   Render fa auto-deploy a ogni push: quando il workflow ricommitta `sito/`, il sito
+   si aggiorna da solo. (Un *Private Service* non ha URL pubblico e **non** è adatto
+   a servire il sito.) Impostare poi `sito.homepage_url` in `config.yaml` con l'URL
+   Render. L'invio email reale (SMTP) è ancora da configurare (sez. 17.4).
 
-## Bozza visiva (frontend/)
+## Interfaccia web (frontend/concept)
 
-I prototipi visivi statici stanno tutti in `frontend/`, separati dal backend Python
-(`src/`, `main.py`):
+L'interfaccia web è **una sola**, definitiva, in `frontend/concept/index.html`,
+separata dal backend Python (`src/`, `main.py`). È una web-app statica vanilla
+(HTML/CSS/JS, zero dipendenze esterne) che **legge `data.json`** (prodotto dal
+backend) e genera lato client: home → cronologia tema → articolo con "Perché conta"
+e nota preprint. In home compaiono solo i temi con aggiornamenti della settimana,
+box **autocentrati**, badge "Nuovo" (≤ `badge_giorni`) e finestra settimana
+(≤ `settimana_giorni`) calcolati lato client dalle date assolute in `data.json`.
 
-- `frontend/bozza-homepage.html` — bozza chiara
-- `frontend/concept-dark/index.html` — concept scuro vanilla interattivo (servito da Docker)
-- `frontend/storico/` — prototipi superati tenuti come storico (es. `concept-original.html`,
-  che dipendeva da un framework custom + asset mancanti)
+Stile "KVAdra": tema quasi-nero, accento rosa/rosso, card glass, **sfondo ripreso da
+kakashi.ventures** (gli 8 simboli reali del sito, incorporati e disposti sparsi su
+canvas, che si accendono di rosso vicino al cursore), homepage compatta in una sola
+schermata, logo placeholder KVA.
 
-`frontend/bozza-homepage.html` è una **bozza visiva statica autonoma** per discutere
-colori/logo/tipografia/animazioni — non è l'implementazione finale del sito
-(`src/sito.py`). Servila live via Docker (bind-mount: basta ricaricare il browser
-dopo una modifica al file):
-
-```bash
-docker compose up bozza            # poi apri http://localhost:8081
-```
-
-In alternativa si può aprire il file direttamente nel browser (è autonomo, senza
-dipendenze).
-
-### Concept "dark" alternativo
-
-`frontend/concept-dark/index.html` ha **le stesse funzionalità della bozza chiara**
-(`bozza-homepage.html`) ma con **stile dark**: stessi dati e stesso flusso
-(home → cronologia tema → articolo con "Perché conta" e nota preprint), stessa
-logica (in home solo i temi con aggiornamenti della settimana, box **autocentrati**,
-badge "Nuovo" ≤2 gg e finestra settimana ≤7 gg calcolati lato client dall'`offset`).
-
-Lo stile è quello del concept "KVAdra" (originariamente in formato `.dc`, un framework
-proprietario `<x-dc>`/`<sc-if>`/`<sc-for>` + `support.js`, con asset mancanti
-`assets/bg.png` e `assets/logo-clean.svg`), qui reso autonomo in vanilla JS: tema
-quasi-nero, accento rosa/rosso, card glass, **sfondo ripreso da kakashi.ventures**
-(gli 8 simboli reali del sito, incorporati e disposti sparsi su canvas, che si
-accendono di rosso vicino al cursore), homepage compatta in una sola schermata,
-logo placeholder KVA. HTML/CSS/JS vanilla, zero dipendenze esterne.
+Per vederla con i dati reali serve `data.json` accanto a `index.html`: generarlo con
+`python main.py` e servire `sito/` (vedi *Avvio — in locale*), oppure via Docker:
 
 ```bash
-docker compose up concept          # → http://localhost:8082
-```
-
-### Modalità reale (Gemini) con Docker
-
-```bash
-export GEMINI_API_KEY=...          # (Windows PowerShell: $env:GEMINI_API_KEY="...")
-docker compose run --rm generator python main.py --config config.yaml
-docker compose up web              # servi il sito generato
+docker compose up concept          # shell del concept senza dati → http://localhost:8082
+docker compose up web              # sito generato con i dati → http://localhost:8080
 ```
 
 ---

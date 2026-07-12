@@ -2,7 +2,8 @@
 #
 # COSA FA
 #   Ogni lunedì mattina (06:00 UTC) esegue la pipeline reale (con Gemini), rigenera
-#   il sito statico e conserva lo stato tra un run e l'altro (dedup + archivio).
+#   i dati del sito (sito/data.json + sito/index.html) e conserva lo stato tra un
+#   run e l'altro (dedup + archivio).
 #
 # PREREQUISITI (una tantum, su GitHub)
 #   Settings > Secrets and variables > Actions > New repository secret:
@@ -14,13 +15,14 @@
 #   Il dedup ha bisogno di ricordare gli articoli già pubblicati (data/seen.sqlite3)
 #   e la cronologia del sito (data/archivio/). Questi file sono in .gitignore per lo
 #   sviluppo locale, ma qui vengono ricommittati con `git add -f` così sopravvivono
-#   tra i run settimanali. Il sito generato (sito/) viene committato per essere
-#   pubblicato sulla rete interna (vedi "PUBBLICAZIONE").
+#   tra i run settimanali. Anche sito/ (data.json + index.html) viene committato per
+#   essere pubblicato (vedi "PUBBLICAZIONE").
 #
-# PUBBLICAZIONE del sito interno (scegliere una via, non incluse qui)
-#   - il server interno fa `git pull` periodico di questo repo e serve la cartella sito/;
-#   - oppure un passo aggiuntivo copia sito/ via scp/rsync/deploy sul server interno;
-#   - l'artifact `sito` allegato al run è comunque scaricabile manualmente.
+# PUBBLICAZIONE (Render Static Site)
+#   Il sito è statico. Creare su Render uno Static Site collegato a questo repo con
+#   Publish directory = sito/ e nessun comando di build: Render fa auto-deploy a
+#   ogni push, quindi quando questo job ricommitta sito/ il sito si aggiorna da solo.
+#   (L'artifact `sito` allegato al run resta comunque scaricabile a mano.)
 
 name: digest-settimanale
 

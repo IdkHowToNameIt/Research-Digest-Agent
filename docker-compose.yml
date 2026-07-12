@@ -1,11 +1,11 @@
 # Orchestrazione: separazione backend (generatore Python) / frontend (nginx statico).
 #
-#   docker compose up --build        # genera il sito e lo serve su http://localhost:8080
-#   docker compose run --rm generator python main.py --config config.yaml   # modalità reale
+#   export GEMINI_API_KEY=...
+#   docker compose up --build        # genera i dati del sito e lo serve su http://localhost:8080
 #
 # Il sito è statico per progetto (sez. 18: no login, no stato server, badge lato
-# client): non serve un backend web dinamico. Il generatore scrive i file HTML in
-# un volume condiviso; nginx li serve.
+# client): non serve un backend web dinamico. Il generatore (backend) scrive
+# data.json + index.html in un volume condiviso; nginx li serve.
 
 services:
   # Backend: esegue la pipeline una volta e termina (batch settimanale).
@@ -13,7 +13,6 @@ services:
     build: .
     image: dra-generator
     environment:
-      # In demo non serve. Per la modalità reale: export GEMINI_API_KEY=...
       GEMINI_API_KEY: ${GEMINI_API_KEY:-}
     volumes:
       - sito:/app/sito          # output HTML del sito (condiviso con nginx)
@@ -30,24 +29,16 @@ services:
       generator:
         condition: service_completed_successfully
 
-  # Bozza visiva (frontend/bozza-homepage.html): servita live per la revisione, senza build.
-  #   docker compose up bozza   ->  http://localhost:8081
-  # Bind-mount del file: basta ricaricare il browser dopo una modifica.
-  bozza:
-    image: nginx:alpine
-    ports:
-      - "8081:80"
-    volumes:
-      - ./frontend/bozza-homepage.html:/usr/share/nginx/html/index.html:ro
-
-  # Concept dark (riscrittura vanilla del concept KVAdra, ex .dc): live per revisione.
+  # Concept (interfaccia web definitiva): servito live per la revisione del design.
+  # NB: legge data.json, che qui non c'è (mockup senza dati) -> mostra la sola shell.
+  # Per vedere il sito con i dati reali usare il servizio `web` (sito/ generato).
   #   docker compose up concept  ->  http://localhost:8082
   concept:
     image: nginx:alpine
     ports:
       - "8082:80"
     volumes:
-      - ./frontend/concept-dark:/usr/share/nginx/html:ro
+      - ./frontend/concept:/usr/share/nginx/html:ro
 
 volumes:
   sito:
