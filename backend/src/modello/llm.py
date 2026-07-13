@@ -39,8 +39,8 @@ from typing import Callable, Sequence, TypedDict
 MODELLO_DEFAULT = "meta-llama/llama-3.3-70b-instruct:free"
 MODELLI_FALLBACK_DEFAULT = (
     "qwen/qwen3-next-80b-a3b-instruct:free",
-    "nvidia/nemotron-3-super-120b-a12b:free",
     "google/gemma-4-31b-it:free",
+    "google/gemma-4-26b-a4b-it:free",
     "meta-llama/llama-3.2-3b-instruct:free",
 )
 
@@ -72,20 +72,33 @@ class LLMNonConfigurato(RuntimeError):
     """Sollevata quando manca la API key per la modalita' con modello."""
 
 
+class RispostaNonJSON(ValueError):
+    """Il modello non ha restituito un oggetto JSON valido.
+
+    Trattata dalla cascata come motivo per passare al modello successivo: alcuni
+    modelli (spec. 'reasoning') ignorano l'istruzione di formato e producono testo
+    libero. Sottoclasse di ValueError per retro-compatibilita' nei test.
+    """
+
+
 def _estrai_json(testo: str) -> dict:
     """Estrae il primo oggetto JSON dalla risposta del modello.
 
     I modelli spesso avvolgono il JSON in un blocco markdown (```json ... ```) o
     aggiungono testo attorno: json.loads fallirebbe con "Extra data". Qui si cerca
     la prima graffa e si usa raw_decode, che legge un solo valore JSON e ignora
-    cio' che segue.
+    cio' che segue. Se non c'e' JSON valido -> RispostaNonJSON (cascata cambia
+    modello).
     """
     if not testo:
-        raise ValueError("risposta vuota dal modello")
+        raise RispostaNonJSON("risposta vuota dal modello")
     inizio = testo.find("{")
     if inizio == -1:
-        raise ValueError(f"nessun oggetto JSON nella risposta: {testo[:200]!r}")
-    oggetto, _ = json.JSONDecoder().raw_decode(testo[inizio:])
+        raise RispostaNonJSON(f"nessun oggetto JSON nella risposta: {testo[:200]!r}")
+    try:
+        oggetto, _ = json.JSONDecoder().raw_decode(testo[inizio:])
+    except json.JSONDecodeError as e:
+        raise RispostaNonJSON(f"JSON malformato nella risposta: {testo[:200]!r}") from e
     return oggetto
 
 
@@ -160,7 +173,11 @@ def crea_cascata(
                 return esegui(modelli[i], prompt)
             except Exception as e:  # noqa: BLE001 - si ri-solleva se non recuperabile
                 ultimo = e
-                cambiabile = _codice_errore(e) in CODICI_CAMBIA_MODELLO or _e_errore_rete(e)
+                cambiabile = (
+                    isinstance(e, RispostaNonJSON)
+                    or _codice_errore(e) in CODICI_CAMBIA_MODELLO
+                    or _e_errore_rete(e)
+                )
                 if not cambiabile or i == len(modelli) - 1:
                     raise
                 print(

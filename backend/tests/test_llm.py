@@ -8,6 +8,7 @@ import pytest
 
 from src.modello import llm
 from src.modello.llm import (
+    RispostaNonJSON,
     _codice_errore,
     _esegui_con_retry,
     _estrai_json,
@@ -227,3 +228,28 @@ def test_cascata_cambia_modello_su_errore_di_rete():
         return {"sintesi": "ok"}
 
     assert crea_cascata(["a", "b"], esegui)("p") == {"sintesi": "ok"}
+
+
+# --- risposta non-JSON: cambia modello, non ferma la run -------------------
+
+def test_estrai_json_malformato_solleva_risposta_non_json():
+    with pytest.raises(RispostaNonJSON):
+        _estrai_json("We need to produce JSON and then...")  # nessuna graffa
+    with pytest.raises(RispostaNonJSON):
+        _estrai_json('{"sintesi": }')  # graffa ma JSON rotto
+
+
+def test_cascata_cambia_modello_su_risposta_non_json():
+    # un modello 'reasoning' che restituisce testo libero non deve fermare la run:
+    # si passa al modello successivo.
+    usati = []
+
+    def esegui(modello, _prompt):
+        usati.append(modello)
+        if modello == "chiacchierone":
+            raise RispostaNonJSON("We need to produce JSON...")
+        return {"sintesi": "ok"}
+
+    genera = crea_cascata(["chiacchierone", "serio"], esegui)
+    assert genera("p") == {"sintesi": "ok"}
+    assert usati == ["chiacchierone", "serio"]
