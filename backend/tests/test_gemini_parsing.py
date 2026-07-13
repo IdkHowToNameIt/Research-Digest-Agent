@@ -11,7 +11,7 @@ from src.modello.gemini import (
     _codice_errore,
     _esegui_con_retry,
     _estrai_json,
-    _genera_con_fallback,
+    crea_cascata,
 )
 
 
@@ -104,48 +104,81 @@ def test_retry_si_arrende_dopo_max_tentativi():
     assert tentativi["n"] == gemini.RETRY_TENTATIVI
 
 
-# --- fallback su un altro modello ------------------------------------------
+def test_retry_non_ritenta_quota_429():
+    # il 429 (quota) non si libera a breve: nessun backoff, si rilancia subito
+    # per far cambiare modello alla cascata.
+    tentativi = {"n": 0}
 
-def test_fallback_passa_al_modello_successivo_su_quota():
+    def chiamata():
+        tentativi["n"] += 1
+        raise _ErroreHTTP(429)
+
+    with pytest.raises(_ErroreHTTP):
+        _esegui_con_retry(chiamata)
+    assert tentativi["n"] == 1
+
+
+# --- cascata sticky di modelli ---------------------------------------------
+
+def test_cascata_passa_al_modello_successivo_su_quota():
     usati = []
 
-    def esegui(modello):
+    def esegui(modello, _prompt):
         usati.append(modello)
         if modello == "primario":
             raise _ErroreHTTP(429)  # quota esaurita sul primario
         return {"sintesi": f"ok da {modello}"}
 
-    out = _genera_con_fallback(["primario", "ripiego"], esegui)
-    assert out == {"sintesi": "ok da ripiego"}
+    genera = crea_cascata(["primario", "ripiego"], esegui)
+    assert genera("p") == {"sintesi": "ok da ripiego"}
     assert usati == ["primario", "ripiego"]  # provati in ordine
 
 
-def test_fallback_non_scatta_su_errore_non_transitorio():
+def test_cascata_sticky_non_riprova_il_modello_morto():
+    # il cuore del fix "va in loop": dopo che il primario e' risultato esaurito,
+    # gli articoli successivi NON lo ri-provano piu'.
     usati = []
 
-    def esegui(modello):
+    def esegui(modello, _prompt):
+        usati.append(modello)
+        if modello == "primario":
+            raise _ErroreHTTP(429)
+        return {"sintesi": "ok"}
+
+    genera = crea_cascata(["primario", "ripiego"], esegui)
+    genera("articolo-1")  # qui scopre che il primario e' morto e passa a ripiego
+    genera("articolo-2")  # deve andare DIRETTO al ripiego
+    genera("articolo-3")
+    # il primario e' stato toccato una sola volta in tutto
+    assert usati == ["primario", "ripiego", "ripiego", "ripiego"]
+
+
+def test_cascata_non_scatta_su_errore_non_transitorio():
+    usati = []
+
+    def esegui(modello, _prompt):
         usati.append(modello)
         raise _ErroreHTTP(400)  # errore client: nessun ripiego
 
     with pytest.raises(_ErroreHTTP):
-        _genera_con_fallback(["primario", "ripiego"], esegui)
+        crea_cascata(["primario", "ripiego"], esegui)("p")
     assert usati == ["primario"]  # non ha provato il ripiego
 
 
-def test_fallback_solleva_se_tutti_i_modelli_falliscono():
-    def esegui(modello):
+def test_cascata_solleva_se_tutti_i_modelli_falliscono():
+    def esegui(modello, _prompt):
         raise _ErroreHTTP(503)
 
     with pytest.raises(_ErroreHTTP):
-        _genera_con_fallback(["a", "b"], esegui)
+        crea_cascata(["a", "b"], esegui)("p")
 
 
-def test_primo_modello_ok_non_usa_ripieghi():
+def test_cascata_primo_modello_ok_non_usa_ripieghi():
     usati = []
 
-    def esegui(modello):
+    def esegui(modello, _prompt):
         usati.append(modello)
         return {"sintesi": "subito ok"}
 
-    assert _genera_con_fallback(["a", "b"], esegui) == {"sintesi": "subito ok"}
+    assert crea_cascata(["a", "b"], esegui)("p") == {"sintesi": "subito ok"}
     assert usati == ["a"]

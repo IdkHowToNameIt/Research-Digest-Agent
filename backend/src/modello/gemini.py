@@ -16,14 +16,23 @@ import time
 from typing import Callable, Sequence, TypedDict
 
 MODELLO_DEFAULT = "gemini-2.5-flash"
-# Modelli di ripiego se il primario esaurisce quota/e' sovraccarico: hanno un
-# bucket di quota separato. Ordinati dal piu' capiente. Sovrascrivibili da config
+# Modelli di ripiego se il primario esaurisce quota/e' sovraccarico: ognuno ha un
+# bucket di quota free separato, quindi in cascata la quota totale disponibile si
+# somma. Ordinati dal piu' capiente/qualitativo. Sovrascrivibili da config
 # (`modelli_fallback`). Alias -latest per non incorrere nei modelli dismessi.
-MODELLI_FALLBACK_DEFAULT = ("gemini-flash-lite-latest", "gemini-2.0-flash")
+MODELLI_FALLBACK_DEFAULT = (
+    "gemini-flash-lite-latest",
+    "gemini-2.0-flash",
+    "gemini-2.0-flash-lite",
+)
 
-# Errori HTTP transitori (sovraccarico/limiti) su cui vale la pena ritentare.
+# Errori HTTP che fanno cambiare modello (fallback): quota o server KO.
 CODICI_TRANSITORI = frozenset({429, 500, 502, 503, 504})
-RETRY_TENTATIVI = 5
+# Sottoinsieme su cui conviene ritentare lo STESSO modello con backoff (picchi
+# temporanei). Il 429 (quota) e' escluso: non si libera a breve, meglio cambiare
+# modello subito invece di sprecare attese.
+CODICI_RETRY = frozenset({500, 502, 503, 504})
+RETRY_TENTATIVI = 3
 RETRY_ATTESA_BASE = 2.0  # secondi (backoff esponenziale: 2, 4, 8, ...)
 
 Generatore = Callable[[str], dict]
@@ -93,38 +102,53 @@ def _esegui_con_retry(chiamata: Callable[[], dict]) -> dict:
     for tentativo in range(RETRY_TENTATIVI):
         try:
             return chiamata()
-        except Exception as e:  # noqa: BLE001 - si ri-solleva se non transitorio
+        except Exception as e:  # noqa: BLE001 - si ri-solleva se non ritentabile
             ultimo = e
-            if _codice_errore(e) not in CODICI_TRANSITORI or tentativo == RETRY_TENTATIVI - 1:
+            if _codice_errore(e) not in CODICI_RETRY or tentativo == RETRY_TENTATIVI - 1:
                 raise
             attesa = RETRY_ATTESA_BASE * (2 ** tentativo) + random.uniform(0, 1)
             time.sleep(attesa)
     raise ultimo  # pragma: no cover - il loop ritorna o solleva prima
 
 
-def _genera_con_fallback(modelli: Sequence[str], esegui: Callable[[str], dict]) -> dict:
-    """Prova `esegui(modello)` sui modelli in ordine, ripiegando sul successivo.
+def crea_cascata(
+    modelli: Sequence[str], esegui: Callable[[str, str], dict]
+) -> Callable[[str], dict]:
+    """Cascata STICKY di modelli: ritorna una funzione `prompt -> dict`.
 
-    Si passa al modello dopo SOLO su errori transitori/quota (429/5xx): se il
-    primario esaurisce la quota o e' sovraccarico, un altro modello (bucket di
-    quota separato) evita di fermare la run. Gli errori non transitori (400/404)
-    e il fallimento dell'ultimo modello vengono ri-sollevati.
+    Prova `esegui(modello, prompt)` partendo dal modello corrente e ripiega sul
+    successivo solo su errori quota/server (429/5xx). Il passaggio e' *sticky*:
+    l'indice del modello avanza in modo persistente tra chiamate diverse, cosi'
+    un modello a quota esaurita viene abbandonato UNA volta e non ri-provato per
+    ogni articolo (evita il ciclo di ri-tentativi lento). Gli errori non
+    transitori (400/404) e il fallimento dell'ultimo modello si ri-sollevano.
+
+    Nessun reset entro la run: la quota free non si libera a breve. Il prossimo
+    run settimanale ricrea il generatore e riparte dal primario.
     """
-    ultimo: Exception | None = None
-    for i, modello in enumerate(modelli):
-        try:
-            return esegui(modello)
-        except Exception as e:  # noqa: BLE001 - si ri-solleva se non recuperabile
-            ultimo = e
-            ultimo_modello = i == len(modelli) - 1
-            if _codice_errore(e) not in CODICI_TRANSITORI or ultimo_modello:
-                raise
-            print(
-                f"[attenzione] modello '{modello}' non disponibile "
-                f"(HTTP {_codice_errore(e)}): ripiego su '{modelli[i + 1]}'",
-                file=sys.stderr,
-            )
-    raise ultimo  # pragma: no cover - il loop ritorna o solleva prima
+    stato = {"idx": 0}
+
+    def esegui_cascata(prompt: str) -> dict:
+        ultimo: Exception | None = None
+        i = stato["idx"]
+        while i < len(modelli):
+            try:
+                return esegui(modelli[i], prompt)
+            except Exception as e:  # noqa: BLE001 - si ri-solleva se non recuperabile
+                ultimo = e
+                if _codice_errore(e) not in CODICI_TRANSITORI or i == len(modelli) - 1:
+                    raise
+                print(
+                    f"[attenzione] modello '{modelli[i]}' non disponibile "
+                    f"(HTTP {_codice_errore(e)}): passo stabilmente a "
+                    f"'{modelli[i + 1]}' per il resto della run",
+                    file=sys.stderr,
+                )
+                i += 1
+                stato["idx"] = i  # sticky: non si torna piu' indietro
+        raise ultimo  # pragma: no cover - il loop ritorna o solleva prima
+
+    return esegui_cascata
 
 
 def crea_generatore(
@@ -160,9 +184,8 @@ def crea_generatore(
         )
         return _estrai_json(risposta.text)
 
-    def genera(prompt: str) -> dict:
-        return _genera_con_fallback(
-            modelli, lambda m: _esegui_con_retry(lambda: _chiama(m, prompt))
-        )
-
-    return genera
+    # Cascata sticky (fallback tra modelli) con retry backoff sui 5xx del modello
+    # corrente. Il 429 (quota) fa cambiare modello subito, senza attese.
+    return crea_cascata(
+        modelli, lambda m, prompt: _esegui_con_retry(lambda: _chiama(m, prompt))
+    )

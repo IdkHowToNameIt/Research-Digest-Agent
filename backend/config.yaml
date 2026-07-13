@@ -5,11 +5,14 @@ beat: "Infrastruttura & Hardware AI"
 beat_slug: "infra-hardware-ai"
 
 model: "gemini-flash-latest" # sola sintesi finale (~20% del lavoro); alias sempre-corrente: i nomi con versione fissa (2.5-flash/-lite) vengono dismessi per i nuovi account (404 NOT_FOUND)
-# Se il modello primario esaurisce quota (429) o e' sovraccarico (503) anche dopo i
-# retry, si ripiega su questi (quota separata) per non fermare la run. In ordine.
+# Cascata di ripiego se il primario esaurisce quota (429) o e' sovraccarico (503):
+# ognuno ha un bucket di quota free separato, quindi le quote si sommano. Il
+# passaggio e' "sticky" (un modello esaurito non viene ri-provato per ogni
+# articolo). In ordine dal piu' capiente.
 modelli_fallback:
   - "gemini-flash-lite-latest"
   - "gemini-2.0-flash"
+  - "gemini-2.0-flash-lite"
 db_path: "data/seen.sqlite3"   # memoria per dedup e conteggi run consecutivi
 out_dir: "out"                 # output tecnico (il canale reale e' email + sito)
 
