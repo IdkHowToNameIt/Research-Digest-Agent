@@ -1,14 +1,15 @@
-"""Adattatore LLM per la sintesi finale, via OpenRouter (API OpenAI-compatibile).
+"""Adattatore LLM per la sintesi finale, via Groq (API OpenAI-compatibile).
 
 Espone `crea_generatore()` -> `genera(prompt: str) -> dict`. Il resto della
 pipeline dipende solo da questa callable, cosi' nei test si inietta un finto
 generatore senza rete ne' API key.
 
-Perche' OpenRouter: una sola chiave (`OPENROUTER_API_KEY`) da' accesso a una
-lista di modelli ':free' di provider diversi (Meta/Llama, Qwen, NVIDIA, Google
-Gemma, ...). Si mettono in CASCATA: se un modello esaurisce la quota (429) o non
-e' disponibile (400/404/5xx) si passa al successivo, cosi' le quote free dei vari
-provider si sommano e la run settimanale non si ferma.
+Perche' Groq: una sola chiave (`GROQ_API_KEY`) con un free tier molto ampio
+(~migliaia di richieste/giorno per modello), sufficiente e con margine per la run
+settimanale — a differenza del tetto giornaliero d'account di OpenRouter, che si
+esauriva. I modelli restano in CASCATA come rete di sicurezza: se un modello
+esaurisce la quota (429) o viene deprecato (400/404/5xx) si passa al successivo,
+cosi' la run settimanale non si ferma.
 
 Resilienza a due livelli (una singola chiamata KO non deve fermare la run, che
 sintetizza gli articoli uno alla volta):
@@ -33,18 +34,18 @@ import sys
 import time
 from typing import Callable, Sequence, TypedDict
 
-# Modello primario + cascata di ripiego: ID OpenRouter ':free', instruct e
-# multilingue (adatti alla sintesi in italiano). Aggiornabili dalla lista live:
-#   curl -s https://openrouter.ai/api/v1/models | jq -r '.data[].id | select(endswith(":free"))'
-MODELLO_DEFAULT = "meta-llama/llama-3.3-70b-instruct:free"
+# Modello primario + cascata di ripiego: ID Groq, instruct e multilingue (adatti
+# alla sintesi in italiano). Aggiornabili dalla lista live:
+#   curl -s https://api.groq.com/openai/v1/models -H "Authorization: Bearer $GROQ_API_KEY" | jq -r '.data[].id'
+MODELLO_DEFAULT = "llama-3.3-70b-versatile"
 MODELLI_FALLBACK_DEFAULT = (
-    "qwen/qwen3-next-80b-a3b-instruct:free",
-    "google/gemma-4-31b-it:free",
-    "google/gemma-4-26b-a4b-it:free",
-    "meta-llama/llama-3.2-3b-instruct:free",
+    "openai/gpt-oss-120b",
+    "openai/gpt-oss-20b",
+    "gemma2-9b-it",
+    "llama-3.1-8b-instant",
 )
 
-OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
+GROQ_BASE_URL = "https://api.groq.com/openai/v1"
 
 # Errori che fanno passare al modello SUCCESSIVO nella cascata: quota (429),
 # modello assente/non valido (400/404), server KO (5xx). Auth (401/403) NO: e'
@@ -103,12 +104,12 @@ def _estrai_json(testo: str) -> dict:
 
 
 def _leggi_api_key(api_key: str | None) -> str:
-    key = api_key or os.environ.get("OPENROUTER_API_KEY")
+    key = api_key or os.environ.get("GROQ_API_KEY")
     if not key:
         raise LLMNonConfigurato(
-            "Manca la API key di OpenRouter: imposta OPENROUTER_API_KEY (in locale "
-            "nel file .env, in produzione come secret di GitHub Actions). Creane una "
-            "gratis su https://openrouter.ai/keys."
+            "Manca la API key di Groq: imposta GROQ_API_KEY (in locale nel file "
+            ".env, in produzione come secret di GitHub Actions). Creane una gratis "
+            "su https://console.groq.com/keys."
         )
     return key
 
@@ -198,14 +199,14 @@ def crea_generatore(
     model: str = MODELLO_DEFAULT,
     modelli_fallback: Sequence[str] | None = None,
 ) -> Generatore:
-    """Crea la callable di generazione (OpenRouter, JSON via prompt)."""
+    """Crea la callable di generazione (Groq, JSON via prompt)."""
     key = _leggi_api_key(api_key)
     fallback = MODELLI_FALLBACK_DEFAULT if modelli_fallback is None else tuple(modelli_fallback)
     # primario + ripieghi, senza duplicati e preservando l'ordine
     modelli: list[str] = list(dict.fromkeys([model, *fallback]))
     from openai import OpenAI  # import pigro: richiesto solo in modalita' reale
 
-    client = OpenAI(base_url=OPENROUTER_BASE_URL, api_key=key)
+    client = OpenAI(base_url=GROQ_BASE_URL, api_key=key)
 
     def _chiama(modello: str, prompt: str) -> dict:
         risposta = client.chat.completions.create(

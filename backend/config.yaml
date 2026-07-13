@@ -4,19 +4,19 @@
 beat: "Infrastruttura & Hardware AI"
 beat_slug: "infra-hardware-ai"
 
-# Sintesi finale (~20% del lavoro) via OpenRouter (una chiave, tanti provider).
-# ID modello ':free' — verificabili/aggiornabili dalla lista live:
-#   curl -s https://openrouter.ai/api/v1/models | jq -r '.data[].id|select(endswith(":free"))'
-model: "meta-llama/llama-3.3-70b-instruct:free"
-# Cascata di ripiego se il primario esaurisce quota (429) o non e' disponibile
-# (400/404/5xx): modelli di provider diversi, quindi le quote free si sommano. Il
-# passaggio e' "sticky" (un modello esaurito non viene ri-provato per ogni
-# articolo). In ordine dal piu' capiente/qualitativo.
+# Sintesi finale (~20% del lavoro) via Groq (una chiave, free tier ampio).
+# ID modello — verificabili/aggiornabili dalla lista live:
+#   curl -s https://api.groq.com/openai/v1/models -H "Authorization: Bearer $GROQ_API_KEY" | jq -r '.data[].id'
+model: "llama-3.3-70b-versatile"
+# Cascata di ripiego se il primario esaurisce quota (429) o viene deprecato
+# (400/404/5xx). Su Groq il free tier per modello e' ampio, quindi la cascata e'
+# soprattutto una rete di sicurezza. Il passaggio e' "sticky" (un modello
+# esaurito non viene ri-provato per ogni articolo). In ordine di qualita'.
 modelli_fallback:
-  - "qwen/qwen3-next-80b-a3b-instruct:free"
-  - "google/gemma-4-31b-it:free"
-  - "google/gemma-4-26b-a4b-it:free"
-  - "meta-llama/llama-3.2-3b-instruct:free"
+  - "openai/gpt-oss-120b"
+  - "openai/gpt-oss-20b"
+  - "gemma2-9b-it"
+  - "llama-3.1-8b-instant"
 db_path: "data/seen.sqlite3"   # memoria per dedup e conteggi run consecutivi
 out_dir: "out"                 # output tecnico (il canale reale e' email + sito)
 
