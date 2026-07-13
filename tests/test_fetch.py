@@ -19,7 +19,7 @@ from src.raccolta.fetch import (
     tronca_su_parola,
 )
 
-FEED = Path(__file__).resolve().parent.parent / "sample-output" / "sample-feed.xml"
+FEED = Path(__file__).resolve().parent / "fixtures" / "sample-feed.xml"
 
 
 # --- parser finti ------------------------------------------------------------
