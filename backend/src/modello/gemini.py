@@ -10,9 +10,16 @@ from __future__ import annotations
 
 import json
 import os
+import random
+import time
 from typing import Callable, TypedDict
 
 MODELLO_DEFAULT = "gemini-2.5-flash"
+
+# Errori HTTP transitori (sovraccarico/limiti) su cui vale la pena ritentare.
+CODICI_TRANSITORI = frozenset({429, 500, 502, 503, 504})
+RETRY_TENTATIVI = 5
+RETRY_ATTESA_BASE = 2.0  # secondi (backoff esponenziale: 2, 4, 8, ...)
 
 Generatore = Callable[[str], dict]
 
@@ -62,14 +69,48 @@ def _leggi_api_key(api_key: str | None) -> str:
     return key
 
 
+def _codice_errore(e: Exception) -> int | None:
+    """Codice HTTP di un errore dell'SDK Gemini, se presente."""
+    for attr in ("code", "status_code"):
+        val = getattr(e, attr, None)
+        if isinstance(val, int):
+            return val
+    return None
+
+
+def _esegui_con_retry(chiamata: Callable[[], dict]) -> dict:
+    """Esegue `chiamata` ritentando sugli errori HTTP transitori.
+
+    Backoff esponenziale con jitter; gli errori non transitori (es. 400/404) e
+    l'ultimo tentativo fallito vengono ri-sollevati subito.
+    """
+    ultimo: Exception | None = None
+    for tentativo in range(RETRY_TENTATIVI):
+        try:
+            return chiamata()
+        except Exception as e:  # noqa: BLE001 - si ri-solleva se non transitorio
+            ultimo = e
+            if _codice_errore(e) not in CODICI_TRANSITORI or tentativo == RETRY_TENTATIVI - 1:
+                raise
+            attesa = RETRY_ATTESA_BASE * (2 ** tentativo) + random.uniform(0, 1)
+            time.sleep(attesa)
+    raise ultimo  # pragma: no cover - il loop ritorna o solleva prima
+
+
 def crea_generatore(api_key: str | None = None, model: str = MODELLO_DEFAULT) -> Generatore:
-    """Crea la callable di generazione basata su Gemini (structured JSON)."""
+    """Crea la callable di generazione basata su Gemini (structured JSON).
+
+    La chiamata e' protetta da retry con backoff esponenziale sugli errori
+    transitori (503 "high demand", 429 rate limit, 5xx): un picco momentaneo di
+    Gemini non deve far fallire l'intera run settimanale, che sintetizza gli
+    articoli uno alla volta.
+    """
     key = _leggi_api_key(api_key)
     from google import genai  # import pigro: richiesto solo in modalita' reale
 
     client = genai.Client(api_key=key)
 
-    def genera(prompt: str) -> dict:
+    def _chiama(prompt: str) -> dict:
         risposta = client.models.generate_content(
             model=model,
             contents=prompt,
@@ -80,5 +121,8 @@ def crea_generatore(api_key: str | None = None, model: str = MODELLO_DEFAULT) ->
             },
         )
         return _estrai_json(risposta.text)
+
+    def genera(prompt: str) -> dict:
+        return _esegui_con_retry(lambda: _chiama(prompt))
 
     return genera
