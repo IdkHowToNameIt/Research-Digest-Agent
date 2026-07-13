@@ -48,8 +48,8 @@ fonti:
     tema: chip
     max: 10
     troncamento: 500
-  - nome: "Tom's Hardware (GPU)"
-    url: "https://www.tomshardware.com/feeds/tag/gpus.xml"
+  - nome: "Tom's Hardware"
+    url: "https://www.tomshardware.com/feeds/all" # i feed per-tag (gpus.xml) sono stati dismessi (404): resta solo il feed di sito, filtrato poi per tema
     tema: chip
     max: 10
     troncamento: 500
