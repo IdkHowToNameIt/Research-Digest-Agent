@@ -48,9 +48,11 @@ MODELLI_FALLBACK_DEFAULT = (
 GROQ_BASE_URL = "https://api.groq.com/openai/v1"
 
 # Errori che fanno passare al modello SUCCESSIVO nella cascata: quota (429),
-# modello assente/non valido (400/404), server KO (5xx). Auth (401/403) NO: e'
-# fatale e uguale per tutti i modelli, inutile ciclare.
-CODICI_CAMBIA_MODELLO = frozenset({400, 404, 408, 409, 429, 500, 502, 503, 504})
+# richiesta troppo grande per il limite TPM del modello (413: il tetto
+# token/minuto varia per modello, un altro puo' accettarla), modello assente/non
+# valido (400/404), server KO (5xx). Auth (401/403) NO: e' fatale e uguale per
+# tutti i modelli, inutile ciclare.
+CODICI_CAMBIA_MODELLO = frozenset({400, 404, 408, 409, 413, 429, 500, 502, 503, 504})
 # Sottoinsieme su cui conviene ritentare lo STESSO modello con backoff (picchi
 # temporanei). Il 429 (quota) e' escluso: non si libera a breve, meglio cambiare
 # modello subito invece di sprecare attese.
