@@ -1,6 +1,6 @@
 # Dipendenze del Research Digest Agent — DRA.
 # La pipeline è ~80% script; il modello LLM serve solo alla sintesi finale.
-# openai è il client OpenAI-compatibile usato per Groq (modalità reale;
+# openai è il client OpenAI-compatibile usato per Gemini (modalità reale;
 # i test mockano il generatore e non lo richiedono).
 pydantic>=2.7.0
 feedparser>=6.0.0

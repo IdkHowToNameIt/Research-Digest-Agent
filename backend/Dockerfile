@@ -15,5 +15,5 @@ COPY . .
 WORKDIR /app/backend
 
 # Genera i dati del sito (data.json) e copia il frontend in /app/sito.
-# Richiede GROQ_API_KEY (per la sintesi): passarla come variabile d'ambiente.
+# Richiede GEMINI_API_KEY (per la sintesi): passarla come variabile d'ambiente.
 CMD ["python", "main.py", "--config", "config.yaml"]

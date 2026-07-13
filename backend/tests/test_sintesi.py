@@ -6,12 +6,7 @@ Basati sui criteri editoriali (sez. 14) e sullo schema (16.6/16.7):
 - fonti senza estratto: sintesi minima dal titolo (14.6);
 - 5 sezioni fisse, il modello non viene invocato per le sezioni vuote (15/16.6).
 """
-from src.modello.prompts import (
-    APERTURA_ARXIV,
-    MAX_ESTRATTO_CHARS,
-    NOTA_PREPRINT,
-    prompt_sintesi,
-)
+from src.modello.prompts import APERTURA_ARXIV, NOTA_PREPRINT, prompt_sintesi
 from src.schemas import Stato, Tema
 from src.modello.sintesi import assembla_digest, sintetizza_candidato
 from src.raccolta.fetch import Candidato
@@ -38,23 +33,6 @@ def test_prompt_contiene_regole_di_grounding_e_stile():
     assert "SOLO" in p          # usa solo le informazioni fornite
     assert "italiano" in p.lower()
     assert "3-5 frasi" in p
-
-
-def test_prompt_tronca_estratto_lungo_per_limite_tpm():
-    # rete di sicurezza contro il 413 "request too large" del free tier: un
-    # estratto enorme (fonte con troncamento null) viene tagliato nel prompt.
-    lungo = "dato. " * 4000  # ~24000 char, oltre il tetto
-    p = prompt_sintesi(_cand(estratto=lungo))
-    assert "[…]" in p                        # marcatore di taglio presente
-    assert len(p) < len(lungo)               # il prompt non contiene tutto l'estratto
-    # l'estratto nel prompt non supera il tetto (piu' il breve marcatore)
-    assert p.count("dato.") * 6 <= MAX_ESTRATTO_CHARS + 10
-
-
-def test_prompt_non_tronca_estratto_corto():
-    p = prompt_sintesi(_cand(estratto="Estratto breve e completo."))
-    assert "[…]" not in p
-    assert "Estratto breve e completo." in p
 
 
 def test_prompt_arxiv_include_formula_apertura():

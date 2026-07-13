@@ -1,15 +1,16 @@
-"""Adattatore LLM per la sintesi finale, via Groq (API OpenAI-compatibile).
+"""Adattatore LLM per la sintesi finale, via Gemini (endpoint OpenAI-compatibile).
 
 Espone `crea_generatore()` -> `genera(prompt: str) -> dict`. Il resto della
 pipeline dipende solo da questa callable, cosi' nei test si inietta un finto
 generatore senza rete ne' API key.
 
-Perche' Groq: una sola chiave (`GROQ_API_KEY`) con un free tier molto ampio
-(~migliaia di richieste/giorno per modello), sufficiente e con margine per la run
-settimanale — a differenza del tetto giornaliero d'account di OpenRouter, che si
-esauriva. I modelli restano in CASCATA come rete di sicurezza: se un modello
-esaurisce la quota (429) o viene deprecato (400/404/5xx) si passa al successivo,
-cosi' la run settimanale non si ferma.
+Perche' Gemini a pagamento: chiave `GEMINI_API_KEY` (Google AI Studio) con
+billing attivo -> paid tier, senza i tetti di rate/quota del free tier che
+fermavano la run (storia provider: Gemini free -> OpenRouter -> Groq -> Gemini
+paid). Google espone un endpoint OpenAI-compatibile, quindi si riusa il client
+`openai` cambiando solo base_url/chiave/modello. I modelli restano in CASCATA
+come rete di sicurezza: se un modello viene deprecato (400/404/5xx) o e' a quota
+(429) si passa al successivo, cosi' la run non si ferma.
 
 Resilienza a due livelli (una singola chiamata KO non deve fermare la run, che
 sintetizza gli articoli uno alla volta):
@@ -34,18 +35,15 @@ import sys
 import time
 from typing import Callable, Sequence, TypedDict
 
-# Modello primario + cascata di ripiego: ID Groq, instruct e multilingue (adatti
-# alla sintesi in italiano). Aggiornabili dalla lista live:
-#   curl -s https://api.groq.com/openai/v1/models -H "Authorization: Bearer $GROQ_API_KEY" | jq -r '.data[].id'
-MODELLO_DEFAULT = "llama-3.3-70b-versatile"
+# Modello primario + cascata di ripiego: ID Gemini. Aggiornabili dalla lista live:
+#   curl -s "https://generativelanguage.googleapis.com/v1beta/openai/models" -H "Authorization: Bearer $GEMINI_API_KEY" | jq -r '.data[].id'
+MODELLO_DEFAULT = "gemini-2.5-flash"
 MODELLI_FALLBACK_DEFAULT = (
-    "openai/gpt-oss-120b",
-    "openai/gpt-oss-20b",
-    "gemma2-9b-it",
-    "llama-3.1-8b-instant",
+    "gemini-2.5-flash-lite",
+    "gemini-2.0-flash",
 )
 
-GROQ_BASE_URL = "https://api.groq.com/openai/v1"
+GEMINI_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/openai/"
 
 # Errori che fanno passare al modello SUCCESSIVO nella cascata: quota (429),
 # richiesta troppo grande per il limite TPM del modello (413: il tetto
@@ -106,12 +104,12 @@ def _estrai_json(testo: str) -> dict:
 
 
 def _leggi_api_key(api_key: str | None) -> str:
-    key = api_key or os.environ.get("GROQ_API_KEY")
+    key = api_key or os.environ.get("GEMINI_API_KEY")
     if not key:
         raise LLMNonConfigurato(
-            "Manca la API key di Groq: imposta GROQ_API_KEY (in locale nel file "
-            ".env, in produzione come secret di GitHub Actions). Creane una gratis "
-            "su https://console.groq.com/keys."
+            "Manca la API key di Gemini: imposta GEMINI_API_KEY (in locale nel file "
+            ".env, in produzione come secret di GitHub Actions). Creala su "
+            "https://aistudio.google.com/apikey (attiva il billing per il paid tier)."
         )
     return key
 
@@ -201,14 +199,14 @@ def crea_generatore(
     model: str = MODELLO_DEFAULT,
     modelli_fallback: Sequence[str] | None = None,
 ) -> Generatore:
-    """Crea la callable di generazione (Groq, JSON via prompt)."""
+    """Crea la callable di generazione (Gemini, JSON via prompt)."""
     key = _leggi_api_key(api_key)
     fallback = MODELLI_FALLBACK_DEFAULT if modelli_fallback is None else tuple(modelli_fallback)
     # primario + ripieghi, senza duplicati e preservando l'ordine
     modelli: list[str] = list(dict.fromkeys([model, *fallback]))
     from openai import OpenAI  # import pigro: richiesto solo in modalita' reale
 
-    client = OpenAI(base_url=GROQ_BASE_URL, api_key=key)
+    client = OpenAI(base_url=GEMINI_BASE_URL, api_key=key)
 
     def _chiama(modello: str, prompt: str) -> dict:
         risposta = client.chat.completions.create(

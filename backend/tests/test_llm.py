@@ -1,5 +1,5 @@
 """Robustezza dell'adattatore LLM (src/modello/llm.py): parsing JSON, retry sui
-transitori e cascata sticky di modelli (Groq).
+transitori e cascata sticky di modelli (Gemini).
 
 I modelli spesso avvolgono il JSON in un blocco markdown o aggiungono testo:
 `_estrai_json` recupera comunque il primo oggetto JSON (fix "Extra data").
