@@ -110,6 +110,21 @@ def costruisci_dati(
     }
 
 
+def _svuota_dir(base: Path) -> None:
+    """Rimuove tutto il contenuto di `base` (file e sottocartelle), non la cartella.
+
+    La publish-dir è interamente rigenerata a ogni run: svuotarla prima di scrivere
+    evita che file orfani di run/architetture precedenti (es. vecchie pagine HTML)
+    sopravvivano e finiscano deployati. La cartella stessa viene preservata (può
+    essere un mount/volume, es. in docker-compose).
+    """
+    for elem in base.iterdir():
+        if elem.is_dir() and not elem.is_symlink():
+            shutil.rmtree(elem)
+        else:
+            elem.unlink()
+
+
 def genera_sito(
     digest_corrente: Digest,
     archivio: list[dict],
@@ -117,13 +132,16 @@ def genera_sito(
     badge_giorni: int = BADGE_GIORNI_DEFAULT,
     template_path: str = TEMPLATE_DEFAULT,
 ) -> list[str]:
-    """Scrive data.json e copia il template frontend in index.html.
+    """Scrive data.json e copia i file del frontend nella publish-dir.
 
     Ritorna i percorsi scritti. La cartella `out_dir` diventa la publish-dir del
-    sito statico (index.html + data.json).
+    sito statico (data.json + index.html + stile.css + app.js + sfondo.js). La
+    publish-dir viene svuotata prima della scrittura, così riflette esattamente
+    l'ultimo run.
     """
     base = Path(out_dir)
     base.mkdir(parents=True, exist_ok=True)
+    _svuota_dir(base)
     scritti: list[str] = []
 
     dati = costruisci_dati(digest_corrente, archivio, badge_giorni)

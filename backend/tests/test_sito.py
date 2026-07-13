@@ -136,6 +136,26 @@ def test_genera_sito_scrive_datajson_e_copia_frontend(tmp_path):
     assert any(s.endswith("stile.css") for s in scritti)
 
 
+def test_genera_sito_svuota_publish_dir(tmp_path):
+    # File orfano di un run/architettura precedente già presente nella publish-dir.
+    out = tmp_path / "out"
+    out.mkdir()
+    (out / "tema-chip.html").write_text("PAGINA VECCHIA", encoding="utf-8")
+    (out / "vecchia").mkdir()
+    (out / "vecchia" / "x.txt").write_text("orfano", encoding="utf-8")
+    front = tmp_path / "front"
+    front.mkdir()
+    (front / "index.html").write_text("<html>NUOVO</html>", encoding="utf-8")
+    d = _digest(chip=[_art("A", "https://x/1")])
+    genera_sito(d, [d.contenuto_pubblico()], str(out),
+                template_path=str(front / "index.html"))
+    # l'orfano (file e sottocartella) è sparito; restano solo i file rigenerati
+    assert not (out / "tema-chip.html").exists()
+    assert not (out / "vecchia").exists()
+    assert (out / "index.html").exists()
+    assert (out / "data.json").exists()
+
+
 def test_template_mancante_non_blocca(tmp_path):
     d = _digest(chip=[_art("A", "https://x/1")])
     scritti = genera_sito(d, [d.contenuto_pubblico()], str(tmp_path),
