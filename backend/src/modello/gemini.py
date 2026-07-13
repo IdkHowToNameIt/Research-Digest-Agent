@@ -10,11 +10,24 @@ from __future__ import annotations
 
 import json
 import os
-from typing import Callable
+from typing import Callable, TypedDict
 
 MODELLO_DEFAULT = "gemini-2.5-flash"
 
 Generatore = Callable[[str], dict]
+
+
+class _SchemaSintesi(TypedDict):
+    """Schema di output passato a Gemini (response_schema).
+
+    Vincola la generazione a JSON valido con esattamente questi campi: senza
+    schema il modello puo' produrre JSON malformato (virgolette non escapate nel
+    testo -> JSONDecodeError). `note` e' sempre presente ma puo' essere "".
+    """
+
+    sintesi: str
+    perche_conta: str
+    note: str
 
 
 class GeminiNonConfigurato(RuntimeError):
@@ -60,7 +73,11 @@ def crea_generatore(api_key: str | None = None, model: str = MODELLO_DEFAULT) ->
         risposta = client.models.generate_content(
             model=model,
             contents=prompt,
-            config={"response_mime_type": "application/json"},
+            config={
+                "response_mime_type": "application/json",
+                # constrained decoding: garantisce JSON valido con questi campi
+                "response_schema": _SchemaSintesi,
+            },
         )
         return _estrai_json(risposta.text)
 
