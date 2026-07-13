@@ -78,32 +78,35 @@ quindi *generazione* (Python) vs *servizio dei file* (nginx), come nel
 ## Struttura del progetto
 
 ```
-src/
-├── schemas.py          schema dati (5 sezioni fisse, enum, note_interne)   [Fase 1]
-├── config.py           caricamento/validazione config                     [Fase 2]
-├── state.py            memoria persistente (SQLite): dedup + conteggi run
-├── pipeline.py         orchestrazione del run completo                    [Fase 6]
-├── raccolta/           acquisizione e selezione dei candidati
-│   ├── fetch.py        raccolta RSS/Atom, stati fetch, troncamento         [Fase 2]
-│   ├── dedup.py        anti-duplicati esatto + fuzzy + segnali             [Fase 4]
-│   └── classify.py     classificazione tema + filtro rilevanza            [Fase 3]
-├── modello/            sintesi tramite modello (solo ~20% del lavoro)
-│   ├── prompts.py      criteri editoriali + prompt di sintesi             [Fase 6]
-│   ├── gemini.py       adattatore modello (solo sintesi)                  [Fase 6]
-│   └── sintesi.py      sintesi articoli + assemblaggio Digest             [Fase 6]
-└── consegna/           output verso i canali reali
-    ├── deliver.py      consegna Markdown di anteprima                     [Fase 6]
-    ├── sito.py         backend del sito: genera data.json + copia il front [Fase 8]
-    ├── notifica.py     email settimanale (notifica/reminder) + note IT    [Fase 7]
-    └── note_interne.py note interne (fetch_failed / energia a zero)       [Fase 5]
+backend/
+├── src/
+│   ├── schemas.py          schema dati (5 sezioni fisse, enum, note_interne)   [Fase 1]
+│   ├── config.py           caricamento/validazione config                     [Fase 2]
+│   ├── state.py            memoria persistente (SQLite): dedup + conteggi run
+│   ├── pipeline.py         orchestrazione del run completo                    [Fase 6]
+│   ├── raccolta/           acquisizione e selezione dei candidati
+│   │   ├── fetch.py        raccolta RSS/Atom, stati fetch, troncamento         [Fase 2]
+│   │   ├── dedup.py        anti-duplicati esatto + fuzzy + segnali             [Fase 4]
+│   │   └── classify.py     classificazione tema + filtro rilevanza            [Fase 3]
+│   ├── modello/            sintesi tramite modello (solo ~20% del lavoro)
+│   │   ├── prompts.py      criteri editoriali + prompt di sintesi             [Fase 6]
+│   │   ├── gemini.py       adattatore modello (solo sintesi)                  [Fase 6]
+│   │   └── sintesi.py      sintesi articoli + assemblaggio Digest             [Fase 6]
+│   └── consegna/            output verso i canali reali
+│       ├── deliver.py      consegna Markdown di anteprima                     [Fase 6]
+│       ├── sito.py         backend del sito: genera data.json + copia il front [Fase 8]
+│       ├── notifica.py     email settimanale (notifica/reminder) + note IT    [Fase 7]
+│       └── note_interne.py note interne (fetch_failed / energia a zero)       [Fase 5]
+├── main.py              entrypoint (Gemini)
+├── config.yaml          beat, 12 fonti, dedup, sito, email  (produzione)
+├── Dockerfile           immagine del backend/generatore
+├── requirements.txt
+├── data/                stato persistente: dedup (sqlite) + archivio digest (gitignored)
+└── tests/               test deterministici (offline, Gemini mockato)
 
 frontend/concept/     interfaccia web (legge data.json e genera le pagine)
-main.py               entrypoint (Gemini)
-config.yaml           beat, 12 fonti, dedup, sito, email  (produzione)
-Dockerfile            immagine del backend/generatore
 docker-compose.yml    backend (generator) + frontend (nginx)
-tests/                test deterministici (offline, Gemini mockato)
-claude-progress.txt   log di avanzamento per sessione
+claude-progress.txt   log di avanzamento per sessione (non versionato)
 ```
 
 ## Come funziona (pipeline)
@@ -167,11 +170,12 @@ Tutto in `config.yaml`:
 ```bash
 python -m venv .venv
 .venv\Scripts\activate            # Windows  (Linux/macOS: source .venv/bin/activate)
-pip install -r requirements.txt
+pip install -r backend/requirements.txt
 
+cd backend
 python -m pytest -q                # 92 test, offline, Gemini e SMTP mockati
 
-cp .env.example .env               # inserisci GEMINI_API_KEY
+cp ../.env.example ../.env         # inserisci GEMINI_API_KEY
 python main.py --config config.yaml
 ```
 
@@ -226,8 +230,9 @@ ogni lunedì alle 06:00 UTC (e a mano da *Actions → Run workflow*):
 1. Su GitHub aggiungi il secret `GEMINI_API_KEY`
    (*Settings → Secrets and variables → Actions*).
 2. Il job genera digest + `sito/` (`data.json` + `index.html`), lo allega come
-   artifact e **ricommitta** lo stato (`data/seen.sqlite3`, `data/archivio/`) e
-   `sito/` nel repo, così il dedup ricorda gli articoli già pubblicati.
+   artifact e **ricommitta** lo stato (`backend/data/seen.sqlite3`,
+   `backend/data/archivio/`) e `sito/` nel repo, così il dedup ricorda gli
+   articoli già pubblicati.
 3. **Pubblicazione (Render).** Il sito è statico → su Render creare un **Static Site**
    collegato a questo repo, *Publish directory* = `sito/`, nessun comando di build.
    Render fa auto-deploy a ogni push: quando il workflow ricommitta `sito/`, il sito
@@ -239,7 +244,7 @@ ogni lunedì alle 06:00 UTC (e a mano da *Actions → Run workflow*):
 ## Interfaccia web (frontend/concept)
 
 L'interfaccia web è **una sola**, definitiva, in `frontend/concept/index.html`,
-separata dal backend Python (`src/`, `main.py`). È una web-app statica vanilla
+separata dal backend Python (`backend/src/`, `backend/main.py`). È una web-app statica vanilla
 (HTML/CSS/JS, zero dipendenze esterne) che **legge `data.json`** (prodotto dal
 backend) e genera lato client: home → cronologia tema → articolo con "Perché conta"
 e nota preprint. In home compaiono solo i temi con aggiornamenti della settimana,
@@ -273,6 +278,7 @@ suite conta **92 test verdi**. Prima del deploy reale restano (non-bloccanti):
 ## Test
 
 ```bash
+cd backend
 python -m pytest -q
 ```
 

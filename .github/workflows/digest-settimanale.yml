@@ -15,8 +15,8 @@
 #   Se SMTP_USER/SMTP_PASS mancano, le email vengono solo stampate nel log del run.
 #
 # PERSISTENZA
-#   Il dedup ha bisogno di ricordare gli articoli già pubblicati (data/seen.sqlite3)
-#   e la cronologia del sito (data/archivio/). Questi file sono in .gitignore per lo
+#   Il dedup ha bisogno di ricordare gli articoli già pubblicati (backend/data/seen.sqlite3)
+#   e la cronologia del sito (backend/data/archivio/). Questi file sono in .gitignore per lo
 #   sviluppo locale, ma qui vengono ricommittati con `git add -f` così sopravvivono
 #   tra i run settimanali. Anche sito/ (data.json + index.html) viene committato per
 #   essere pubblicato (vedi "PUBBLICAZIONE").
@@ -53,9 +53,10 @@ jobs:
           cache: pip
 
       - name: Installa le dipendenze
-        run: pip install -r requirements.txt
+        run: pip install -r backend/requirements.txt
 
       - name: Genera il digest e il sito
+        working-directory: backend
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           SMTP_USER: ${{ secrets.SMTP_USER }}
@@ -75,7 +76,7 @@ jobs:
         run: |
           git config user.name  "dra-bot"
           git config user.email "dra-bot@users.noreply.github.com"
-          git add -f data/seen.sqlite3 data/archivio sito out/digest.md || true
+          git add -f backend/data/seen.sqlite3 backend/data/archivio sito backend/out/digest.md || true
           if git diff --cached --quiet; then
             echo "Nessuna modifica da committare."
           else

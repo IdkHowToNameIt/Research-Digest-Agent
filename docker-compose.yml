@@ -10,13 +10,15 @@
 services:
   # Backend: esegue la pipeline una volta e termina (batch settimanale).
   generator:
-    build: .
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
     image: dra-generator
     environment:
       GEMINI_API_KEY: ${GEMINI_API_KEY:-}
     volumes:
-      - sito:/app/sito          # output HTML del sito (condiviso con nginx)
-      - data:/app/data          # storico dedup + archivio digest pubblici (persistente)
+      - sito:/app/sito               # output HTML del sito (condiviso con nginx)
+      - data:/app/backend/data       # storico dedup + archivio digest pubblici (persistente)
 
   # Frontend: web server statico. Parte solo dopo che il generatore ha finito.
   web:

@@ -52,7 +52,7 @@ def main() -> None:
     file_sito = genera_sito(
         digest, archivio, sito_cfg.get("out_dir", "sito"),
         badge_giorni=int(sito_cfg.get("badge_giorni", 2)),
-        template_path=sito_cfg.get("template", "frontend/concept/index.html"),
+        template_path=sito_cfg.get("template", "../frontend/concept/index.html"),
     )
     print(f"Sito aggiornato: {len(file_sito)} file in {sito_cfg.get('out_dir', 'sito')}/ "
           f"(data.json + index.html)")

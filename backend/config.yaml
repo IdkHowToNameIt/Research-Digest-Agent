@@ -11,7 +11,7 @@ out_dir: "out"                 # output tecnico (il canale reale e' email + sito
 # Sito web interno (Fase 8): la homepage a cui rimanda l'email di notifica.
 sito:
   homepage_url: "https://research-digest-agent.onrender.com"
-  out_dir: "sito"                 # cartella dei file HTML generati
+  out_dir: "../sito"              # cartella dei file HTML generati (in root, per Render)
   archivio_dir: "data/archivio"   # storico dei digest pubblici (JSON, per la cronologia)
   badge_giorni: 2                 # soglia "nuovo aggiornamento" (calcolo lato client)
 
