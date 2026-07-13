@@ -4,7 +4,7 @@
 beat: "Infrastruttura & Hardware AI"
 beat_slug: "infra-hardware-ai"
 
-model: "gemini-2.5-flash-lite" # modello per la sola sintesi finale (~20% del lavoro); free tier API in attesa di quella definitiva
+model: "gemini-2.5-flash" # modello per la sola sintesi finale (~20% del lavoro); flash-lite dismesso per i nuovi account (404 NOT_FOUND)
 db_path: "data/seen.sqlite3"   # memoria per dedup e conteggi run consecutivi
 out_dir: "out"                 # output tecnico (il canale reale e' email + sito)
 
