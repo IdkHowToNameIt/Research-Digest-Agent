@@ -106,9 +106,9 @@
   .pill{font:inherit;font-size:.95rem;cursor:pointer;border:1px solid var(--bordo);
     background:rgba(13,13,15,.8);color:var(--inchiostro);border-radius:999px;padding:.55rem 1.15rem;
     display:inline-flex;align-items:center;gap:.5rem;transition:transform .18s,box-shadow .18s,background .18s,color .18s,border-color .18s;position:relative}
-  .pill .dot{width:.6rem;height:.6rem;border-radius:50%;background:var(--verde-vivo);box-shadow:0 0 8px rgba(224,80,110,.9)}
+  .pill .tema-svg{color:var(--verde-vivo);flex-shrink:0}
   .pill:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,.55);border-color:rgba(224,80,110,.5);color:#fff}
-  .pill:hover .dot{background:#fff;box-shadow:none}
+  .pill:hover .tema-svg{color:#fff}
 
   main{max-width:min(1400px,94vw);margin:0 auto;padding:0 clamp(1rem,4vw,2.5rem) 4rem}
   .sez-titolo{font-family:var(--serif);font-size:clamp(1.5rem,2.6vw,2.1rem);color:var(--verde-scuro);text-align:center;margin:1.8rem 0 .3rem}
@@ -122,7 +122,7 @@
   .box:hover{box-shadow:0 18px 40px var(--ombra);border-color:rgba(224,80,110,.35)}
   .box h3{margin:.1rem 0 .3rem;font-family:var(--serif);font-weight:600;font-size:1.5rem;color:var(--verde-scuro);
     display:flex;align-items:center;gap:.55rem}
-  .box .tema-ic{width:1.8rem;height:1.8rem;border-radius:8px;background:var(--verde);opacity:.9;display:inline-block}
+  .box .tema-ic{display:inline-flex;align-items:center;justify-content:center;color:var(--verde-vivo)}
   .box ul{list-style:none;margin:.7rem 0 0;padding:0}
   .box li{margin:.2rem 0}
   .box li a{display:block;text-decoration:none;color:var(--inchiostro);padding:.55rem .6rem;border-radius:10px;cursor:pointer;
@@ -253,13 +253,26 @@ async function caricaDati(){
   }
 }
 
+/* --- icone tema: una per tema, stesso stile (stroke lineare), stesso peso --- */
+const ICONE_TEMA = {
+  chip: '<rect x="7" y="7" width="10" height="10" rx="1.5"/><line x1="9" y1="2" x2="9" y2="7"/><line x1="15" y1="2" x2="15" y2="7"/><line x1="9" y1="17" x2="9" y2="22"/><line x1="15" y1="17" x2="15" y2="22"/><line x1="2" y1="9" x2="7" y2="9"/><line x1="2" y1="15" x2="7" y2="15"/><line x1="17" y1="9" x2="22" y2="9"/><line x1="17" y1="15" x2="22" y2="15"/>',
+  data_center: '<rect x="4" y="3" width="16" height="8" rx="1.5"/><rect x="4" y="13" width="16" height="8" rx="1.5"/><circle cx="8" cy="7" r="1" fill="currentColor" stroke="none"/><circle cx="8" cy="17" r="1" fill="currentColor" stroke="none"/>',
+  energia: '<polygon points="13,2 4,14 11,14 9,22 18,10 11,10"/>',
+  supply_chain: '<circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><circle cx="12" cy="18" r="3"/><line x1="8.6" y1="7.6" x2="10" y2="15.5"/><line x1="15.4" y1="7.6" x2="14" y2="15.5"/><line x1="9" y1="6" x2="15" y2="6"/>',
+  cloud_capacity: '<path d="M7 18a4.5 4.5 0 0 1-1-8.9A5 5 0 0 1 16 8a3.8 3.8 0 0 1 1 7.5" /><path d="M7 18h9.5"/>'
+};
+function iconaTema(id, dim){
+  const s = dim||18;
+  return `<svg class="tema-svg" width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONE_TEMA[id]||''}</svg>`;
+}
+
 /* ---------------------------- HOMEPAGE ---------------------------- */
 function vaiHome(){
   const conAgg = TEMI.filter(t => t.articoli.some(a => a.giorni <= SOGLIA_SETTIMANA));
   const oggi = fmtData(new Date().toISOString().slice(0,10));
 
   const nav = TEMI.map(t =>
-    `<button class="pill" onclick="vaiTema('${t.id}')"><span class="dot"></span>${t.nome}</button>`
+    `<button class="pill" onclick="vaiTema('${t.id}')">${iconaTema(t.id,15)}${t.nome}</button>`
   ).join('');
 
   const boxes = conAgg.map(t=>{
@@ -269,7 +282,7 @@ function vaiHome(){
                 <br><small>${a.fonte} · ${fmtData(a.data)}</small></a></li>`;
     }).join('');
     return `<div class="box reveal" data-tilt>
-        <h3><span class="tema-ic"></span>${t.nome}</h3>
+        <h3><span class="tema-ic">${iconaTema(t.id,22)}</span>${t.nome}</h3>
         <ul>${voci}</ul>
         <span class="apri" onclick="vaiTema('${t.id}')">Cronologia ${t.nome} →</span>
       </div>`;
