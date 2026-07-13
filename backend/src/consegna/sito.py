@@ -8,8 +8,9 @@ settimana), cronologia per tema e pagina del singolo articolo.
 
 `genera_sito`:
 - scrive `<out_dir>/data.json` = archivio storico aggregato per tema + soglie;
-- copia il template del frontend in `<out_dir>/index.html`, così `<out_dir>/` è
-  la publish-dir pronta per un hosting statico (es. Render Static Site).
+- copia tutti i file del frontend (index.html + stile.css + app.js + sfondo.js)
+  in `<out_dir>/`, così `<out_dir>/` è la publish-dir pronta per un hosting
+  statico (es. Render Static Site).
 
 Il badge "nuovo aggiornamento" (soglia configurabile, default 2 giorni) e la vista
 "questa settimana" (7 giorni) sono calcolati LATO CLIENT dal frontend a partire
@@ -134,9 +135,15 @@ def genera_sito(
 
     tpl = Path(template_path)
     if tpl.exists():
-        destinazione = base / "index.html"
-        shutil.copyfile(tpl, destinazione)
-        scritti.append(str(destinazione))
+        # Il frontend è suddiviso in più file (index.html + stile.css + app.js +
+        # sfondo.js): copia l'intera cartella del template accanto a data.json, così
+        # la publish-dir è completa. `template_path` indica index.html; i fogli di
+        # stile e gli script sono i suoi file fratelli.
+        for asset in sorted(tpl.parent.iterdir()):
+            if asset.is_file():
+                destinazione = base / asset.name
+                shutil.copyfile(asset, destinazione)
+                scritti.append(str(destinazione))
 
     return scritti
 

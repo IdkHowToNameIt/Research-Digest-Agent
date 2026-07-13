@@ -1,15 +1,16 @@
 """Test dei dati del sito web interno (Fase 8, sez. 18).
 
 Nuovo contratto (separazione backend/frontend): il backend NON genera HTML, ma
-produce `data.json` (archivio aggregato per tema + soglie) e copia il template del
-frontend in index.html. Homepage/cronologia/badge sono generati LATO CLIENT dal
-frontend a partire da questi dati.
+produce `data.json` (archivio aggregato per tema + soglie) e copia i file del
+frontend (index.html + stile.css + app.js + sfondo.js) nella publish-dir.
+Homepage/cronologia/badge sono generati LATO CLIENT dal frontend a partire da
+questi dati.
 
 Si verifica quindi:
 - data.json: 5 temi in ordine, articoli completi, soglia badge, aggregazione
   storica più-recente-prima;
 - `note_interne` mai presente nei dati del sito (16.7);
-- genera_sito copia il template in index.html.
+- genera_sito copia tutti i file del frontend nella publish-dir.
 """
 import json
 from pathlib import Path
@@ -110,19 +111,29 @@ def test_cronologia_storica_multi_run():
 
 # --- generazione file (data.json + copia template) --------------------------
 
-def test_genera_sito_scrive_datajson_e_index(tmp_path):
-    template = tmp_path / "tpl.html"
-    template.write_text("<html>CONCEPT-TEMPLATE fetch('data.json')</html>", encoding="utf-8")
+def test_genera_sito_scrive_datajson_e_copia_frontend(tmp_path):
+    # Frontend suddiviso in più file: index.html + stile.css + app.js.
+    front = tmp_path / "front"
+    front.mkdir()
+    (front / "index.html").write_text(
+        "<html><link rel=stylesheet href=stile.css><script src=app.js></script>"
+        "CONCEPT-TEMPLATE fetch('data.json')</html>", encoding="utf-8")
+    (front / "stile.css").write_text("body{color:pink}", encoding="utf-8")
+    (front / "app.js").write_text("caricaDati();", encoding="utf-8")
     d = _digest(chip=[_art("A", "https://x/1")])
     scritti = genera_sito(d, [d.contenuto_pubblico()], str(tmp_path / "out"),
-                          template_path=str(template))
+                          template_path=str(front / "index.html"))
     out = tmp_path / "out"
     assert (out / "data.json").exists()
+    # tutti i file del frontend sono copiati mantenendo il nome
     assert (out / "index.html").exists()
+    assert (out / "stile.css").read_text(encoding="utf-8") == "body{color:pink}"
+    assert (out / "app.js").read_text(encoding="utf-8") == "caricaDati();"
     assert "CONCEPT-TEMPLATE" in (out / "index.html").read_text(encoding="utf-8")
     dati = json.loads((out / "data.json").read_text(encoding="utf-8"))
     assert dati["temi"][0]["articoli"][0]["titolo"] == "A"
     assert any("data.json" in s for s in scritti)
+    assert any(s.endswith("stile.css") for s in scritti)
 
 
 def test_template_mancante_non_blocca(tmp_path):
