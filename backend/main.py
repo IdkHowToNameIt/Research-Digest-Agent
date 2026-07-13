@@ -31,7 +31,10 @@ def main() -> None:
 
     from src.modello.gemini import GeminiNonConfigurato, crea_generatore
     try:
-        genera = crea_generatore(model=cfg.get("model"))
+        genera = crea_generatore(
+            model=cfg.get("model"),
+            modelli_fallback=cfg.get("modelli_fallback"),
+        )
     except GeminiNonConfigurato as exc:
         print(f"[errore] {exc}", file=sys.stderr)
         sys.exit(2)

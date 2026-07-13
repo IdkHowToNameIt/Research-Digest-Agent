@@ -7,7 +7,12 @@ recuperare comunque il primo oggetto JSON (fix "Extra data" di json.loads).
 import pytest
 
 from src.modello import gemini
-from src.modello.gemini import _codice_errore, _esegui_con_retry, _estrai_json
+from src.modello.gemini import (
+    _codice_errore,
+    _esegui_con_retry,
+    _estrai_json,
+    _genera_con_fallback,
+)
 
 
 class _ErroreHTTP(Exception):
@@ -97,3 +102,50 @@ def test_retry_si_arrende_dopo_max_tentativi():
     with pytest.raises(_ErroreHTTP):
         _esegui_con_retry(chiamata)
     assert tentativi["n"] == gemini.RETRY_TENTATIVI
+
+
+# --- fallback su un altro modello ------------------------------------------
+
+def test_fallback_passa_al_modello_successivo_su_quota():
+    usati = []
+
+    def esegui(modello):
+        usati.append(modello)
+        if modello == "primario":
+            raise _ErroreHTTP(429)  # quota esaurita sul primario
+        return {"sintesi": f"ok da {modello}"}
+
+    out = _genera_con_fallback(["primario", "ripiego"], esegui)
+    assert out == {"sintesi": "ok da ripiego"}
+    assert usati == ["primario", "ripiego"]  # provati in ordine
+
+
+def test_fallback_non_scatta_su_errore_non_transitorio():
+    usati = []
+
+    def esegui(modello):
+        usati.append(modello)
+        raise _ErroreHTTP(400)  # errore client: nessun ripiego
+
+    with pytest.raises(_ErroreHTTP):
+        _genera_con_fallback(["primario", "ripiego"], esegui)
+    assert usati == ["primario"]  # non ha provato il ripiego
+
+
+def test_fallback_solleva_se_tutti_i_modelli_falliscono():
+    def esegui(modello):
+        raise _ErroreHTTP(503)
+
+    with pytest.raises(_ErroreHTTP):
+        _genera_con_fallback(["a", "b"], esegui)
+
+
+def test_primo_modello_ok_non_usa_ripieghi():
+    usati = []
+
+    def esegui(modello):
+        usati.append(modello)
+        return {"sintesi": "subito ok"}
+
+    assert _genera_con_fallback(["a", "b"], esegui) == {"sintesi": "subito ok"}
+    assert usati == ["a"]
