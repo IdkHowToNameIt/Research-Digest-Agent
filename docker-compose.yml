@@ -1,6 +1,6 @@
 # Orchestrazione: separazione backend (generatore Python) / frontend (nginx statico).
 #
-#   export GEMINI_API_KEY=...
+#   export OPENROUTER_API_KEY=...
 #   docker compose up --build        # genera i dati del sito e lo serve su http://localhost:8080
 #
 # Il sito è statico per progetto (sez. 18: no login, no stato server, badge lato
@@ -15,7 +15,7 @@ services:
       dockerfile: backend/Dockerfile
     image: dra-generator
     environment:
-      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
     volumes:
       - sito:/app/sito               # output HTML del sito (condiviso con nginx)
       - data:/app/backend/data       # storico dedup + archivio digest pubblici (persistente)

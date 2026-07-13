@@ -1,6 +1,6 @@
 """Entrypoint del Research Digest Agent — DRA.
 
-  python main.py [--config config.yaml]   -> richiede GEMINI_API_KEY
+  python main.py [--config config.yaml]   -> richiede OPENROUTER_API_KEY
 
 La pipeline è ~80% script (fetch, dedup, classificazione, note interne,
 assemblaggio); il modello (Gemini) interviene solo sulla sintesi testuale degli
@@ -29,13 +29,13 @@ def main() -> None:
 
     cfg = load_config(args.config)
 
-    from src.modello.gemini import GeminiNonConfigurato, crea_generatore
+    from src.modello.llm import LLMNonConfigurato, crea_generatore
     try:
         genera = crea_generatore(
             model=cfg.get("model"),
             modelli_fallback=cfg.get("modelli_fallback"),
         )
-    except GeminiNonConfigurato as exc:
+    except LLMNonConfigurato as exc:
         print(f"[errore] {exc}", file=sys.stderr)
         sys.exit(2)
 

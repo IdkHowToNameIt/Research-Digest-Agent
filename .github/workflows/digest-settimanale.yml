@@ -1,13 +1,13 @@
 # GitHub Action: esegue il Research Digest Agent una volta a settimana.
 #
 # COSA FA
-#   Ogni lunedì mattina (06:00 UTC) esegue la pipeline reale (con Gemini), rigenera
-#   i dati del sito (sito/data.json + sito/index.html) e conserva lo stato tra un
-#   run e l'altro (dedup + archivio).
+#   Ogni lunedì mattina (06:00 UTC) esegue la pipeline reale (sintesi LLM via
+#   OpenRouter), rigenera i dati del sito (sito/data.json + sito/index.html) e
+#   conserva lo stato tra un run e l'altro (dedup + archivio).
 #
 # PREREQUISITI (una tantum, su GitHub)
 #   Settings > Secrets and variables > Actions > New repository secret:
-#     - GEMINI_API_KEY   (obbligatorio per la sintesi)
+#     - OPENROUTER_API_KEY   (obbligatorio per la sintesi; crea su openrouter.ai/keys)
 #   Per l'invio email reale (Gmail):
 #     - SMTP_USER        (indirizzo@gmail.com)
 #     - SMTP_PASS        (App Password a 16 cifre, non la password dell'account)
@@ -58,7 +58,7 @@ jobs:
       - name: Genera il digest e il sito
         working-directory: backend
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           SMTP_USER: ${{ secrets.SMTP_USER }}
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
           SMTP_HOST: ${{ secrets.SMTP_HOST }}

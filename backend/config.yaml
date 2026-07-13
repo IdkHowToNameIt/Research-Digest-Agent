@@ -4,15 +4,19 @@
 beat: "Infrastruttura & Hardware AI"
 beat_slug: "infra-hardware-ai"
 
-model: "gemini-flash-latest" # sola sintesi finale (~20% del lavoro); alias sempre-corrente: i nomi con versione fissa (2.5-flash/-lite) vengono dismessi per i nuovi account (404 NOT_FOUND)
-# Cascata di ripiego se il primario esaurisce quota (429) o e' sovraccarico (503):
-# ognuno ha un bucket di quota free separato, quindi le quote si sommano. Il
+# Sintesi finale (~20% del lavoro) via OpenRouter (una chiave, tanti provider).
+# ID modello ':free' — verificabili/aggiornabili dalla lista live:
+#   curl -s https://openrouter.ai/api/v1/models | jq -r '.data[].id|select(endswith(":free"))'
+model: "meta-llama/llama-3.3-70b-instruct:free"
+# Cascata di ripiego se il primario esaurisce quota (429) o non e' disponibile
+# (400/404/5xx): modelli di provider diversi, quindi le quote free si sommano. Il
 # passaggio e' "sticky" (un modello esaurito non viene ri-provato per ogni
-# articolo). In ordine dal piu' capiente.
+# articolo). In ordine dal piu' capiente/qualitativo.
 modelli_fallback:
-  - "gemini-flash-lite-latest"
-  - "gemini-2.0-flash"
-  - "gemini-2.0-flash-lite"
+  - "qwen/qwen3-next-80b-a3b-instruct:free"
+  - "nvidia/nemotron-3-super-120b-a12b:free"
+  - "google/gemma-4-31b-it:free"
+  - "meta-llama/llama-3.2-3b-instruct:free"
 db_path: "data/seen.sqlite3"   # memoria per dedup e conteggi run consecutivi
 out_dir: "out"                 # output tecnico (il canale reale e' email + sito)
 

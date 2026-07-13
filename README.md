@@ -173,9 +173,9 @@ python -m venv .venv
 pip install -r backend/requirements.txt
 
 cd backend
-python -m pytest -q                # 92 test, offline, Gemini e SMTP mockati
+python -m pytest -q                # test offline, modello LLM e SMTP mockati
 
-cp ../.env.example ../.env         # inserisci GEMINI_API_KEY
+cp ../.env.example ../.env         # inserisci OPENROUTER_API_KEY
 python main.py --config config.yaml
 ```
 
@@ -204,12 +204,12 @@ Lo stack ha due servizi: `generator` (backend Python, gira una volta e termina) 
 `web` (nginx, serve il sito quando il generatore ha finito).
 
 ```bash
-export GEMINI_API_KEY=...           # (PowerShell: $env:GEMINI_API_KEY="...")
+export OPENROUTER_API_KEY=...       # (PowerShell: $env:OPENROUTER_API_KEY="...")
 docker compose up --build           # genera il sito e lo serve
 # poi apri:  http://localhost:8080
 ```
 
-- `generator` esegue `main.py --config config.yaml` (richiede `GEMINI_API_KEY`)
+- `generator` esegue `main.py --config config.yaml` (richiede `OPENROUTER_API_KEY`)
   e scrive `data.json` + `index.html` nel volume `sito`.
 - `web` (nginx) pubblica quei file su **http://localhost:8080**.
 
@@ -227,8 +227,9 @@ docker compose down -v             # rimuove anche i volumi (sito + storico)
 Il workflow `.github/workflows/digest-settimanale.yml` esegue la pipeline reale
 ogni lunedì alle 06:00 UTC (e a mano da *Actions → Run workflow*):
 
-1. Su GitHub aggiungi il secret `GEMINI_API_KEY`
-   (*Settings → Secrets and variables → Actions*).
+1. Su GitHub aggiungi il secret `OPENROUTER_API_KEY`
+   (*Settings → Secrets and variables → Actions*). Creane una gratis su
+   [openrouter.ai/keys](https://openrouter.ai/keys).
 2. Il job genera digest + `sito/` (`data.json` + `index.html`), lo allega come
    artifact e **ricommitta** lo stato (`backend/data/seen.sqlite3`,
    `backend/data/archivio/`) e `sito/` nel repo, così il dedup ricorda gli
@@ -272,7 +273,7 @@ Tutte le 8 fasi sono implementate (`claude-progress.txt` per il dettaglio); la
 suite conta **92 test verdi**. Prima del deploy reale restano (non-bloccanti):
 
 - verifica dei feed dall'ambiente di produzione (possibili anti-bot da IP cloud);
-- verifica manuale con una `GEMINI_API_KEY` reale e con SMTP Gmail reale;
+- verifica manuale con una `OPENROUTER_API_KEY` reale e con SMTP Gmail reale;
 - calibrazione della soglia di dedup (0.7) e dell'elenco entità note sul flusso reale.
 
 ## Test

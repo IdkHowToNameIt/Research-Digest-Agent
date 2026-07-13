@@ -1,13 +1,13 @@
-"""Robustezza del parsing JSON della risposta Gemini (src/modello/gemini.py).
+"""Robustezza dell'adattatore LLM (src/modello/llm.py): parsing JSON, retry sui
+transitori e cascata sticky di modelli (OpenRouter).
 
-I modelli, anche con response_mime_type=application/json, a volte avvolgono
-l'oggetto in un blocco markdown o aggiungono testo: `_estrai_json` deve
-recuperare comunque il primo oggetto JSON (fix "Extra data" di json.loads).
+I modelli spesso avvolgono il JSON in un blocco markdown o aggiungono testo:
+`_estrai_json` recupera comunque il primo oggetto JSON (fix "Extra data").
 """
 import pytest
 
-from src.modello import gemini
-from src.modello.gemini import (
+from src.modello import llm
+from src.modello.llm import (
     _codice_errore,
     _esegui_con_retry,
     _estrai_json,
@@ -16,11 +16,11 @@ from src.modello.gemini import (
 
 
 class _ErroreHTTP(Exception):
-    """Finto errore SDK con un codice HTTP, come APIError di google-genai."""
+    """Finto errore SDK con un codice HTTP, come APIStatusError di openai."""
 
     def __init__(self, code):
         super().__init__(f"HTTP {code}")
-        self.code = code
+        self.status_code = code
 
 
 def test_json_puro():
@@ -59,7 +59,7 @@ def test_senza_json():
 @pytest.fixture(autouse=True)
 def _niente_sleep(monkeypatch):
     # niente attese reali nei test del backoff
-    monkeypatch.setattr(gemini.time, "sleep", lambda _s: None)
+    monkeypatch.setattr(llm.time, "sleep", lambda _s: None)
 
 
 def test_codice_errore():
@@ -101,7 +101,7 @@ def test_retry_si_arrende_dopo_max_tentativi():
 
     with pytest.raises(_ErroreHTTP):
         _esegui_con_retry(chiamata)
-    assert tentativi["n"] == gemini.RETRY_TENTATIVI
+    assert tentativi["n"] == llm.RETRY_TENTATIVI
 
 
 def test_retry_non_ritenta_quota_429():
@@ -153,16 +153,33 @@ def test_cascata_sticky_non_riprova_il_modello_morto():
     assert usati == ["primario", "ripiego", "ripiego", "ripiego"]
 
 
-def test_cascata_non_scatta_su_errore_non_transitorio():
+def test_cascata_non_scatta_su_errore_fatale_auth():
+    # 401 (chiave errata) e' fatale e uguale per tutti i modelli: nessun ripiego.
     usati = []
 
     def esegui(modello, _prompt):
         usati.append(modello)
-        raise _ErroreHTTP(400)  # errore client: nessun ripiego
+        raise _ErroreHTTP(401)
 
     with pytest.raises(_ErroreHTTP):
         crea_cascata(["primario", "ripiego"], esegui)("p")
     assert usati == ["primario"]  # non ha provato il ripiego
+
+
+def test_cascata_cambia_modello_su_id_non_valido_400():
+    # un ID modello stantio/non valido (400/404) non deve fermare la run: si passa
+    # al modello successivo.
+    usati = []
+
+    def esegui(modello, _prompt):
+        usati.append(modello)
+        if modello == "id-stantio":
+            raise _ErroreHTTP(400)
+        return {"sintesi": "ok"}
+
+    genera = crea_cascata(["id-stantio", "valido"], esegui)
+    assert genera("p") == {"sintesi": "ok"}
+    assert usati == ["id-stantio", "valido"]
 
 
 def test_cascata_solleva_se_tutti_i_modelli_falliscono():
@@ -182,3 +199,31 @@ def test_cascata_primo_modello_ok_non_usa_ripieghi():
 
     assert crea_cascata(["a", "b"], esegui)("p") == {"sintesi": "subito ok"}
     assert usati == ["a"]
+
+
+# --- errori di rete (senza codice HTTP) ------------------------------------
+
+class APITimeoutError(Exception):
+    """Nome-classe come l'errore di timeout dell'SDK openai (nessun codice)."""
+
+
+def test_retry_ritenta_su_timeout_di_rete():
+    tentativi = {"n": 0}
+
+    def chiamata():
+        tentativi["n"] += 1
+        if tentativi["n"] < 2:
+            raise APITimeoutError("timeout")
+        return {"sintesi": "ok"}
+
+    assert _esegui_con_retry(chiamata) == {"sintesi": "ok"}
+    assert tentativi["n"] == 2
+
+
+def test_cascata_cambia_modello_su_errore_di_rete():
+    def esegui(modello, _prompt):
+        if modello == "a":
+            raise APITimeoutError("connection reset")
+        return {"sintesi": "ok"}
+
+    assert crea_cascata(["a", "b"], esegui)("p") == {"sintesi": "ok"}
