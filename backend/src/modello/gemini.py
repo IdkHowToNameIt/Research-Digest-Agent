@@ -21,6 +21,24 @@ class GeminiNonConfigurato(RuntimeError):
     """Sollevata quando manca la API key per la modalita' con modello."""
 
 
+def _estrai_json(testo: str) -> dict:
+    """Estrae il primo oggetto JSON dalla risposta del modello.
+
+    Anche con response_mime_type=application/json alcuni modelli avvolgono il
+    JSON in un blocco markdown (```json ... ```) o aggiungono testo dopo
+    l'oggetto: json.loads fallirebbe con "Extra data". Qui si cerca la prima
+    graffa e si usa raw_decode, che legge un solo valore JSON e ignora tutto
+    cio' che segue.
+    """
+    if not testo:
+        raise ValueError("risposta vuota dal modello")
+    inizio = testo.find("{")
+    if inizio == -1:
+        raise ValueError(f"nessun oggetto JSON nella risposta: {testo[:200]!r}")
+    oggetto, _ = json.JSONDecoder().raw_decode(testo[inizio:])
+    return oggetto
+
+
 def _leggi_api_key(api_key: str | None) -> str:
     key = api_key or os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
     if not key:
@@ -44,6 +62,6 @@ def crea_generatore(api_key: str | None = None, model: str = MODELLO_DEFAULT) ->
             contents=prompt,
             config={"response_mime_type": "application/json"},
         )
-        return json.loads(risposta.text)
+        return _estrai_json(risposta.text)
 
     return genera
