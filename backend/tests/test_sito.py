@@ -29,8 +29,11 @@ from src.schemas import (
 )
 from src.consegna.sito import (
     ETICHETTE,
+    NOME_FILE_TEMA,
+    _cache_bust,
     carica_archivio,
     costruisci_dati,
+    costruisci_indice,
     genera_sito,
     raccogli_per_tema,
     salva_digest_pubblico,
@@ -140,12 +143,12 @@ def test_cronologia_storica_multi_run():
 
 # --- generazione file (data.json + copia template) --------------------------
 
-def test_genera_sito_scrive_datajson_e_copia_frontend(tmp_path):
+def test_genera_sito_scrive_indice_temi_e_copia_frontend(tmp_path):
     # Frontend suddiviso in più file: index.html + stile.css + app.js.
     front = tmp_path / "front"
     front.mkdir()
     (front / "index.html").write_text(
-        "<html><link rel=stylesheet href=stile.css><script src=app.js></script>"
+        '<html><link rel="stylesheet" href="stile.css"><script src="app.js"></script>'
         "CONCEPT-TEMPLATE fetch('data.json')</html>", encoding="utf-8")
     (front / "stile.css").write_text("body{color:pink}", encoding="utf-8")
     (front / "app.js").write_text("caricaDati();", encoding="utf-8")
@@ -153,16 +156,54 @@ def test_genera_sito_scrive_datajson_e_copia_frontend(tmp_path):
     scritti = genera_sito(d, [d.contenuto_pubblico()], str(tmp_path / "out"),
                           template_path=str(front / "index.html"))
     out = tmp_path / "out"
-    assert (out / "data.json").exists()
+    # data.json è ora l'INDICE leggero: per tema id/nome/file/recenti (senza articoli)
+    indice = json.loads((out / "data.json").read_text(encoding="utf-8"))
+    chip = next(t for t in indice["temi"] if t["id"] == "chip")
+    assert chip["file"] == NOME_FILE_TEMA.format(id="chip")
+    assert chip["recenti"][0]["titolo"] == "A"
+    assert chip["recenti"][0]["n_articoli"] == 1
+    assert "articoli" not in chip["recenti"][0]         # l'indice non porta il dettaglio
+    # il dettaglio completo sta in tema-<id>.json
+    dett = json.loads((out / NOME_FILE_TEMA.format(id="chip")).read_text(encoding="utf-8"))
+    assert dett["gruppi"][0]["articoli"][0]["titolo"] == "A"
     # tutti i file del frontend sono copiati mantenendo il nome
-    assert (out / "index.html").exists()
     assert (out / "stile.css").read_text(encoding="utf-8") == "body{color:pink}"
     assert (out / "app.js").read_text(encoding="utf-8") == "caricaDati();"
-    assert "CONCEPT-TEMPLATE" in (out / "index.html").read_text(encoding="utf-8")
-    dati = json.loads((out / "data.json").read_text(encoding="utf-8"))
-    assert dati["temi"][0]["gruppi"][0]["articoli"][0]["titolo"] == "A"
+    # cache-busting: i riferimenti in index.html hanno ?v=<generato>
+    html = (out / "index.html").read_text(encoding="utf-8")
+    assert "CONCEPT-TEMPLATE" in html
+    assert f'app.js?v={d.data_generazione}' in html
+    assert f'stile.css?v={d.data_generazione}' in html
     assert any("data.json" in s for s in scritti)
-    assert any(s.endswith("stile.css") for s in scritti)
+    assert any(s.endswith(NOME_FILE_TEMA.format(id="chip")) for s in scritti)
+
+
+def test_indice_solo_recenti_ma_tema_ha_tutto(tmp_path):
+    # gruppo vecchio (oltre la finestra recenti) + uno recente: l'indice mostra
+    # solo il recente per la landing, ma il file del tema conserva entrambi.
+    d1 = _digest("2026-06-01", chip=[_art("Vecchio", "https://x/1", data="2026-06-01")])
+    d2 = _digest("2026-07-09", chip=[_art("Recente", "https://x/2", data="2026-07-09")])
+    archivio = [d1.contenuto_pubblico(), d2.contenuto_pubblico()]
+    indice = costruisci_indice(d2, archivio)   # recenti_giorni default 14
+    chip = next(t for t in indice["temi"] if t["id"] == "chip")
+    assert [g["titolo"] for g in chip["recenti"]] == ["Recente"]   # il vecchio (38gg) è escluso
+    # nel file del tema invece ci sono entrambi, più-recente-prima
+    genera_sito(d2, archivio, str(tmp_path / "out"),
+                template_path=str(tmp_path / "nope.html"))
+    dett = json.loads(
+        (tmp_path / "out" / NOME_FILE_TEMA.format(id="chip")).read_text(encoding="utf-8"))
+    assert [g["data"] for g in dett["gruppi"]] == ["2026-07-09", "2026-06-01"]
+
+
+def test_cache_bust_solo_asset_versionabili():
+    html = '<link href="stile.css"><script src="app.js"></script>' \
+           "<script src='sfondo.js'></script>fetch('data.json')"
+    out = _cache_bust(html, "2026-07-09")
+    assert 'stile.css?v=2026-07-09' in out
+    assert 'app.js?v=2026-07-09' in out
+    assert "sfondo.js?v=2026-07-09" in out
+    assert "data.json?v=" not in out          # i dati non vanno versionati nell'HTML
+    assert _cache_bust(html, "") == html        # token vuoto: nessuna modifica
 
 
 def test_genera_sito_svuota_publish_dir(tmp_path):
@@ -202,9 +243,11 @@ def test_note_interne_mai_nei_dati(tmp_path):
     d = _digest(chip=[_art("A", "https://x/1")], note=note)
     genera_sito(d, [d.contenuto_pubblico()], str(tmp_path),
                 template_path=str(tmp_path / "nope.html"))
-    testo = (tmp_path / "data.json").read_text(encoding="utf-8")
-    assert "SEGRETO-AzureKO" not in testo
-    assert "note_interne" not in testo
+    # nessun file dati del sito (indice + tutti i tema-<id>.json) deve contenere le note
+    for f in Path(tmp_path).glob("*.json"):
+        testo = f.read_text(encoding="utf-8")
+        assert "SEGRETO-AzureKO" not in testo
+        assert "note_interne" not in testo
 
 
 def test_salva_e_carica_archivio_esclude_note(tmp_path):

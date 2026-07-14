@@ -1,24 +1,31 @@
 """Generazione dei dati del sito web interno (sez. 18).
 
-Separazione netta backend/frontend: il backend NON genera più HTML. Produce un
-unico file `data.json` (contratto dati) che il frontend statico
-(`frontend/concept/index.html`) legge via fetch e con cui genera da solo, lato
-client, le pagine richieste: homepage (un box per tema con aggiornamenti nella
-settimana), lista dei gruppi-giorno di un tema (ognuno col titolo riassuntivo) e
-dettaglio del gruppo con le notizie di quel giorno suddivise una per una. Le
-notizie di uno stesso tema nello stesso giorno confluiscono in un unico gruppo.
+Separazione netta backend/frontend: il backend NON genera HTML. Produce dei file
+JSON (contratto dati) che il frontend statico (`frontend/concept/index.html`)
+legge via fetch e con cui genera da solo, lato client, le pagine: homepage (un box
+per tema con aggiornamenti nella settimana), lista dei gruppi-giorno di un tema
+(ognuno col titolo riassuntivo) e dettaglio del gruppo con le notizie di quel
+giorno. Le notizie di uno stesso tema nello stesso giorno confluiscono in un
+unico gruppo.
+
+**Dati suddivisi per scalare (evita di scaricare tutta la storia a ogni visita):**
+- `data.json` = **indice leggero**: soglie + per ogni tema id/nome, il file di
+  dettaglio e i gruppi *recenti* (ultimi giorni) per la landing. È l'unico file
+  caricato all'avvio.
+- `tema-<id>.json` = **dettaglio di un tema** (tutti i gruppi+articoli), caricato
+  dal frontend **on-demand** quando l'utente apre quel tema.
 
 `genera_sito`:
-- scrive `<out_dir>/data.json` = archivio storico aggregato per tema + soglie;
-- copia tutti i file del frontend (index.html + stile.css + app.js + sfondo.js)
-  in `<out_dir>/`, così `<out_dir>/` è la publish-dir pronta per un hosting
-  statico (es. Render Static Site).
+- scrive `<out_dir>/data.json` (indice) + un `<out_dir>/tema-<id>.json` per tema;
+- copia i file del frontend (index.html + stile.css + app.js + sfondo.js) in
+  `<out_dir>/`, aggiungendo a `index.html` un token `?v=<generato>` sui riferimenti
+  a JS/CSS (**cache-busting**): dopo un deploy il browser non serve versioni vecchie.
 
 Il badge "nuovo aggiornamento" (soglia configurabile, default 2 giorni) e la vista
 "questa settimana" (7 giorni) sono calcolati LATO CLIENT dal frontend a partire
 dalle date assolute presenti nei dati: qui non marchiamo nulla staticamente.
 
-`note_interne` non entra MAI nei dati del sito (16.7): `data.json` è costruito solo
+`note_interne` non entra MAI nei dati del sito (16.7): tutto è costruito solo
 dall'archivio pubblico (contenuto_pubblico(), che le esclude) e dalla data del
 digest corrente, mai dalle note interne.
 """
@@ -26,6 +33,7 @@ from __future__ import annotations
 
 import json
 import shutil
+from datetime import date
 from pathlib import Path
 
 from ..schemas import TEMI_ORDINE, Digest, Stato, Tema
@@ -40,6 +48,14 @@ ETICHETTE = {
 
 BADGE_GIORNI_DEFAULT = 2
 SETTIMANA_GIORNI_DEFAULT = 7
+# Finestra (giorni) dei gruppi inclusi nell'indice per la landing "questa settimana".
+# Più larga della settimana (7) per dare margine: il frontend re-filtra a 7 giorni
+# rispetto a OGGI, quindi qualche giorno di scorta copre le visite dopo il run.
+RECENTI_GIORNI_DEFAULT = 14
+# Nome dei file di dettaglio per-tema (caricati on-demand dal frontend).
+NOME_FILE_TEMA = "tema-{id}.json"
+# Asset del frontend a cui aggiungere il token ?v=<generato> in index.html (cache-busting).
+ASSET_VERSIONABILI = ("app.js", "stile.css", "sfondo.js")
 # Template del frontend copiato accanto a data.json come index.html della publish-dir.
 TEMPLATE_DEFAULT = "frontend/concept/index.html"
 
@@ -150,6 +166,69 @@ def costruisci_dati(
     }
 
 
+def _giorni_tra(a: str, b: str) -> int:
+    """Giorni interi tra due date ISO (a - b). Tollerante a valori sporchi/vuoti."""
+    try:
+        return (date.fromisoformat(a[:10]) - date.fromisoformat(b[:10])).days
+    except (ValueError, TypeError):
+        return 10**9
+
+
+def _indice_da_full(full: dict, recenti_giorni: int) -> dict:
+    """Deriva l'indice leggero (`data.json`) dai dati completi.
+
+    Per ogni tema tiene solo i gruppi entro `recenti_giorni` da `generato`
+    (per la landing), con il minimo indispensabile: data, titolo, n. articoli.
+    Il dettaglio completo vive nei file `tema-<id>.json`.
+    """
+    generato = full["generato"]
+    temi = []
+    for t in full["temi"]:
+        recenti = [
+            {"data": g["data"], "titolo": g["titolo"], "n_articoli": len(g["articoli"])}
+            for g in t["gruppi"]
+            if _giorni_tra(generato, g["data"]) <= recenti_giorni
+        ]
+        temi.append({
+            "id": t["id"],
+            "nome": t["nome"],
+            "file": NOME_FILE_TEMA.format(id=t["id"]),
+            "recenti": recenti,
+        })
+    return {
+        "generato": generato,
+        "badge_giorni": full["badge_giorni"],
+        "settimana_giorni": full["settimana_giorni"],
+        "temi": temi,
+    }
+
+
+def costruisci_indice(
+    digest_corrente: Digest,
+    archivio: list[dict],
+    badge_giorni: int = BADGE_GIORNI_DEFAULT,
+    settimana_giorni: int = SETTIMANA_GIORNI_DEFAULT,
+    recenti_giorni: int = RECENTI_GIORNI_DEFAULT,
+) -> dict:
+    """Indice leggero del sito (`data.json`): soglie + per tema i soli gruppi recenti."""
+    full = costruisci_dati(digest_corrente, archivio, badge_giorni, settimana_giorni)
+    return _indice_da_full(full, recenti_giorni)
+
+
+def _cache_bust(html: str, token: str) -> str:
+    """Aggiunge `?v=<token>` ai riferimenti JS/CSS in index.html (cache-busting).
+
+    Cerca gli asset tra virgolette singole o doppie (es. `src="app.js"`), così il
+    browser scarica la nuova versione dopo un deploy invece di servire la cache.
+    """
+    if not token:
+        return html
+    for asset in ASSET_VERSIONABILI:
+        html = html.replace(f'"{asset}"', f'"{asset}?v={token}"')
+        html = html.replace(f"'{asset}'", f"'{asset}?v={token}'")
+    return html
+
+
 def _svuota_dir(base: Path) -> None:
     """Rimuove tutto il contenuto di `base` (file e sottocartelle), non la cartella.
 
@@ -171,36 +250,58 @@ def genera_sito(
     out_dir: str,
     badge_giorni: int = BADGE_GIORNI_DEFAULT,
     template_path: str = TEMPLATE_DEFAULT,
+    settimana_giorni: int = SETTIMANA_GIORNI_DEFAULT,
+    recenti_giorni: int = RECENTI_GIORNI_DEFAULT,
 ) -> list[str]:
-    """Scrive data.json e copia i file del frontend nella publish-dir.
+    """Scrive indice + file per-tema e copia il frontend nella publish-dir.
 
     Ritorna i percorsi scritti. La cartella `out_dir` diventa la publish-dir del
-    sito statico (data.json + index.html + stile.css + app.js + sfondo.js). La
-    publish-dir viene svuotata prima della scrittura, così riflette esattamente
-    l'ultimo run.
+    sito statico: `data.json` (indice) + `tema-<id>.json` (dettaglio per tema) +
+    index.html/stile.css/app.js/sfondo.js. A `index.html` viene aggiunto il token
+    `?v=<generato>` sui riferimenti JS/CSS (cache-busting). La publish-dir viene
+    svuotata prima della scrittura, così riflette esattamente l'ultimo run.
     """
     base = Path(out_dir)
     base.mkdir(parents=True, exist_ok=True)
     _svuota_dir(base)
     scritti: list[str] = []
 
-    dati = costruisci_dati(digest_corrente, archivio, badge_giorni)
-    percorso_dati = base / "data.json"
-    percorso_dati.write_text(
-        json.dumps(dati, ensure_ascii=False, indent=2), encoding="utf-8"
+    full = costruisci_dati(digest_corrente, archivio, badge_giorni, settimana_giorni)
+    generato = full["generato"]
+
+    # Indice leggero (data.json): l'unico file caricato all'avvio dal frontend.
+    percorso_indice = base / "data.json"
+    percorso_indice.write_text(
+        json.dumps(_indice_da_full(full, recenti_giorni), ensure_ascii=False, indent=2),
+        encoding="utf-8",
     )
-    scritti.append(str(percorso_dati))
+    scritti.append(str(percorso_indice))
+
+    # Dettaglio per tema (tema-<id>.json): caricato on-demand quando si apre il tema.
+    for t in full["temi"]:
+        percorso_tema = base / NOME_FILE_TEMA.format(id=t["id"])
+        percorso_tema.write_text(
+            json.dumps(
+                {"id": t["id"], "nome": t["nome"], "gruppi": t["gruppi"]},
+                ensure_ascii=False, indent=2,
+            ),
+            encoding="utf-8",
+        )
+        scritti.append(str(percorso_tema))
 
     tpl = Path(template_path)
     if tpl.exists():
         # Il frontend è suddiviso in più file (index.html + stile.css + app.js +
-        # sfondo.js): copia l'intera cartella del template accanto a data.json, così
-        # la publish-dir è completa. `template_path` indica index.html; i fogli di
-        # stile e gli script sono i suoi file fratelli.
+        # sfondo.js): copia l'intera cartella del template nella publish-dir.
+        # `template_path` indica index.html; a esso si applica il cache-busting.
         for asset in sorted(tpl.parent.iterdir()):
             if asset.is_file():
                 destinazione = base / asset.name
-                shutil.copyfile(asset, destinazione)
+                if asset.name == "index.html":
+                    testo = _cache_bust(asset.read_text(encoding="utf-8"), generato)
+                    destinazione.write_text(testo, encoding="utf-8")
+                else:
+                    shutil.copyfile(asset, destinazione)
                 scritti.append(str(destinazione))
 
     return scritti
