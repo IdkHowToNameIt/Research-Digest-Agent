@@ -12,6 +12,9 @@ let TEMA_CORRENTE = null;    // id del tema nella vista lista-gruppi (per i filt
 let GRUPPO_CORRENTE = null;  // {id, data} nella vista dettaglio (per il filtro fonte)
 let FILTRO_DATE = {dal:'', al:''};      // intervallo "Dal-Al" selezionato col calendario custom
 let CAL = {campo:null, anno:0, mese:0}; // stato del popup calendario (quale campo, mese visualizzato)
+let PAGINA = 1;                          // pagina corrente nella lista-gruppi di un tema
+let PER_PAGINA = 10;                     // gruppi per pagina (default); scelta persistente tra i temi
+const OPZIONI_PER_PAGINA = [10, 25, 50]; // scelte del selettore "Per pagina"
 const MESI = ["gen","feb","mar","apr","mag","giu","lug","ago","set","ott","nov","dic"];
 const MESI_FULL = ["gennaio","febbraio","marzo","aprile","maggio","giugno",
   "luglio","agosto","settembre","ottobre","novembre","dicembre"];
@@ -199,11 +202,13 @@ function controlliFiltroData(){
 function attivaRange(el){
   el.parentElement.querySelectorAll('.pill-f').forEach(p=>p.classList.remove('attivo'));
   el.classList.add('attivo');
+  PAGINA = 1;               // un nuovo filtro riparte dalla prima pagina
   renderListaGruppi();
 }
 
 function azzeraFiltriData(){
   FILTRO_DATE = {dal:'', al:''};
+  PAGINA = 1;
   aggiornaCampiData();
   chiudiCalendario();
   document.querySelectorAll('.filtro-range .pill-f').forEach(p=>
@@ -275,6 +280,7 @@ function renderCalendario(){
 function calSeleziona(iso, ev){
   if(ev) ev.stopPropagation();
   FILTRO_DATE[CAL.campo] = iso;
+  PAGINA = 1;
   aggiornaCampiData();
   chiudiCalendario();
   renderListaGruppi();
@@ -308,8 +314,17 @@ function renderListaGruppi(){
     if(al && !(g.data && g.data <= al)) return false;
     return true;
   });
-  cont.innerHTML = gruppi.length
-    ? gruppi.map(g=>cardGruppo(t.id, g)).join('')
+  // paginazione: mostra solo PER_PAGINA gruppi per volta (evita scroll infiniti).
+  // La pagina corrente resta nei limiti disponibili (i filtri possono ridurre i risultati).
+  const totale = gruppi.length;
+  const totPagine = Math.max(1, Math.ceil(totale / PER_PAGINA));
+  PAGINA = Math.min(Math.max(PAGINA, 1), totPagine);
+  const inizio = (PAGINA - 1) * PER_PAGINA;
+  const pagina = gruppi.slice(inizio, inizio + PER_PAGINA);
+
+  cont.innerHTML = totale
+    ? pagina.map(g=>cardGruppo(t.id, g)).join('')
+      + controlliPaginazione(totale, totPagine, inizio, pagina.length)
     : '<p class="sez-nota">Nessun aggiornamento per il periodo selezionato.</p>';
   // il tasto Azzera compare solo quando c'è un filtro attivo
   const btn = document.querySelector('.btn-azzera');
@@ -317,10 +332,52 @@ function renderListaGruppi(){
   attivaEffetti();
 }
 
+/* barra di paginazione della lista-gruppi: selettore "Per pagina" (10/25/50,
+   default 10) + navigazione Prec/Succ. La nav compare solo se i risultati
+   superano una pagina; il selettore c'è sempre (quando ci sono risultati). */
+function controlliPaginazione(totale, totPagine, inizio, mostrati){
+  const opzioni = OPZIONI_PER_PAGINA.map(n=>
+    `<option value="${n}"${n===PER_PAGINA?' selected':''}>${n}</option>`
+  ).join('');
+  const da = totale ? inizio + 1 : 0;
+  const a = inizio + mostrati;
+  const nav = totPagine > 1
+    ? `<div class="pag-nav">
+         <button class="pag-btn" ${PAGINA<=1?'disabled':''} onclick="vaiPagina(-1)">‹ Prec</button>
+         <span class="pag-stato">Pagina ${PAGINA} di ${totPagine}</span>
+         <button class="pag-btn" ${PAGINA>=totPagine?'disabled':''} onclick="vaiPagina(1)">Succ ›</button>
+       </div>`
+    : '';
+  return `<div class="paginazione">
+      <div class="pag-info">
+        <label class="pag-perpag">Per pagina
+          <select onchange="cambiaPerPagina(this)">${opzioni}</select>
+        </label>
+        <span class="pag-conta">${da}–${a} di ${totale}</span>
+      </div>
+      ${nav}
+    </div>`;
+}
+
+function cambiaPerPagina(sel){
+  PER_PAGINA = Number(sel.value) || 10;
+  PAGINA = 1;                 // cambiando la dimensione si riparte dalla prima pagina
+  renderListaGruppi();
+}
+
+function vaiPagina(delta){
+  PAGINA += delta;
+  renderListaGruppi();
+  // riporta in cima alla lista, per non ritrovarsi a metà della pagina successiva
+  const main = document.querySelector('.crono');
+  if(main) main.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
 function vaiTema(id){
   const t = trovaTema(id);
   TEMA_CORRENTE = id;
   FILTRO_DATE = {dal:'', al:''};   // i filtri data non persistono tra temi diversi
+  PAGINA = 1;                      // ogni tema riparte dalla prima pagina
   app.innerHTML = `<section class="view"><main class="crono">
       <button class="indietro" onclick="vaiHome()">← Home</button>
       <h2><span class="tema-ic">${iconaTema(t.id,26)}</span>${t.nome}</h2>
