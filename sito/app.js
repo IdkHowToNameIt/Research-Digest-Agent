@@ -189,7 +189,7 @@ function controlliFiltroData(){
           <span class="range-sep">→</span>
           <button class="date-field" id="campo-al" onclick="apriCalendario('al',event)">
             <span class="df-lbl">Al</span><span class="df-val" id="val-al">—</span></button>
-          <div id="calendario" class="cal-pop" hidden></div>
+          <div id="calendario" class="cal-pop" hidden onclick="event.stopPropagation()"></div>
         </div>
         <button class="btn-azzera nascosto" onclick="azzeraFiltriData()">✕ Azzera</button>
       </div>
