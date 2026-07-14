@@ -14,6 +14,13 @@ from ..raccolta.fetch import Candidato
 APERTURA_ARXIV = "I risultati preliminari di uno studio indicano che"
 NOTA_PREPRINT = "(preprint, non ancora sottoposto a peer review)"
 
+# Tetto di sicurezza alla lunghezza dell'estratto passato al modello, INDIPENDENTE
+# dal `troncamento` per-fonte (che puo' essere null: articolo/abstract interi). Serve
+# a non sforare il limite token-per-minuto del free tier (es. Groq: ~8k TPM ->
+# 413 "request too large"). ~8000 char ≈ ~2000 token: sotto ogni tetto TPM free,
+# e piu' che sufficiente per una sintesi di 3-8 frasi.
+MAX_ESTRATTO_CHARS = 8000
+
 
 def e_arxiv(c: Candidato) -> bool:
     """True se il candidato proviene da arXiv (fonte energia unica)."""
@@ -52,10 +59,14 @@ OUTPUT: rispondi con un oggetto JSON con esattamente queste chiavi:
 
 def prompt_sintesi(c: Candidato) -> str:
     """Costruisce il prompt per la sintesi di un singolo candidato."""
+    estratto = c.estratto or ""
+    if len(estratto) > MAX_ESTRATTO_CHARS:
+        # taglio duro (rete di sicurezza sul limite TPM del provider), con marcatore
+        estratto = estratto[:MAX_ESTRATTO_CHARS].rstrip() + " […]"
     righe = [CRITERI_EDITORIALI, "", "--- ARTICOLO DA SINTETIZZARE ---",
              f"Titolo: {c.titolo}",
              f"Fonte: {c.fonte}",
-             f"Estratto: {c.estratto or '(nessun estratto disponibile: usa solo il titolo)'}"]
+             f"Estratto: {estratto or '(nessun estratto disponibile: usa solo il titolo)'}"]
     if e_arxiv(c):
         righe += [
             "",

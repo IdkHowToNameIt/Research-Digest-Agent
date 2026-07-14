@@ -1,6 +1,6 @@
 """Entrypoint del Research Digest Agent — DRA.
 
-  python main.py [--config config.yaml]   -> richiede GEMINI_API_KEY
+  python main.py [--config config.yaml]   -> richiede GROQ_API_KEY
 
 La pipeline è ~80% script (fetch, dedup, classificazione, note interne,
 assemblaggio); il modello (Gemini) interviene solo sulla sintesi testuale degli
