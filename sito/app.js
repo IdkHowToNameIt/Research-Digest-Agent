@@ -281,16 +281,22 @@ function renderCalendario(){
   const {anno, mese, campo} = CAL;
   const offset = (new Date(anno, mese, 1).getDay() + 6) % 7;   // lun=0
   const giorniMese = new Date(anno, mese + 1, 0).getDate();
-  const selIso = FILTRO_DATE[campo];
+  const dal = FILTRO_DATE.dal, al = FILTRO_DATE.al;
   const oggiIso = new Date().toISOString().slice(0,10);
   let celle = '';
   for(let i=0; i<offset; i++) celle += '<span class="cal-vuoto"></span>';
   for(let g=1; g<=giorniMese; g++){
     const iso = `${anno}-${String(mese+1).padStart(2,'0')}-${String(g).padStart(2,'0')}`;
     const cls = ['cal-g'];
-    if(iso === selIso) cls.push('sel');
+    // disabilita i giorni che creerebbero un intervallo invertito (Al<Dal o Dal>Al)
+    const off = (campo === 'al'  && dal && iso < dal) ||
+                (campo === 'dal' && al  && iso > al);
+    if(off) cls.push('off');
+    if(iso === dal || iso === al) cls.push('sel');            // estremi selezionati
+    else if(dal && al && iso > dal && iso < al) cls.push('in-range'); // giorni intermedi
     if(iso === oggiIso) cls.push('oggi');
-    celle += `<button class="${cls.join(' ')}" onclick="calSeleziona('${iso}',event)">${g}</button>`;
+    const attr = off ? 'disabled' : `onclick="calSeleziona('${iso}',event)"`;
+    celle += `<button class="${cls.join(' ')}" ${attr}>${g}</button>`;
   }
   pop.innerHTML = `
     <div class="cal-head">
@@ -304,6 +310,9 @@ function renderCalendario(){
 
 function calSeleziona(iso, ev){
   if(ev) ev.stopPropagation();
+  // ignora le selezioni che invertirebbero l'intervallo (i giorni sono già disabilitati)
+  if((CAL.campo === 'al'  && FILTRO_DATE.dal && iso < FILTRO_DATE.dal) ||
+     (CAL.campo === 'dal' && FILTRO_DATE.al  && iso > FILTRO_DATE.al)) return;
   FILTRO_DATE[CAL.campo] = iso;
   PAGINA = 1;
   aggiornaCampiData();
