@@ -19,6 +19,7 @@ from src.schemas import (
     Articolo,
     Digest,
     Fonte,
+    GruppoGiorno,
     NotaInterna,
     Sezione,
     Stato,
@@ -67,6 +68,11 @@ def test_temi_con_aggiornamenti():
     assert temi_con_aggiornamenti(d) == [Tema.chip]
 
 
+def _articoli_di(tema_dati):
+    """Appiattisce gli articoli dei gruppi di un tema di data.json."""
+    return [a for g in tema_dati["gruppi"] for a in g["articoli"]]
+
+
 def test_dati_cinque_temi_sempre_in_ordine():
     d = _digest(chip=[_art("Chip news", "https://x/1")])
     dati = _dati(d)
@@ -74,20 +80,42 @@ def test_dati_cinque_temi_sempre_in_ordine():
     # ogni tema ha id + nome leggibile
     chip = next(t for t in dati["temi"] if t["id"] == "chip")
     assert chip["nome"] == ETICHETTE[Tema.chip]
-    assert [a["titolo"] for a in chip["articoli"]] == ["Chip news"]
-    # i temi senza aggiornamenti esistono comunque, vuoti
+    assert [a["titolo"] for a in _articoli_di(chip)] == ["Chip news"]
+    # i temi senza aggiornamenti esistono comunque, senza gruppi
     energia = next(t for t in dati["temi"] if t["id"] == "energia")
-    assert energia["articoli"] == []
+    assert energia["gruppi"] == []
 
 
 def test_dati_articolo_completo():
     d = _digest(chip=[_art("Blackwell", "https://x/1")])
-    art = _dati(d)["temi"][0]["articoli"][0]
+    art = _dati(d)["temi"][0]["gruppi"][0]["articoli"][0]
     assert art["titolo"] == "Blackwell"
     assert art["sintesi"] == "Sintesi di Blackwell."
     assert art["perche_conta"] == "Conta perché Blackwell."
     assert art["data"] == "2026-07-09"
     assert art["fonti"] == [{"nome": "NVIDIA", "link": "https://x/1"}]
+
+
+def test_stesso_giorno_un_solo_gruppo_col_titolo_riassuntivo():
+    # due articoli chip nello stesso giorno -> UN gruppo, col titolo del digest.
+    a1 = _art("Blackwell", "https://x/1", data="2026-07-09")
+    a2 = _art("Rubin", "https://x/2", data="2026-07-09")
+    sez = Sezione(tema=Tema.chip, stato=Stato.con_aggiornamenti, articoli=[a1, a2],
+                  gruppi=[GruppoGiorno(data="2026-07-09", titolo="NVIDIA accelera sui chip")])
+    sezioni = [sez] + [sezione_vuota(t) for t in Tema if t is not Tema.chip]
+    d = Digest(data_generazione="2026-07-09", sezioni=sezioni)
+    chip = next(t for t in costruisci_dati(d, [d.contenuto_pubblico()])["temi"] if t["id"] == "chip")
+    assert len(chip["gruppi"]) == 1
+    g = chip["gruppi"][0]
+    assert g["titolo"] == "NVIDIA accelera sui chip"
+    assert [a["titolo"] for a in g["articoli"]] == ["Blackwell", "Rubin"]
+
+
+def test_gruppo_senza_titolo_ricade_sul_primo_articolo():
+    # archivio "vecchio" senza metadato gruppi -> titolo = titolo del primo articolo.
+    d = _digest(chip=[_art("Solo", "https://x/1")])
+    chip = next(t for t in _dati(d)["temi"] if t["id"] == "chip")
+    assert chip["gruppi"][0]["titolo"] == "Solo"
 
 
 def test_badge_giorni_nel_json():
@@ -103,10 +131,11 @@ def test_cronologia_storica_multi_run():
     per_tema = raccogli_per_tema(archivio)
     titoli = [a["titolo"] for a in per_tema[Tema.chip]]
     assert titoli == ["Recente", "Vecchio"]  # più recente prima
-    # anche in data.json l'ordine è più-recente-prima
+    # anche in data.json l'ordine è più-recente-prima (giorni diversi -> 2 gruppi)
     dati = costruisci_dati(d2, archivio)
     chip = next(t for t in dati["temi"] if t["id"] == "chip")
-    assert [a["titolo"] for a in chip["articoli"]] == ["Recente", "Vecchio"]
+    assert [g["data"] for g in chip["gruppi"]] == ["2026-07-09", "2026-06-01"]
+    assert [a["titolo"] for a in _articoli_di(chip)] == ["Recente", "Vecchio"]
 
 
 # --- generazione file (data.json + copia template) --------------------------
@@ -131,7 +160,7 @@ def test_genera_sito_scrive_datajson_e_copia_frontend(tmp_path):
     assert (out / "app.js").read_text(encoding="utf-8") == "caricaDati();"
     assert "CONCEPT-TEMPLATE" in (out / "index.html").read_text(encoding="utf-8")
     dati = json.loads((out / "data.json").read_text(encoding="utf-8"))
-    assert dati["temi"][0]["articoli"][0]["titolo"] == "A"
+    assert dati["temi"][0]["gruppi"][0]["articoli"][0]["titolo"] == "A"
     assert any("data.json" in s for s in scritti)
     assert any(s.endswith("stile.css") for s in scritti)
 

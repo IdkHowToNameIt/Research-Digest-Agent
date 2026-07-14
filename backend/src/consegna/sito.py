@@ -3,8 +3,10 @@
 Separazione netta backend/frontend: il backend NON genera più HTML. Produce un
 unico file `data.json` (contratto dati) che il frontend statico
 (`frontend/concept/index.html`) legge via fetch e con cui genera da solo, lato
-client, le pagine richieste: homepage (box solo per i temi con aggiornamenti nella
-settimana), cronologia per tema e pagina del singolo articolo.
+client, le pagine richieste: homepage (un box per tema con aggiornamenti nella
+settimana), lista dei gruppi-giorno di un tema (ognuno col titolo riassuntivo) e
+dettaglio del gruppo con le notizie di quel giorno suddivise una per una. Le
+notizie di uno stesso tema nello stesso giorno confluiscono in un unico gruppo.
 
 `genera_sito`:
 - scrive `<out_dir>/data.json` = archivio storico aggregato per tema + soglie;
@@ -69,6 +71,47 @@ def raccogli_per_tema(archivio: list[dict]) -> dict[Tema, list[dict]]:
     return per_tema
 
 
+def _articolo_pubblico(a: dict, ts: str) -> dict:
+    """Proietta un articolo d'archivio nel formato del sito (data con fallback al ts)."""
+    return {
+        "titolo": a.get("titolo", ""),
+        "fonti": a.get("fonti", []),
+        "data": a.get("data") or ts,
+        "sintesi": a.get("sintesi", ""),
+        "perche_conta": a.get("perche_conta", ""),
+        "note": a.get("note"),
+    }
+
+
+def raccogli_gruppi_per_tema(archivio: list[dict]) -> dict[Tema, dict[str, dict]]:
+    """Aggrega l'archivio in gruppi (tema -> data -> {titolo, articoli}).
+
+    Le notizie di uno stesso tema nello stesso giorno confluiscono in un unico
+    gruppo. Il `titolo` del gruppo è quello riassuntivo salvato nel digest
+    (`Sezione.gruppi`, generato dal modello); se assente (archivi vecchi) resta
+    None e verrà rimpiazzato da un fallback a valle. Gli archivi sono scorsi dal
+    più recente, così un eventuale titolo/articolo dello stesso (tema,data) su più
+    run mantiene la versione più recente in testa.
+    """
+    per_tema: dict[Tema, dict[str, dict]] = {t: {} for t in Tema}
+    for pub in sorted(archivio, key=lambda d: d.get("data_generazione", ""), reverse=True):
+        ts = pub.get("data_generazione", "")
+        for sez in pub.get("sezioni", []):
+            try:
+                tema = Tema(sez.get("tema"))
+            except ValueError:
+                continue
+            titoli = {g.get("data"): g.get("titolo") for g in sez.get("gruppi", [])}
+            for art in sez.get("articoli", []):
+                item = _articolo_pubblico(art, ts)
+                data = item["data"]
+                gruppo = per_tema[tema].setdefault(data, {"titolo": None, "articoli": []})
+                gruppo["articoli"].append(item)
+                if gruppo["titolo"] is None and titoli.get(data):
+                    gruppo["titolo"] = titoli[data]
+    return per_tema
+
+
 def costruisci_dati(
     digest_corrente: Digest,
     archivio: list[dict],
@@ -79,29 +122,26 @@ def costruisci_dati(
 
     Forma:
         {
-          "generato": "YYYY-MM-DD",
-          "badge_giorni": 2,
-          "settimana_giorni": 7,
-          "temi": [ {"id","nome","articoli":[
-              {"titolo","fonti":[{nome,link}],"data","sintesi","perche_conta","note"} ]}, ... ]
+          "generato": "YYYY-MM-DD", "badge_giorni": 2, "settimana_giorni": 7,
+          "temi": [ {"id","nome","gruppi":[
+              {"data","titolo","articoli":[
+                 {"titolo","fonti":[{nome,link}],"data","sintesi","perche_conta","note"} ]} ]}, ... ]
         }
-    I 5 temi sono sempre presenti e in ordine canonico (anche senza articoli).
+    Le notizie di uno stesso tema nello stesso giorno sono un unico gruppo, con un
+    titolo riassuntivo. I 5 temi sono sempre presenti e in ordine canonico; i gruppi
+    sono ordinati dal giorno più recente. Titolo del gruppo mancante (archivi vecchi)
+    -> fallback sul titolo del primo articolo.
     """
-    per_tema = raccogli_per_tema(archivio)
+    per_tema = raccogli_gruppi_per_tema(archivio)
     temi = []
     for tema in TEMI_ORDINE:
-        articoli = [
-            {
-                "titolo": a.get("titolo", ""),
-                "fonti": a.get("fonti", []),
-                "data": a.get("data") or a.get("_ts", ""),
-                "sintesi": a.get("sintesi", ""),
-                "perche_conta": a.get("perche_conta", ""),
-                "note": a.get("note"),
-            }
-            for a in per_tema.get(tema, [])
-        ]
-        temi.append({"id": tema.value, "nome": ETICHETTE[tema], "articoli": articoli})
+        gruppi = []
+        for data in sorted(per_tema[tema].keys(), reverse=True):  # più recente prima
+            g = per_tema[tema][data]
+            articoli = g["articoli"]
+            titolo = g["titolo"] or (articoli[0]["titolo"] if articoli else "")
+            gruppi.append({"data": data, "titolo": titolo, "articoli": articoli})
+        temi.append({"id": tema.value, "nome": ETICHETTE[tema], "gruppi": gruppi})
     return {
         "generato": digest_corrente.data_generazione,
         "badge_giorni": badge_giorni,

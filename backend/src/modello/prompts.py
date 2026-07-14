@@ -57,6 +57,33 @@ OUTPUT: rispondi con un oggetto JSON con esattamente queste chiavi:
 "note" e' opzionale (stringa vuota se non serve)."""
 
 
+def prompt_titolo_gruppo(tema_label: str, voci: list[tuple[str, str]]) -> str:
+    """Prompt per il titolo riassuntivo di un gruppo di notizie dello stesso giorno.
+
+    `voci` = lista di coppie (titolo, sintesi) degli articoli gia' sintetizzati del
+    gruppo. Il modello deve produrre UNA riga che sintetizza il filo comune della
+    giornata per quel tema, restando ancorato alle sole informazioni fornite.
+    """
+    elenco = "\n".join(f"- {t}: {s}" for t, s in voci)
+    return f"""Sei l'editor di un digest di ricerca su "Infrastruttura & Hardware AI".
+Di seguito le notizie del tema "{tema_label}" pubblicate nello STESSO giorno.
+Scrivi UN unico titolo-sommario in italiano (max ~14 parole) che catturi il filo
+conduttore della giornata per questo tema: sintetico, informativo, da rassegna.
+
+REGOLE (grounding):
+- Usa SOLO le informazioni presenti nelle notizie qui sotto. NON inventare fatti,
+  numeri o nomi non presenti.
+- Niente linguaggio promozionale, niente virgolette attorno al titolo.
+- Se le notizie sono eterogenee, trova il tema comune di alto livello (es. "capacità",
+  "chip", "energia") senza forzare un legame che non c'è.
+
+OUTPUT: un oggetto JSON con esattamente questa chiave:
+  {{"titolo": "..."}}
+
+NOTIZIE:
+{elenco}"""
+
+
 def prompt_sintesi(c: Candidato) -> str:
     """Costruisce il prompt per la sintesi di un singolo candidato."""
     estratto = c.estratto or ""

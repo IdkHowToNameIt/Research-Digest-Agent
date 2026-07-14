@@ -12,12 +12,13 @@ from __future__ import annotations
 
 from typing import Callable
 
-from .prompts import NOTA_PREPRINT, e_arxiv, prompt_sintesi
+from .prompts import NOTA_PREPRINT, e_arxiv, prompt_sintesi, prompt_titolo_gruppo
 from ..schemas import (
     TEMI_ORDINE,
     Articolo,
     Digest,
     Fonte,
+    GruppoGiorno,
     NotaInterna,
     Sezione,
     Stato,
@@ -62,6 +63,36 @@ def sintetizza_candidato(c: Candidato, genera: Generatore | None) -> Articolo:
     )
 
 
+def _raggruppa_per_giorno(articoli: list[Articolo]) -> list[tuple[str, list[Articolo]]]:
+    """Raggruppa gli articoli per `data` (ISO), preservando l'ordine di apparizione
+    sia dei giorni sia degli articoli dentro ciascun giorno."""
+    per_giorno: dict[str, list[Articolo]] = {}
+    for a in articoli:
+        per_giorno.setdefault(a.data, []).append(a)
+    return list(per_giorno.items())
+
+
+def sintetizza_titolo_gruppo(
+    tema: Tema, articoli: list[Articolo], genera: Generatore | None
+) -> str:
+    """Titolo riassuntivo per un gruppo di articoli dello stesso giorno.
+
+    Con un solo articolo il titolo del gruppo È quello dell'articolo (nessuna
+    chiamata al modello). Con più articoli si chiede al modello una riga di
+    sommario; in mancanza di modello (test/demo) o di risposta utile si ripiega
+    sul titolo del primo articolo.
+    """
+    if len(articoli) == 1 or genera is None:
+        return articoli[0].titolo
+    voci = [(a.titolo, a.sintesi) for a in articoli]
+    label = tema.value.replace("_", " ")
+    try:
+        dati = genera(prompt_titolo_gruppo(label, voci))
+    except Exception:  # noqa: BLE001 - un titolo mancante non deve fermare la run
+        return articoli[0].titolo
+    return str(dati.get("titolo", "")).strip() or articoli[0].titolo
+
+
 def assembla_digest(
     gruppi: dict[Tema, list[Candidato]],
     genera: Generatore | None,
@@ -71,16 +102,25 @@ def assembla_digest(
     """Costruisce il Digest con le 5 sezioni fisse a partire dai candidati per tema.
 
     Le sezioni senza candidati risultano `nessun_aggiornamento` (il modello NON
-    viene invocato per esse: nessun costo, nessun testo generato).
+    viene invocato per esse: nessun costo, nessun testo generato). Per le sezioni
+    con aggiornamenti, gli articoli dello stesso giorno vengono anche riassunti in
+    un `GruppoGiorno` (titolo del gruppo) per la presentazione sul sito.
     """
     sezioni: list[Sezione] = []
     for tema in TEMI_ORDINE:
         candidati = gruppi.get(tema, [])
         if not candidati:
             sezioni.append(Sezione(tema=tema, stato=Stato.nessun_aggiornamento, articoli=[]))
-        else:
-            articoli = [sintetizza_candidato(c, genera) for c in candidati]
-            sezioni.append(Sezione(tema=tema, stato=Stato.con_aggiornamenti, articoli=articoli))
+            continue
+        articoli = [sintetizza_candidato(c, genera) for c in candidati]
+        gruppi_giorno = [
+            GruppoGiorno(data=data, titolo=sintetizza_titolo_gruppo(tema, arts, genera))
+            for data, arts in _raggruppa_per_giorno(articoli)
+        ]
+        sezioni.append(Sezione(
+            tema=tema, stato=Stato.con_aggiornamenti,
+            articoli=articoli, gruppi=gruppi_giorno,
+        ))
     return Digest(
         data_generazione=data_generazione,
         sezioni=sezioni,

@@ -117,3 +117,47 @@ def test_modello_non_invocato_per_sezioni_vuote():
     assembla_digest(gruppi, genera, data_generazione="2026-07-09")
     # una sola chiamata: solo l'unico articolo (nessuna chiamata per le 4 sezioni vuote)
     assert len(genera.prompts) == 1
+
+
+# --- raggruppamento per giorno + titolo di gruppo ---------------------------
+
+def test_gruppo_singolo_articolo_titolo_uguale_articolo():
+    # un solo articolo nel giorno: il titolo del gruppo è quello dell'articolo,
+    # senza chiamata extra al modello.
+    gruppi = {Tema.chip: [_cand(titolo="Uno", url="https://a/1")]}
+    genera = _mock_genera({"sintesi": "S.", "perche_conta": "P."})
+    d = assembla_digest(gruppi, genera, data_generazione="2026-07-09")
+    sez = d.sezione(Tema.chip)
+    assert [g.titolo for g in sez.gruppi] == ["Uno"]
+    assert len(genera.prompts) == 1   # solo la sintesi, nessun titolo di gruppo
+
+
+def test_gruppo_multi_articolo_stesso_giorno_titolo_dal_modello():
+    gruppi = {Tema.chip: [_cand(titolo="Uno", url="https://a/1"),
+                          _cand(titolo="Due", url="https://a/2")]}
+
+    def genera(prompt):
+        genera.prompts.append(prompt)
+        if "NOTIZIE:" in prompt:                       # prompt del titolo di gruppo
+            return {"titolo": "Riassunto del giorno"}
+        return {"sintesi": "S.", "perche_conta": "P."}
+    genera.prompts = []
+
+    d = assembla_digest(gruppi, genera, data_generazione="2026-07-09")
+    sez = d.sezione(Tema.chip)
+    assert len(sez.articoli) == 2
+    assert len(sez.gruppi) == 1                          # stesso giorno -> un gruppo
+    assert sez.gruppi[0].titolo == "Riassunto del giorno"
+    assert len(genera.prompts) == 3                      # 2 sintesi + 1 titolo di gruppo
+
+
+def test_gruppi_distinti_per_giorni_diversi():
+    c_oggi = _cand(titolo="Oggi", url="https://a/1")
+    c_ieri = _cand(titolo="Ieri", url="https://a/2")
+    c_ieri.data = "2026-07-08"
+    genera = _mock_genera({"sintesi": "S.", "perche_conta": "P."})
+    d = assembla_digest({Tema.chip: [c_oggi, c_ieri]}, genera, data_generazione="2026-07-09")
+    sez = d.sezione(Tema.chip)
+    assert {g.data for g in sez.gruppi} == {"2026-07-09", "2026-07-08"}
+    # ogni gruppo ha 1 articolo -> nessuna chiamata extra per i titoli
+    assert len(genera.prompts) == 2

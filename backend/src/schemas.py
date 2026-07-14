@@ -109,12 +109,36 @@ class NotaInterna(BaseModel):
     dettaglio: str
 
 
+class GruppoGiorno(BaseModel):
+    """Titolo riassuntivo di un gruppo di articoli dello stesso giorno in una sezione.
+
+    Le notizie di uno stesso tema pubblicate nello stesso giorno vengono presentate
+    dal sito (sez. 18) come UN blocco unico con un titolo/sommario riassuntivo (una
+    frase generata dal modello quando gli articoli sono >1, altrimenti il titolo
+    dell'unico articolo). Qui si persiste solo la coppia (data, titolo): gli articoli
+    restano in `Sezione.articoli`, il sito li raggruppa per `data`. `data` = ISO
+    YYYY-MM-DD (o "" se la fonte non forniva una data leggibile).
+    """
+    data: str
+    titolo: str
+
+    @field_validator("titolo")
+    @classmethod
+    def _titolo_non_vuoto(cls, v: str) -> str:
+        if not v or not v.strip():
+            raise ValueError("il titolo del gruppo non puo' essere vuoto")
+        return v
+
+
 class Sezione(BaseModel):
     """Una delle 5 sezioni fisse del digest, con stato esplicito."""
     tema: Tema
     stato: Stato
     # Vuota se stato = nessun_aggiornamento (16.6).
     articoli: list[Articolo] = Field(default_factory=list)
+    # Titoli riassuntivi dei gruppi-giorno (uno per data presente tra gli articoli).
+    # Metadato per il sito: non altera la logica delle sezioni ne' l'email/markdown.
+    gruppi: list[GruppoGiorno] = Field(default_factory=list)
 
     @model_validator(mode="after")
     def _coerenza_stato_articoli(self) -> "Sezione":
