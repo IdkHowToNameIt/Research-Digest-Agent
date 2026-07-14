@@ -150,23 +150,29 @@
   .btn-azzera:hover{background:var(--verde);color:#fff;border-color:var(--verde)}
   .btn-azzera.nascosto{display:none}
 
-  /* --- paginazione della lista-gruppi (evita scroll infiniti) --- */
-  .paginazione{display:flex;flex-wrap:wrap;gap:.7rem 1.2rem;align-items:center;
-    justify-content:space-between;margin:1.5rem 0 .3rem}
-  .pag-info{display:flex;flex-wrap:wrap;gap:.5rem .9rem;align-items:center;
-    color:var(--inchiostro-2);font-size:.85rem}
-  .pag-perpag{display:inline-flex;align-items:center;gap:.45rem}
-  .pag-perpag select{font:inherit;font-size:.85rem;cursor:pointer;color:var(--inchiostro-2);
-    background:rgba(13,13,15,.6);border:1px solid var(--bordo);border-radius:8px;padding:.28rem .5rem;
-    transition:border-color .15s}
-  .pag-perpag select:hover{border-color:rgba(224,80,110,.5)}
-  .pag-nav{display:flex;gap:.5rem;align-items:center}
-  .pag-btn{font:inherit;font-size:.85rem;cursor:pointer;border:1px solid var(--bordo);
-    background:rgba(13,13,15,.6);color:var(--inchiostro-2);border-radius:999px;padding:.35rem .9rem;
+  /* --- paginazione della lista-gruppi (evita scroll infiniti) ---
+     Barra ben staccata dalla lista: separatore in alto, superficie a card e
+     testo pieno, così non passa inosservata in fondo ai gruppi. */
+  .paginazione{display:flex;flex-wrap:wrap;gap:.8rem 1.3rem;align-items:center;
+    justify-content:space-between;margin:1.8rem 0 .3rem;padding:.9rem 1.1rem;
+    border-top:1px solid var(--bordo);background:var(--carta);border:1px solid var(--bordo);
+    border-radius:14px}
+  .pag-info{display:flex;flex-wrap:wrap;gap:.6rem 1rem;align-items:center;
+    color:var(--inchiostro);font-size:.92rem}
+  .pag-perpag{display:inline-flex;align-items:center;gap:.5rem;color:var(--inchiostro)}
+  .pag-perpag select{font:inherit;font-size:.9rem;font-weight:600;cursor:pointer;color:var(--inchiostro);
+    background:rgba(13,13,15,.75);border:1px solid var(--bordo);border-radius:8px;padding:.34rem .6rem;
+    transition:border-color .15s,color .15s}
+  .pag-perpag select:hover{color:#fff;border-color:rgba(224,80,110,.6)}
+  .pag-conta{color:var(--inchiostro-2)}
+  .pag-nav{display:flex;gap:.55rem;align-items:center}
+  .pag-btn{font:inherit;font-size:.9rem;font-weight:600;cursor:pointer;border:1px solid rgba(224,80,110,.45);
+    background:rgba(224,80,110,.12);color:var(--verde-vivo);border-radius:999px;padding:.42rem 1.05rem;
     transition:background .15s,color .15s,border-color .15s}
-  .pag-btn:hover:not(:disabled){color:#fff;border-color:rgba(224,80,110,.5)}
-  .pag-btn:disabled{opacity:.4;cursor:default}
-  .pag-stato{font-size:.85rem;color:var(--inchiostro-2)}
+  .pag-btn:hover:not(:disabled){background:var(--verde);color:#fff;border-color:var(--verde)}
+  .pag-btn:disabled{opacity:.35;cursor:default;color:var(--inchiostro-2);
+    background:rgba(13,13,15,.5);border-color:var(--bordo)}
+  .pag-stato{font-size:.92rem;font-weight:600;color:var(--inchiostro);white-space:nowrap}
 
   /* ==========================================================================
      CALENDARIO — date picker custom (popup dei campi "Dal/Al" del filtro data).
