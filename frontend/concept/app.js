@@ -177,8 +177,13 @@ function controlliFiltroData(){
   return `<div class="filtri">
       <div class="filtro-range">${pills}</div>
       <div class="filtro-date">
-        <label>Dal <input type="date" id="filtro-dal" oninput="renderListaGruppi()"></label>
-        <label>Al <input type="date" id="filtro-al" oninput="renderListaGruppi()"></label>
+        <span class="filtro-lbl">Periodo</span>
+        <div class="date-range">
+          <label>Dal <input type="date" id="filtro-dal" oninput="renderListaGruppi()"></label>
+          <span class="range-sep">→</span>
+          <label>Al <input type="date" id="filtro-al" oninput="renderListaGruppi()"></label>
+        </div>
+        <button class="btn-azzera nascosto" onclick="azzeraFiltriData()">✕ Azzera</button>
       </div>
     </div>`;
 }
@@ -186,6 +191,14 @@ function controlliFiltroData(){
 function attivaRange(el){
   el.parentElement.querySelectorAll('.pill-f').forEach(p=>p.classList.remove('attivo'));
   el.classList.add('attivo');
+  renderListaGruppi();
+}
+
+function azzeraFiltriData(){
+  const dal = document.getElementById('filtro-dal'); if(dal) dal.value = '';
+  const al = document.getElementById('filtro-al'); if(al) al.value = '';
+  document.querySelectorAll('.filtro-range .pill-f').forEach(p=>
+    p.classList.toggle('attivo', p.dataset.giorni === 'all'));   // torna a "Tutte"
   renderListaGruppi();
 }
 
@@ -206,6 +219,9 @@ function renderListaGruppi(){
   cont.innerHTML = gruppi.length
     ? gruppi.map(g=>cardGruppo(t.id, g)).join('')
     : '<p class="sez-nota">Nessun aggiornamento per il periodo selezionato.</p>';
+  // il tasto Azzera compare solo quando c'è un filtro attivo
+  const btn = document.querySelector('.btn-azzera');
+  if(btn) btn.classList.toggle('nascosto', !(rg != null || dal || al));
   attivaEffetti();
 }
 
