@@ -10,7 +10,12 @@ let SOGLIA_NUOVO = 2;      // giorni: badge "Nuovo aggiornamento" (sovrascritto 
 let SOGLIA_SETTIMANA = 7;  // giorni: rientra nel digest "di questa settimana"
 let TEMA_CORRENTE = null;    // id del tema nella vista lista-gruppi (per i filtri data)
 let GRUPPO_CORRENTE = null;  // {id, data} nella vista dettaglio (per il filtro fonte)
+let FILTRO_DATE = {dal:'', al:''};      // intervallo "Dal-Al" selezionato col calendario custom
+let CAL = {campo:null, anno:0, mese:0}; // stato del popup calendario (quale campo, mese visualizzato)
 const MESI = ["gen","feb","mar","apr","mag","giu","lug","ago","set","ott","nov","dic"];
+const MESI_FULL = ["gennaio","febbraio","marzo","aprile","maggio","giugno",
+  "luglio","agosto","settembre","ottobre","novembre","dicembre"];
+const GIORNI_SETT = ["lun","mar","mer","gio","ven","sab","dom"];
 
 function giorniFa(iso){
   if(!iso) return 99999;
@@ -179,9 +184,12 @@ function controlliFiltroData(){
       <div class="filtro-date">
         <span class="filtro-lbl">Periodo</span>
         <div class="date-range">
-          <label>Dal <input type="date" id="filtro-dal" oninput="renderListaGruppi()"></label>
+          <button class="date-field" id="campo-dal" onclick="apriCalendario('dal',event)">
+            <span class="df-lbl">Dal</span><span class="df-val" id="val-dal">—</span></button>
           <span class="range-sep">→</span>
-          <label>Al <input type="date" id="filtro-al" oninput="renderListaGruppi()"></label>
+          <button class="date-field" id="campo-al" onclick="apriCalendario('al',event)">
+            <span class="df-lbl">Al</span><span class="df-val" id="val-al">—</span></button>
+          <div id="calendario" class="cal-pop" hidden></div>
         </div>
         <button class="btn-azzera nascosto" onclick="azzeraFiltriData()">✕ Azzera</button>
       </div>
@@ -195,12 +203,97 @@ function attivaRange(el){
 }
 
 function azzeraFiltriData(){
-  const dal = document.getElementById('filtro-dal'); if(dal) dal.value = '';
-  const al = document.getElementById('filtro-al'); if(al) al.value = '';
+  FILTRO_DATE = {dal:'', al:''};
+  aggiornaCampiData();
+  chiudiCalendario();
   document.querySelectorAll('.filtro-range .pill-f').forEach(p=>
     p.classList.toggle('attivo', p.dataset.giorni === 'all'));   // torna a "Tutte"
   renderListaGruppi();
 }
+
+/* ---- date picker custom (calendario) del filtro "Periodo" -------------- */
+function fmtDataBreve(iso){
+  const d = new Date((iso||'') + "T00:00:00");
+  if(isNaN(d.getTime())) return '—';
+  return d.getDate() + " " + MESI[d.getMonth()] + " " + String(d.getFullYear()).slice(2);
+}
+
+function aggiornaCampiData(){
+  const vd = document.getElementById('val-dal'), va = document.getElementById('val-al');
+  if(vd) vd.textContent = FILTRO_DATE.dal ? fmtDataBreve(FILTRO_DATE.dal) : '—';
+  if(va) va.textContent = FILTRO_DATE.al ? fmtDataBreve(FILTRO_DATE.al) : '—';
+  const cd = document.getElementById('campo-dal'), ca = document.getElementById('campo-al');
+  if(cd) cd.classList.toggle('valorizzato', !!FILTRO_DATE.dal);
+  if(ca) ca.classList.toggle('valorizzato', !!FILTRO_DATE.al);
+}
+
+function apriCalendario(campo, ev){
+  if(ev) ev.stopPropagation();
+  CAL.campo = campo;
+  const base = FILTRO_DATE[campo] ? new Date(FILTRO_DATE[campo] + "T00:00:00") : new Date();
+  CAL.anno = base.getFullYear();
+  CAL.mese = base.getMonth();
+  renderCalendario();
+  const pop = document.getElementById('calendario');
+  if(pop) pop.hidden = false;
+}
+
+function calNav(delta){
+  CAL.mese += delta;
+  if(CAL.mese < 0){ CAL.mese = 11; CAL.anno--; }
+  if(CAL.mese > 11){ CAL.mese = 0; CAL.anno++; }
+  renderCalendario();
+}
+
+function renderCalendario(){
+  const pop = document.getElementById('calendario');
+  if(!pop) return;
+  const {anno, mese, campo} = CAL;
+  const offset = (new Date(anno, mese, 1).getDay() + 6) % 7;   // lun=0
+  const giorniMese = new Date(anno, mese + 1, 0).getDate();
+  const selIso = FILTRO_DATE[campo];
+  const oggiIso = new Date().toISOString().slice(0,10);
+  let celle = '';
+  for(let i=0; i<offset; i++) celle += '<span class="cal-vuoto"></span>';
+  for(let g=1; g<=giorniMese; g++){
+    const iso = `${anno}-${String(mese+1).padStart(2,'0')}-${String(g).padStart(2,'0')}`;
+    const cls = ['cal-g'];
+    if(iso === selIso) cls.push('sel');
+    if(iso === oggiIso) cls.push('oggi');
+    celle += `<button class="${cls.join(' ')}" onclick="calSeleziona('${iso}',event)">${g}</button>`;
+  }
+  pop.innerHTML = `
+    <div class="cal-head">
+      <button class="cal-nav" onclick="calNav(-1)" aria-label="Mese precedente">‹</button>
+      <span class="cal-titolo">${MESI_FULL[mese]} ${anno}</span>
+      <button class="cal-nav" onclick="calNav(1)" aria-label="Mese successivo">›</button>
+    </div>
+    <div class="cal-sett">${GIORNI_SETT.map(d=>`<span>${d}</span>`).join('')}</div>
+    <div class="cal-griglia">${celle}</div>`;
+}
+
+function calSeleziona(iso, ev){
+  if(ev) ev.stopPropagation();
+  FILTRO_DATE[CAL.campo] = iso;
+  aggiornaCampiData();
+  chiudiCalendario();
+  renderListaGruppi();
+}
+
+function chiudiCalendario(){
+  const pop = document.getElementById('calendario');
+  if(pop) pop.hidden = true;
+  CAL.campo = null;
+}
+
+// chiusura del calendario al click fuori / con Esc (registrata una sola volta)
+document.addEventListener('click', function(e){
+  const pop = document.getElementById('calendario');
+  if(!pop || pop.hidden) return;
+  if(e.target.closest('#calendario') || e.target.closest('.date-field')) return;
+  chiudiCalendario();
+});
+document.addEventListener('keydown', function(e){ if(e.key === 'Escape') chiudiCalendario(); });
 
 function renderListaGruppi(){
   const t = trovaTema(TEMA_CORRENTE);
@@ -208,8 +301,7 @@ function renderListaGruppi(){
   if(!t || !cont) return;
   const pill = document.querySelector('.filtro-range .pill-f.attivo');
   const rg = (pill && pill.dataset.giorni !== 'all') ? Number(pill.dataset.giorni) : null;
-  const dal = (document.getElementById('filtro-dal')||{}).value || '';
-  const al = (document.getElementById('filtro-al')||{}).value || '';
+  const dal = FILTRO_DATE.dal, al = FILTRO_DATE.al;
   let gruppi = t.gruppi.filter(g=>{
     if(rg != null && g.giorni > rg) return false;
     if(dal && !(g.data && g.data >= dal)) return false;
@@ -228,6 +320,7 @@ function renderListaGruppi(){
 function vaiTema(id){
   const t = trovaTema(id);
   TEMA_CORRENTE = id;
+  FILTRO_DATE = {dal:'', al:''};   // i filtri data non persistono tra temi diversi
   app.innerHTML = `<section class="view"><main class="crono">
       <button class="indietro" onclick="vaiHome()">← Home</button>
       <h2><span class="tema-ic">${iconaTema(t.id,26)}</span>${t.nome}</h2>
