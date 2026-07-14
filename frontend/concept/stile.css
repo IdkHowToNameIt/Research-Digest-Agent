@@ -109,6 +109,9 @@
   .box-titolo{font-size:1.12rem;line-height:1.45;color:var(--inchiostro);font-weight:500}
   .box-conta{color:var(--inchiostro-2);font-size:.85rem;margin-top:.5rem}
   .box .apri{display:inline-block;margin-top:.85rem;font-size:1rem;color:var(--verde);font-weight:500;cursor:pointer}
+  /* box di un tema senza novità nella settimana: presente ma smorzato */
+  .box-vuota{opacity:.82}
+  .box-vuoto{color:var(--inchiostro-2);font-size:1.02rem;font-style:italic;margin:.6rem 0 .2rem}
   .box:hover .apri{color:var(--verde-vivo)}
 
   /* --- lista dei gruppi (un giorno = una card col titolo riassuntivo) --- */
