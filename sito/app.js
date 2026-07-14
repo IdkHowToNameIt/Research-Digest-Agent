@@ -162,13 +162,20 @@ function voceReport(tema, a, n){
 }
 
 /* ---------------------------- HOMEPAGE ----------------------------
-   Box auto-centrati (uno per tema con novità nella settimana). Ogni box mostra
-   il gruppo più recente del tema (titolo riassuntivo + data); il click porta
-   alla lista dei gruppi del tema. */
+   Un box per OGNI tema. Se il tema ha novità nella settimana mostra il gruppo più
+   recente (titolo riassuntivo + data); altrimenti resta comunque presente con lo
+   stato "Nessun aggiornamento settimanale". Il click porta alla lista del tema. */
 function boxTema(t){
   // usa i gruppi recenti dell'indice (t.recenti), non il dettaglio (non ancora caricato)
   const recenti = t.recenti.filter(g => g.giorni <= SOGLIA_SETTIMANA);
-  if(!recenti.length) return '';
+  if(!recenti.length){
+    // nessuna novità nella settimana: box presente ma in stato "vuoto" (storico apribile)
+    return `<div class="box box-vuota reveal" data-tilt onclick="vaiTema('${t.id}')">
+      <h3><span class="tema-ic">${iconaTema(t.id,22)}</span>${t.nome}</h3>
+      <div class="box-vuoto">Nessun aggiornamento settimanale</div>
+      <span class="apri">Apri ${t.nome} →</span>
+    </div>`;
+  }
   const g0 = recenti[0];                                   // più recente (backend ordina desc)
   const nuovo = g0.giorni <= SOGLIA_NUOVO;
   const nNews = recenti.reduce((s,g)=>s+g.n, 0);
@@ -188,10 +195,8 @@ function vaiHome(){
     `<button class="pill" onclick="vaiTema('${t.id}')">${iconaTema(t.id,15)}${t.nome}</button>`
   ).join('');
 
+  // un box per ogni tema: quelli senza novità restano visibili con stato "vuoto"
   const boxes = TEMI.map(boxTema).join('');
-  const contenuto = boxes
-    ? `<div class="boxes">${boxes}</div>`
-    : '<p class="sez-nota">Nessun aggiornamento questa settimana.</p>';
 
   app.innerHTML = `<section class="view home">
     <div class="hero">
@@ -203,8 +208,8 @@ function vaiHome(){
     <div class="temi-nav">${nav}</div>
     <main>
       <div class="sez-titolo">Aggiornamenti di questa settimana</div>
-      <div class="sez-nota">Un box per tema con novità: le notizie dello stesso giorno sono un unico digest.</div>
-      ${contenuto}
+      <div class="sez-nota">Un box per ogni tema: le notizie dello stesso giorno sono un unico digest.</div>
+      <div class="boxes">${boxes}</div>
     </main>
   </section>`;
   attivaEffetti();
