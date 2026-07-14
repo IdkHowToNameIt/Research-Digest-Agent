@@ -34,19 +34,27 @@ async function caricaDati(){
     const dati = await resp.json();
     if(dati.badge_giorni != null) SOGLIA_NUOVO = dati.badge_giorni;
     if(dati.settimana_giorni != null) SOGLIA_SETTIMANA = dati.settimana_giorni;
+    const mapArt = function(a){
+      return {
+        titolo: a.titolo,
+        fonte: (a.fonti||[]).map(function(f){return f.nome;}).join(' · '),
+        fonti: a.fonti||[],
+        data: a.data,
+        sintesi: a.sintesi||'',
+        perche: a.perche_conta||'',
+        nota: a.note||null
+      };
+    };
     TEMI = (dati.temi||[]).map(function(t){
       return {
         id: t.id, nome: t.nome,
-        articoli: (t.articoli||[]).map(function(a){
+        // gruppi = notizie dello stesso giorno unite sotto un titolo riassuntivo
+        gruppi: (t.gruppi||[]).map(function(g){
           return {
-            titolo: a.titolo,
-            fonte: (a.fonti||[]).map(function(f){return f.nome;}).join(' · '),
-            fonti: a.fonti||[],
-            data: a.data,
-            giorni: giorniFa(a.data),
-            sintesi: a.sintesi||'',
-            perche: a.perche_conta||'',
-            nota: a.note||null
+            data: g.data,
+            giorni: giorniFa(g.data),
+            titolo: g.titolo||'',
+            articoli: (g.articoli||[]).map(mapArt)
           };
         })
       };
@@ -74,61 +82,43 @@ function iconaTema(id, dim){
   return `<svg class="tema-svg" width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONE_TEMA[id]||''}</svg>`;
 }
 
-/* ---- raggruppamento per giorno: le notizie di uno stesso tema che ricadono
-   nella stessa data confluiscono in UN blocco (un "digest del giorno"), invece
-   di essere sparse una per una. Ordina i giorni dal più recente. --------- */
-function raggruppaPerGiorno(articoli){
-  const perData = new Map();               // data ISO -> [articoli]
-  for(const a of articoli){
-    const k = a.data || '';
-    if(!perData.has(k)) perData.set(k, []);
-    perData.get(k).push(a);
-  }
-  return [...perData.entries()]
-    .map(([data, arts]) => ({data, giorni: giorniFa(data), articoli: arts}))
-    .sort((x,y) => x.giorni - y.giorni);
-}
+function plurale(n, uno, molti){ return n===1 ? uno : molti; }
 
-/* una singola notizia resa per intero dentro il blocco-giorno: titolo, fonte
-   (link), tag del tema, sintesi completa, eventuale nota, "perché conta". */
+/* una singola notizia resa per intero dentro il dettaglio del gruppo: titolo,
+   fonte (link), tag del tema, sintesi completa, eventuale nota, "perché conta". */
 function articoloInline(tema, a){
   const fonti = (a.fonti||[]).map(f =>
     f.link ? `<a href="${f.link}" target="_blank" rel="noopener">${f.nome}</a>` : f.nome
   ).join(' · ') || a.fonte;
-  return `<article class="art">
+  return `<article class="art reveal">
       <h4>${a.titolo}</h4>
       <div class="meta"><span class="fonte">${fonti}</span>
-        <span class="tag">${iconaTema(tema.id,13)}${tema.nome}</span></div>
+        <span class="tag">${iconaTema(tema.id,13)}${tema.nome}</span> · ${fmtData(a.data)}</div>
       ${a.nota?`<div class="nota">${a.nota}</div>`:''}
       <p class="sintesi">${a.sintesi}</p>
       <div class="perche"><strong>Perché conta:</strong> ${a.perche}</div>
     </article>`;
 }
 
-/* il blocco-giorno riusato da home e cronologia: intestazione con la data (+
-   badge "Nuovo" se il giorno rientra nella soglia) e sotto tutte le notizie. */
-function bloccoGiorno(tema, gruppo){
-  const nuovo = gruppo.giorni <= SOGLIA_NUOVO;
-  return `<div class="giorno reveal">
-      <div class="giorno-head">${fmtData(gruppo.data)}
-        ${nuovo?'<span class="badge-nuovo">Nuovo</span>':''}</div>
-      ${gruppo.articoli.map(a => articoloInline(tema, a)).join('')}
+/* ---------------------------- HOMEPAGE ----------------------------
+   Box auto-centrati (uno per tema con novità nella settimana). Ogni box mostra
+   il gruppo più recente del tema (titolo riassuntivo + data); il click porta
+   alla lista dei gruppi del tema. */
+function boxTema(t){
+  const recenti = t.gruppi.filter(g => g.giorni <= SOGLIA_SETTIMANA);
+  if(!recenti.length) return '';
+  const g0 = recenti[0];                                   // più recente (backend ordina desc)
+  const nuovo = g0.giorni <= SOGLIA_NUOVO;
+  const nNews = recenti.reduce((s,g)=>s+g.articoli.length, 0);
+  return `<div class="box reveal" data-tilt onclick="vaiTema('${t.id}')">
+      <h3><span class="tema-ic">${iconaTema(t.id,22)}</span>${t.nome}</h3>
+      <div class="box-data">${fmtData(g0.data)} ${nuovo?'<span class="badge-nuovo">Nuovo</span>':''}</div>
+      <div class="box-titolo">${g0.titolo}</div>
+      <div class="box-conta">${nNews} ${plurale(nNews,'aggiornamento','aggiornamenti')} questa settimana</div>
+      <span class="apri">Apri ${t.nome} →</span>
     </div>`;
 }
 
-/* una sezione-tema = titolo del tema + i suoi blocchi-giorno. */
-function sezioneTema(tema, gruppi, conLinkCronologia){
-  const blocchi = gruppi.map(g => bloccoGiorno(tema, g)).join('');
-  const link = conLinkCronologia
-    ? `<span class="apri" onclick="vaiTema('${tema.id}')">Cronologia ${tema.nome} →</span>` : '';
-  return `<section class="tema-sez">
-      <h3 class="tema-tit"><span class="tema-ic">${iconaTema(tema.id,24)}</span>${tema.nome}</h3>
-      ${blocchi}
-      ${link}
-    </section>`;
-}
-
-/* ---------------------------- HOMEPAGE ---------------------------- */
 function vaiHome(){
   const oggi = fmtData(new Date().toISOString().slice(0,10));
 
@@ -136,14 +126,10 @@ function vaiHome(){
     `<button class="pill" onclick="vaiTema('${t.id}')">${iconaTema(t.id,15)}${t.nome}</button>`
   ).join('');
 
-  // per ogni tema con novità nella settimana: blocchi-giorno dei soli ultimi 7 gg.
-  const sezioni = TEMI.map(t => {
-    const recenti = t.articoli.filter(a => a.giorni <= SOGLIA_SETTIMANA);
-    if(!recenti.length) return '';
-    return sezioneTema(t, raggruppaPerGiorno(recenti), true);
-  }).join('');
-
-  const contenuto = sezioni || '<p class="sez-nota">Nessun aggiornamento questa settimana.</p>';
+  const boxes = TEMI.map(boxTema).join('');
+  const contenuto = boxes
+    ? `<div class="boxes">${boxes}</div>`
+    : '<p class="sez-nota">Nessun aggiornamento questa settimana.</p>';
 
   app.innerHTML = `<section class="view home">
     <div class="hero">
@@ -155,25 +141,59 @@ function vaiHome(){
     <div class="temi-nav">${nav}</div>
     <main>
       <div class="sez-titolo">Aggiornamenti di questa settimana</div>
-      <div class="sez-nota">Le notizie di uno stesso tema nello stesso giorno sono raggruppate insieme.</div>
+      <div class="sez-nota">Un box per tema con novità: le notizie dello stesso giorno sono un unico digest.</div>
       ${contenuto}
     </main>
   </section>`;
   attivaEffetti();
 }
 
-/* ------------------------- CRONOLOGIA TEMA ------------------------ */
+/* ------------------- LISTA GRUPPI DI UN TEMA ---------------------
+   Un gruppo per giorno, rappresentato dal titolo riassuntivo; il click apre il
+   dettaglio con le notizie del giorno suddivise una per una. */
 function vaiTema(id){
   const t = trovaTema(id);
-  const gruppi = raggruppaPerGiorno(t.articoli);
-  const corpo = gruppi.length
-    ? gruppi.map(g => bloccoGiorno(t, g)).join('')
+  const cards = t.gruppi.map((g,i)=>{
+    const nuovo = g.giorni <= SOGLIA_NUOVO;
+    const n = g.articoli.length;
+    const preview = n>1
+      ? `<ul class="preview">${g.articoli.slice(0,3).map(a=>`<li>${a.titolo}</li>`).join('')}
+           ${n>3?`<li class="piu">…e altre ${n-3}</li>`:''}</ul>` : '';
+    return `<div class="gruppo-card reveal" onclick="vaiGruppo('${id}',${i})">
+        <div class="meta">${fmtData(g.data)} ${nuovo?'<span class="badge-nuovo">Nuovo</span>':''}
+          · ${n} ${plurale(n,'aggiornamento','aggiornamenti')}</div>
+        <h4>${g.titolo}</h4>
+        ${preview}
+        <span class="apri">Apri il digest del giorno →</span>
+      </div>`;
+  }).join('');
+  const corpo = t.gruppi.length ? cards
     : '<p class="sez-nota">Nessun articolo in archivio per questo tema.</p>';
 
   app.innerHTML = `<section class="view"><main class="crono">
       <button class="indietro" onclick="vaiHome()">← Home</button>
-      <h2><span class="tema-ic">${iconaTema(t.id,26)}</span>${t.nome} — cronologia</h2>
+      <h2><span class="tema-ic">${iconaTema(t.id,26)}</span>${t.nome}</h2>
       ${corpo}
+    </main></section>`;
+  window.scrollTo({top:0,behavior:'smooth'});
+  attivaEffetti();
+}
+
+/* ---------------- DETTAGLIO DEL GRUPPO (giorno) ------------------
+   Le notizie di quel tema in quel giorno, suddivise per intero. */
+function vaiGruppo(id, i){
+  const t = trovaTema(id), g = t.gruppi[i];
+  const nuovo = g.giorni <= SOGLIA_NUOVO;
+  const n = g.articoli.length;
+  app.innerHTML = `<section class="view"><main class="crono">
+      <button class="indietro" onclick="vaiTema('${id}')">← ${t.nome}</button>
+      <div class="giorno-testata">
+        <h2>${g.titolo}</h2>
+        <div class="giorno-sub"><span class="tag">${iconaTema(t.id,13)}${t.nome}</span>
+          · ${fmtData(g.data)} ${nuovo?'<span class="badge-nuovo">Nuovo</span>':''}
+          · ${n} ${plurale(n,'aggiornamento','aggiornamenti')}</div>
+      </div>
+      ${g.articoli.map(a => articoloInline(t, a)).join('')}
     </main></section>`;
   window.scrollTo({top:0,behavior:'smooth'});
   attivaEffetti();
