@@ -46,8 +46,8 @@
   .logo .wm{font-family:var(--sans);font-weight:600;font-size:1rem;letter-spacing:.06em;
     line-height:1;color:#c4c8cc;margin-bottom:.35rem}
 
-  /* --- homepage compatta: sta in una sola schermata, senza scorrimento --- */
-  .home{min-height:calc(100svh - 92px);display:flex;flex-direction:column;justify-content:center;}
+  /* --- homepage: hero centrato in alto, sotto scorrono i blocchi-giorno --- */
+  .home{min-height:calc(100svh - 92px);display:flex;flex-direction:column;justify-content:flex-start;}
   .home .hero{padding:clamp(.5rem,2.5vw,1.6rem) 1rem .4rem;}
   .home h1.title{font-size:clamp(1.9rem,5vw,3.6rem);margin:.15rem auto .1rem;}
   .home .hero .sub{font-size:clamp(.9rem,1.4vw,1.08rem);margin-top:.3rem;}
@@ -113,11 +113,42 @@
   .box .apri{display:inline-block;margin-top:.85rem;font-size:1rem;color:var(--verde);font-weight:500;cursor:pointer}
   .box .apri:hover{color:var(--verde-vivo)}
 
+  /* --- blocco-giorno riusabile (home + cronologia): un blocco per data, con
+         dentro tutte le notizie del tema di quel giorno rese per intero. --- */
+  .tema-sez{max-width:820px;margin:2rem auto 0}
+  .tema-tit{display:flex;align-items:center;gap:.55rem;font-family:var(--serif);font-weight:600;
+    font-size:1.55rem;color:var(--verde-scuro);margin:.2rem 0 .7rem}
+  .tema-tit .tema-ic{display:inline-flex;color:var(--verde-vivo)}
+  .giorno{background:var(--carta);border:1px solid var(--bordo);border-radius:16px;
+    padding:1.05rem 1.3rem;margin:.9rem 0;box-shadow:0 8px 24px rgba(0,0,0,.30)}
+  .giorno-head{display:flex;align-items:center;gap:.6rem;font-weight:600;color:var(--terracotta);
+    letter-spacing:.02em;margin-bottom:.3rem}
+  .giorno-head::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--bordo),transparent)}
+  .art{padding:.85rem 0}
+  .art + .art{border-top:1px dashed var(--bordo)}
+  .art h4{margin:.1rem 0 .4rem;font-family:var(--serif);font-weight:600;font-size:1.2rem;
+    color:#e6e9ec;line-height:1.35}
+  .art .meta{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;font-size:.85rem;margin-bottom:.45rem}
+  .art .fonte{color:var(--verde);font-weight:600}
+  .art .fonte a{color:var(--verde);font-weight:600;text-decoration:none}
+  .art .fonte a:hover{color:var(--verde-vivo);text-decoration:underline}
+  .tag{display:inline-flex;align-items:center;gap:.28rem;font-size:.72rem;color:var(--inchiostro-2);
+    background:var(--crema-2);border:1px solid var(--bordo);border-radius:999px;padding:.12rem .55rem}
+  .tag .tema-svg{color:var(--verde-vivo)}
+  .art .sintesi{margin:.3rem 0;font-size:1.05rem;line-height:1.7}
+  .art .nota{color:var(--inchiostro-2);font-style:italic;font-size:.9rem;margin:.2rem 0 .3rem}
+  .art .perche{background:var(--crema-2);border-left:3px solid var(--verde);border-radius:0 10px 10px 0;
+    padding:.6rem .9rem;margin-top:.6rem;font-size:1rem;line-height:1.6}
+  .tema-sez .apri{display:inline-block;margin-top:.5rem;font-size:1rem;color:var(--verde);font-weight:500;cursor:pointer}
+  .tema-sez .apri:hover{color:var(--verde-vivo)}
+
   /* --- vista cronologia / articolo --- */
   .indietro{background:none;border:none;font:inherit;color:var(--verde);cursor:pointer;padding:.3rem 0;margin:.5rem 0}
   .indietro:hover{color:var(--verde-vivo)}
+  .crono{max-width:860px;margin:0 auto}
   .crono h2,.articolo h1{font-family:var(--serif);font-weight:600;color:var(--verde-scuro)}
-  .crono h2{font-size:1.9rem;margin:.2rem 0 1rem}
+  .crono h2{font-size:1.9rem;margin:.2rem 0 1rem;display:flex;align-items:center;gap:.5rem}
+  .crono h2 .tema-ic{display:inline-flex;color:var(--verde-vivo)}
   .etichetta-nuovo{display:flex;align-items:center;gap:.6rem;margin:.4rem 0 .2rem;color:var(--terracotta);font-weight:600;letter-spacing:.02em}
   .etichetta-nuovo::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--terracotta),transparent)}
   hr.divisore{border:0;border-top:1px dashed var(--bordo);margin:1.4rem 0}
