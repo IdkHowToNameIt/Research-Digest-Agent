@@ -83,13 +83,16 @@ async function caricaDati(){
   }
 }
 
-/* carica (una volta) il dettaglio completo di un tema: tema-<id>.json.
-   Il token ?v=<generato> permette al browser di cachearlo e riscaricarlo solo
-   quando cambia il run (vedi cache-busting lato backend). */
+/* aggiunge ?v=<generato> a un file dati: cacheabile, si riscarica solo a run nuovo */
+function conVersione(file){
+  return file + (GENERATO ? ('?v=' + encodeURIComponent(GENERATO)) : '');
+}
+
+/* carica (una volta) la LISTA LEGGERA di un tema: tema-<id>.json (solo metadati
+   dei gruppi, niente corpi). Basta a lista + filtri; i corpi arrivano per anno. */
 async function caricaTema(t){
   if(t.gruppi) return t.gruppi;   // già in cache di sessione
-  const url = t.file + (GENERATO ? ('?v=' + encodeURIComponent(GENERATO)) : '');
-  const resp = await fetch(url);
+  const resp = await fetch(conVersione(t.file));
   if(!resp.ok) throw new Error('HTTP '+resp.status);
   const dett = await resp.json();
   t.gruppi = (dett.gruppi||[]).map(function(g){
@@ -97,10 +100,33 @@ async function caricaTema(t){
       data: g.data,
       giorni: giorniFa(g.data),
       titolo: g.titolo||'',
-      articoli: (g.articoli||[]).map(mapArt)
+      n: g.n_articoli||0,             // conteggio (dai metadati)
+      anteprima: g.anteprima_titoli||[],
+      articoli: null                  // corpi caricati per anno on-demand (caricaDettaglioGiorno)
     };
   });
   return t.gruppi;
+}
+
+/* carica i CORPI degli articoli del giorno `g`, prendendo il bucket annuale
+   tema-<id>-<anno>.json (un solo fetch per anno, riusato per gli altri giorni
+   dello stesso anno). Popola g.articoli e lo mette in cache sul tema. */
+async function caricaDettaglioGiorno(t, g){
+  if(g.articoli) return g.articoli;              // giorno già caricato
+  const anno = (g.data || '').slice(0, 4);
+  if(!t.dettaglio) t.dettaglio = {};             // mappa data -> articoli
+  if(!t.anni) t.anni = {};                       // anni già scaricati
+  if(!t.anni[anno]){
+    const resp = await fetch(conVersione('tema-' + t.id + '-' + anno + '.json'));
+    if(!resp.ok) throw new Error('HTTP '+resp.status);
+    const bucket = await resp.json();
+    (bucket.gruppi||[]).forEach(function(gr){
+      t.dettaglio[gr.data] = (gr.articoli||[]).map(mapArt);
+    });
+    t.anni[anno] = true;
+  }
+  g.articoli = t.dettaglio[g.data] || [];
+  return g.articoli;
 }
 
 /* --- icone tema: una per tema, stesso stile (stroke lineare), stesso peso --- */
@@ -189,9 +215,9 @@ function vaiHome(){
    dettaglio. In cima, filtri per DATA (periodo rapido + intervallo dal/al). */
 function cardGruppo(id, g){
   const nuovo = g.giorni <= SOGLIA_NUOVO;
-  const n = g.articoli.length;
+  const n = g.n;                                  // conteggio dai metadati (corpi non caricati)
   const preview = n>1
-    ? `<ul class="preview">${g.articoli.slice(0,3).map(a=>`<li>${a.titolo}</li>`).join('')}
+    ? `<ul class="preview">${g.anteprima.slice(0,3).map(tit=>`<li>${tit}</li>`).join('')}
          ${n>3?`<li class="piu">…e altre ${n-3}</li>`:''}</ul>` : '';
   return `<div class="gruppo-card reveal" onclick="vaiGruppo('${id}','${g.data}')">
       <div class="meta">${fmtData(g.data)} ${nuovo?'<span class="badge-nuovo">Nuovo</span>':''}
@@ -507,30 +533,44 @@ function renderArticoliGruppo(){
   attivaIndice();
 }
 
-function vaiGruppo(id, data){
-  const t = trovaTema(id), g = t.gruppi.find(x=>x.data===data);
+async function vaiGruppo(id, data){
+  const t = trovaTema(id);
+  if(!t || !t.gruppi) return vaiTema(id);
+  const g = t.gruppi.find(x=>x.data===data);
   if(!g) return vaiTema(id);
   GRUPPO_CORRENTE = {id, data};
   const nuovo = g.giorni <= SOGLIA_NUOVO;
-  const n = g.articoli.length;
-  const fonti = [...new Set(g.articoli.map(a=>a.fonte).filter(Boolean))];
-  const filtro = fonti.length > 1 ? controlliFiltroFonte(fonti) : '';
+  // testata subito (dai metadati) + segnaposto: i corpi arrivano dal bucket annuale
   app.innerHTML = `<section class="view"><main class="crono report">
       <button class="indietro" onclick="vaiTema('${id}')">← ${t.nome}</button>
       <div class="giorno-testata">
         <h2>${g.titolo}</h2>
         <div class="giorno-sub"><span class="tag">${iconaTema(t.id,13)}${t.nome}</span>
           · ${fmtData(g.data)} ${nuovo?'<span class="badge-nuovo">Nuovo</span>':''}
-          · ${n} ${plurale(n,'aggiornamento','aggiornamenti')}</div>
+          · ${g.n} ${plurale(g.n,'aggiornamento','aggiornamenti')}</div>
       </div>
-      ${filtro}
+      <div id="gruppo-corpo"><p class="sez-nota">Caricamento…</p></div>
+    </main></section>`;
+  window.scrollTo({top:0,behavior:'smooth'});
+  try{
+    await caricaDettaglioGiorno(t, g);
+  }catch(err){
+    if(!GRUPPO_CORRENTE || GRUPPO_CORRENTE.data !== data) return;
+    const corpo = document.getElementById('gruppo-corpo');
+    if(corpo) corpo.innerHTML = '<p class="sez-nota">Dettaglio del giorno non disponibile ('+err.message+').</p>';
+    return;
+  }
+  if(!GRUPPO_CORRENTE || GRUPPO_CORRENTE.data !== data) return;   // navigazione cambiata
+  const corpo = document.getElementById('gruppo-corpo');
+  if(!corpo) return;
+  const fonti = [...new Set(g.articoli.map(a=>a.fonte).filter(Boolean))];
+  const filtro = fonti.length > 1 ? controlliFiltroFonte(fonti) : '';
+  corpo.innerHTML = `${filtro}
       <div class="digest-layout">
         <aside id="digest-indice" class="digest-indice"></aside>
         <div id="digest-lettura" class="digest-lettura"></div>
-      </div>
-    </main></section>`;
+      </div>`;
   renderArticoliGruppo();
-  window.scrollTo({top:0,behavior:'smooth'});
 }
 
 /* --------------------- animazioni / micro-interazioni --------------------- */

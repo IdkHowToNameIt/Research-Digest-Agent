@@ -30,6 +30,7 @@ from src.schemas import (
 from src.consegna.sito import (
     ETICHETTE,
     NOME_FILE_TEMA,
+    NOME_FILE_TEMA_ANNO,
     _cache_bust,
     carica_archivio,
     costruisci_dati,
@@ -163,9 +164,17 @@ def test_genera_sito_scrive_indice_temi_e_copia_frontend(tmp_path):
     assert chip["recenti"][0]["titolo"] == "A"
     assert chip["recenti"][0]["n_articoli"] == 1
     assert "articoli" not in chip["recenti"][0]         # l'indice non porta il dettaglio
-    # il dettaglio completo sta in tema-<id>.json
-    dett = json.loads((out / NOME_FILE_TEMA.format(id="chip")).read_text(encoding="utf-8"))
-    assert dett["gruppi"][0]["articoli"][0]["titolo"] == "A"
+    # tema-<id>.json è la LISTA LEGGERA: metadati + anteprima, senza corpi
+    lista = json.loads((out / NOME_FILE_TEMA.format(id="chip")).read_text(encoding="utf-8"))
+    g0 = lista["gruppi"][0]
+    assert g0["titolo"] == "A" and g0["n_articoli"] == 1
+    assert g0["anteprima_titoli"] == ["A"]
+    assert "articoli" not in g0                          # niente corpi nella lista
+    # i corpi stanno nel bucket annuale tema-<id>-<anno>.json
+    bucket = json.loads(
+        (out / NOME_FILE_TEMA_ANNO.format(id="chip", anno="2026")).read_text(encoding="utf-8"))
+    assert bucket["anno"] == "2026"
+    assert bucket["gruppi"][0]["articoli"][0]["titolo"] == "A"
     # tutti i file del frontend sono copiati mantenendo il nome
     assert (out / "stile.css").read_text(encoding="utf-8") == "body{color:pink}"
     assert (out / "app.js").read_text(encoding="utf-8") == "caricaDati();"
@@ -175,7 +184,7 @@ def test_genera_sito_scrive_indice_temi_e_copia_frontend(tmp_path):
     assert f'app.js?v={d.data_generazione}' in html
     assert f'stile.css?v={d.data_generazione}' in html
     assert any("data.json" in s for s in scritti)
-    assert any(s.endswith(NOME_FILE_TEMA.format(id="chip")) for s in scritti)
+    assert any(s.endswith(NOME_FILE_TEMA_ANNO.format(id="chip", anno="2026")) for s in scritti)
 
 
 def test_indice_solo_recenti_ma_tema_ha_tutto(tmp_path):
@@ -187,12 +196,32 @@ def test_indice_solo_recenti_ma_tema_ha_tutto(tmp_path):
     indice = costruisci_indice(d2, archivio)   # recenti_giorni default 14
     chip = next(t for t in indice["temi"] if t["id"] == "chip")
     assert [g["titolo"] for g in chip["recenti"]] == ["Recente"]   # il vecchio (38gg) è escluso
-    # nel file del tema invece ci sono entrambi, più-recente-prima
+    # la lista leggera del tema contiene comunque entrambi, più-recente-prima
     genera_sito(d2, archivio, str(tmp_path / "out"),
                 template_path=str(tmp_path / "nope.html"))
-    dett = json.loads(
+    lista = json.loads(
         (tmp_path / "out" / NOME_FILE_TEMA.format(id="chip")).read_text(encoding="utf-8"))
-    assert [g["data"] for g in dett["gruppi"]] == ["2026-07-09", "2026-06-01"]
+    assert [g["data"] for g in lista["gruppi"]] == ["2026-07-09", "2026-06-01"]
+    # entrambi (stesso anno 2026) sono nel bucket coi corpi
+    bucket = json.loads(
+        (tmp_path / "out" / NOME_FILE_TEMA_ANNO.format(id="chip", anno="2026")).read_text(encoding="utf-8"))
+    assert [g["data"] for g in bucket["gruppi"]] == ["2026-07-09", "2026-06-01"]
+    assert bucket["gruppi"][0]["articoli"][0]["titolo"] == "Recente"
+
+
+def test_bucket_separati_per_anno(tmp_path):
+    # gruppi di anni diversi -> file bucket distinti, la lista leggera li elenca tutti.
+    d1 = _digest("2025-05-01", chip=[_art("Y2025", "https://x/1", data="2025-05-01")])
+    d2 = _digest("2026-07-09", chip=[_art("Y2026", "https://x/2", data="2026-07-09")])
+    archivio = [d1.contenuto_pubblico(), d2.contenuto_pubblico()]
+    out = tmp_path / "out"
+    genera_sito(d2, archivio, str(out), template_path=str(tmp_path / "nope.html"))
+    b25 = json.loads((out / NOME_FILE_TEMA_ANNO.format(id="chip", anno="2025")).read_text(encoding="utf-8"))
+    b26 = json.loads((out / NOME_FILE_TEMA_ANNO.format(id="chip", anno="2026")).read_text(encoding="utf-8"))
+    assert b25["gruppi"][0]["articoli"][0]["titolo"] == "Y2025"
+    assert b26["gruppi"][0]["articoli"][0]["titolo"] == "Y2026"
+    lista = json.loads((out / NOME_FILE_TEMA.format(id="chip")).read_text(encoding="utf-8"))
+    assert [g["data"] for g in lista["gruppi"]] == ["2026-07-09", "2025-05-01"]
 
 
 def test_cache_bust_solo_asset_versionabili():
