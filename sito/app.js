@@ -6,6 +6,7 @@
    (settimana_giorni), entrambe lette da data.json.
 --------------------------------------------------------------------------- */
 let TEMI = [];
+let GENERATO = '';        // data del run (token per il cache-busting dei file tema)
 let SOGLIA_NUOVO = 2;      // giorni: badge "Nuovo aggiornamento" (sovrascritto da data.json)
 let SOGLIA_SETTIMANA = 7;  // giorni: rientra nel digest "di questa settimana"
 let TEMA_CORRENTE = null;    // id del tema nella vista lista-gruppi (per i filtri data)
@@ -36,7 +37,23 @@ function trovaTema(id){ return TEMI.find(t=>t.id===id); }
 
 const app = document.getElementById('app');
 
-/* --------- caricamento dei dati reali (data.json, accanto a index.html) --------- */
+/* proietta un articolo del JSON nel modello usato dalla UI */
+function mapArt(a){
+  return {
+    titolo: a.titolo,
+    fonte: (a.fonti||[]).map(function(f){return f.nome;}).join(' · '),
+    fonti: a.fonti||[],
+    data: a.data,
+    sintesi: a.sintesi||'',
+    perche: a.perche_conta||'',
+    nota: a.note||null
+  };
+}
+
+/* --------- caricamento dei dati reali -----------------------------------------
+   I dati sono suddivisi per scalare: all'avvio si carica solo l'INDICE (data.json,
+   leggero: per tema i soli gruppi recenti per la landing); il dettaglio completo
+   di un tema (tema-<id>.json) è caricato on-demand da caricaTema() aprendo il tema. */
 async function caricaDati(){
   try{
     const resp = await fetch('data.json', {cache:'no-store'});
@@ -44,29 +61,16 @@ async function caricaDati(){
     const dati = await resp.json();
     if(dati.badge_giorni != null) SOGLIA_NUOVO = dati.badge_giorni;
     if(dati.settimana_giorni != null) SOGLIA_SETTIMANA = dati.settimana_giorni;
-    const mapArt = function(a){
-      return {
-        titolo: a.titolo,
-        fonte: (a.fonti||[]).map(function(f){return f.nome;}).join(' · '),
-        fonti: a.fonti||[],
-        data: a.data,
-        sintesi: a.sintesi||'',
-        perche: a.perche_conta||'',
-        nota: a.note||null
-      };
-    };
+    GENERATO = dati.generato || '';
     TEMI = (dati.temi||[]).map(function(t){
       return {
         id: t.id, nome: t.nome,
-        // gruppi = notizie dello stesso giorno unite sotto un titolo riassuntivo
-        gruppi: (t.gruppi||[]).map(function(g){
-          return {
-            data: g.data,
-            giorni: giorniFa(g.data),
-            titolo: g.titolo||'',
-            articoli: (g.articoli||[]).map(mapArt)
-          };
-        })
+        file: t.file || ('tema-'+t.id+'.json'),
+        // gruppi recenti (solo data/titolo/conteggio) per i box della landing
+        recenti: (t.recenti||[]).map(function(r){
+          return {data: r.data, giorni: giorniFa(r.data), titolo: r.titolo||'', n: r.n_articoli||0};
+        }),
+        gruppi: null   // dettaglio completo: caricato on-demand (caricaTema)
       };
     });
     vaiHome();
@@ -77,6 +81,26 @@ async function caricaDati(){
       + '<p class="sub">Dati non ancora disponibili ('+err.message+'). '
       + 'Il digest viene rigenerato ogni settimana.</p></div></section>';
   }
+}
+
+/* carica (una volta) il dettaglio completo di un tema: tema-<id>.json.
+   Il token ?v=<generato> permette al browser di cachearlo e riscaricarlo solo
+   quando cambia il run (vedi cache-busting lato backend). */
+async function caricaTema(t){
+  if(t.gruppi) return t.gruppi;   // già in cache di sessione
+  const url = t.file + (GENERATO ? ('?v=' + encodeURIComponent(GENERATO)) : '');
+  const resp = await fetch(url);
+  if(!resp.ok) throw new Error('HTTP '+resp.status);
+  const dett = await resp.json();
+  t.gruppi = (dett.gruppi||[]).map(function(g){
+    return {
+      data: g.data,
+      giorni: giorniFa(g.data),
+      titolo: g.titolo||'',
+      articoli: (g.articoli||[]).map(mapArt)
+    };
+  });
+  return t.gruppi;
 }
 
 /* --- icone tema: una per tema, stesso stile (stroke lineare), stesso peso --- */
@@ -116,11 +140,12 @@ function voceReport(tema, a, n){
    il gruppo più recente del tema (titolo riassuntivo + data); il click porta
    alla lista dei gruppi del tema. */
 function boxTema(t){
-  const recenti = t.gruppi.filter(g => g.giorni <= SOGLIA_SETTIMANA);
+  // usa i gruppi recenti dell'indice (t.recenti), non il dettaglio (non ancora caricato)
+  const recenti = t.recenti.filter(g => g.giorni <= SOGLIA_SETTIMANA);
   if(!recenti.length) return '';
   const g0 = recenti[0];                                   // più recente (backend ordina desc)
   const nuovo = g0.giorni <= SOGLIA_NUOVO;
-  const nNews = recenti.reduce((s,g)=>s+g.articoli.length, 0);
+  const nNews = recenti.reduce((s,g)=>s+g.n, 0);
   return `<div class="box reveal" data-tilt onclick="vaiTema('${t.id}')">
       <h3><span class="tema-ic">${iconaTema(t.id,22)}</span>${t.nome}</h3>
       <div class="box-data">${fmtData(g0.data)} ${nuovo?'<span class="badge-nuovo">Nuovo</span>':''}</div>
@@ -373,20 +398,34 @@ function vaiPagina(delta){
   if(main) main.scrollIntoView({behavior:'smooth', block:'start'});
 }
 
-function vaiTema(id){
+async function vaiTema(id){
   const t = trovaTema(id);
+  if(!t) return;
   TEMA_CORRENTE = id;
   FILTRO_DATE = {dal:'', al:''};   // i filtri data non persistono tra temi diversi
   PAGINA = 1;                      // ogni tema riparte dalla prima pagina
+  // subito la testata + un segnaposto di caricamento (il dettaglio arriva via fetch)
   app.innerHTML = `<section class="view"><main class="crono">
       <button class="indietro" onclick="vaiHome()">← Home</button>
       <h2><span class="tema-ic">${iconaTema(t.id,26)}</span>${t.nome}</h2>
-      ${t.gruppi.length ? controlliFiltroData()
-        : '<p class="sez-nota">Nessun articolo in archivio per questo tema.</p>'}
-      <div id="lista-gruppi"></div>
+      <div id="tema-corpo"><p class="sez-nota">Caricamento…</p></div>
     </main></section>`;
-  renderListaGruppi();
   window.scrollTo({top:0,behavior:'smooth'});
+  try{
+    await caricaTema(t);
+  }catch(err){
+    if(TEMA_CORRENTE !== id) return;                 // l'utente ha già navigato altrove
+    const corpo = document.getElementById('tema-corpo');
+    if(corpo) corpo.innerHTML = '<p class="sez-nota">Dettaglio del tema non disponibile ('+err.message+').</p>';
+    return;
+  }
+  if(TEMA_CORRENTE !== id) return;                    // navigazione cambiata durante il fetch
+  const corpo = document.getElementById('tema-corpo');
+  if(!corpo) return;
+  corpo.innerHTML = `${t.gruppi.length ? controlliFiltroData()
+        : '<p class="sez-nota">Nessun articolo in archivio per questo tema.</p>'}
+      <div id="lista-gruppi"></div>`;
+  renderListaGruppi();
 }
 
 /* ---------------- DETTAGLIO DEL GRUPPO (giorno) ------------------

@@ -56,9 +56,10 @@ def main() -> None:
         digest, archivio, sito_cfg.get("out_dir", "sito"),
         badge_giorni=int(sito_cfg.get("badge_giorni", 2)),
         template_path=sito_cfg.get("template", "../frontend/concept/index.html"),
+        settimana_giorni=int(sito_cfg.get("settimana_giorni", 7)),
     )
     print(f"Sito aggiornato: {len(file_sito)} file in {sito_cfg.get('out_dir', 'sito')}/ "
-          f"(data.json + index.html)")
+          f"(data.json indice + tema-<id>.json + frontend)")
 
     # Email settimanale (sempre una) + eventuale email di note interne (sez. 17).
     # Sender scelto in automatico: SMTP reale se configurato, altrimenti console.
