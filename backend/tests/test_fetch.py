@@ -13,6 +13,7 @@ from pathlib import Path
 from src.raccolta.fetch import (
     STATO_FETCH_FAILED,
     STATO_OK,
+    _data_iso,
     fetch_candidates,
     fetch_fonte,
     fetch_tutte,
@@ -84,6 +85,34 @@ def test_nessun_troncamento_per_fonti_no_limit():
     esito = fetch_fonte(fonte, parse=parser_da_mappa({"u": feed}))
     # l'estratto conserva l'intera lunghezza (a meno della normalizzazione spazi)
     assert len(esito.candidati[0].estratto) > 500
+
+
+# --- Normalizzazione data a ISO (per "questa settimana"/badge/raggruppo) ------
+
+def test_data_iso_da_struct_time_parsed():
+    import time
+    st = time.strptime("2026-07-09", "%Y-%m-%d")
+    assert _data_iso({"published_parsed": st}) == "2026-07-09"
+
+
+def test_data_iso_da_stringa_rfc822():
+    assert _data_iso({"published": "Thu, 09 Jul 2026 13:00:55 GMT"}) == "2026-07-09"
+
+
+def test_data_iso_da_stringa_iso_gia_normalizzata():
+    assert _data_iso({"published": "2026-07-09T13:00:55Z"}) == "2026-07-09"
+
+
+def test_data_iso_assente_o_illeggibile_vuota():
+    assert _data_iso({}) == ""
+    assert _data_iso({"published": "data non valida"}) == ""
+
+
+def test_fetch_normalizza_data_rfc822_a_iso():
+    feed = FakeFeed([_entry(published="Thu, 09 Jul 2026 13:00:55 GMT")])
+    esito = fetch_fonte({"nome": "F", "url": "u", "tema": "chip"},
+                        parse=parser_da_mappa({"u": feed}))
+    assert esito.candidati[0].data == "2026-07-09"
 
 
 # --- 16.1 Stati per fonte: ok vs fetch_failed --------------------------------

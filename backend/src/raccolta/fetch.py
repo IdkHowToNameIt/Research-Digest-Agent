@@ -18,6 +18,9 @@ from __future__ import annotations
 
 import re
 import sys
+import time
+from datetime import date
+from email.utils import parsedate_to_datetime
 from dataclasses import dataclass, field
 
 import feedparser
@@ -88,6 +91,33 @@ def tronca_su_parola(testo: str, limite: int | None) -> str:
     return taglio.rstrip()
 
 
+def _data_iso(e) -> str:
+    """Normalizza la data di una voce a ISO 'YYYY-MM-DD' (stringa vuota se assente).
+
+    Perche' normalizzare: il frontend calcola "questa settimana", il badge "Nuovo"
+    e il raggruppamento per giorno confrontando date ISO (`new Date("YYYY-MM-DD")`);
+    la data grezza dei feed (RFC-822 "Thu, 09 Jul 2026 13:00:55 GMT" o ISO Atom)
+    romperebbe tutti quei calcoli. Si preferisce lo struct_time gia' parsato da
+    feedparser (`published_parsed`/`updated_parsed`, indipendente dal formato del
+    feed); in mancanza si tenta la stringa come ISO e poi come RFC-822.
+    """
+    for attr in ("published_parsed", "updated_parsed"):
+        st = e.get(attr)
+        if st:
+            return time.strftime("%Y-%m-%d", st)
+    grezza = (e.get("published") or e.get("updated") or "").strip()
+    if not grezza:
+        return ""
+    try:  # gia' ISO (es. "2026-07-09" o "2026-07-09T13:00:55Z")
+        return date.fromisoformat(grezza[:10]).isoformat()
+    except ValueError:
+        pass
+    try:  # RFC-822 ("Thu, 09 Jul 2026 13:00:55 GMT")
+        return parsedate_to_datetime(grezza).date().isoformat()
+    except (TypeError, ValueError):
+        return ""
+
+
 def _parse_feed(url: str, parse):
     """Esegue il parsing; solleva se il feed e' irrecuperabile (bozo senza voci)."""
     feed = parse(url)
@@ -120,7 +150,7 @@ def fetch_fonte(fonte: dict, parse=feedparser.parse) -> EsitoFonte:
                 url=e.get("link", "").strip(),
                 fonte=nome,
                 tema=tema,
-                data=e.get("published", e.get("updated", "")),
+                data=_data_iso(e),
                 estratto=estratto,
                 filtro_rilevanza=filtro_rilevanza,
             )
