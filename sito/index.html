@@ -7,9 +7,8 @@
 <!--
   Interfaccia web del Digest Research Agent (tema scuro, accento rosa). Identità
   visiva: font Poppins, sfondo con gli 8 simboli reali di kakashi.ventures disposti
-  sparsi su canvas, che si accendono di rosso vicino al cursore, logo (placeholder
-  KVA) e titolo in gradiente. La homepage è compattata per stare in una sola
-  schermata senza scorrimento.
+  sparsi su canvas, che si accendono di rosso vicino al cursore, logo reale
+  kakashi.ventures (kva-logo.webp, reso chiaro sul tema scuro) e titolo in gradiente.
 
   Codice separato in tre file accanto a questo:
     stile.css   — tutto lo stile
@@ -29,10 +28,7 @@
   <header>
     <a class="logo" href="#" onclick="vaiHome();return false" title="Digest Research Agent (DRA)">
       <span class="mark" aria-hidden="true">
-        <svg viewBox="0 0 82 34" xmlns="http://www.w3.org/2000/svg">
-          <defs><linearGradient id="kvg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e0506e"/><stop offset="1" stop-color="#41acdf"/></linearGradient></defs>
-          <text x="0" y="26" font-family="Poppins,system-ui,sans-serif" font-weight="700" font-size="28" letter-spacing="-1" fill="url(#kvg)">KVA</text>
-        </svg>
+        <img class="mark-img" src="kva-logo.webp" alt="kakashi.ventures" width="48" height="38">
       </span>
       <span class="wm">DRA</span>
     </a>

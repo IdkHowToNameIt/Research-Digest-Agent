@@ -8,6 +8,8 @@
 let TEMI = [];
 let SOGLIA_NUOVO = 2;      // giorni: badge "Nuovo aggiornamento" (sovrascritto da data.json)
 let SOGLIA_SETTIMANA = 7;  // giorni: rientra nel digest "di questa settimana"
+let TEMA_CORRENTE = null;    // id del tema nella vista lista-gruppi (per i filtri data)
+let GRUPPO_CORRENTE = null;  // {id, data} nella vista dettaglio (per il filtro fonte)
 const MESI = ["gen","feb","mar","apr","mag","giu","lug","ago","set","ott","nov","dic"];
 
 function giorniFa(iso){
@@ -150,41 +152,118 @@ function vaiHome(){
 
 /* ------------------- LISTA GRUPPI DI UN TEMA ---------------------
    Un gruppo per giorno, rappresentato dal titolo riassuntivo; il click apre il
-   dettaglio con le notizie del giorno suddivise una per una. */
-function vaiTema(id){
-  const t = trovaTema(id);
-  const cards = t.gruppi.map((g,i)=>{
-    const nuovo = g.giorni <= SOGLIA_NUOVO;
-    const n = g.articoli.length;
-    const preview = n>1
-      ? `<ul class="preview">${g.articoli.slice(0,3).map(a=>`<li>${a.titolo}</li>`).join('')}
-           ${n>3?`<li class="piu">…e altre ${n-3}</li>`:''}</ul>` : '';
-    return `<div class="gruppo-card reveal" onclick="vaiGruppo('${id}',${i})">
-        <div class="meta">${fmtData(g.data)} ${nuovo?'<span class="badge-nuovo">Nuovo</span>':''}
-          · ${n} ${plurale(n,'aggiornamento','aggiornamenti')}</div>
-        <h4>${g.titolo}</h4>
-        ${preview}
-        <span class="apri">Apri il digest del giorno →</span>
-      </div>`;
-  }).join('');
-  const corpo = t.gruppi.length ? cards
-    : '<p class="sez-nota">Nessun articolo in archivio per questo tema.</p>';
+   dettaglio. In cima, filtri per DATA (periodo rapido + intervallo dal/al). */
+function cardGruppo(id, g){
+  const nuovo = g.giorni <= SOGLIA_NUOVO;
+  const n = g.articoli.length;
+  const preview = n>1
+    ? `<ul class="preview">${g.articoli.slice(0,3).map(a=>`<li>${a.titolo}</li>`).join('')}
+         ${n>3?`<li class="piu">…e altre ${n-3}</li>`:''}</ul>` : '';
+  return `<div class="gruppo-card reveal" onclick="vaiGruppo('${id}','${g.data}')">
+      <div class="meta">${fmtData(g.data)} ${nuovo?'<span class="badge-nuovo">Nuovo</span>':''}
+        · ${n} ${plurale(n,'aggiornamento','aggiornamenti')}</div>
+      <h4>${g.titolo}</h4>
+      ${preview}
+      <span class="apri">Apri il digest del giorno →</span>
+    </div>`;
+}
 
-  app.innerHTML = `<section class="view"><main class="crono">
-      <button class="indietro" onclick="vaiHome()">← Home</button>
-      <h2><span class="tema-ic">${iconaTema(t.id,26)}</span>${t.nome}</h2>
-      ${corpo}
-    </main></section>`;
-  window.scrollTo({top:0,behavior:'smooth'});
+function controlliFiltroData(){
+  const range = [['all','Tutte'],['7','7 giorni'],['30','30 giorni'],['90','90 giorni']];
+  const pills = range.map((r,i)=>
+    `<button class="pill-f${i===0?' attivo':''}" data-giorni="${r[0]}" onclick="attivaRange(this)">${r[1]}</button>`
+  ).join('');
+  return `<div class="filtri">
+      <div class="filtro-range">${pills}</div>
+      <div class="filtro-date">
+        <label>Dal <input type="date" id="filtro-dal" oninput="renderListaGruppi()"></label>
+        <label>Al <input type="date" id="filtro-al" oninput="renderListaGruppi()"></label>
+      </div>
+    </div>`;
+}
+
+function attivaRange(el){
+  el.parentElement.querySelectorAll('.pill-f').forEach(p=>p.classList.remove('attivo'));
+  el.classList.add('attivo');
+  renderListaGruppi();
+}
+
+function renderListaGruppi(){
+  const t = trovaTema(TEMA_CORRENTE);
+  const cont = document.getElementById('lista-gruppi');
+  if(!t || !cont) return;
+  const pill = document.querySelector('.filtro-range .pill-f.attivo');
+  const rg = (pill && pill.dataset.giorni !== 'all') ? Number(pill.dataset.giorni) : null;
+  const dal = (document.getElementById('filtro-dal')||{}).value || '';
+  const al = (document.getElementById('filtro-al')||{}).value || '';
+  let gruppi = t.gruppi.filter(g=>{
+    if(rg != null && g.giorni > rg) return false;
+    if(dal && !(g.data && g.data >= dal)) return false;
+    if(al && !(g.data && g.data <= al)) return false;
+    return true;
+  });
+  cont.innerHTML = gruppi.length
+    ? gruppi.map(g=>cardGruppo(t.id, g)).join('')
+    : '<p class="sez-nota">Nessun aggiornamento per il periodo selezionato.</p>';
   attivaEffetti();
 }
 
+function vaiTema(id){
+  const t = trovaTema(id);
+  TEMA_CORRENTE = id;
+  app.innerHTML = `<section class="view"><main class="crono">
+      <button class="indietro" onclick="vaiHome()">← Home</button>
+      <h2><span class="tema-ic">${iconaTema(t.id,26)}</span>${t.nome}</h2>
+      ${t.gruppi.length ? controlliFiltroData()
+        : '<p class="sez-nota">Nessun articolo in archivio per questo tema.</p>'}
+      <div id="lista-gruppi"></div>
+    </main></section>`;
+  renderListaGruppi();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
 /* ---------------- DETTAGLIO DEL GRUPPO (giorno) ------------------
-   Le notizie di quel tema in quel giorno, suddivise per intero. */
-function vaiGruppo(id, i){
-  const t = trovaTema(id), g = t.gruppi[i];
+   Le notizie di quel tema in quel giorno, suddivise per intero. Se le notizie
+   provengono da PIÙ fonti, in cima compare un filtro per fonte. */
+function controlliFiltroFonte(fonti){
+  const chips = ['(tutte)'].concat(fonti).map((f,i)=>
+    `<button class="chip-f${i===0?' attivo':''}" data-fonte="${i===0?'':f.replace(/"/g,'&quot;')}"
+        onclick="attivaFonte(this)">${f}</button>`
+  ).join('');
+  return `<div class="filtro-fonte"><span class="filtro-lbl">Fonte:</span>${chips}</div>`;
+}
+
+function attivaFonte(el){
+  el.parentElement.querySelectorAll('.chip-f').forEach(c=>c.classList.remove('attivo'));
+  el.classList.add('attivo');
+  renderArticoliGruppo();
+}
+
+function gruppoCorrente(){
+  if(!GRUPPO_CORRENTE) return null;
+  const t = trovaTema(GRUPPO_CORRENTE.id);
+  return t ? {t, g: t.gruppi.find(x=>x.data===GRUPPO_CORRENTE.data)} : null;
+}
+
+function renderArticoliGruppo(){
+  const cur = gruppoCorrente();
+  const cont = document.getElementById('lista-articoli');
+  if(!cur || !cur.g || !cont) return;
+  const sel = document.querySelector('.filtro-fonte .chip-f.attivo');
+  const fonte = sel ? sel.dataset.fonte : '';
+  const articoli = fonte ? cur.g.articoli.filter(a=>a.fonte===fonte) : cur.g.articoli;
+  cont.innerHTML = articoli.map(a=>articoloInline(cur.t, a)).join('');
+  attivaEffetti();
+}
+
+function vaiGruppo(id, data){
+  const t = trovaTema(id), g = t.gruppi.find(x=>x.data===data);
+  if(!g) return vaiTema(id);
+  GRUPPO_CORRENTE = {id, data};
   const nuovo = g.giorni <= SOGLIA_NUOVO;
   const n = g.articoli.length;
+  const fonti = [...new Set(g.articoli.map(a=>a.fonte).filter(Boolean))];
+  const filtro = fonti.length > 1 ? controlliFiltroFonte(fonti) : '';
   app.innerHTML = `<section class="view"><main class="crono">
       <button class="indietro" onclick="vaiTema('${id}')">← ${t.nome}</button>
       <div class="giorno-testata">
@@ -193,10 +272,11 @@ function vaiGruppo(id, i){
           · ${fmtData(g.data)} ${nuovo?'<span class="badge-nuovo">Nuovo</span>':''}
           · ${n} ${plurale(n,'aggiornamento','aggiornamenti')}</div>
       </div>
-      ${g.articoli.map(a => articoloInline(t, a)).join('')}
+      ${filtro}
+      <div id="lista-articoli"></div>
     </main></section>`;
+  renderArticoliGruppo();
   window.scrollTo({top:0,behavior:'smooth'});
-  attivaEffetti();
 }
 
 /* --------------------- animazioni / micro-interazioni --------------------- */
