@@ -85,15 +85,16 @@ function iconaTema(id, dim){
 }
 
 function plurale(n, uno, molti){ return n===1 ? uno : molti; }
+function pad2(n){ return String(n).padStart(2,'0'); }
 
-/* una singola notizia resa per intero dentro il dettaglio del gruppo: titolo,
+/* una notizia nella colonna di lettura del digest: numero d'ordine, titolo,
    fonte (link), tag del tema, sintesi completa, eventuale nota, "perché conta". */
-function articoloInline(tema, a){
+function voceReport(tema, a, n){
   const fonti = (a.fonti||[]).map(f =>
-    f.link ? `<a href="${f.link}" target="_blank" rel="noopener">${f.nome}</a>` : f.nome
+    f.link ? `<a href="${f.link}" target="_blank" rel="noopener">${f.nome} ↗</a>` : f.nome
   ).join(' · ') || a.fonte;
-  return `<article class="art reveal">
-      <h4>${a.titolo}</h4>
+  return `<article class="art" id="art-${n}">
+      <div class="art-head"><span class="art-n">${pad2(n)}</span><h4>${a.titolo}</h4></div>
       <div class="meta"><span class="fonte">${fonti}</span>
         <span class="tag">${iconaTema(tema.id,13)}${tema.nome}</span> · ${fmtData(a.data)}</div>
       ${a.nota?`<div class="nota">${a.nota}</div>`:''}
@@ -245,15 +246,51 @@ function gruppoCorrente(){
   return t ? {t, g: t.gruppi.find(x=>x.data===GRUPPO_CORRENTE.data)} : null;
 }
 
+function scrollAVoce(el){
+  const t = document.getElementById(el.dataset.target);
+  if(t) t.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+/* evidenzia nell'indice la voce correntemente in lettura, mentre si scorre */
+function attivaIndice(){
+  const links = [...document.querySelectorAll('.idx-lista a[data-target]')];
+  if(!links.length) return;
+  const map = new Map(links.map(l=>[l.dataset.target, l]));
+  const io = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(l=>l.classList.remove('attivo'));
+        const l = map.get(e.target.id);
+        if(l) l.classList.add('attivo');
+      }
+    });
+  }, {rootMargin:'-15% 0px -75% 0px'});
+  document.querySelectorAll('.digest-lettura .art').forEach(a=>io.observe(a));
+}
+
 function renderArticoliGruppo(){
   const cur = gruppoCorrente();
-  const cont = document.getElementById('lista-articoli');
-  if(!cur || !cur.g || !cont) return;
+  const lettura = document.getElementById('digest-lettura');
+  const indice = document.getElementById('digest-indice');
+  if(!cur || !cur.g || !lettura) return;
   const sel = document.querySelector('.filtro-fonte .chip-f.attivo');
   const fonte = sel ? sel.dataset.fonte : '';
   const articoli = fonte ? cur.g.articoli.filter(a=>a.fonte===fonte) : cur.g.articoli;
-  cont.innerHTML = articoli.map(a=>articoloInline(cur.t, a)).join('');
-  attivaEffetti();
+
+  lettura.innerHTML = articoli.length
+    ? articoli.map((a,i)=>voceReport(cur.t, a, i+1)).join('')
+    : '<p class="sez-nota">Nessuna notizia per la fonte selezionata.</p>';
+
+  if(indice){
+    // l'indice serve solo con più di una notizia
+    indice.innerHTML = articoli.length > 1
+      ? `<div class="idx-tit">Nella giornata</div>
+         <ol class="idx-lista">${articoli.map((a,i)=>
+           `<li><a data-target="art-${i+1}" onclick="scrollAVoce(this)">
+              <span class="idx-n">${pad2(i+1)}</span><span>${a.titolo}</span></a></li>`).join('')}</ol>`
+      : '';
+  }
+  attivaIndice();
 }
 
 function vaiGruppo(id, data){
@@ -264,7 +301,7 @@ function vaiGruppo(id, data){
   const n = g.articoli.length;
   const fonti = [...new Set(g.articoli.map(a=>a.fonte).filter(Boolean))];
   const filtro = fonti.length > 1 ? controlliFiltroFonte(fonti) : '';
-  app.innerHTML = `<section class="view"><main class="crono">
+  app.innerHTML = `<section class="view"><main class="crono report">
       <button class="indietro" onclick="vaiTema('${id}')">← ${t.nome}</button>
       <div class="giorno-testata">
         <h2>${g.titolo}</h2>
@@ -273,7 +310,10 @@ function vaiGruppo(id, data){
           · ${n} ${plurale(n,'aggiornamento','aggiornamenti')}</div>
       </div>
       ${filtro}
-      <div id="lista-articoli" class="articoli-grid"></div>
+      <div class="digest-layout">
+        <aside id="digest-indice" class="digest-indice"></aside>
+        <div id="digest-lettura" class="digest-lettura"></div>
+      </div>
     </main></section>`;
   renderArticoliGruppo();
   window.scrollTo({top:0,behavior:'smooth'});
