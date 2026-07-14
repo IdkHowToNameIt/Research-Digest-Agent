@@ -273,7 +273,7 @@ function vaiGruppo(id, data){
           · ${n} ${plurale(n,'aggiornamento','aggiornamenti')}</div>
       </div>
       ${filtro}
-      <div id="lista-articoli"></div>
+      <div id="lista-articoli" class="articoli-grid"></div>
     </main></section>`;
   renderArticoliGruppo();
   window.scrollTo({top:0,behavior:'smooth'});

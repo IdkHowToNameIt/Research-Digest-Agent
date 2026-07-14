@@ -3,7 +3,7 @@
     --verde:        #e0506e;                 /* accento (link, kicker, pill, bordi) */
     --verde-vivo:   #f0899c;                 /* accento più brillante (dot, hover) */
     --verde-scuro:  #f2f4f6;                 /* titoli: chiari nel tema dark */
-    --crema:        #0B0A0A;                 /* sfondo quasi-nero (come kakashi.ventures) */
+    --crema:        #17161A;                 /* sfondo scuro (un filo più chiaro del quasi-nero) */
     --crema-2:      rgba(255,255,255,.05);   /* superfici hover / box "Perché conta" */
     --carta:        rgba(18,18,20,.86);      /* superfici delle card (glass) */
     --inchiostro:   #e7e9ec;                 /* testo */
@@ -34,7 +34,7 @@
     mask-image:linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);}
   .grad{position:fixed;inset:0;z-index:-1;pointer-events:none;
     background:radial-gradient(120% 90% at 50% -8%, rgba(154,3,30,.10) 0%, rgba(11,10,10,0) 42%),
-      radial-gradient(130% 95% at 50% 40%, rgba(11,10,10,0) 54%, rgba(0,0,0,.55) 100%);}
+      radial-gradient(130% 95% at 50% 40%, rgba(11,10,10,0) 54%, rgba(0,0,0,.35) 100%);}
 
   /* --- header con logo in alto a SINISTRA (lockup KVA + DRA) --- */
   header{display:flex;justify-content:flex-start;align-items:center;
@@ -45,7 +45,7 @@
   .logo .mark-img{height:40px;width:auto;display:block;filter:invert(1) brightness(1.6)}
   .logo:hover .mark{transform:translateY(-2px)}
   .logo .wm{font-family:var(--sans);font-weight:600;font-size:1rem;letter-spacing:.06em;
-    line-height:1;color:#c4c8cc;margin-bottom:.35rem}
+    line-height:1;color:#c4c8cc;position:relative;top:6px}
 
   /* --- homepage: hero centrato in alto, sotto scorrono i blocchi-giorno --- */
   .home{min-height:calc(100svh - 92px);display:flex;flex-direction:column;justify-content:flex-start;}
@@ -143,24 +143,29 @@
   .giorno-testata{margin:.4rem 0 1.1rem}
   .giorno-testata h2{font-family:var(--serif);font-weight:600;font-size:1.7rem;color:var(--verde-scuro);margin:.2rem 0 .4rem}
   .giorno-sub{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;color:var(--inchiostro-2);font-size:.88rem}
-  .art{background:var(--carta);border:1px solid var(--bordo);border-radius:14px;padding:1rem 1.2rem;margin:.8rem 0}
-  .art h4{margin:.1rem 0 .4rem;font-family:var(--serif);font-weight:600;font-size:1.2rem;color:#e6e9ec;line-height:1.35}
-  .art .meta{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;font-size:.85rem;color:var(--inchiostro-2);margin-bottom:.45rem}
+  /* le notizie del digest disposte come box ordinati (stile landing), non in colonna */
+  .articoli-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:1.2rem;margin-top:.4rem}
+  .art{flex:1 1 340px;max-width:440px;display:flex;flex-direction:column;
+    background:var(--carta);border:1px solid var(--bordo);border-radius:14px;padding:1.15rem 1.35rem;margin:0;
+    transition:transform .18s,box-shadow .18s,border-color .18s}
+  .art:hover{transform:translateY(-2px);box-shadow:0 12px 26px var(--ombra);border-color:rgba(224,80,110,.35)}
+  .art h4{margin:.1rem 0 .45rem;font-family:var(--serif);font-weight:600;font-size:1.32rem;color:#e6e9ec;line-height:1.35}
+  .art .meta{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;font-size:.88rem;color:var(--inchiostro-2);margin-bottom:.5rem}
   .art .fonte{color:var(--verde);font-weight:600}
   .art .fonte a{color:var(--verde);font-weight:600;text-decoration:none}
   .art .fonte a:hover{color:var(--verde-vivo);text-decoration:underline}
-  .tag{display:inline-flex;align-items:center;gap:.28rem;font-size:.72rem;color:var(--inchiostro-2);
+  .tag{display:inline-flex;align-items:center;gap:.28rem;font-size:.74rem;color:var(--inchiostro-2);
     background:var(--crema-2);border:1px solid var(--bordo);border-radius:999px;padding:.12rem .55rem}
   .tag .tema-svg{color:var(--verde-vivo)}
-  .art .sintesi{margin:.3rem 0;font-size:1.05rem;line-height:1.7}
-  .art .nota{color:var(--inchiostro-2);font-style:italic;font-size:.9rem;margin:.2rem 0 .3rem}
+  .art .sintesi{margin:.3rem 0;font-size:1.15rem;line-height:1.72}
+  .art .nota{color:var(--inchiostro-2);font-style:italic;font-size:.95rem;margin:.2rem 0 .3rem}
   .art .perche{background:var(--crema-2);border-left:3px solid var(--verde);border-radius:0 10px 10px 0;
-    padding:.6rem .9rem;margin-top:.6rem;font-size:1rem;line-height:1.6}
+    padding:.7rem 1rem;margin-top:auto;font-size:1.08rem;line-height:1.62}
 
   /* --- vista cronologia / articolo --- */
   .indietro{background:none;border:none;font:inherit;color:var(--verde);cursor:pointer;padding:.3rem 0;margin:.5rem 0}
   .indietro:hover{color:var(--verde-vivo)}
-  .crono{max-width:860px;margin:0 auto}
+  .crono{max-width:940px;margin:0 auto}
   .crono h2,.articolo h1{font-family:var(--serif);font-weight:600;color:var(--verde-scuro)}
   .crono h2{font-size:1.9rem;margin:.2rem 0 1rem;display:flex;align-items:center;gap:.5rem}
   .crono h2 .tema-ic{display:inline-flex;color:var(--verde-vivo)}
