@@ -33,6 +33,7 @@ def _sintesi_fallback(c: Candidato) -> dict:
     """Sintesi deterministica senza modello (fallback interno, usato dai test)."""
     base = c.estratto.strip() or c.titolo.strip()
     return {
+        "titolo": c.titolo.strip(),   # senza modello non si traduce: titolo reale
         "sintesi": base,
         "perche_conta": f"Rilevante per il tema {c.tema}.",
         "note": "",
@@ -53,8 +54,11 @@ def sintetizza_candidato(c: Candidato, genera: Generatore | None) -> Articolo:
     sintesi = str(dati.get("sintesi", "")).strip() or c.titolo.strip()
     perche = str(dati.get("perche_conta", "")).strip()
     note = _con_nota_arxiv(c, (dati.get("note") or "").strip() or None)
+    # titolo mostrato = riscrittura italiana del modello, con fallback al titolo reale
+    # (grounding: il LINK resta sempre quello reale del candidato, mai del modello).
+    titolo = str(dati.get("titolo", "")).strip() or c.titolo.strip()
     return Articolo(
-        titolo=c.titolo,
+        titolo=titolo,
         fonti=[Fonte(nome=c.fonte, link=c.url)],  # grounding: link reale del candidato
         data=c.data,
         sintesi=sintesi,

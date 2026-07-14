@@ -51,9 +51,13 @@ STILE (sez. 14):
   (cifre di investimento, capacita' annunciate).
 - "perche_conta": una frase sul perche' e' rilevante per il beat/gli investitori.
   Sempre presente, mai vuota.
+- "titolo": riscrivi il titolo dell'articolo IN ITALIANO, fedele all'originale, senza
+  aggiungere informazioni non presenti, senza clickbait. Conserva sigle/nomi propri
+  (NVIDIA, TSMC, GW, nm...). Conciso (max ~14 parole). Se il titolo e' gia' in
+  italiano, lascialo sostanzialmente invariato.
 
 OUTPUT: rispondi con un oggetto JSON con esattamente queste chiavi:
-  {{"sintesi": "...", "perche_conta": "...", "note": "" }}
+  {{"titolo": "...", "sintesi": "...", "perche_conta": "...", "note": "" }}
 "note" e' opzionale (stringa vuota se non serve)."""
 
 

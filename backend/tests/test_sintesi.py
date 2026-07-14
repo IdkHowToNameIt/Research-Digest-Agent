@@ -71,13 +71,20 @@ def test_prompt_non_arxiv_senza_formula():
 
 def test_sintetizza_usa_link_reale_ignora_url_del_modello():
     c = _cand(url="https://reale/x")
-    genera = _mock_genera({"sintesi": "Testo modello.", "perche_conta": "Conta.",
-                           "url": "https://inventato/evil", "titolo": "FAKE"})
+    genera = _mock_genera({"titolo": "Titolo in italiano", "sintesi": "Testo modello.",
+                           "perche_conta": "Conta.", "url": "https://inventato/evil"})
     a = sintetizza_candidato(c, genera)
-    assert a.fonti[0].link == "https://reale/x"     # link reale del candidato
-    assert a.titolo == "Titolo reale"               # titolo reale, non del modello
+    assert a.fonti[0].link == "https://reale/x"     # link SEMPRE reale, mai del modello
+    assert a.titolo == "Titolo in italiano"          # titolo = riscrittura italiana del modello
     assert a.sintesi == "Testo modello."
     assert a.perche_conta == "Conta."
+
+
+def test_titolo_ripiega_su_reale_se_modello_non_lo_da():
+    c = _cand(titolo="Real English Title")
+    genera = _mock_genera({"sintesi": "S.", "perche_conta": "P."})  # niente "titolo"
+    a = sintetizza_candidato(c, genera)
+    assert a.titolo == "Real English Title"
 
 
 def test_sintetizza_arxiv_aggiunge_nota_preprint():
