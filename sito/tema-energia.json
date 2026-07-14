@@ -5,363 +5,140 @@
     {
       "data": "2026-07-09",
       "titolo": "Who Needs DRAM? We Have Fiber",
-      "articoli": [
-        {
-          "titolo": "Who Needs DRAM? We Have Fiber",
-          "fonti": [
-            {
-              "nome": "arXiv (energia x AI)",
-              "link": "https://arxiv.org/abs/2607.08407v1"
-            }
-          ],
-          "data": "2026-07-09",
-          "sintesi": "I risultati preliminari di uno studio indicano che la crescente pressione sulla disponibilità e il prezzo dei contratti di DRAM riflette le enormi esigenze di memoria ad alte prestazioni della generative AI. Gli autori propongono un'architettura innovativa chiamata Fiber Memory, che utilizza la fibra ottica come memoria a ritardo per dati immutabili, come i pesi dei modelli linguistici. La valutazione del caso di studio mostra che Fiber Memory può eliminare la memorizzazione ridondante dei pesi su 10.000 acceleratori AI e ridurre il consumo energetico per la consegna dei pesi di oltre il 70% rispetto alle configurazioni tradizionali HBM3e.",
-          "perche_conta": "Questo studio è rilevante per il settore dell'infrastruttura e dell'hardware AI perché potrebbe offrire una soluzione innovativa per ridurre la pressione sulla disponibilità di DRAM e migliorare l'efficienza energetica dei data center hyperscale.",
-          "note": "(preprint, non ancora sottoposto a peer review)"
-        }
+      "n_articoli": 1,
+      "anteprima_titoli": [
+        "Who Needs DRAM? We Have Fiber"
       ]
     },
     {
       "data": "2026-07-08",
       "titolo": "Evaluating Grid Resilience in the Era of Ever-Increasing Data Centers",
-      "articoli": [
-        {
-          "titolo": "Evaluating Grid Resilience in the Era of Ever-Increasing Data Centers",
-          "fonti": [
-            {
-              "nome": "arXiv (energia x AI)",
-              "link": "https://arxiv.org/abs/2607.06958v1"
-            }
-          ],
-          "data": "2026-07-08",
-          "sintesi": "I risultati preliminari di uno studio indicano che la rapida crescita dei carichi di lavoro di intelligenza artificiale sta aumentando la scala e la concentrazione della domanda dei data center, creando nuove preoccupazioni per la resilienza del sistema di alimentazione in caso di eventi disruptivi. Lo studio esamina l'impatto della domanda aggregata dei data center sulla quantità di energia non servita in caso di contingenza, utilizzando un framework di ottimizzazione del flusso di potenza. I risultati mostrano che la crescita della capacità dei data center aumenta sostanzialmente la quantità di energia non servita a livello di sistema e di bus dei data center in caso di contingenze con vincoli di trasmissione. Ad esempio, nel caso di derating accoppiato, la crescita alta della capacità aumenta la quantità di energia non servita totale da 3,203 MWh a 22,891 MWh. Una ulteriore analisi mostra che la domanda concentrata dei data center può amplificare gli impatti sulla resilienza anche senza aumentare il consumo totale di energia.",
-          "perche_conta": "Questo studio è rilevante per il settore dell'infrastruttura e dell'hardware AI perché evidenzia le sfide legate alla resilienza del sistema di alimentazione in caso di eventi disruptivi e sottolinea l'importanza di considerare la domanda aggregata dei data center nella pianificazione della capacità di trasmissione e generazione di energia.",
-          "note": "(preprint, non ancora sottoposto a peer review)"
-        }
+      "n_articoli": 1,
+      "anteprima_titoli": [
+        "Evaluating Grid Resilience in the Era of Ever-Increasing Data Centers"
       ]
     },
     {
       "data": "2026-07-07",
       "titolo": "Bit2Watt: A Cyber-Physical Vulnerability Exploiting GPU Workloads Across Power and Computing Infrastructures",
-      "articoli": [
-        {
-          "titolo": "Bit2Watt: A Cyber-Physical Vulnerability Exploiting GPU Workloads Across Power and Computing Infrastructures",
-          "fonti": [
-            {
-              "nome": "arXiv (energia x AI)",
-              "link": "https://arxiv.org/abs/2607.05993v1"
-            }
-          ],
-          "data": "2026-07-07",
-          "sintesi": "I risultati preliminari di uno studio indicano che una vulnerabilità chiamata Bit2Watt può essere sfruttata per manipolare i carichi di lavoro delle GPU e induurre fluttuazioni di potenza ad alta frequenza che destabilizzano l'infrastruttura di alimentazione locale e possono propagarsi per interrompere i servizi di calcolo. Lo studio ha validato questa vulnerabilità attraverso analisi e simulazioni, mostrando che la manipolazione di 1.000 GPU in un sistema di potenza locale da 1 MW con il 90% di fonti di energia rinnovabile può aumentare il THD della corrente al 46,8% e portare a un rapporto di smorzamento di -0,27. Perché conta: questa vulnerabilità rappresenta un rischio significativo per l'infrastruttura di calcolo e di alimentazione, in particolare per i data center che si affidano a grandi cluster di GPU e a fonti di energia rinnovabile, e sottolinea la necessità di difese a livello di cross-layer che considerino congiuntamente la pianificazione dei carichi di lavoro e l'elettronica di potenza.",
-          "perche_conta": "Perché rappresenta un rischio significativo per l'infrastruttura di calcolo e di alimentazione, in particolare per i data center che si affidano a grandi cluster di GPU e a fonti di energia rinnovabile.",
-          "note": "(preprint, non ancora sottoposto a peer review)"
-        }
+      "n_articoli": 1,
+      "anteprima_titoli": [
+        "Bit2Watt: A Cyber-Physical Vulnerability Exploiting GPU Workloads Across Power and Computing Infrastructures"
       ]
     },
     {
       "data": "2026-07-06",
       "titolo": "Large-Load Demand Flexibility as Virtual Storage",
-      "articoli": [
-        {
-          "titolo": "Large-Load Demand Flexibility as Virtual Storage",
-          "fonti": [
-            {
-              "nome": "arXiv (energia x AI)",
-              "link": "https://arxiv.org/abs/2607.04564v1"
-            }
-          ],
-          "data": "2026-07-06",
-          "sintesi": "I risultati preliminari di uno studio indicano che impianti di elettrolisi dell’acqua, data center hyperscale e linee di alluminio rappresentano gigawatt di flessibilità della domanda per l’equilibrio del sistema elettrico. Questi carichi vengono programmati mediante vincoli di potenza per intervallo e finestre energetiche, mentre i sistemi di accumulo batterico co‑locati operano con dinamiche di stato di carica, senza una struttura matematica comune. Il lavoro dimostra che è possibile tradurre ogni traiettoria di carico ammissibile in una traiettoria di carica di un “virtual storage” (VS) con efficienza di contabilizzazione unitaria, consentendo una co‑distribuzione con BESS e una riduzione del numero di vincoli da O(NT) a O(T). La validazione su IEEE RTS‑GMLC con tre classi di carico mostra che il VS fornisce la quota dominante del risparmio nella procurement congiunta, con risparmi additivi grazie a intervalli di dispatch non sovrapposti e un prezzo ombra di curtailment che segue l’inizio della banda di prezzo di picco.",
-          "perche_conta": "Il risultato offre un approccio pratico per valorizzare la flessibilità della domanda e ottimizzare l’uso di batterie co‑locate, riducendo la complessità computazionale e sbloccando risparmi di procurement, elementi chiave per gli investimenti in infrastrutture AI, la pianificazione della capacità e la gestione dei costi energetici.",
-          "note": "(preprint, non ancora sottoposto a peer review)"
-        }
+      "n_articoli": 1,
+      "anteprima_titoli": [
+        "Large-Load Demand Flexibility as Virtual Storage"
       ]
     },
     {
       "data": "2026-07-05",
       "titolo": "Storage as a Transmission Asset (SATA) for Large-Load Congestion Relief",
-      "articoli": [
-        {
-          "titolo": "Storage as a Transmission Asset (SATA) for Large-Load Congestion Relief",
-          "fonti": [
-            {
-              "nome": "arXiv (energia x AI)",
-              "link": "https://arxiv.org/abs/2607.04545v1"
-            }
-          ],
-          "data": "2026-07-05",
-          "sintesi": "I risultati preliminari di uno studio indicano che gli iper‑scale data center possono creare congestioni significative sulle reti di trasmissione esistenti, spingendo gli operatori a valutare soluzioni alternative al rafforzamento fisico. Gli autori analizzano l’impiego di sistemi di accumulo energetico configurati come \"storage‑as‑transmission asset\" (SATA) mediante un modello di ottimizzazione DC a giorno‑avanti che co‑ottimizza generazione, dispatch dell’ESS e curtailment del carico su scenari Monte Carlo di domanda e disponibilità dei generatori. La valutazione della affidabilità operativa utilizza metriche quali energia non servita attesa (EENS), ore di perdita di carico (LOLH) e valore a rischio condizionale (CVaR) dell’energia non servita, oltre a metriche di prezzo di congestione e sensibilità del flusso per identificare corridoi limitanti e posizioni di storage. I risultati mostrano che il dispatch diretto da operatore del SATA riduce l’energia non servita media, l’esposizione alla perdita di carico e il rischio di coda rispetto all’uso dello stesso ESS esclusivamente per arbitraggio, evidenziando che la designazione operativa è il fattore chiave del valore di trasmissione.",
-          "perche_conta": "Per i CTO e gli investitori infrastrutturali, la capacità di mitigare la congestione della rete senza ricorrere a costosi potenziamenti fisici rappresenta un’opportunità di ridurre i CAPEX e migliorare la resilienza dei data center, elementi critici per la scalabilità dell’AI.",
-          "note": "(preprint, non ancora sottoposto a peer review)"
-        }
+      "n_articoli": 1,
+      "anteprima_titoli": [
+        "Storage as a Transmission Asset (SATA) for Large-Load Congestion Relief"
       ]
     },
     {
       "data": "2026-07-03",
       "titolo": "Hierarchical Multi-Agent Reinforcement Learning for Carbon-Aware AI Data Centers in Power Distribution Systems",
-      "articoli": [
-        {
-          "titolo": "Hierarchical Multi-Agent Reinforcement Learning for Carbon-Aware AI Data Centers in Power Distribution Systems",
-          "fonti": [
-            {
-              "nome": "arXiv (energia x AI)",
-              "link": "https://arxiv.org/abs/2607.03324v2"
-            }
-          ],
-          "data": "2026-07-03",
-          "sintesi": "I risultati preliminari di uno studio indicano che è stato proposto un framework gerarchico di reinforcement learning multi‑agente, denominato CA‑MARL, per gestire in modo robusto ed efficiente i data center AI (AIDC) con attenzione alla carbon intensity. Il sistema è composto da un agente workload manager (WM) e da più agenti AIDC locali, addestrati con un metodo transformer multi‑agente, che operano rispettivamente come aggregatore globale e operatore locale. Il WM utilizza dati operativi degli AIDC e l’intensità carbonica nodale (NCI) per allocare spazialmente i carichi di training e inference, mentre ogni agente AIDC ottimizza lo spostamento temporale dei job, l’allocazione dei blocchi GPU e il controllo della temperatura dell’aria di raffreddamento. L’efficacia del framework è stata valutata su un sistema di distribuzione elettrica IEEE a 33 nodi.",
-          "perche_conta": "Il lavoro evidenzia come l’integrazione di strategie di scheduling carbon‑aware possa ridurre le emissioni dei data center AI, un fattore critico per gli investitori infrastrutturali e i CTO che devono bilanciare costi operativi, requisiti di prestazione e sostenibilità ambientale.",
-          "note": "(preprint, non ancora sottoposto a peer review)"
-        }
+      "n_articoli": 1,
+      "anteprima_titoli": [
+        "Hierarchical Multi-Agent Reinforcement Learning for Carbon-Aware AI Data Centers in Power Distribution Systems"
       ]
     },
     {
       "data": "2026-07-02",
       "titolo": "WattGPU: Predicting Inference Power and Latency on Unseen GPUs and LLMs",
-      "articoli": [
-        {
-          "titolo": "WattGPU: Predicting Inference Power and Latency on Unseen GPUs and LLMs",
-          "fonti": [
-            {
-              "nome": "arXiv (energia x AI)",
-              "link": "https://arxiv.org/abs/2607.02391v1"
-            }
-          ],
-          "data": "2026-07-02",
-          "sintesi": "I risultati preliminari di uno studio indicano che i carichi di lavoro di inference di Large Language Model (LLM) stanno diventando un importante fattore di consumo energetico nei data center e che gli operatori non dispongono di strumenti per abbinare LLM specifici alle GPU più efficienti senza profilare ogni combinazione. Gli autori propongono WattGPU, due modelli predittivi per il consumo medio di potenza della GPU e per la latenza inter-token (ITL), basati esclusivamente su metadati pubblici dei LLM e specifiche delle GPU, eliminando la necessità di accesso hardware o profilazione. La valutazione, effettuata con leave‑one‑GPU‑out e leave‑one‑LLM‑out su 42 LLM open‑source (0.1B–27B parametri) e 8 GPU, mostra un errore percentuale assoluto mediano ≤3.4 % per scenari offline e ≤13.5 % per scenari server sul modello di potenza, ≤8.5 % per la latenza in modalità server, con una correlazione di ranking GPU Kendall τ≥0.76 e una riduzione dell'errore di circa 4× rispetto a baseline TDP per scenari server (≈2× per GPU totalmente non viste). I modelli mantengono forti capacità di generalizzazione su GPU server‑grade NVIDIA e LLM non presenti nel training, e il codice e i dati sono disponibili pubblicamente.",
-          "perche_conta": "Per i CTO e gli investitori infrastrutturali, WattGPU offre un metodo scalabile per prevedere consumo energetico e latenza di inference senza costosi cicli di profiling, consentendo decisioni più informate su acquisti GPU, dimensionamento del data center e ottimizzazione dei costi operativi legati all'energia.",
-          "note": "(preprint, non ancora sottoposto a peer review)"
-        }
+      "n_articoli": 1,
+      "anteprima_titoli": [
+        "WattGPU: Predicting Inference Power and Latency on Unseen GPUs and LLMs"
       ]
     },
     {
       "data": "2026-06-29",
       "titolo": "Toward an Energy-Optimized Operation of Data Centers Located in Wind Farms Using Reinforcement Learning",
-      "articoli": [
-        {
-          "titolo": "Toward an Energy-Optimized Operation of Data Centers Located in Wind Farms Using Reinforcement Learning",
-          "fonti": [
-            {
-              "nome": "arXiv (energia x AI)",
-              "link": "https://arxiv.org/abs/2606.30316v1"
-            }
-          ],
-          "data": "2026-06-29",
-          "sintesi": "I risultati preliminari di uno studio indicano che il Reinforcement Learning può fungere da controllore online per lo spostamento di carichi di lavoro in data center ad alte prestazioni integrati a turbine eoliche, tenendo conto delle limitazioni di curtailment. Gli autori hanno creato un framework di simulazione a giorno fisso con segnali sintetici di vento e prezzo e feedback di completamento ritardato, testandolo su un caso minimale con una turbina eolica e un data center co‑locato. In questo scenario, il puro RL mostra un problema di assegnazione del credito e tende a sottoutilizzare l’energia eolica gratuita nelle prime ore del giorno, per cui sono state valutate due contromisure: Imitation Learning basato su ottimizzazione e Reward Shaping basato su potenziali. Su più seed di addestramento e su un set di test di 200 giorni, le varianti PPO e Soft Actor‑Critic con aggiornamento on‑policy hanno raggiunto prestazioni empiriche solide, con ulteriori miglioramenti grazie a Imitation Learning e Reward Shaping, pur mantenendo un divario rispetto a un ottimizzatore offline con visione dell’intera giornata. I risultati di benchmark e le analisi di ablazione forniscono una base trasparente per estendere l’approccio a scenari più complessi e multi‑sito.",
-          "perche_conta": "Ottimizzare l’uso dell’energia rinnovabile nei data center riduce i costi operativi e l’impronta carbonica, fattori critici per gli investimenti infrastrutturali e per i CTO che devono bilanciare performance di calcolo e sostenibilità.",
-          "note": "(preprint, non ancora sottoposto a peer review)"
-        },
-        {
-          "titolo": "SMART-MIG: A Learning Framework for Scalable and Energy-Efficient GPU Scheduling",
-          "fonti": [
-            {
-              "nome": "arXiv (energia x AI)",
-              "link": "https://arxiv.org/abs/2606.29775v1"
-            }
-          ],
-          "data": "2026-06-29",
-          "sintesi": "I risultati preliminari di uno studio indicano che la tecnologia Multi-Instance GPU (MIG) consente di eseguire modelli di machine learning più piccoli su partizioni della GPU, migliorando l’utilizzo e riducendo il consumo energetico, sebbene possano emergere compromessi di prestazione. Per far fronte alla crescente domanda energetica dei data center dotati di GPU, gli autori propongono SMART‑MIG, un sistema che combina Mean‑Field Multi‑Agent Reinforcement Learning per il ricalcolo delle partizioni MIG con algoritmi euristici per la schedulazione dei job. La complessità del componente di ricalcolo delle partizioni rimane costante al crescere del numero di job e GPU, e sono stati stabiliti limiti inferiori teorici su consumo energetico e tardività. Gli esperimenti mostrano che SMART‑MIG migliora l’efficienza energia‑tardività del 18 % rispetto a una configurazione a partizione statica, rimanendo solo al 27 % sopra il limite inferiore teorico di consumo energetico.",
-          "perche_conta": "Questa soluzione dimostra come l’ottimizzazione della suddivisione e della schedulazione delle GPU possa ridurre significativamente i costi operativi e l’impronta energetica dei data center AI, fattori chiave per gli investimenti infrastrutturali e le decisioni dei CTO.",
-          "note": "(preprint, non ancora sottoposto a peer review)"
-        }
+      "n_articoli": 2,
+      "anteprima_titoli": [
+        "Toward an Energy-Optimized Operation of Data Centers Located in Wind Farms Using Reinforcement Learning",
+        "SMART-MIG: A Learning Framework for Scalable and Energy-Efficient GPU Scheduling"
       ]
     },
     {
       "data": "2026-06-24",
       "titolo": "GaN Power Devices and Converter Architectures for AI Data Centers: Efficiency, Reliability, and Deployment Pathways",
-      "articoli": [
-        {
-          "titolo": "GaN Power Devices and Converter Architectures for AI Data Centers: Efficiency, Reliability, and Deployment Pathways",
-          "fonti": [
-            {
-              "nome": "arXiv (energia x AI)",
-              "link": "https://arxiv.org/abs/2606.25281v1"
-            }
-          ],
-          "data": "2026-06-24",
-          "sintesi": "I risultati preliminari di uno studio indicano che la crescita dei carichi di lavoro di intelligenza artificiale sta aumentando le richieste elettriche e termiche sui sistemi di alimentazione dei data center, rendendo l’efficienza di conversione, la densità di potenza e l’affidabilità priorità di progetto. La revisione analizza come i dispositivi di potenza al nitruro di gallio (GaN) possano essere abbinati a specifiche fasi della catena di conversione grid‑to‑load, includendo correzione del fattore di potenza, conversione DC/DC isolata, conversione a bus intermedio da 48 V e regolazione point‑of‑load, confrontando Si, SiC e GaN con metriche rilevanti per i convertitori. L’analisi evidenzia che il vantaggio del GaN è dipendente dalla fase: i HEMT laterali commerciali risultano particolarmente efficaci in stadi ad alta frequenza e a bassa‑media tensione, mentre dispositivi specializzati e ibridi supportano operazioni bidirezionali, controllo normally‑off, rapporti di conversione estremi e integrazione; il GaN verticale rimane un’opzione emergente per tensioni e potenze più elevate. Un quadro quantitativo collega l’efficienza dei convertitori a cascata alla riduzione delle perdite elettriche, alla domanda di raffreddamento, al consumo energetico annuale del sito e alle emissioni di carbonio operative, sottolineando che una diffusione più ampia richiede imballaggi a bassa parasiticità, co‑design disciplinato di gate‑drive ed EMI, qualificazione di affidabilità per profili di missione, produzione scalabile e resilienza della catena di fornitura. Di conseguenza, il GaN deve essere considerato come una leva di sistema specifica per ogni stadio, il cui valore dipende da una progettazione coordinata di dispositivo, topologia, package e termica.",
-          "perche_conta": "Per i CTO e gli investitori infrastrutturali, comprendere le potenzialità e i limiti del GaN consente di ottimizzare la progettazione dei data center AI, riducendo costi operativi, consumo energetico e impatto ambientale, oltre a mitigare rischi legati alla supply chain di componenti avanzati.",
-          "note": "(preprint, non ancora sottoposto a peer review)"
-        }
+      "n_articoli": 1,
+      "anteprima_titoli": [
+        "GaN Power Devices and Converter Architectures for AI Data Centers: Efficiency, Reliability, and Deployment Pathways"
       ]
     },
     {
       "data": "2026-06-23",
       "titolo": "Energy Efficient Scheduling of AI/ML Workloads on Multi Instance GPUs with Dynamic Repartitioning",
-      "articoli": [
-        {
-          "titolo": "Energy Efficient Scheduling of AI/ML Workloads on Multi Instance GPUs with Dynamic Repartitioning",
-          "fonti": [
-            {
-              "nome": "arXiv (energia x AI)",
-              "link": "https://arxiv.org/abs/2606.25082v1"
-            }
-          ],
-          "data": "2026-06-23",
-          "sintesi": "I risultati preliminari di uno studio indicano che la crescente domanda di carichi AI/ML sta aggravando il consumo energetico dei data center. Gli autori propongono un framework di scheduling dinamico per le NVIDIA Multi‑Instance GPUs (MIG) che combina un algoritmo di assegnazione dei job con il ri‑partizionamento delle istanze mediante reinforcement learning. Nei test su tracciati reali di carico diurni, il metodo dinamico supera il ri‑partizionamento due volte al giorno del 26 %, la partizione statica del 31 % e l'assenza di partizionamento del 68 % secondo una funzione multi‑obiettivo di energia e tardiness. I risultati evidenziano configurazioni MIG preferite in base all’ora del giorno e alle condizioni della coda, suggerendo una politica predittiva di riconfigurazione automatica.",
-          "perche_conta": "Per i CTO e gli investitori infrastrutturali, la capacità di ridurre il consumo energetico mantenendo le prestazioni è cruciale per contenere i costi operativi dei data center e per sostenere la scalabilità delle piattaforme AI.",
-          "note": "(preprint, non ancora sottoposto a peer review)"
-        },
-        {
-          "titolo": "Hot AI in Cold Space: Thermal-Crosstalk-Aware Scheduling for Sustainable Orbital AI Clusters",
-          "fonti": [
-            {
-              "nome": "arXiv (energia x AI)",
-              "link": "https://arxiv.org/abs/2606.26150v2"
-            }
-          ],
-          "data": "2026-06-23",
-          "sintesi": "I risultati preliminari di uno studio indicano che gli Orbital Data Centers (ODC) sono proposti come alternativa a \"zero operational carbon\" per l'addestramento AI, ma la latenza di comunicazione sub-$10\\mu s$ richiesta per carichi di lavoro scientifici sincronizzati impone una densità fisica estrema, generando il \"Proximity‑Thermal Paradox\". Questa densità produce intenso thermal‑fluid crosstalk (trappole di calore nei circuiti di raffreddamento condivisi) e thermal‑radiative crosstalk (riscaldamento reciproco che ostacola i radiatori di raffreddamento nello spazio), provocando throttling termico, fatica termica e prematura e‑waste spaziale. Per affrontare il problema, gli autori avanzano la Thermal‑Aware Heterogeneity Thesis e introducono Thermal‑Load Balancing (TLB), un framework software che migra dinamicamente i carichi intensivi verso le unità più fredde in base a temperature fluidiche istantanee o radiazione assorbita. L'analisi dimostra che TLB risolve i colli di bottiglia termici, ripristinando la Model Flops Utilization (MFU) e riducendo lo stress termico, estendendo così la vita operativa dell'hardware orbitale e ammortizzando il carbonio incorporato nei lanci dei razzi.",
-          "perche_conta": "Comprendere e mitigare le limitazioni termiche degli ODC è cruciale per gli investitori e i CTO, poiché influisce direttamente sulla scalabilità, sul ritorno economico e sulla sostenibilità ambientale delle infrastrutture AI nello spazio, determinando la fattibilità di investimenti a lungo termine in capacità computazionale orbitale.",
-          "note": "(preprint, non ancora sottoposto a peer review)"
-        }
+      "n_articoli": 2,
+      "anteprima_titoli": [
+        "Energy Efficient Scheduling of AI/ML Workloads on Multi Instance GPUs with Dynamic Repartitioning",
+        "Hot AI in Cold Space: Thermal-Crosstalk-Aware Scheduling for Sustainable Orbital AI Clusters"
       ]
     },
     {
       "data": "2026-06-22",
       "titolo": "Node-Level Performance and Energy Characterization of Flagship Science Applications on SuperMUC-NG Phase 2",
-      "articoli": [
-        {
-          "titolo": "Node-Level Performance and Energy Characterization of Flagship Science Applications on SuperMUC-NG Phase 2",
-          "fonti": [
-            {
-              "nome": "arXiv (energia x AI)",
-              "link": "https://arxiv.org/abs/2606.23265v1"
-            }
-          ],
-          "data": "2026-06-22",
-          "sintesi": "I risultati preliminari di uno studio indicano che è stata effettuata una caratterizzazione di performance ed efficienza energetica su cinque carichi di lavoro scientifici di punta eseguiti su SuperMUC‑NG fase 2, il sistema da 28 PetaFLOPs del Leibniz Supercomputing Center dotato di processori Intel Xeon Platinum 8480+ e acceleratori Intel Data Center GPU Max 1550 (Ponte Vecchio, PVC). Per ciascun codice è stato misurato il throughput e l’efficienza energetica su un singolo nodo confrontando configurazioni CPU‑only (SPR) con configurazioni CPU+GPU (SPR+PVC) dove disponibili. I risultati mostrano che lo scarico su GPU genera un incremento del throughput di $4-12\times$ e un miglioramento dell’efficienza energetica fino a $15\times$ rispetto all’esecuzione su CPU‑only, con i maggiori benefici osservati per lammps e AthenaK. Tuttavia, i guadagni di throughput ed energia risultano sensibili alla granularità del problema: un lavoro insufficiente per tile GPU riduce l’avvantaggio dell’acceleratore, come evidenziato in AthenaK con blocchi di mesh ridotti. Inoltre, l’utilizzo del budget di potenza è sistematicamente più basso per le CPU rispetto alle GPU, indicando che le CPU lasciano inattiva una parte significativa dell’involucro termico del nodo anche al massimo tasso di lavoro utile.",
-          "perche_conta": "Queste evidenze quantificano il valore aggiunto delle GPU nei data center ad alte prestazioni, guidando le decisioni di investimento in hardware accelerato e nella gestione dell’efficienza energetica per le applicazioni AI‑intensive.",
-          "note": "(preprint, non ancora sottoposto a peer review)"
-        }
+      "n_articoli": 1,
+      "anteprima_titoli": [
+        "Node-Level Performance and Energy Characterization of Flagship Science Applications on SuperMUC-NG Phase 2"
       ]
     },
     {
       "data": "2026-06-21",
       "titolo": "Dynamic Resilience Assessment of Power Systems With Data Center Load Events Using Physics-Informed Neural Networks",
-      "articoli": [
-        {
-          "titolo": "Dynamic Resilience Assessment of Power Systems With Data Center Load Events Using Physics-Informed Neural Networks",
-          "fonti": [
-            {
-              "nome": "arXiv (energia x AI)",
-              "link": "https://arxiv.org/abs/2606.22590v1"
-            }
-          ],
-          "data": "2026-06-21",
-          "sintesi": "I risultati preliminari di uno studio indicano che i carichi dei grandi data center introducono nuove sfide di resilienza per i sistemi elettrici, poiché la loro disconnessione e riconnessione graduale possono generare dinamiche rapide di tensione e frequenza non catturate da metriche statiche. Gli autori propongono un quadro di valutazione della resilienza, basato su modelli dinamici lato rete e traiettorie osservabili post‑disturbo, senza richiedere modelli interni dettagliati dei data center. Per realizzarlo è stato sviluppato un neural network informato dalla fisica (DAE‑PINN) che, mediante un residuo implicito di backward Euler, prevede simultaneamente stati dinamici e algebrici, garantendo la coerenza algebrica della rete. I casi di studio su un feeder IEEE 33‑bus modificato mostrano che il DAE‑PINN riproduce fedelmente le soluzioni DAE numeriche e riduce in modo significativo i tempi di calcolo per la valutazione ripetuta delle strategie di ripristino. Le metriche di resilienza multi‑fase normalizzate permettono di distinguere gli effetti di dimensione del disturbo, posizione del data center e strategia di riconnessione, evidenziando il compromesso tra velocità di ripristino e perdita di resilienza transitoria.",
-          "perche_conta": "Comprendere e quantificare questi impatti è cruciale per i CTO e gli investitori infrastrutturali, poiché influisce sulla progettazione di reti elettriche più robuste, sulla pianificazione degli investimenti in capacità di alimentazione e sulla definizione di strategie operative che bilanciano continuità di servizio e sicurezza del sistema.",
-          "note": "(preprint, non ancora sottoposto a peer review)"
-        },
-        {
-          "titolo": "NeutronSparse: Coordinating Heterogeneous Engines for Sparse Matrix Multiplication on NPUs",
-          "fonti": [
-            {
-              "nome": "arXiv (energia x AI)",
-              "link": "https://arxiv.org/abs/2606.22482v1"
-            }
-          ],
-          "data": "2026-06-21",
-          "sintesi": "I risultati preliminari di uno studio indicano che la moltiplicazione di matrici sparse (SpMM) è una operazione chiave per l'elaborazione di dati sparsi su larga scala e che le NPU, sempre più presenti nei data center per le loro prestazioni ed efficienza energetica, rappresentano una piattaforma naturale per accelerare tale operazione. Tuttavia, sull'Ascend 910B l'implementazione ufficiale di MindSpore raggiunge solo il 36.3% delle prestazioni delle librerie sparse GPU come cuSPARSE su NVIDIA A100, a causa di una scarsa coordinazione tra le unità di calcolo eterogenee nel modello di esecuzione a tile. Per superare questo limite, gli autori propongono NeutronSparse, un framework che prima coordina le unità eterogenee in modo consapevole della sparsità e poi organizza i tile per massimizzare la località dei dati. Le valutazioni sull'Ascend 910B mostrano che NeutronSparse ottiene accelerazioni comprese tra 1.26x e 7.78x rispetto alle baseline NPU e tra 1.03x e 3.07x rispetto alle principali librerie GPU su A100.",
-          "perche_conta": "Il lavoro evidenzia un potenziale ancora inespresso delle NPU per carichi di lavoro sparsi, suggerendo opportunità di migliorare l'efficienza energetica e le prestazioni dei data center, fattori critici per gli investimenti in infrastrutture AI.",
-          "note": "(preprint, non ancora sottoposto a peer review)"
-        }
+      "n_articoli": 2,
+      "anteprima_titoli": [
+        "Dynamic Resilience Assessment of Power Systems With Data Center Load Events Using Physics-Informed Neural Networks",
+        "NeutronSparse: Coordinating Heterogeneous Engines for Sparse Matrix Multiplication on NPUs"
       ]
     },
     {
       "data": "2026-06-19",
       "titolo": "AI Data Centers and Power System Sustainability: Understanding the Sustainability Implications of AI-Driven Data Centers on Power Systems",
-      "articoli": [
-        {
-          "titolo": "AI Data Centers and Power System Sustainability: Understanding the Sustainability Implications of AI-Driven Data Centers on Power Systems",
-          "fonti": [
-            {
-              "nome": "arXiv (energia x AI)",
-              "link": "https://arxiv.org/abs/2606.21064v1"
-            }
-          ],
-          "data": "2026-06-19",
-          "sintesi": "I risultati preliminari di uno studio indicano che la rapida espansione dell'intelligenza artificiale ha generato una crescita senza precedenti della domanda elettrica dei data center, superando in alcune regioni la capacità di impiego di energia pulita e creando pressioni su emissioni, flessibilità e affidabilità della rete. Allo stesso tempo, il settore, altamente capital‑intensivo, presenta ampie opportunità per migliorare la sostenibilità mediante integrazione di energie rinnovabili e innovazioni operative. Lo studio descrive il comportamento di carico dei data center AI, classifica le configurazioni di approvvigionamento elettrico per funzione e profilo di sostenibilità, e colloca questi carichi nel contesto delle tendenze globali e regionali di domanda elettrica. Vengono analizzati gli impatti sulla sostenibilità sia a breve termine (operazioni) sia a lungo termine (pianificazione), includendo effetti su emissioni di carbonio, utilizzo di rinnovabili, capacità di fornire flessibilità di rete e partecipazione a servizi ancillari, oltre a valutare percorsi corporativi di sostenibilità e i limiti delle pratiche attuali di contabilizzazione del carbonio.",
-          "perche_conta": "Comprendere questi meccanismi è cruciale per i CTO e gli investitori infrastrutturali, poiché influisce direttamente sulle scelte di capacità energetica, strategie di approvvigionamento verde, costi operativi e rischi normativi legati alla sostenibilità dei data center AI.",
-          "note": "(preprint, non ancora sottoposto a peer review)"
-        }
+      "n_articoli": 1,
+      "anteprima_titoli": [
+        "AI Data Centers and Power System Sustainability: Understanding the Sustainability Implications of AI-Driven Data Centers on Power Systems"
       ]
     },
     {
       "data": "2026-06-18",
       "titolo": "Modest, artistic, and radical solutions to the environmental impact of image-generating machine learning",
-      "articoli": [
-        {
-          "titolo": "Modest, artistic, and radical solutions to the environmental impact of image-generating machine learning",
-          "fonti": [
-            {
-              "nome": "arXiv (energia x AI)",
-              "link": "https://arxiv.org/abs/2606.19957v1"
-            }
-          ],
-          "data": "2026-06-18",
-          "sintesi": "I risultati preliminari di uno studio indicano che, sebbene il machine learning sia spesso presentato come un modo per migliorare l’efficienza dell’ICT, tale piccolo guadagno è sovrastato dalle enormi impronte di carbonio, acqua e terra dei data center e dei dispositivi pronti per il ML. Gli autori hanno effettuato una rilevazione del consumo elettrico delle applicazioni di ML in fase di addestramento e inferenza, concentrandosi in particolare sulla generazione di immagini, che risulta particolarmente energivora. Tra le soluzioni proposte vi sono approcci di computing impreciso, modelli linguistici di dimensioni ridotte, architetture hardware a bassa precisione, hardware a capacità limitata e la previsione e mitigazione della domanda energetica già nella fase di progettazione. Viene inoltre descritto un lavoro in corso su un generatore di immagini di piccole dimensioni, etico e esteticamente sofisticato, basato su dati non prelevati dal web. Infine, gli autori suggeriscono un vero accounting dei costi ambientali del machine learning e mettono in discussione il criterio di efficienza, considerandolo influenzato dalla logica shareholder‑capitalist dell’ICT.",
-          "perche_conta": "Il documento evidenzia come i carichi di lavoro di generazione di immagini possano dominare il consumo energetico dei data center, indicando la necessità di hardware più efficiente e di pratiche di progettazione sostenibili, elementi critici per le decisioni di investimento e per la pianificazione del CAPEX in infrastrutture AI.",
-          "note": "(preprint, non ancora sottoposto a peer review)"
-        }
+      "n_articoli": 1,
+      "anteprima_titoli": [
+        "Modest, artistic, and radical solutions to the environmental impact of image-generating machine learning"
       ]
     },
     {
       "data": "2026-06-17",
       "titolo": "From Tokens to Energy Flexibility: Quantization-Enabled Demand Response for Data Centers with LLM Inference Workloads",
-      "articoli": [
-        {
-          "titolo": "From Tokens to Energy Flexibility: Quantization-Enabled Demand Response for Data Centers with LLM Inference Workloads",
-          "fonti": [
-            {
-              "nome": "arXiv (energia x AI)",
-              "link": "https://arxiv.org/abs/2606.18851v1"
-            }
-          ],
-          "data": "2026-06-17",
-          "sintesi": "I risultati preliminari di uno studio indicano che la rapida crescita dell’inferenza di grandi modelli linguistici (LLM) sta generando carichi significativi nei data center, con crescenti difficoltà di gestione energetica in condizioni di rete più restrittive e requisiti di demand response (DR). Gli approcci tradizionali di gestione energetica trattano la domanda di inferenza LLM come un carico aggregato, trascurando la flessibilità offerta da tecniche specifiche come la quantizzazione del modello. Per sfruttare tale flessibilità, gli autori propongono un quadro di gestione energetica abilitato alla quantizzazione, includendo un modello quantization‑to‑power, un modello DR a due stadi che considera lo switching di istanze, il routing delle richieste e la selezione della precisione, e un metodo di co‑ottimizzazione multi‑campus che integra segnali elettrici e di carbonio della rete. Gli studi di caso mostrano che il framework riduce il costo operativo totale del data center del 34.3% senza ridurre il volume di token serviti, confermando la quantizzazione come leva di flessibilità per la risposta alla rete.",
-          "perche_conta": "Questa capacità di abbattere i costi operativi e di partecipare attivamente al demand response consente ai data center di migliorare la redditività, ridurre l’impronta di carbonio e offrire maggiore resilienza energetica, elementi chiave per gli investimenti infrastrutturali nell’AI.",
-          "note": "(preprint, non ancora sottoposto a peer review)"
-        }
+      "n_articoli": 1,
+      "anteprima_titoli": [
+        "From Tokens to Energy Flexibility: Quantization-Enabled Demand Response for Data Centers with LLM Inference Workloads"
       ]
     },
     {
       "data": "2026-06-13",
       "titolo": "Data Center Life Cycle Co-Design Optimization",
-      "articoli": [
-        {
-          "titolo": "Data Center Life Cycle Co-Design Optimization",
-          "fonti": [
-            {
-              "nome": "arXiv (energia x AI)",
-              "link": "https://arxiv.org/abs/2606.15408v1"
-            }
-          ],
-          "data": "2026-06-13",
-          "sintesi": "I risultati preliminari di uno studio indicano che i supercomputer refrigerati a liquido dissipano \"tens of megawatts\" di calore residuo attraverso impianti di raffreddamento organizzati in sotto‑circuiti paralleli, la cui configurazione non è mai stata ottimizzata sistematicamente. Gli autori propongono un framework che combina energia operativa, carbonio incorporato e affidabilità per valutare le configurazioni di suddivisione dei 25 unità di distribuzione del refrigerante in due‑sei sotto‑circuiti. Applicato al supercomputer Frontier, il modello individua l’optimum di ciclo di vita a due sotto‑circuiti (14 e 11 unità), con \"3,320.7\" tonnellate di CO₂e e \"$3.99\" milioni su un orizzonte di sette anni, risparmiando \"50.2\" tonnellate e \"$100,000\" rispetto alla configurazione a quattro sotto‑circuiti costruita. Il risultato rimane sulla frontiera di Pareto in tutti i \"15\" scenari di sensibilità testati, e una regola decisionale semi‑analitica prevede quattro sotto‑circuiti per Aurora, due per El Capitan e uno per LUMI. Quando l’affidabilità è vincolata da policy operative, la configurazione a quattro sotto‑circuiti di Frontier risulta coerente con l’optimum vincolato.",
-          "perche_conta": "Ottimizzare la topologia di raffreddamento riduce sia le emissioni di carbonio sia i costi operativi dei data center AI, fattori critici per gli investitori che devono gestire il rischio di carbon pricing crescente e la pressione per efficienza energetica in un contesto di grid elettriche decarbonizzate.",
-          "note": "(preprint, non ancora sottoposto a peer review)"
-        }
+      "n_articoli": 1,
+      "anteprima_titoli": [
+        "Data Center Life Cycle Co-Design Optimization"
       ]
     },
     {
       "data": "2026-06-11",
       "titolo": "Spatial Load Correlation in AI Data-Center-Dominated Power Systems",
-      "articoli": [
-        {
-          "titolo": "Spatial Load Correlation in AI Data-Center-Dominated Power Systems",
-          "fonti": [
-            {
-              "nome": "arXiv (energia x AI)",
-              "link": "https://arxiv.org/abs/2606.13853v1"
-            }
-          ],
-          "data": "2026-06-11",
-          "sintesi": "I risultati preliminari di uno studio indicano che la proliferazione di data center su larga scala introduce profili di domanda spazialmente correlati, mettendo in discussione l’assunzione di indipendenza statistica dei carichi nei sistemi elettrici. Le derivazioni analitiche mostrano che tali correlazioni amplificano le perturbazioni stochastiche aggregate, riducono i margini di stabilità di tensione a causa di una minore rigidità della potenza reattiva e degradano il margine di stabilità di frequenza erodendo gli effetti di diversità naturale del carico. Simulazioni digitali in tempo reale confermano che una moderata correlazione spaziale tra data center distribuiti genera deviazioni simultanee di frequenza e fluttuazioni di tensione su più bus. Il lavoro offre agli operatori di rete una prospettiva basata sulla fisica per interpretare i fenomeni oscillatori emergenti e definire criteri di pianificazione della stabilità fondati su strutture di correlazione di carico misurabili, anziché sulle tradizionali ipotesi di diversità.",
-          "perche_conta": "Con l’aumento dei carichi AI concentrati nei data center, la correlazione spaziale della domanda può compromettere la stabilità di rete, aumentando i rischi operativi e i costi di investimento in infrastrutture elettriche; per i CTO e gli investitori è quindi cruciale integrare questi fattori nei piani di capacità, resilienza e budgeting energetico.",
-          "note": "(preprint, non ancora sottoposto a peer review)"
-        }
+      "n_articoli": 1,
+      "anteprima_titoli": [
+        "Spatial Load Correlation in AI Data-Center-Dominated Power Systems"
       ]
     }
   ]

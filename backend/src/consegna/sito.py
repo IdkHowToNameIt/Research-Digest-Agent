@@ -10,10 +10,13 @@ unico gruppo.
 
 **Dati suddivisi per scalare (evita di scaricare tutta la storia a ogni visita):**
 - `data.json` = **indice leggero**: soglie + per ogni tema id/nome, il file di
-  dettaglio e i gruppi *recenti* (ultimi giorni) per la landing. È l'unico file
-  caricato all'avvio.
-- `tema-<id>.json` = **dettaglio di un tema** (tutti i gruppi+articoli), caricato
-  dal frontend **on-demand** quando l'utente apre quel tema.
+  lista e i gruppi *recenti* (ultimi giorni) per la landing. Unico file all'avvio.
+- `tema-<id>.json` = **lista leggera** del tema: metadati dei gruppi (data, titolo,
+  n. articoli, anteprima di alcuni titoli), SENZA corpi. Caricata aprendo il tema;
+  basta a lista e filtri per data.
+- `tema-<id>-<anno>.json` = **corpi** degli articoli del tema per quell'anno,
+  caricati **on-demand** aprendo un giorno di quell'anno. Così un tema con anni di
+  storia non si scarica mai tutto in una volta, senza perdere alcun dato.
 
 `genera_sito`:
 - scrive `<out_dir>/data.json` (indice) + un `<out_dir>/tema-<id>.json` per tema;
@@ -52,8 +55,12 @@ SETTIMANA_GIORNI_DEFAULT = 7
 # Più larga della settimana (7) per dare margine: il frontend re-filtra a 7 giorni
 # rispetto a OGGI, quindi qualche giorno di scorta copre le visite dopo il run.
 RECENTI_GIORNI_DEFAULT = 14
-# Nome dei file di dettaglio per-tema (caricati on-demand dal frontend).
+# Lista leggera di un tema (metadati dei gruppi, senza corpi): caricata aprendo il tema.
 NOME_FILE_TEMA = "tema-{id}.json"
+# Corpi degli articoli di un tema, in bucket annuali: caricati aprendo un giorno di quell'anno.
+NOME_FILE_TEMA_ANNO = "tema-{id}-{anno}.json"
+# Quanti titoli d'anteprima mettere nella lista leggera (per la card del gruppo).
+ANTEPRIMA_TITOLI = 3
 # Asset del frontend a cui aggiungere il token ?v=<generato> in index.html (cache-busting).
 ASSET_VERSIONABILI = ("app.js", "stile.css", "sfondo.js")
 # Template del frontend copiato accanto a data.json come index.html della publish-dir.
@@ -215,6 +222,40 @@ def costruisci_indice(
     return _indice_da_full(full, recenti_giorni)
 
 
+def _lista_leggera_tema(t: dict) -> dict:
+    """Lista leggera di un tema (`tema-<id>.json`): metadati dei gruppi, SENZA corpi.
+
+    Basta a render la vista lista (data, titolo, n. articoli, anteprima di alcuni
+    titoli) e ai filtri per data. I corpi degli articoli stanno nei bucket annuali.
+    """
+    gruppi = [
+        {
+            "data": g["data"],
+            "titolo": g["titolo"],
+            "n_articoli": len(g["articoli"]),
+            "anteprima_titoli": [a.get("titolo", "") for a in g["articoli"][:ANTEPRIMA_TITOLI]],
+        }
+        for g in t["gruppi"]
+    ]
+    return {"id": t["id"], "nome": t["nome"], "gruppi": gruppi}
+
+
+def _bucket_anni_tema(t: dict) -> dict[str, dict]:
+    """Corpi degli articoli di un tema raggruppati per anno (`tema-<id>-<anno>.json`).
+
+    Ritorna {anno -> {"anno", "gruppi": [{data, titolo, articoli}]}}. Il frontend,
+    aprendo un giorno, ricava l'anno dalla data e carica solo quel bucket.
+    """
+    buckets: dict[str, dict] = {}
+    for g in t["gruppi"]:
+        anno = (g["data"] or "")[:4] or "0000"
+        b = buckets.setdefault(anno, {"anno": anno, "gruppi": []})
+        b["gruppi"].append(
+            {"data": g["data"], "titolo": g["titolo"], "articoli": g["articoli"]}
+        )
+    return buckets
+
+
 def _cache_bust(html: str, token: str) -> str:
     """Aggiunge `?v=<token>` ai riferimenti JS/CSS in index.html (cache-busting).
 
@@ -253,13 +294,19 @@ def genera_sito(
     settimana_giorni: int = SETTIMANA_GIORNI_DEFAULT,
     recenti_giorni: int = RECENTI_GIORNI_DEFAULT,
 ) -> list[str]:
-    """Scrive indice + file per-tema e copia il frontend nella publish-dir.
+    """Scrive indice + lista/bucket per-tema e copia il frontend nella publish-dir.
 
     Ritorna i percorsi scritti. La cartella `out_dir` diventa la publish-dir del
-    sito statico: `data.json` (indice) + `tema-<id>.json` (dettaglio per tema) +
-    index.html/stile.css/app.js/sfondo.js. A `index.html` viene aggiunto il token
-    `?v=<generato>` sui riferimenti JS/CSS (cache-busting). La publish-dir viene
-    svuotata prima della scrittura, così riflette esattamente l'ultimo run.
+    sito statico:
+    - `data.json` = indice leggero (l'unico caricato all'avvio);
+    - `tema-<id>.json` = lista leggera del tema (metadati dei gruppi, senza corpi),
+      caricata aprendo il tema;
+    - `tema-<id>-<anno>.json` = corpi degli articoli del tema per quell'anno,
+      caricati aprendo un giorno di quell'anno (così un tema con anni di storia non
+      si scarica mai tutto in una volta, senza perdere alcun dato);
+    - index.html/stile.css/app.js/sfondo.js, con `?v=<generato>` sui riferimenti
+      JS/CSS di index.html (cache-busting).
+    La publish-dir viene svuotata prima della scrittura, così riflette l'ultimo run.
     """
     base = Path(out_dir)
     base.mkdir(parents=True, exist_ok=True)
@@ -277,17 +324,21 @@ def genera_sito(
     )
     scritti.append(str(percorso_indice))
 
-    # Dettaglio per tema (tema-<id>.json): caricato on-demand quando si apre il tema.
     for t in full["temi"]:
-        percorso_tema = base / NOME_FILE_TEMA.format(id=t["id"])
-        percorso_tema.write_text(
-            json.dumps(
-                {"id": t["id"], "nome": t["nome"], "gruppi": t["gruppi"]},
-                ensure_ascii=False, indent=2,
-            ),
+        # Lista leggera del tema (tema-<id>.json): metadati, caricata aprendo il tema.
+        percorso_lista = base / NOME_FILE_TEMA.format(id=t["id"])
+        percorso_lista.write_text(
+            json.dumps(_lista_leggera_tema(t), ensure_ascii=False, indent=2),
             encoding="utf-8",
         )
-        scritti.append(str(percorso_tema))
+        scritti.append(str(percorso_lista))
+        # Corpi in bucket annuali (tema-<id>-<anno>.json): caricati aprendo un giorno.
+        for anno, bucket in sorted(_bucket_anni_tema(t).items()):
+            percorso_bucket = base / NOME_FILE_TEMA_ANNO.format(id=t["id"], anno=anno)
+            percorso_bucket.write_text(
+                json.dumps(bucket, ensure_ascii=False, indent=2), encoding="utf-8"
+            )
+            scritti.append(str(percorso_bucket))
 
     tpl = Path(template_path)
     if tpl.exists():

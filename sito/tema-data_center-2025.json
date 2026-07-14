@@ -1,0 +1,151 @@
+{
+  "anno": "2025",
+  "gruppi": [
+    {
+      "data": "2025-12-09",
+      "titolo": "Nutanix NC2 is now officially supported on Google Cloud",
+      "articoli": [
+        {
+          "titolo": "Nutanix NC2 is now officially supported on Google Cloud",
+          "fonti": [
+            {
+              "nome": "Google Cloud — Infrastructure",
+              "link": "https://cloud.google.com/blog/topics/partners/nutanix-nc2-generally-available-google-cloud/"
+            }
+          ],
+          "data": "2025-12-09",
+          "sintesi": "Nutanix Cloud Clusters (NC2) è ora disponibile su Google Cloud, consentendo di migrare e modernizzare applicazioni critiche senza compromettere le prestazioni. La partnership combina la potenza di Google Cloud con la flessibilità di Nutanix, offrendo vantaggi come la scalabilità dinamica, l'accelerazione dell'innovazione AI e la riduzione dei costi. La soluzione supporta l'esecuzione di carichi di lavoro su istanze bare metal di Compute Engine e offre una gestione unificata attraverso la console Prism Central.",
+          "perche_conta": "La disponibilità di NC2 su Google Cloud è rilevante per gli investitori e i CTO perché offre una soluzione ibrida cloud che può semplificare le operazioni e ridurre i costi, consentendo alle aziende di sfruttare al meglio le capacità di Google Cloud e di Nutanix.",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2025-11-23",
+      "titolo": "Introducing the TalayLink subsea cable and new connectivity hubs",
+      "articoli": [
+        {
+          "titolo": "Introducing the TalayLink subsea cable and new connectivity hubs",
+          "fonti": [
+            {
+              "nome": "Google Cloud — Infrastructure",
+              "link": "https://cloud.google.com/blog/products/infrastructure/talaylink-subsea-cable-to-connect-australia-and-thailand/"
+            }
+          ],
+          "data": "2025-11-23",
+          "sintesi": "Google Cloud annuncia TalayLink, un nuovo cavo sottomarino che collega l'Australia e la Thailandia, aumentando la portata, l'affidabilità e la resilienza della connettività digitale in Asia Pacifico e nel mondo. Il cavo sarà integrato con i futuri data center e la regione cloud in Thailandia e sarà supportato da nuovi hub di connettività in Australia Occidentale e nel sud della Thailandia. Questi investimenti strategici sono progettati per garantire la connettività regionale e accelerare la consegna di servizi digitali avanzati e AI.",
+          "perche_conta": "Questo annuncio è rilevante per il settore dell'infrastruttura e dell'hardware AI perché rappresenta un importante investimento nella connettività digitale in Asia Pacifico, con potenziali benefici per la crescita economica e la trasformazione digitale nella regione.",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2025-11-20",
+      "titolo": "A new Google Cloud region is coming to Türkiye as part of $2 billion investment",
+      "articoli": [
+        {
+          "titolo": "A new Google Cloud region is coming to Türkiye as part of $2 billion investment",
+          "fonti": [
+            {
+              "nome": "Google Cloud — Infrastructure",
+              "link": "https://cloud.google.com/blog/products/infrastructure/new-google-cloud-region-coming-to-turkiye/"
+            }
+          ],
+          "data": "2025-11-20",
+          "sintesi": "Google Cloud annuncia l'apertura di una nuova regione in Turchia, parte di un investimento di 2 miliardi di dollari nel paese. La nuova regione sarà creata in collaborazione con Turkcell e sarà dotata di tecnologie avanzate per l'analisi dei dati, la sicurezza cibernetica e le soluzioni di business digitale. La regione sarà in grado di offrire servizi ad alta prestazione e bassa latenza, garantendo la sovranità e la sicurezza dei dati. Turkcell pianifica di investire 1 miliardo di dollari in data center e tecnologie cloud.",
+          "perche_conta": "L'apertura di questa nuova regione di Google Cloud in Turchia è rilevante per il settore dell'infrastruttura e dell'hardware AI, poiché rappresenta un importante investimento nella digitalizzazione del paese e nella creazione di un hub tecnologico nella regione, offrendo opportunità per l'innovazione e la crescita delle imprese.",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2025-11-17",
+      "titolo": "Introducing Dhivaru and two new connectivity hubs",
+      "articoli": [
+        {
+          "titolo": "Introducing Dhivaru and two new connectivity hubs",
+          "fonti": [
+            {
+              "nome": "Google Cloud — Infrastructure",
+              "link": "https://cloud.google.com/blog/products/networking/introducing-dhivaru-new-subsea-cable/"
+            }
+          ],
+          "data": "2025-11-17",
+          "sintesi": "Google annuncia Dhivaru, un nuovo sistema di cavi sottomarini che collegherà le Maldive, l'Isola di Natale e l'Oman, migliorando la connettività digitale nell'Oceano Indiano. L'investimento fa parte dell'iniziativa Australia Connect e include la creazione di due nuovi hub di connettività nella regione. Gli hub saranno dotati di funzionalità di switching dei cavi, caching dei contenuti e colocation, migliorando la resilienza e la velocità della connettività. Google si impegna a utilizzare energia efficiente e a promuovere la generazione di energia sostenibile nelle località in cui saranno costruiti gli hub.",
+          "perche_conta": "Questo investimento è rilevante per il settore dell'infrastruttura e dell'hardware AI perché migliora la connettività digitale e la resilienza della rete, consentendo una maggiore adozione dei servizi basati sull'intelligenza artificiale e una migliore esperienza utente.",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2025-10-13",
+      "titolo": "Agile AI architectures: A fungible data center for the intelligent era",
+      "articoli": [
+        {
+          "titolo": "Agile AI architectures: A fungible data center for the intelligent era",
+          "fonti": [
+            {
+              "nome": "Google Cloud — Infrastructure",
+              "link": "https://cloud.google.com/blog/topics/systems/agile-data-centers-and-systems-to-enable-ai-innovations/"
+            }
+          ],
+          "data": "2025-10-13",
+          "sintesi": "Google Cloud discute l'importanza di creare architetture di data center fungibili e agili per supportare la crescita esponenziale dell'intelligenza artificiale. La società sottolinea la necessità di progettare data center moduli, interoperabili e standardizzati per gestire la complessità e la dinamicità della domanda di AI. Google presenta anche alcune delle sue iniziative per standardizzare la consegna di energia, il raffreddamento e le interfacce di rete per i data center.",
+          "perche_conta": "La creazione di data center fungibili e agili è fondamentale per supportare la crescita dell'intelligenza artificiale e garantire che le infrastrutture di calcolo possano gestire la domanda in continua evoluzione di servizi di AI.",
+          "note": null
+        },
+        {
+          "titolo": "The future of media sanitization at Google",
+          "fonti": [
+            {
+              "nome": "Google Cloud — Infrastructure",
+              "link": "https://cloud.google.com/blog/products/identity-security/the-future-of-media-sanitization-at-google/"
+            }
+          ],
+          "data": "2025-10-13",
+          "sintesi": "Google annuncia il passaggio a una strategia di sanificazione dei media basata sulla crittografia, abbandonando il metodo di cancellazione dei dischi tramite sovrascrittura. La nuova tecnica, chiamata cancellazione crittografica, utilizza la crittografia per rendere i dati inaccessibili eliminando le chiavi di crittografia. Questo metodo è più rapido e allineato con le migliori pratiche del settore. Google si impegna a garantire la sicurezza dei dati dei propri utenti e a ridurre l'impatto ambientale grazie a una maggiore sostenibilità e riutilizzo dell'hardware.",
+          "perche_conta": "Questo annuncio è rilevante per gli investitori e i responsabili tecnici perché mostra l'impegno di Google nella sicurezza e nella sostenibilità, aspetti fondamentali per la fiducia degli utenti e la crescita dell'azienda nel settore del cloud computing.",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2025-09-18",
+      "titolo": "How Google Cloud’s AI tech stack powers today’s startups",
+      "articoli": [
+        {
+          "titolo": "How Google Cloud’s AI tech stack powers today’s startups",
+          "fonti": [
+            {
+              "nome": "Google Cloud — Infrastructure",
+              "link": "https://cloud.google.com/blog/topics/startups/differentiated-ai-tech-stack-drives-startup-innovation-google-builders-forum/"
+            }
+          ],
+          "data": "2025-09-18",
+          "sintesi": "Google Cloud sta supportando l'innovazione nelle startup di intelligenza artificiale con la sua tecnologia AI e la sua infrastruttura cloud. Più di 60% delle startup di intelligenza artificiale a livello globale utilizzano Google Cloud, e il trend di scelta di Google Cloud da parte di queste startup è in aumento, con un aumento del 20% nell'ultimo anno. Google Cloud offre una tecnologia AI differenziata, che include una varietà di chip TPU e GPU specializzati per il calcolo e una vasta gamma di modelli che eccellono nella codifica, generazione di immagini e video, collaborazione e altro. La società sta anche supportando le startup con risorse uniche, come la guida tecnica per gli agenti AI e il forum AI Builders, che riunisce fondatori e costruttori di startup per discutere di come utilizzare la tecnologia AI di Google per costruire e far crescere le loro aziende.",
+          "perche_conta": "Questo articolo è rilevante per il beat 'Infrastruttura e Hardware AI' perché mostra come Google Cloud stia supportando l'innovazione nelle startup di intelligenza artificiale con la sua tecnologia AI e la sua infrastruttura cloud, e come questo possa avere un impatto significativo sullo sviluppo di soluzioni AI innovative e sulla crescita delle startup in questo settore.",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2025-08-21",
+      "titolo": "How much energy does Google’s AI use? We did the math",
+      "articoli": [
+        {
+          "titolo": "How much energy does Google’s AI use? We did the math",
+          "fonti": [
+            {
+              "nome": "Google Cloud — Infrastructure",
+              "link": "https://cloud.google.com/blog/products/infrastructure/measuring-the-environmental-impact-of-ai-inference/"
+            }
+          ],
+          "data": "2025-08-21",
+          "sintesi": "Google ha pubblicato uno studio sulla quantità di energia utilizzata dai suoi sistemi di intelligenza artificiale (AI), in particolare per il modello Gemini. Lo studio rivela che la mediana dei prompt di testo di Gemini utilizza 0,24 watt-ore (Wh) di energia, emette 0,03 grammi di anidride carbonica equivalente (gCO2e) e consuma 0,26 millilitri di acqua. Questi valori sono più bassi di quanto stimato in precedenza e sono il risultato di innovazioni e miglioramenti nell'efficienza dei sistemi di AI di Google. La società è impegnata a continuare a migliorare l'efficienza dei suoi sistemi di AI.",
+          "perche_conta": "Questo studio è rilevante per il settore dell'infrastruttura e dell'hardware AI perché fornisce una comprensione più approfondita dell'impatto ambientale dei sistemi di AI e mostra come le innovazioni e i miglioramenti nell'efficienza possano ridurre il consumo di energia e le emissioni di gas serra.",
+          "note": null
+        }
+      ]
+    }
+  ]
+}
