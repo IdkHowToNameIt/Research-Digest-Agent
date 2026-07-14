@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DRA — concept</title>
+<!--
+  Interfaccia web del Digest Research Agent (tema scuro, accento rosa). Identità
+  visiva: font Poppins, sfondo con gli 8 simboli reali di kakashi.ventures disposti
+  sparsi su canvas, che si accendono di rosso vicino al cursore, logo (placeholder
+  KVA) e titolo in gradiente. La homepage è compattata per stare in una sola
+  schermata senza scorrimento.
+
+  Codice separato in tre file accanto a questo:
+    stile.css   — tutto lo stile
+    app.js      — logica: legge data.json e genera home/cronologia/articolo
+    sfondo.js   — effetto canvas dei glifi (con i PNG incorporati in base64)
+  Il backend copia tutti questi file nella publish-dir (src/consegna/sito.py).
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="stile.css">
+</head>
+<body>
+  <canvas id="fx" aria-hidden="true"></canvas>
+  <div class="grad" aria-hidden="true"></div>
+
+  <header>
+    <a class="logo" href="#" onclick="vaiHome();return false" title="Digest Research Agent (DRA)">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 82 34" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="kvg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e0506e"/><stop offset="1" stop-color="#41acdf"/></linearGradient></defs>
+          <text x="0" y="26" font-family="Poppins,system-ui,sans-serif" font-weight="700" font-size="28" letter-spacing="-1" fill="url(#kvg)">KVA</text>
+        </svg>
+      </span>
+      <span class="wm">DRA</span>
+    </a>
+  </header>
+
+  <div id="app"></div>
+
+  <footer>Bozza visiva · contenuti di esempio · sito interno, nessun login</footer>
+
+<script src="app.js" defer></script>
+
+<script src="sfondo.js" defer></script>
+</body>
+</html>
