@@ -307,6 +307,16 @@
   /* colori di stato locali (l'accento --verde è rosa: servono ok/ko distinti) */
   .dash{--ok:#3fb98a;--ko:#e5556b;--na:#6b7078}
 
+  /* riepilogo a colpo d'occhio + griglia dei pannelli */
+  .dash-sommario{display:flex;flex-wrap:wrap;gap:.6rem;margin:1rem 0}
+  .dsm-voce{flex:1 1 140px;background:var(--carta);border:1px solid var(--bordo);
+    border-radius:12px;padding:.7rem .9rem;display:flex;flex-direction:column;gap:.15rem}
+  .dsm-lbl{font-size:.75rem;color:var(--inchiostro-2);text-transform:uppercase;letter-spacing:.04em}
+  .dsm-val{font-family:var(--serif);font-weight:600;font-size:1.25rem;color:var(--verde-scuro)}
+  .dash-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;align-items:start}
+  .dash-grid > .dash-card{margin:0}
+  @media (max-width:760px){ .dash-grid{grid-template-columns:1fr} }
+
   .dash-card{background:var(--carta);border:1px solid var(--bordo);border-radius:16px;
     padding:1.15rem 1.3rem;margin:1rem 0}
   .dash-tit{display:flex;align-items:center;gap:.5rem;font-family:var(--serif);font-weight:600;

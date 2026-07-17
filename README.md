@@ -423,7 +423,7 @@ e nota preprint. In home compaiono solo i temi con aggiornamenti della settimana
 box **autocentrati**, badge "Nuovo" (≤ `badge_giorni`) e finestra settimana
 (≤ `settimana_giorni`) calcolati lato client dalle date assolute in `data.json`.
 
-Dalla home si apre anche **Osservabilità**, una dashboard che legge `metriche.json`
+Dalla home si apre anche **Sotto il cofano**, una dashboard di osservabilità che legge `metriche.json`
 e mostra — con un filtro per periodo (ultimo run / 30-90 giorni / 12 mesi / intervallo
 personalizzato, lo stesso pattern del calendario della cronologia) — stato delle fonti
 (ok/fallito e run consecutivi falliti), costi (token e € stimati), statistiche di

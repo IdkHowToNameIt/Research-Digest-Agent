@@ -654,8 +654,8 @@ async function vaiDashboard(){
   FILTRO_ONCHANGE = renderDashboard;      // il filtro periodo aggiorna i pannelli
   app.innerHTML = `<section class="view"><main class="crono dash">
       <button class="indietro" onclick="vaiHome()">← Home</button>
-      <h2><span class="tema-ic">${iconaOsserva(26)}</span>Osservabilità</h2>
-      <p class="sez-nota">Stato delle fonti, costi, deduplica e copertura dei temi — per periodo.</p>
+      <h2><span class="tema-ic">${iconaOsserva(26)}</span>Sotto il cofano</h2>
+      <p class="sez-nota">I numeri dell'agente: stato delle fonti, costi, deduplica e copertura dei temi — per periodo.</p>
       <div id="dash-corpo"><p class="sez-nota">Caricamento…</p></div>
     </main></section>`;
   window.scrollTo({top:0,behavior:'smooth'});
@@ -684,10 +684,30 @@ function renderDashboard(){
   const runs = filtraPerPeriodo(DASH.run, st);       // DASH.run è già dal più recente
   const btn = document.querySelector('.btn-azzera');
   if(btn) btn.classList.toggle('nascosto', !filtroPeriodoAttivo(st));
-  cont.innerHTML = runs.length
-    ? pannelloFonti(runs) + pannelloCosti(runs) + pannelloDedup(runs) + pannelloCopertura(runs)
-    : '<p class="sez-nota">Nessun run nel periodo selezionato.</p>';
+  if(!runs.length){
+    cont.innerHTML = '<p class="sez-nota">Nessun run nel periodo selezionato.</p>';
+    return;
+  }
+  // riepilogo in cima + i 4 pannelli in griglia a 2 colonne (1 su mobile)
+  cont.innerHTML = sommarioDash(runs)
+    + '<div class="dash-grid">'
+    + pannelloFonti(runs) + pannelloCosti(runs) + pannelloDedup(runs) + pannelloCopertura(runs)
+    + '</div>';
   attivaEffetti();
+}
+
+/* striscia di riepilogo: lo stato a colpo d'occhio del periodo filtrato */
+function sommarioDash(runs){
+  const ultimo = runs[0];
+  const totPub = runs.reduce((s,r)=>s + r.dedup.pubblicati, 0);
+  const totEur = runs.reduce((s,r)=>s + r.costo.costo_stimato, 0);
+  const voce = (lbl, val) => `<div class="dsm-voce"><span class="dsm-lbl">${lbl}</span><span class="dsm-val">${val}</span></div>`;
+  return `<div class="dash-sommario">
+      ${voce('Ultimo run', fmtData(ultimo.data))}
+      ${voce('Run nel periodo', runs.length)}
+      ${voce('Articoli pubblicati', fmtNum(totPub))}
+      ${voce('Costo', fmtEuro(totEur))}
+    </div>`;
 }
 
 /* barra orizzontale 0–100% (meter) */
