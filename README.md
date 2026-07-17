@@ -10,7 +10,7 @@ Ogni settimana l'agente monitora 12 fonti RSS/Atom pubbliche e produce un
 capire i vincoli reali dietro le promesse dei modelli.
 
 La pipeline è **~80% codice deterministico / ~20% modello**: fetch, dedup,
-classificazione, note interne e assemblaggio sono script; il modello (Gemini)
+classificazione, note interne e assemblaggio sono script; il modello LLM (Groq)
 interviene **solo** sulla sintesi testuale dei singoli articoli e non sceglie mai
 le fonti né inventa URL.
 
@@ -49,7 +49,7 @@ presenti anche se vuote, ciascuna con uno `stato` esplicito
   12 feed RSS ──▶│ fetch ─▶ dedup ─▶ classificazione ─▶ note interne ─▶ sintesi ─▶ Digest │
                  └───────┬───────────────────────────────────┬──────────────┬──────────┘
                          │                                    │              │
-                    (Gemini: solo sintesi)             email (notifica/    sito HTML statico
+                    (LLM Groq: solo sintesi)          email (notifica/    sito HTML statico
                                                         reminder + note IT)   (in un volume)
                                                                                    │
                  ┌─────────────────────  FRONTEND (nginx statico) ─────────────────┴──┐
@@ -90,19 +90,19 @@ backend/
 │   │   └── classify.py     classificazione tema + filtro rilevanza            [Fase 3]
 │   ├── modello/            sintesi tramite modello (solo ~20% del lavoro)
 │   │   ├── prompts.py      criteri editoriali + prompt di sintesi             [Fase 6]
-│   │   ├── gemini.py       adattatore modello (solo sintesi)                  [Fase 6]
+│   │   ├── llm.py          adattatore LLM Groq (solo sintesi)                 [Fase 6]
 │   │   └── sintesi.py      sintesi articoli + assemblaggio Digest             [Fase 6]
 │   └── consegna/            output verso i canali reali
 │       ├── deliver.py      consegna Markdown di anteprima                     [Fase 6]
 │       ├── sito.py         backend del sito: genera data.json + copia il front [Fase 8]
 │       ├── notifica.py     email settimanale (notifica/reminder) + note IT    [Fase 7]
 │       └── note_interne.py note interne (fetch_failed / energia a zero)       [Fase 5]
-├── main.py              entrypoint (Gemini)
+├── main.py              entrypoint (LLM Groq)
 ├── config.yaml          beat, 12 fonti, dedup, sito, email  (produzione)
 ├── Dockerfile           immagine del backend/generatore
 ├── requirements.txt
 ├── data/                stato persistente: dedup (sqlite) + archivio digest (gitignored)
-└── tests/               test deterministici (offline, Gemini mockato)
+└── tests/               test deterministici (offline, LLM mockato)
 
 frontend/concept/     interfaccia web (legge data.json e genera le pagine)
 docker-compose.yml    backend (generator) + frontend (nginx)
@@ -125,7 +125,7 @@ claude-progress.txt   log di avanzamento per sessione (non versionato)
    (scarta database/sicurezza/off-beat prima della sintesi).
 4. **Note interne** (`consegna/note_interne.py`): contatori di run consecutivi; `fetch_failed`
    ×3 o energia a 0 ×3 → nota per l'IT. Mai un blocco automatico.
-5. **Sintesi** (`modello/sintesi.py` + `modello/gemini.py`): per ogni articolo il modello scrive
+5. **Sintesi** (`modello/sintesi.py` + `modello/llm.py`): per ogni articolo il modello scrive
    `sintesi` e `perche_conta` in italiano seguendo i criteri editoriali
    (`modello/prompts.py`); i metadati (titolo, fonte, link, data) restano quelli reali
    (grounding). arXiv → formula "I risultati preliminari di uno studio indicano
@@ -157,7 +157,13 @@ Tutto in `config.yaml`:
 - `sito`: `homepage_url` (URL pubblico del sito, es. quello di Render — è il link
   che l'email di notifica manda ai lettori), `out_dir`, `archivio_dir`,
   `badge_giorni` (soglia badge), `template` (default `frontend/concept/index.html`).
-- `email`: `destinatari_digest`, `destinatari_note_interne` (liste nel repo).
+- `email`: **i destinatari non stanno in `config.yaml`** (sono dati personali e cambiano
+  a ogni adozione del repo): si leggono da due variabili d'ambiente, indirizzi separati
+  da virgola. `DIGEST_RECIPIENTS` (lettori del digest) è **obbligatoria** — senza, il run
+  si ferma subito con un errore esplicito, prima di consumare chiamate al modello.
+  `INTERNAL_NOTES_RECIPIENTS` (comparto IT) serve **solo** nei run che producono note
+  interne. Restano due liste separate apposta: le note interne non devono mai
+  raggiungere i lettori del digest (sez. 16.7/17.2).
   L'**invio** avviene via SMTP (Gmail) se sono presenti le variabili d'ambiente
   `SMTP_USER`/`SMTP_PASS` (vedi `.env.example`); altrimenti le email vengono solo
   stampate a log. Con Gmail `SMTP_PASS` è una **App Password** a 16 cifre (richiede

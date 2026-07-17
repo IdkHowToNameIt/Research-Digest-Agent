@@ -7,17 +7,21 @@ Basati sugli scenari Given/When/Then della sez. 17.1:
 - esattamente un'email settimanale (mai entrambe, mai nessuna).
 Piu' l'email separata di note interne (17.2).
 """
+import pytest
+
 from src.consegna.notifica import (
     CORPO_REMINDER,
     DIGEST_AGGIORNAMENTI,
     DIGEST_REMINDER,
     NOTE_INTERNE,
     OGGETTO_REMINDER,
+    DestinatariNonConfigurati,
     Messaggio,
     componi_email_note_interne,
     crea_sender,
     crea_sender_smtp,
     leggi_config_smtp,
+    leggi_destinatari,
     invia_tutti,
     prepara_invii,
     spedisci_console,
@@ -36,12 +40,11 @@ from src.schemas import (
 )
 
 HOMEPAGE = "https://intranet.example/dra"
-CFG = {
-    "sito": {"homepage_url": HOMEPAGE},
-    "email": {
-        "destinatari_digest": ["team@example.com"],
-        "destinatari_note_interne": ["it@example.com"],
-    },
+CFG = {"sito": {"homepage_url": HOMEPAGE}}
+# I destinatari arrivano dall'ambiente, non dalla config (sono dati personali).
+ENV = {
+    "DIGEST_RECIPIENTS": "team@example.com",
+    "INTERNAL_NOTES_RECIPIENTS": "it@example.com",
 }
 
 
@@ -62,7 +65,7 @@ def _digest_con_aggiornamenti() -> Digest:
 # --- Scenario: notifica di aggiornamenti ------------------------------------
 
 def test_notifica_quando_ci_sono_aggiornamenti():
-    invii = prepara_invii(_digest_con_aggiornamenti(), CFG)
+    invii = prepara_invii(_digest_con_aggiornamenti(), CFG, ENV)
     settimanali = [m for m in invii if m.tipo in (DIGEST_AGGIORNAMENTI, DIGEST_REMINDER)]
     assert len(settimanali) == 1
     msg = settimanali[0]
@@ -78,7 +81,7 @@ def test_notifica_quando_ci_sono_aggiornamenti():
 # --- Scenario: reminder, nessun aggiornamento -------------------------------
 
 def test_reminder_quando_nessun_aggiornamento():
-    invii = prepara_invii(digest_vuoto("2026-07-09"), CFG)
+    invii = prepara_invii(digest_vuoto("2026-07-09"), CFG, ENV)
     settimanali = [m for m in invii if m.tipo in (DIGEST_AGGIORNAMENTI, DIGEST_REMINDER)]
     assert len(settimanali) == 1
     msg = settimanali[0]
@@ -94,7 +97,7 @@ def test_reminder_quando_nessun_aggiornamento():
 
 def test_sempre_esattamente_una_email_settimanale():
     for digest in (_digest_con_aggiornamenti(), digest_vuoto("2026-07-09")):
-        invii = prepara_invii(digest, CFG)
+        invii = prepara_invii(digest, CFG, ENV)
         settimanali = [m for m in invii if m.tipo in (DIGEST_AGGIORNAMENTI, DIGEST_REMINDER)]
         assert len(settimanali) == 1  # mai zero, mai due
 
@@ -117,17 +120,64 @@ def test_prepara_invii_include_note_interne_quando_presenti():
     d.note_interne.append(
         NotaInterna(tipo=TipoNotaInterna.sezione_a_zero_ripetuta, dettaglio="energia 0 x3")
     )
-    invii = prepara_invii(d, CFG)
+    invii = prepara_invii(d, CFG, ENV)
     tipi = [m.tipo for m in invii]
     assert tipi.count(NOTE_INTERNE) == 1
     assert len([t for t in tipi if t in (DIGEST_AGGIORNAMENTI, DIGEST_REMINDER)]) == 1
+
+
+# --- destinatari dall'ambiente (fail-fast) ----------------------------------
+
+def test_leggi_destinatari_separa_virgole_e_ripulisce():
+    env = {"X": " a@x.com , b@y.com,c@z.com "}
+    assert leggi_destinatari("X", env) == ["a@x.com", "b@y.com", "c@z.com"]
+
+
+def test_leggi_destinatari_fail_fast_se_manca_o_vuota():
+    for env in ({}, {"X": ""}, {"X": "   "}, {"X": " , "}):
+        with pytest.raises(DestinatariNonConfigurati) as e:
+            leggi_destinatari("X", env)
+        assert "X" in str(e.value)   # l'errore nomina la variabile da impostare
+
+
+def test_prepara_invii_fail_fast_senza_destinatari_digest():
+    with pytest.raises(DestinatariNonConfigurati):
+        prepara_invii(_digest_con_aggiornamenti(), CFG, {})
+
+
+def test_note_interne_richiedono_il_proprio_secret_solo_se_ci_sono_note():
+    # senza note il run non deve rompersi per un secret che non serve
+    solo_digest = {"DIGEST_RECIPIENTS": "team@example.com"}
+    invii = prepara_invii(digest_vuoto("2026-07-09"), CFG, solo_digest)
+    assert len(invii) == 1
+    # con note, invece, la lista IT e' obbligatoria
+    d = _digest_con_aggiornamenti()
+    d.note_interne.append(
+        NotaInterna(tipo=TipoNotaInterna.sezione_a_zero_ripetuta, dettaglio="energia 0 x3")
+    )
+    with pytest.raises(DestinatariNonConfigurati):
+        prepara_invii(d, CFG, solo_digest)
+
+
+def test_note_interne_non_vanno_ai_lettori_del_digest():
+    """16.7/17.2: le due liste restano separate, nessuna sovrapposizione."""
+    d = _digest_con_aggiornamenti()
+    d.note_interne.append(
+        NotaInterna(tipo=TipoNotaInterna.fetch_failed_ripetuto, dettaglio="Azure KO x3")
+    )
+    invii = prepara_invii(d, CFG, ENV)
+    note = [m for m in invii if m.tipo == NOTE_INTERNE][0]
+    settimanale = [m for m in invii if m.tipo == DIGEST_AGGIORNAMENTI][0]
+    assert note.destinatari == ["it@example.com"]
+    assert "team@example.com" not in note.destinatari
+    assert "Azure KO x3" not in settimanale.corpo
 
 
 # --- invio (sender iniettato) -----------------------------------------------
 
 def test_invia_tutti_usa_il_sender_iniettato():
     inviati = []
-    n = invia_tutti(prepara_invii(digest_vuoto("2026-07-09"), CFG), inviati.append)
+    n = invia_tutti(prepara_invii(digest_vuoto("2026-07-09"), CFG, ENV), inviati.append)
     assert n == 1
     assert len(inviati) == 1
 

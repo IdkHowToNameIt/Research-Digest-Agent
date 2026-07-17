@@ -1,9 +1,9 @@
 """Entrypoint del Research Digest Agent — DRA.
 
-  python main.py [--config config.yaml]   -> richiede GROQ_API_KEY
+  python main.py [--config config.yaml]   -> richiede GROQ_API_KEY, DIGEST_RECIPIENTS
 
 La pipeline è ~80% script (fetch, dedup, classificazione, note interne,
-assemblaggio); il modello (Gemini) interviene solo sulla sintesi testuale degli
+assemblaggio); il modello LLM (Groq) interviene solo sulla sintesi testuale degli
 articoli.
 """
 from __future__ import annotations
@@ -14,7 +14,14 @@ import sys
 from dotenv import load_dotenv
 
 from src.config import load_config
-from src.consegna.notifica import crea_sender, invia_tutti, prepara_invii
+from src.consegna.notifica import (
+    ENV_DESTINATARI_DIGEST,
+    DestinatariNonConfigurati,
+    crea_sender,
+    invia_tutti,
+    leggi_destinatari,
+    prepara_invii,
+)
 from src.pipeline import costruisci_digest
 from src.consegna.sito import carica_archivio, genera_sito, salva_digest_pubblico
 from src.consegna.deliver import deliver_markdown
@@ -36,6 +43,14 @@ def main() -> None:
             modelli_fallback=cfg.get("modelli_fallback"),
         )
     except LLMNonConfigurato as exc:
+        print(f"[errore] {exc}", file=sys.stderr)
+        sys.exit(2)
+
+    # Controllo anticipato: i destinatari servono solo in fondo, ma scoprirli
+    # mancanti dopo la pipeline sprecherebbe un run intero di chiamate al modello.
+    try:
+        leggi_destinatari(ENV_DESTINATARI_DIGEST)
+    except DestinatariNonConfigurati as exc:
         print(f"[errore] {exc}", file=sys.stderr)
         sys.exit(2)
 

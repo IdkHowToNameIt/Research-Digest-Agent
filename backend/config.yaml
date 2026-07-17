@@ -22,15 +22,20 @@ out_dir: "out"                 # output tecnico (il canale reale e' email + sito
 
 # Sito web interno (Fase 8): la homepage a cui rimanda l'email di notifica.
 sito:
-  homepage_url: "https://research-digest-agent.onrender.com"
-  out_dir: "../sito"              # cartella dei file HTML generati (in root, per Render)
+  # DA SOSTITUIRE con l'URL pubblico del proprio sito: e' il link che l'email
+  # settimanale manda ai lettori. Vale qualunque host statico (vedi README).
+  homepage_url: "https://DA-SOSTITUIRE.example.com"
+  out_dir: "../sito"              # cartella dei file statici generati (pubblicata dall'host)
   archivio_dir: "data/archivio"   # storico dei digest pubblici (JSON, per la cronologia)
   badge_giorni: 2                 # soglia "nuovo aggiornamento" (calcolo lato client)
 
-# Email (Fase 7, sez. 17). Liste destinatari nel repo, nessuna sezione admin (17.3).
-email:
-  destinatari_digest: ["nicolo.lingua@edu-its.it","alessio.donisi@edu-its.it", "matteo.abis@edu-its.it","tobia.poggio@edu-its.it"]           # lettori del digest
-  destinatari_note_interne: ["matteo.abis@edu-its.it"]        # comparto IT (note interne, 17.2)
+# Email (Fase 7, sez. 17). Nessuna sezione admin (17.3).
+# I destinatari NON stanno qui: sono dati personali e cambiano per ogni adozione del
+# repo, quindi si leggono da due variabili d'ambiente (secret su GitHub Actions,
+# .env in locale), con gli indirizzi separati da virgola:
+#   DIGEST_RECIPIENTS           lettori del digest          (obbligatoria)
+#   INTERNAL_NOTES_RECIPIENTS   comparto IT, note interne   (serve solo se ci sono note, 17.2)
+# Le due liste restano separate: le note interne non vanno mai ai lettori (16.7/17.2).
 
 # Finestra (in settimane) per il confronto fuzzy anti-duplicati (Fase 4, sez. 16.4).
 finestra_dedup_settimane: 6

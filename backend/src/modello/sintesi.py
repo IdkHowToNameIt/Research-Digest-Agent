@@ -4,7 +4,7 @@ Il modello produce solo i campi testuali (`sintesi`, `perche_conta`, `note`);
 i metadati (titolo, fonte, link, data) restano quelli reali del candidato
 (grounding: nessun URL inventato). L'assemblaggio nelle 5 sezioni fisse e' codice.
 
-Il generatore e' iniettabile: `genera(prompt) -> dict` (Gemini in produzione, un
+Il generatore e' iniettabile: `genera(prompt) -> dict` (Groq in produzione, un
 mock nei test). Come fallback interno, `genera=None` produce una sintesi
 deterministica dal titolo/estratto senza modello (usato solo dai test).
 """

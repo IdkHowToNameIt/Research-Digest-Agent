@@ -7,6 +7,11 @@ Regole (17.1):
 - la notifica rimanda alla homepage del sito, senza elencare tema/titolo/link.
 - le note interne (se presenti) vanno in un'email SEPARATA al comparto IT (17.2).
 
+I destinatari NON stanno nel repo: si leggono da due variabili d'ambiente distinte
+(`DIGEST_RECIPIENTS`, `INTERNAL_NOTES_RECIPIENTS`), cosi' chi adotta il repo li
+configura nel proprio account senza toccare il codice. Restano due liste separate
+apposta: le note interne non devono mai raggiungere i lettori del digest (16.7/17.2).
+
 La composizione (testata) e' separata dall'invio (I/O): `invia_tutti` accetta una
 callable `spedisci` iniettabile. Sender disponibili:
 - `spedisci_console`: stampa l'email (sviluppo locale, nessuna credenziale);
@@ -27,6 +32,10 @@ from ..schemas import Digest, NotaInterna, Stato
 
 SUFFISSO_OGGETTO = "- DRA"
 
+# Variabili d'ambiente con i destinatari (liste separate da virgola).
+ENV_DESTINATARI_DIGEST = "DIGEST_RECIPIENTS"
+ENV_DESTINATARI_NOTE_INTERNE = "INTERNAL_NOTES_RECIPIENTS"
+
 OGGETTO_REMINDER = "Nessun aggiornamento questa settimana - DRA"
 CORPO_REMINDER = (
     "Questa settimana non sono emersi aggiornamenti rilevanti sui temi monitorati. "
@@ -39,12 +48,32 @@ DIGEST_REMINDER = "digest_reminder"
 NOTE_INTERNE = "note_interne"
 
 
+class DestinatariNonConfigurati(RuntimeError):
+    """Sollevata quando manca la lista destinatari di un'email da spedire."""
+
+
 @dataclass
 class Messaggio:
     oggetto: str
     corpo: str
     destinatari: list[str]
     tipo: str
+
+
+def leggi_destinatari(nome_var: str, env: dict | None = None) -> list[str]:
+    """Legge una lista di destinatari da una variabile d'ambiente (separati da
+    virgola). Fail-fast: mai un default silenzioso, perche' un digest spedito a
+    nessuno passerebbe inosservato.
+    """
+    env = os.environ if env is None else env
+    indirizzi = [x.strip() for x in (env.get(nome_var) or "").split(",") if x.strip()]
+    if not indirizzi:
+        raise DestinatariNonConfigurati(
+            f"Manca la lista destinatari: imposta {nome_var} con gli indirizzi "
+            "separati da virgola (in locale nel file .env, in produzione come "
+            "secret di GitHub Actions)."
+        )
+    return indirizzi
 
 
 def ci_sono_aggiornamenti(digest: Digest) -> bool:
@@ -77,21 +106,28 @@ def componi_email_note_interne(
     return Messaggio(f"Note interne DRA {SUFFISSO_OGGETTO}", corpo, list(destinatari), NOTE_INTERNE)
 
 
-def prepara_invii(digest: Digest, cfg: dict) -> list[Messaggio]:
+def prepara_invii(digest: Digest, cfg: dict, env: dict | None = None) -> list[Messaggio]:
     """Prepara i messaggi da inviare per il run: sempre 1 email settimanale,
-    piu' eventualmente 1 email di note interne."""
-    email_cfg = cfg.get("email", {})
+    piu' eventualmente 1 email di note interne.
+
+    I destinatari arrivano dall'ambiente, non da `cfg`. INTERNAL_NOTES_RECIPIENTS
+    e' richiesto solo quando ci sono davvero note da spedire: le note interne sono
+    rare e un run senza note non deve fallire per un secret che non gli serve.
+    """
+    env = os.environ if env is None else env
     homepage = cfg.get("sito", {}).get("homepage_url", "")
     invii = [
         componi_email_settimanale(
-            digest, homepage, email_cfg.get("destinatari_digest", [])
+            digest, homepage, leggi_destinatari(ENV_DESTINATARI_DIGEST, env)
         )
     ]
-    nota = componi_email_note_interne(
-        digest.note_interne, email_cfg.get("destinatari_note_interne", [])
-    )
-    if nota is not None:
-        invii.append(nota)
+    if digest.note_interne:
+        nota = componi_email_note_interne(
+            digest.note_interne,
+            leggi_destinatari(ENV_DESTINATARI_NOTE_INTERNE, env),
+        )
+        if nota is not None:
+            invii.append(nota)
     return invii
 
 
