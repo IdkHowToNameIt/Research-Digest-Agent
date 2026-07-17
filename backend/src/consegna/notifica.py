@@ -51,8 +51,7 @@ CORPO_REMINDER = (
     "rilevante, quindi non c'è un nuovo digest da leggere — e va benissimo così: "
     "ti scriviamo solo quando c'è qualcosa che vale la pena.\n\n"
     "Ci risentiamo la settimana prossima!\n\n"
-    "A presto,\n"
-    "il team del Research Digest Agent"
+    "— DRA"
 )
 
 # tipi di messaggio
@@ -129,8 +128,8 @@ def componi_email_settimanale(
             "un'occhiata alle fonti su Infrastruttura & Hardware AI e raccolto "
             "per te gli aggiornamenti che vale davvero la pena leggere.\n\n"
             f"Lo trovi qui: {homepage_url}\n\n"
-            "Buona lettura,\n"
-            "il team del Research Digest Agent"
+            "Buona lettura!\n"
+            "— DRA"
         )
         return Messaggio(oggetto, corpo, list(destinatari), DIGEST_AGGIORNAMENTI)
     return Messaggio(OGGETTO_REMINDER, CORPO_REMINDER, list(destinatari), DIGEST_REMINDER)
@@ -149,8 +148,8 @@ def componi_email_note_interne(
         + "\n".join(f"- [{n.tipo.value}] {n.dettaglio}" for n in note_interne)
         + "\n\nNiente di bloccante: il digest è uscito regolarmente, sono solo "
         "segnalazioni da tenere d'occhio.\n\n"
-        "Grazie,\n"
-        "il team del Research Digest Agent"
+        "Grazie!\n"
+        "— DRA"
     )
     return Messaggio(f"Note interne {SUFFISSO_OGGETTO}", corpo, list(destinatari), NOTE_INTERNE)
 
