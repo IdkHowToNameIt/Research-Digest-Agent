@@ -719,125 +719,99 @@ function statCard(valore, etichetta){
   return `<div class="dash-stat"><div class="ds-val">${valore}</div><div class="ds-lbl">${etichetta}</div></div>`;
 }
 
-/* --- pannello STATO FONTI ---------------------------------------------- */
+/* --- pannello FONTI: griglia compatta di pill, stato dell'ultimo run ------- */
 function pannelloFonti(runs){
-  const cron = runs.slice().reverse();                       // vecchio -> nuovo (per i dot)
   const ultimo = runs[0];
-  // unione dei nomi fonte (l'ultimo run per primo, poi eventuali fonti sparite)
   const nomi = [];
   runs.forEach(r => (r.fonti||[]).forEach(f => { if(!nomi.includes(f.nome)) nomi.push(f.nome); }));
   const koUltimo = (ultimo.fonti||[]).filter(f => f.stato === 'fetch_failed').length;
-
-  const righe = nomi.map(function(nome){
-    const serie = cron.map(r => (r.fonti||[]).find(f => f.nome === nome) || null);
-    const corr = (ultimo.fonti||[]).find(f => f.nome === nome) || null;
-    const falliti = serie.filter(f => f && f.stato === 'fetch_failed').length;
-    const dots = serie.map(function(f){
-      if(!f) return '<span class="dot dot-na" title="assente"></span>';
-      const ok = f.stato === 'ok';
-      const tip = f.stato + (f.errore ? ': ' + f.errore.replace(/"/g,'') : '');
-      return `<span class="dot ${ok?'dot-ok':'dot-ko'}" title="${tip}"></span>`;
-    }).join('');
-    const badge = corr
-      ? (corr.stato === 'ok' ? '<span class="badge-ok">OK</span>' : '<span class="badge-ko">Fallito</span>')
-      : '<span class="badge-na">—</span>';
-    const strk = (corr && corr.consecutivi_falliti > 0)
-      ? `<span class="dash-strk">${corr.consecutivi_falliti} run consecutivi</span>` : '';
-    return `<div class="dash-fonte">
-        <div class="df-testa"><span class="df-nome">${nome}</span> ${badge} ${strk}</div>
-        <div class="df-serie">${dots}</div>
-        <div class="df-conta">${falliti}/${serie.length} run falliti nel periodo</div>
-      </div>`;
+  const pills = nomi.map(function(nome){
+    const f = (ultimo.fonti||[]).find(x => x.nome === nome) || null;
+    const cls = !f ? 'na' : (f.stato === 'ok' ? 'ok' : 'ko');
+    const tip = f ? (f.stato + (f.errore ? ': ' + f.errore.replace(/"/g,'') : '')) : 'assente';
+    const strk = (f && f.consecutivi_falliti > 0) ? `<span class="fp-strk">×${f.consecutivi_falliti}</span>` : '';
+    return `<span class="fonte-pill fp-${cls}" title="${tip}"><span class="fp-dot"></span>${nome}${strk}</span>`;
   }).join('');
-
+  const esito = koUltimo === 0
+    ? '<span class="dash-esito ok">tutte operative</span>'
+    : `<span class="dash-esito ko">${koUltimo} in errore</span>`;
   return `<section class="dash-card reveal">
-      <div class="dash-tit">${iconaOsserva(16)} Stato fonti</div>
-      <div class="dash-stats">
-        ${statCard(nomi.length, 'fonti')}
-        ${statCard(koUltimo, 'in errore (ultimo run)')}
-        ${statCard(runs.length, plurale(runs.length,'run','run'))}
-      </div>
-      <div class="dash-fonti">${righe}</div>
+      <div class="dash-tit">${iconaOsserva(16)} Fonti <span class="dash-tit-n">${nomi.length}</span></div>
+      <div class="dash-sub">Ultimo run: ${esito}</div>
+      <div class="fonti-grid">${pills}</div>
     </section>`;
 }
 
-/* --- pannello COSTI ---------------------------------------------------- */
+/* --- pannello COSTI: importo in evidenza + token; barre per run se >1 ------- */
 function pannelloCosti(runs){
   const tot = runs.reduce((a,r)=>({
     p: a.p + r.costo.prompt_tokens, c: a.c + r.costo.completion_tokens, e: a.e + r.costo.costo_stimato
   }), {p:0,c:0,e:0});
+  const nota = tot.e === 0
+    ? '<div class="dash-nota-min">Sul piano gratuito il costo è 0; i token sono comunque contati. '
+      + 'Imposta i prezzi in config.yaml per la spesa reale.</div>'
+    : '';
   const maxTok = Math.max.apply(null,
     runs.map(r => r.costo.prompt_tokens + r.costo.completion_tokens).concat([1]));
-  const righe = runs.map(function(r){
-    const tk = r.costo.prompt_tokens + r.costo.completion_tokens;
-    return `<div class="dash-run">
-        <div class="dr-data">${fmtData(r.data)}</div>
-        <div class="dr-bar">${dashBar(tk/maxTok,'bar-cost')}</div>
-        <div class="dr-val">${fmtNum(tk)} tok · ${fmtEuro(r.costo.costo_stimato)}</div>
-      </div>`;
-  }).join('');
+  const perRun = runs.length > 1
+    ? '<div class="dash-runs">' + runs.map(function(r){
+        const tk = r.costo.prompt_tokens + r.costo.completion_tokens;
+        return `<div class="dash-run"><div class="dr-data">${fmtData(r.data)}</div>`
+          + `<div class="dr-bar">${dashBar(tk/maxTok,'bar-cost')}</div>`
+          + `<div class="dr-val">${fmtNum(tk)} tok · ${fmtEuro(r.costo.costo_stimato)}</div></div>`;
+      }).join('') + '</div>'
+    : '';
   return `<section class="dash-card reveal">
       <div class="dash-tit">${iconaOsserva(16)} Costi</div>
+      <div class="dash-big">${fmtEuro(tot.e)}</div>
       <div class="dash-stats">
-        ${statCard(fmtEuro(tot.e), 'costo stimato')}
         ${statCard(fmtNum(tot.p), 'token input')}
         ${statCard(fmtNum(tot.c), 'token output')}
       </div>
-      <div class="dash-runs">${righe}</div>
+      ${nota}${perRun}
     </section>`;
 }
 
-/* --- pannello DEDUPLICA ------------------------------------------------ */
+/* --- pannello DEDUPLICA: imbuto raccolti -> pubblicati + scarti ------------- */
 function pannelloDedup(runs){
   const tot = runs.reduce((a,r)=>({
     racc: a.racc + r.dedup.raccolti,
     pub:  a.pub  + r.dedup.pubblicati,
     dup:  a.dup  + r.dedup.duplicati_esatti + r.dedup.duplicati_fuzzy,
-    agg:  a.agg  + r.dedup.aggiornamenti
-  }), {racc:0,pub:0,dup:0,agg:0});
-  const righe = runs.map(function(r){
-    const d = r.dedup;
-    const scartati = d.duplicati_esatti + d.duplicati_fuzzy + d.scartati_classificazione;
-    return `<div class="dash-run">
-        <div class="dr-data">${fmtData(r.data)}</div>
-        <div class="dr-bar">${dashBar(d.raccolti ? d.pubblicati/d.raccolti : 0,'bar-pub')}</div>
-        <div class="dr-val">${d.pubblicati}/${d.raccolti} pubblicati
-          · <span class="mut">${scartati} scartati, ${d.aggiornamenti} agg.</span></div>
-      </div>`;
-  }).join('');
+    agg:  a.agg  + r.dedup.aggiornamenti,
+    scl:  a.scl  + r.dedup.scartati_classificazione
+  }), {racc:0,pub:0,dup:0,agg:0,scl:0});
+  const pct = tot.racc ? Math.round(tot.pub / tot.racc * 100) : 0;
   return `<section class="dash-card reveal">
       <div class="dash-tit">${iconaOsserva(16)} Deduplica</div>
+      <div class="dash-sub">${fmtNum(tot.pub)} pubblicati su ${fmtNum(tot.racc)} raccolti</div>
+      <div class="dash-bar bar-pub"><span style="width:${pct}%"></span></div>
       <div class="dash-stats">
-        ${statCard(fmtNum(tot.racc), 'raccolti')}
-        ${statCard(fmtNum(tot.pub), 'pubblicati')}
         ${statCard(fmtNum(tot.dup), 'duplicati scartati')}
         ${statCard(fmtNum(tot.agg), 'inclusi come agg.')}
+        ${statCard(fmtNum(tot.scl), 'fuori tema')}
       </div>
-      <div class="dash-runs">${righe}</div>
     </section>`;
 }
 
-/* --- pannello COPERTURA TEMI ------------------------------------------- */
+/* --- pannello COPERTURA: articoli per tema nell'ultimo run ----------------- */
 function pannelloCopertura(runs){
   const ultimo = runs[0];
   const righe = DASH.temi.map(function(id){
-    const conAgg = runs.filter(r =>
-      ((r.copertura||[]).find(c => c.tema === id) || {}).stato === 'con_aggiornamenti').length;
-    const cUlt = (ultimo.copertura||[]).find(c => c.tema === id) || {};
-    return `<div class="dash-cop">
-        <div class="dc-testa"><span class="tema-ic">${iconaTema(id,15)}</span>${nomeTema(id)}
-          <span class="dc-ult">${cUlt.n_articoli||0} nell'ultimo run</span></div>
-        <div class="dc-bar">${dashBar(runs.length ? conAgg/runs.length : 0,'bar-cop')}</div>
-        <div class="dc-conta">${conAgg}/${runs.length} run con aggiornamenti</div>
+    const c = (ultimo.copertura||[]).find(x => x.tema === id) || {};
+    const n = c.n_articoli || 0;
+    return `<div class="cop-riga">
+        <span class="cop-tema">${iconaTema(id,15)}${nomeTema(id)}</span>
+        <span class="cop-n ${n ? '' : 'cop-zero'}">${n}</span>
       </div>`;
   }).join('');
   const streak = ultimo.energia_zero_consecutivi || 0;
   const avviso = streak >= 3
     ? `<div class="dash-avviso">⚠ Energia a zero da ${streak} run consecutivi (fonte unica arXiv): controllo manuale.</div>`
-    : `<div class="dash-nota-min">Energia a zero da ${streak} run consecutivi.</div>`;
+    : '';
   return `<section class="dash-card reveal">
-      <div class="dash-tit">${iconaOsserva(16)} Copertura dei temi</div>
-      <div class="dash-cops">${righe}</div>
+      <div class="dash-tit">${iconaOsserva(16)} Copertura temi <span class="dash-tit-n">ultimo run</span></div>
+      <div class="cop-lista">${righe}</div>
       ${avviso}
     </section>`;
 }
