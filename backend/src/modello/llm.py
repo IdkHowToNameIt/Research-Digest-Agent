@@ -200,8 +200,15 @@ def crea_generatore(
     api_key: str | None = None,
     model: str = MODELLO_DEFAULT,
     modelli_fallback: Sequence[str] | None = None,
+    on_uso: Callable[[str, int, int], None] | None = None,
 ) -> Generatore:
-    """Crea la callable di generazione (Groq, JSON via prompt)."""
+    """Crea la callable di generazione (Groq, JSON via prompt).
+
+    `on_uso(modello, prompt_tokens, completion_tokens)` — se fornita — viene
+    chiamata dopo ogni risposta riuscita del modello, per contabilizzare l'uso di
+    token (metriche/costo). È volutamente una callback e non un import diretto, per
+    non far dipendere questo adattatore dal modulo delle metriche.
+    """
     key = _leggi_api_key(api_key)
     fallback = MODELLI_FALLBACK_DEFAULT if modelli_fallback is None else tuple(modelli_fallback)
     # primario + ripieghi, senza duplicati e preservando l'ordine
@@ -216,6 +223,13 @@ def crea_generatore(
             messages=[{"role": "user", "content": prompt}],
             temperature=0.3,
         )
+        uso = getattr(risposta, "usage", None)
+        if on_uso is not None and uso is not None:
+            on_uso(
+                modello,
+                getattr(uso, "prompt_tokens", 0) or 0,
+                getattr(uso, "completion_tokens", 0) or 0,
+            )
         return _estrai_json(risposta.choices[0].message.content or "")
 
     # cascata sticky (fallback tra modelli) con retry backoff sui 5xx del modello

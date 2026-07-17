@@ -19,6 +19,18 @@ modelli_fallback:
   - "llama-3.1-8b-instant"
 db_path: "data/seen.sqlite3"   # memoria per dedup e conteggi run consecutivi
 out_dir: "out"                 # output tecnico (il canale reale e' email + sito)
+metriche_dir: "data/metriche"  # metriche operative per run (un JSON per run, per la dashboard)
+
+# Listino prezzi per la stima di costo nella dashboard: €/1M token, per modello.
+# Sul free tier di Groq il costo reale e' 0: i token vengono comunque contati, cosi'
+# passando all'API a pagamento basta valorizzare qui le tariffe (input/output) e lo
+# storico futuro mostra il costo vero. Un modello assente da questa lista costa 0.
+prezzi:
+  "llama-3.3-70b-versatile": {input: 0.0, output: 0.0}
+  "openai/gpt-oss-120b":     {input: 0.0, output: 0.0}
+  "openai/gpt-oss-20b":      {input: 0.0, output: 0.0}
+  "gemma2-9b-it":            {input: 0.0, output: 0.0}
+  "llama-3.1-8b-instant":    {input: 0.0, output: 0.0}
 
 # Sito web interno (Fase 8): la homepage a cui rimanda l'email di notifica.
 sito:

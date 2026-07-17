@@ -7,8 +7,12 @@ iniettabile (o None per la modalita' demo).
 from __future__ import annotations
 
 from datetime import datetime, timezone
+from typing import TYPE_CHECKING
 
 import feedparser
+
+if TYPE_CHECKING:
+    from .metriche import RaccoltaMetriche
 
 from .raccolta.classify import raggruppa_per_tema
 from .consegna.note_interne import aggiorna_e_genera_note
@@ -26,8 +30,14 @@ def costruisci_digest(
     store: SeenStore | None = None,
     ora: datetime | None = None,
     parse=feedparser.parse,
+    metriche: "RaccoltaMetriche | None" = None,
 ) -> Digest:
-    """Esegue un run completo e restituisce il Digest (5 sezioni fisse)."""
+    """Esegue un run completo e restituisce il Digest (5 sezioni fisse).
+
+    Se `metriche` è fornita, vi registra le metriche OPERATIVE del run (stato
+    fonti, statistiche dedup, copertura): dati che altrimenti la pipeline calcola
+    e scarta. L'uso di token arriva invece dal generatore (callback separata).
+    """
     ora = ora or datetime.now(timezone.utc)
     store_proprio = store is None
     store = store or SeenStore(cfg.get("db_path", "data/seen.sqlite3"))
@@ -35,14 +45,14 @@ def costruisci_digest(
         esiti = fetch_tutte(cfg, parse=parse)
         candidati = [c for e in esiti for c in e.candidati]
 
-        tenuti, _ = deduplica(
+        tenuti, esiti_dedup = deduplica(
             candidati, store,
             soglia=cfg.get("soglia_overlap_dedup", 0.7),
             finestra_settimane=cfg.get("finestra_dedup_settimane", 6),
             ora=ora,
         )
 
-        gruppi, _scartati = raggruppa_per_tema(tenuti)
+        gruppi, scartati = raggruppa_per_tema(tenuti)
         conteggi = {t: len(v) for t, v in gruppi.items()}
         note = aggiorna_e_genera_note(store, esiti, conteggi)
 
@@ -55,6 +65,19 @@ def costruisci_digest(
         # Archivia solo gli articoli effettivamente pubblicati (per i run futuri).
         pubblicati = [c for v in gruppi.values() for c in v]
         registra_pubblicati(pubblicati, store)
+
+        if metriche is not None:
+            # Dopo le note (i contatori consecutivi sono aggiornati) e dopo aver
+            # assemblato il digest (stato per tema disponibile).
+            metriche.registra_run(
+                candidati=candidati,
+                esiti_fonti=esiti,
+                esiti_dedup=esiti_dedup,
+                scartati_classificazione=len(scartati),
+                pubblicati=len(pubblicati),
+                digest=digest,
+                store=store,
+            )
         return digest
     finally:
         if store_proprio:

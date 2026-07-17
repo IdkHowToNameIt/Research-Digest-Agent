@@ -37,9 +37,11 @@
 #
 # PERSISTENZA
 #   Il dedup ha bisogno di ricordare gli articoli già pubblicati (backend/data/seen.sqlite3)
-#   e la cronologia del sito (backend/data/archivio/). Questi file sono in .gitignore per lo
-#   sviluppo locale, ma qui vengono ricommittati con `git add -f` così sopravvivono
-#   tra i run settimanali. Anche sito/ (data.json + index.html) viene committato per
+#   e la cronologia del sito (backend/data/archivio/). Le metriche operative per run
+#   (backend/data/metriche/, un JSON per run) alimentano la dashboard di osservabilità e
+#   vanno anch'esse conservate per mostrarne l'andamento nel tempo. Questi file sono in
+#   .gitignore per lo sviluppo locale, ma qui vengono ricommittati con `git add -f` così
+#   sopravvivono tra i run settimanali. Anche sito/ (data.json + index.html) viene committato per
 #   essere pubblicato (vedi "PUBBLICAZIONE"): l'host statico serve i file committati,
 #   quindi sito/ deve restare nel repo anche se è in .gitignore.
 #
@@ -106,7 +108,7 @@ jobs:
         run: |
           git config user.name  "dra-bot"
           git config user.email "dra-bot@users.noreply.github.com"
-          git add -f backend/data/seen.sqlite3 backend/data/archivio sito backend/out/digest.md || true
+          git add -f backend/data/seen.sqlite3 backend/data/archivio backend/data/metriche sito backend/out/digest.md || true
           if git diff --cached --quiet; then
             echo "Nessuna modifica da committare."
           else
