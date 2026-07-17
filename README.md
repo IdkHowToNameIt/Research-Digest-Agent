@@ -234,7 +234,16 @@ Due cose che sorprendono spesso:
   è già nel file, ma se la tua organizzazione forza i workflow in sola lettura devi
   consentirlo in *Settings → Actions → General → Workflow permissions*.
 
+**Orari.** Il run parte lunedì alle `05:40` UTC e le email alle `06:30` UTC (07:40 e
+08:30 italiane **d'estate**). Il cron di GitHub non conosce i fusi né l'ora legale:
+se ti servono orari locali fissi tutto l'anno, sposta il `cron` di un'ora ai cambi
+d'ora. Per cambiarli, il `cron` è in `.github/workflows/digest-settimanale.yml` e
+l'orario delle email è l'argomento `--attendi-invio` dell'ultimo step.
+
 Non aspettare lunedì: *Actions → digest-settimanale → Run workflow* la lancia subito.
+Sull'attesa delle email, un avvio manuale si comporta così: se lanci **dopo** le
+06:30 UTC le email partono subito; se lanci **poco prima**, lo step aspetta fino alle
+06:30 (al massimo 90 minuti, oltre i quali non attende e manda subito).
 
 ### d) Collega un hosting statico
 
@@ -348,7 +357,17 @@ docker compose down -v             # rimuove anche i volumi (sito + storico)
 ## Avvio — automatico settimanale (GitHub Actions)
 
 Il workflow `.github/workflows/digest-settimanale.yml` esegue la pipeline reale
-ogni lunedì alle 06:00 UTC (e a mano da *Actions → Run workflow*):
+ogni lunedì alle **05:40 UTC** (e a mano da *Actions → Run workflow*):
+
+**Orari.** Il cron di GitHub ragiona solo in UTC: `05:40` sono le **07:40 italiane
+d'estate** e le 06:40 d'inverno. Per tenere fisso l'orario locale tutto l'anno il
+cron va spostato di un'ora ai cambi d'ora. Gli orari sono comunque indicativi —
+GitHub accoda gli scheduled workflow e nelle ore di punta partono in ritardo.
+
+Il run è in **due fasi**: prima genera e pubblica il sito, poi (dalle **06:30 UTC**,
+08:30 italiane d'estate) manda le email. In quest'ordine perché l'email rimanda al
+sito: si mette online la pagina e solo dopo si manda il link. Se il run parte tardi
+e le 06:30 sono già passate, le email partono subito invece di saltare la settimana.
 
 > Se stai configurando il repo per la prima volta nel tuo account, parti da
 > **[Adottare il repo](#adottare-il-repo)**: qui sotto c'è solo come funziona il

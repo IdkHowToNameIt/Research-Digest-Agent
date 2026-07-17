@@ -1,9 +1,22 @@
 # GitHub Action: esegue il Research Digest Agent una volta a settimana.
 #
 # COSA FA
-#   Ogni lunedì mattina (06:00 UTC) esegue la pipeline reale (sintesi LLM via
+#   Ogni lunedì mattina (05:40 UTC) esegue la pipeline reale (sintesi LLM via
 #   Groq), rigenera i dati del sito (sito/data.json + sito/index.html) e
 #   conserva lo stato tra un run e l'altro (dedup + archivio).
+#
+# ORARI (tutto in UTC: il cron di GitHub non conosce i fusi né l'ora legale)
+#   05:40 UTC  parte il run   -> 07:40 in Italia d'estate, 06:40 d'inverno
+#   06:30 UTC  partono le email -> 08:30 in Italia d'estate, 07:30 d'inverno
+#   Per tenere gli orari italiani fissi tutto l'anno il cron va spostato di un'ora
+#   ai cambi d'ora (fine ottobre / fine marzo).
+#   NB: gli orari sono indicativi — GitHub accoda gli scheduled workflow e nelle
+#   ore di punta possono partire con parecchi minuti di ritardo.
+#
+# PERCHÉ IN DUE FASI
+#   Il sito viene pubblicato subito, le email partono dopo: l'email rimanda al
+#   sito, quindi prima si mette online la pagina e poi si manda il link. Se il run
+#   parte in ritardo e le 06:30 sono già passate, le email partono subito.
 #
 # PREREQUISITI (una tantum, su GitHub)
 #   Settings > Secrets and variables > Actions > New repository secret:
@@ -41,7 +54,7 @@ name: digest-settimanale
 
 on:
   schedule:
-    - cron: "0 6 * * 1"   # ogni lunedì alle 06:00 UTC
+    - cron: "40 5 * * 1"   # ogni lunedì alle 05:40 UTC (07:40 in Italia d'estate)
   workflow_dispatch: {}    # avvio manuale dalla scheda "Actions"
 
 permissions:
@@ -65,18 +78,14 @@ jobs:
       - name: Installa le dipendenze
         run: pip install -r backend/requirements.txt
 
+      # Fase 1: digest + sito, senza email. Il digest resta in backend/out/ per la
+      # fase 2 (stesso job, stesso runner: il filesystem persiste tra gli step).
       - name: Genera il digest e il sito
         working-directory: backend
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           DIGEST_RECIPIENTS: ${{ secrets.DIGEST_RECIPIENTS }}
-          INTERNAL_NOTES_RECIPIENTS: ${{ secrets.INTERNAL_NOTES_RECIPIENTS }}
-          SMTP_USER: ${{ secrets.SMTP_USER }}
-          SMTP_PASS: ${{ secrets.SMTP_PASS }}
-          SMTP_HOST: ${{ secrets.SMTP_HOST }}
-          SMTP_PORT: ${{ secrets.SMTP_PORT }}
-          SMTP_FROM: ${{ secrets.SMTP_FROM }}
-        run: python main.py --config config.yaml
+        run: python main.py --config config.yaml --fase genera
 
       - name: Salva il sito come artifact
         uses: actions/upload-artifact@v4
@@ -95,3 +104,18 @@ jobs:
             git commit -m "chore(run): digest settimanale $(date -u +%F)"
             git push
           fi
+
+      # Fase 2: solo email, dopo che il sito è stato pubblicato. Attende le 06:30
+      # UTC; se il run è già in ritardo non attende e manda subito.
+      # NB: lo step tiene occupato il runner per l'attesa (~50 min a run).
+      - name: Invia le email (dalle 06:30 UTC)
+        working-directory: backend
+        env:
+          DIGEST_RECIPIENTS: ${{ secrets.DIGEST_RECIPIENTS }}
+          INTERNAL_NOTES_RECIPIENTS: ${{ secrets.INTERNAL_NOTES_RECIPIENTS }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_FROM: ${{ secrets.SMTP_FROM }}
+        run: python main.py --config config.yaml --fase email --attendi-invio 06:30

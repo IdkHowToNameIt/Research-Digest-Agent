@@ -24,7 +24,9 @@ import os
 import smtplib
 import ssl
 import sys
+import time
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from email.message import EmailMessage
 from typing import Callable
 
@@ -146,6 +148,52 @@ def spedisci_console(m: Messaggio) -> None:
     print(f"  Oggetto: {m.oggetto}")
     for riga in m.corpo.splitlines() or [m.corpo]:
         print(f"  {riga}")
+
+
+# --- attesa dell'orario di invio --------------------------------------------
+
+# Oltre questa attesa non si aspetta: significa che il run non e' quello
+# schedulato (es. avvio manuale a meta' giornata) e bloccare il runner per ore
+# sarebbe assurdo.
+ATTESA_MASSIMA_MINUTI = 90
+
+
+def attendi_fino_a(
+    orario_utc: str | None,
+    adesso: Callable[[], datetime] | None = None,
+    dormi: Callable[[float], None] = time.sleep,
+    attesa_massima_minuti: int = ATTESA_MASSIMA_MINUTI,
+) -> int:
+    """Attende fino a `orario_utc` ("HH:MM", UTC) di oggi. Ritorna i secondi attesi.
+
+    Non attende (ritorna 0) se l'orario e' gia' passato o se manca piu' di
+    `attesa_massima_minuti`. L'orario e' in UTC perche' e' la stessa base di
+    tempo del cron di GitHub Actions: nessuna sorpresa col cambio d'ora.
+
+    `adesso`/`dormi` sono iniettabili per i test (nessuna attesa reale).
+    """
+    if not orario_utc:
+        return 0
+    ora_corrente = (adesso or (lambda: datetime.now(timezone.utc)))()
+    try:
+        ore, minuti = (int(x) for x in orario_utc.split(":"))
+        obiettivo = ora_corrente.replace(hour=ore, minute=minuti, second=0, microsecond=0)
+    except (ValueError, TypeError):
+        print(f"[attesa] orario non valido ({orario_utc!r}), atteso HH:MM: invio subito.",
+              file=sys.stderr)
+        return 0
+
+    secondi = int((obiettivo - ora_corrente).total_seconds())
+    if secondi <= 0:
+        return 0
+    if secondi > attesa_massima_minuti * 60:
+        print(f"[attesa] a {orario_utc} UTC mancano piu' di {attesa_massima_minuti} "
+              f"minuti: non e' il run schedulato, invio subito.", file=sys.stderr)
+        return 0
+    print(f"[attesa] invio email rimandato alle {orario_utc} UTC "
+          f"({secondi // 60} min).")
+    dormi(secondi)
+    return secondi
 
 
 # --- invio SMTP reale (Gmail di default), sez. 17.4 -------------------------

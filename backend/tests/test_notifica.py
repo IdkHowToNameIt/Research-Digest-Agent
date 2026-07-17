@@ -17,6 +17,7 @@ from src.consegna.notifica import (
     OGGETTO_REMINDER,
     DestinatariNonConfigurati,
     Messaggio,
+    attendi_fino_a,
     componi_email_note_interne,
     crea_sender,
     crea_sender_smtp,
@@ -171,6 +172,41 @@ def test_note_interne_non_vanno_ai_lettori_del_digest():
     assert note.destinatari == ["it@example.com"]
     assert "team@example.com" not in note.destinatari
     assert "Azure KO x3" not in settimanale.corpo
+
+
+# --- attesa dell'orario di invio --------------------------------------------
+
+def _alle(hh, mm):
+    from datetime import datetime, timezone
+    return lambda: datetime(2026, 7, 20, hh, mm, tzinfo=timezone.utc)
+
+
+def test_attende_fino_all_orario_richiesto():
+    dormite = []
+    atteso = attendi_fino_a("06:30", adesso=_alle(5, 40), dormi=dormite.append)
+    assert atteso == 50 * 60          # 05:40 -> 06:30
+    assert dormite == [50 * 60]
+
+
+def test_non_attende_se_l_orario_e_gia_passato():
+    """Run in ritardo: le email partono subito, non il lunedì dopo."""
+    dormite = []
+    assert attendi_fino_a("06:30", adesso=_alle(6, 45), dormi=dormite.append) == 0
+    assert dormite == []
+
+
+def test_non_attende_oltre_il_tetto_massimo():
+    """Avvio manuale a notte fonda: non si blocca il runner per ore."""
+    dormite = []
+    assert attendi_fino_a("06:30", adesso=_alle(0, 10), dormi=dormite.append) == 0
+    assert dormite == []
+
+
+def test_nessuna_attesa_senza_orario_o_con_orario_invalido():
+    dormite = []
+    for orario in (None, "", "non-un-orario", "25:99"):
+        assert attendi_fino_a(orario, adesso=_alle(5, 40), dormi=dormite.append) == 0
+    assert dormite == []
 
 
 # --- invio (sender iniettato) -----------------------------------------------
