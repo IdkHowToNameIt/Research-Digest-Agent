@@ -44,10 +44,15 @@ ENV_HOMEPAGE_URL = "HOMEPAGE_URL"
 # Segnale che nel config c'e' ancora il placeholder di repo, mai sostituito.
 PLACEHOLDER_HOMEPAGE = "DA-SOSTITUIRE"
 
-OGGETTO_REMINDER = "Nessun aggiornamento questa settimana - DRA"
+OGGETTO_REMINDER = f"Questa settimana è tranquilla {SUFFISSO_OGGETTO}"
 CORPO_REMINDER = (
-    "Questa settimana non sono emersi aggiornamenti rilevanti sui temi monitorati. "
-    "Il prossimo digest arriva la settimana prossima."
+    "Ciao!\n\n"
+    "Questa settimana sui temi che seguiamo non è emerso nulla di davvero "
+    "rilevante, quindi non c'è un nuovo digest da leggere — e va benissimo così: "
+    "ti scriviamo solo quando c'è qualcosa che vale la pena.\n\n"
+    "Ci risentiamo la settimana prossima!\n\n"
+    "A presto,\n"
+    "il team del Research Digest Agent"
 )
 
 # tipi di messaggio
@@ -117,10 +122,15 @@ def componi_email_settimanale(
 ) -> Messaggio:
     """L'unica email settimanale ai lettori: notifica oppure reminder."""
     if ci_sono_aggiornamenti(digest):
-        oggetto = f"Il digest di questa settimana è pronto {SUFFISSO_OGGETTO}"
+        oggetto = f"Il tuo digest della settimana è pronto {SUFFISSO_OGGETTO}"
         corpo = (
-            "Sono disponibili nuovi aggiornamenti sui temi monitorati. "
-            f"Visita la homepage per leggerli: {homepage_url}"
+            "Ciao!\n\n"
+            "Il Research Digest di questa settimana è pronto. Abbiamo dato "
+            "un'occhiata alle fonti su Infrastruttura & Hardware AI e raccolto "
+            "per te gli aggiornamenti che vale davvero la pena leggere.\n\n"
+            f"Lo trovi qui: {homepage_url}\n\n"
+            "Buona lettura,\n"
+            "il team del Research Digest Agent"
         )
         return Messaggio(oggetto, corpo, list(destinatari), DIGEST_AGGIORNAMENTI)
     return Messaggio(OGGETTO_REMINDER, CORPO_REMINDER, list(destinatari), DIGEST_REMINDER)
@@ -132,10 +142,17 @@ def componi_email_note_interne(
     """Email separata al comparto IT, solo se ci sono note (17.2). Altrimenti None."""
     if not note_interne:
         return None
-    corpo = "Segnalazioni operative del Research Digest Agent:\n\n" + "\n".join(
-        f"- [{n.tipo.value}] {n.dettaglio}" for n in note_interne
+    corpo = (
+        "Ciao,\n\n"
+        "un paio di cose dal Research Digest Agent che varrebbe la pena controllare "
+        "quando hai un momento:\n\n"
+        + "\n".join(f"- [{n.tipo.value}] {n.dettaglio}" for n in note_interne)
+        + "\n\nNiente di bloccante: il digest è uscito regolarmente, sono solo "
+        "segnalazioni da tenere d'occhio.\n\n"
+        "Grazie,\n"
+        "il team del Research Digest Agent"
     )
-    return Messaggio(f"Note interne DRA {SUFFISSO_OGGETTO}", corpo, list(destinatari), NOTE_INTERNE)
+    return Messaggio(f"Note interne {SUFFISSO_OGGETTO}", corpo, list(destinatari), NOTE_INTERNE)
 
 
 def prepara_invii(digest: Digest, cfg: dict, env: dict | None = None) -> list[Messaggio]:
