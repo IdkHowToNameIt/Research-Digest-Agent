@@ -156,7 +156,9 @@ Tutto in `config.yaml`:
   `filtro_rilevanza` (solo Google Cloud Blog).
 - `soglia_overlap_dedup` (0.7) e `finestra_dedup_settimane` (6) — calibrabili.
 - `sito`: `homepage_url` (URL pubblico del sito — è il link che l'email di notifica
-  manda ai lettori; **da sostituire** con il proprio), `out_dir`, `archivio_dir`,
+  manda ai lettori. Nel repo è un placeholder: impostalo con la variabile d'ambiente
+  **`HOMEPAGE_URL`**, che ha la precedenza su questo campo, oppure sostituiscilo qui.
+  Se resta il placeholder il run si ferma con un errore), `out_dir`, `archivio_dir`,
   `badge_giorni` (soglia badge), `template` (default `frontend/concept/index.html`).
 - `email`: **i destinatari non stanno in `config.yaml`** (sono dati personali e cambiano
   a ogni adozione del repo): si leggono da due variabili d'ambiente, indirizzi separati
@@ -215,9 +217,20 @@ run si ferma subito con un errore che dice quale.
 `DIGEST_RECIPIENTS` e `INTERNAL_NOTES_RECIPIENTS` sono **due liste distinte apposta**:
 le note interne segnalano guasti e anomalie e non devono finire ai lettori del digest.
 
-Poi apri `backend/config.yaml` e sostituisci `homepage_url`, che nel repo è un
-placeholder (`https://DA-SOSTITUIRE.example.com`): è il link che l'email settimanale
-manda ai lettori. Ti serve l'URL del punto (d), quindi puoi tornarci dopo.
+Serve poi una **variabile**, non un secret. Stessa pagina, **scheda *Variables*** →
+*New repository variable*:
+
+| Variabile | Obbligatoria | Valore |
+|---|---|---|
+| `HOMEPAGE_URL` | **Sì** | L'URL pubblico del tuo sito: è il link che l'email settimanale manda ai lettori. Lo ottieni al punto (d), quindi puoi tornarci dopo |
+
+Sta tra le *Variables* e non tra i *Secrets* perché un URL pubblico non è un segreto
+(i secret sono mascherati nei log, e mascherare l'indirizzo del sito renderebbe
+solo più difficile leggere i run). In alternativa puoi sostituire `sito.homepage_url`
+in `backend/config.yaml`, ma `HOMEPAGE_URL` vince sul file e ti evita di modificare
+il repo. Se non imposti né l'una né l'altro, nel config resta il placeholder
+`https://DA-SOSTITUIRE.example.com` e **il run si ferma con un errore**: meglio di un
+digest che invita a leggere il sito su un indirizzo finto.
 
 ### c) Abilita la Action settimanale
 
@@ -304,7 +317,7 @@ pip install -r backend/requirements.txt
 cd backend
 python -m pytest -q                # test offline, modello LLM e SMTP mockati
 
-cp ../.env.example ../.env         # inserisci GROQ_API_KEY e DIGEST_RECIPIENTS
+cp ../.env.example ../.env         # inserisci GROQ_API_KEY, DIGEST_RECIPIENTS, HOMEPAGE_URL
 python main.py --config config.yaml
 ```
 
@@ -340,7 +353,8 @@ docker compose up --build            # genera il sito e lo serve
 ```
 
 - `generator` esegue `main.py --config config.yaml` (richiede `GROQ_API_KEY` e
-  `DIGEST_RECIPIENTS`) e scrive `data.json` + `index.html` nel volume `sito`.
+  `DIGEST_RECIPIENTS`; `HOMEPAGE_URL` qui vale `http://localhost:8080` di default,
+  cioè il sito servito da `web`) e scrive `data.json` + `index.html` nel volume `sito`.
   Le variabili si possono mettere anche in un file `.env` in root, che
   `docker compose` legge da solo (vedi `.env.example`).
 - `web` (nginx) pubblica quei file su **http://localhost:8080**.

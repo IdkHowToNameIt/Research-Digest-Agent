@@ -22,8 +22,14 @@ out_dir: "out"                 # output tecnico (il canale reale e' email + sito
 
 # Sito web interno (Fase 8): la homepage a cui rimanda l'email di notifica.
 sito:
-  # DA SOSTITUIRE con l'URL pubblico del proprio sito: e' il link che l'email
-  # settimanale manda ai lettori. Vale qualunque host statico (vedi README).
+  # URL pubblico del sito: e' il link che l'email settimanale manda ai lettori.
+  # Vale qualunque host statico (vedi README). Due modi per impostarlo:
+  #   - variabile d'ambiente HOMEPAGE_URL (su GitHub: Settings > Secrets and
+  #     variables > Actions > scheda Variables) — ha la precedenza su questo campo
+  #     e non richiede di modificare il repo;
+  #   - oppure sostituendo il placeholder qui sotto.
+  # Se resta il placeholder e HOMEPAGE_URL non c'e', il run si ferma con un errore
+  # invece di spedire email che rimandano a un indirizzo finto.
   homepage_url: "https://DA-SOSTITUIRE.example.com"
   out_dir: "../sito"              # cartella dei file statici generati (pubblicata dall'host)
   archivio_dir: "data/archivio"   # storico dei digest pubblici (JSON, per la cronologia)

@@ -29,10 +29,12 @@ from src.config import load_config
 from src.consegna.notifica import (
     ENV_DESTINATARI_DIGEST,
     DestinatariNonConfigurati,
+    HomepageNonConfigurata,
     attendi_fino_a,
     crea_sender,
     invia_tutti,
     leggi_destinatari,
+    leggi_homepage_url,
     prepara_invii,
 )
 from src.pipeline import costruisci_digest
@@ -113,11 +115,13 @@ def main() -> None:
 
     cfg = load_config(args.config)
 
-    # Controllo anticipato: i destinatari servono solo in fondo, ma scoprirli
-    # mancanti dopo la pipeline sprecherebbe un run intero di chiamate al modello.
+    # Controllo anticipato: destinatari e homepage servono solo in fondo, ma
+    # scoprirli mancanti dopo la pipeline sprecherebbe un run intero di chiamate
+    # al modello — e con le fasi separate se ne accorgerebbe solo all'ora di invio.
     try:
         leggi_destinatari(ENV_DESTINATARI_DIGEST)
-    except DestinatariNonConfigurati as exc:
+        leggi_homepage_url(cfg)
+    except (DestinatariNonConfigurati, HomepageNonConfigurata) as exc:
         print(f"[errore] {exc}", file=sys.stderr)
         sys.exit(2)
 

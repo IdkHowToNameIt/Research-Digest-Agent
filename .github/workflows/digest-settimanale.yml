@@ -29,6 +29,12 @@
 #   INTERNAL_NOTES_RECIPIENTS (comparto IT: serve solo nei run che producono note interne).
 #   Se SMTP_USER/SMTP_PASS mancano, le email vengono solo stampate nel log del run.
 #
+#   Nella scheda VARIABLES (non Secrets: un URL pubblico non e' un segreto):
+#     - HOMEPAGE_URL   URL pubblico del sito, il link che l'email manda ai lettori.
+#   Se non la imposti si ricade su sito.homepage_url di config.yaml, che nel repo
+#   e' un placeholder: in quel caso il run si ferma subito con un errore, invece di
+#   spedire un digest che rimanda a un indirizzo finto.
+#
 # PERSISTENZA
 #   Il dedup ha bisogno di ricordare gli articoli già pubblicati (backend/data/seen.sqlite3)
 #   e la cronologia del sito (backend/data/archivio/). Questi file sono in .gitignore per lo
@@ -85,6 +91,9 @@ jobs:
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           DIGEST_RECIPIENTS: ${{ secrets.DIGEST_RECIPIENTS }}
+          # Serve anche qui: il controllo anticipato la verifica prima di spendere
+          # le chiamate al modello, invece di fallire all'ora di invio.
+          HOMEPAGE_URL: ${{ vars.HOMEPAGE_URL }}
         run: python main.py --config config.yaml --fase genera
 
       - name: Salva il sito come artifact
@@ -113,6 +122,7 @@ jobs:
         env:
           DIGEST_RECIPIENTS: ${{ secrets.DIGEST_RECIPIENTS }}
           INTERNAL_NOTES_RECIPIENTS: ${{ secrets.INTERNAL_NOTES_RECIPIENTS }}
+          HOMEPAGE_URL: ${{ vars.HOMEPAGE_URL }}
           SMTP_USER: ${{ secrets.SMTP_USER }}
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
           SMTP_HOST: ${{ secrets.SMTP_HOST }}
