@@ -36,9 +36,16 @@
     background:radial-gradient(120% 90% at 50% -8%, rgba(154,3,30,.10) 0%, rgba(11,10,10,0) 42%),
       radial-gradient(130% 95% at 50% 40%, rgba(11,10,10,0) 54%, rgba(0,0,0,.35) 100%);}
 
-  /* --- header con logo in alto a SINISTRA (lockup KVA + DRA) --- */
-  header{display:flex;justify-content:flex-start;align-items:center;
+  /* --- header: logo a SINISTRA, nav di sistema a DESTRA --- */
+  header{display:flex;justify-content:space-between;align-items:center;
     padding:1.3rem clamp(1rem,4vw,3.5rem);}
+  .topnav{display:flex;align-items:center;gap:.5rem}
+  .topnav-link{display:inline-flex;align-items:center;gap:.45rem;text-decoration:none;
+    font-family:var(--sans);font-weight:500;font-size:.9rem;color:var(--inchiostro-2);
+    background:rgba(13,13,15,.6);border:1px solid var(--bordo);border-radius:999px;
+    padding:.45rem .9rem;transition:color .18s,border-color .18s,background .18s}
+  .topnav-link svg{color:var(--verde-vivo)}
+  .topnav-link:hover{color:#fff;border-color:rgba(224,80,110,.5);background:rgba(224,80,110,.12)}
   .logo{display:inline-flex;align-items:flex-end;gap:.2rem;text-decoration:none;color:inherit}
   .logo .mark{display:inline-flex;transition:transform .3s}
   /* logo reale (monogramma nero): invert -> bianco sul tema scuro */
@@ -299,8 +306,6 @@
   /* ===================== DASHBOARD DI OSSERVABILITÀ ===================== */
   /* colori di stato locali (l'accento --verde è rosa: servono ok/ko distinti) */
   .dash{--ok:#3fb98a;--ko:#e5556b;--na:#6b7078}
-  .pill-osserva{border-color:rgba(224,80,110,.4)}
-  .pill-osserva .tema-svg{color:var(--verde-vivo)}
 
   .dash-card{background:var(--carta);border:1px solid var(--bordo);border-radius:16px;
     padding:1.15rem 1.3rem;margin:1rem 0}

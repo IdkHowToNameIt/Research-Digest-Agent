@@ -220,8 +220,7 @@ function vaiHome(){
 
   const nav = TEMI.map(t =>
     `<button class="pill" onclick="vaiTema('${t.id}')">${iconaTema(t.id,15)}${t.nome}</button>`
-  ).join('')
-  + `<button class="pill pill-osserva" onclick="vaiDashboard()">${iconaOsserva(15)}Osservabilità</button>`;
+  ).join('');
 
   // un box per ogni tema: quelli senza novità restano visibili con stato "vuoto"
   const boxes = TEMI.map(boxTema).join('');
