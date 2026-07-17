@@ -5,6 +5,7 @@ venv/
 .env
 backend/data/*.sqlite3
 backend/data/archivio/
+backend/data/metriche/
 out/
 sito/
 .idea/

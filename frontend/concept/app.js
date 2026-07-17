@@ -21,6 +21,18 @@ const MESI_FULL = ["gennaio","febbraio","marzo","aprile","maggio","giugno",
   "luglio","agosto","settembre","ottobre","novembre","dicembre"];
 const GIORNI_SETT = ["lun","mar","mer","gio","ven","sab","dom"];
 
+// Il filtro periodo (pill + calendario) è condiviso tra la lista di un tema e la
+// dashboard: una sola vista è montata per volta, quindi basta indirizzare la sua
+// callback di aggiornamento alla vista corrente.
+let FILTRO_ONCHANGE = null;
+let DASH = null;                         // dati dashboard (metriche.json), on-demand
+const ETICHETTE_TEMA = {chip:'Chip', data_center:'Data center', energia:'Energia',
+  supply_chain:'Supply chain', cloud_capacity:'Cloud capacity'};
+// Set di pill del filtro periodo: la lista tema ragiona a giorni; la dashboard, a
+// cadenza settimanale, aggiunge mesi/anno e "ultimo run".
+const RANGE_TEMA = [['all','Tutte'],['7','7 giorni'],['30','30 giorni'],['90','90 giorni']];
+const RANGE_DASH = [['all','Tutti'],['30','30 giorni'],['90','90 giorni'],['365','12 mesi'],['run','Ultimo run']];
+
 function giorniFa(iso){
   if(!iso) return 99999;
   const d = new Date(iso + "T00:00:00");
@@ -142,8 +154,23 @@ function iconaTema(id, dim){
   return `<svg class="tema-svg" width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONE_TEMA[id]||''}</svg>`;
 }
 
+function iconaOsserva(dim){
+  const s = dim||18;
+  return `<svg class="tema-svg" width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 17a8 8 0 0 1 16 0"/><line x1="12" y1="17" x2="16.5" y2="11.5"/><circle cx="12" cy="17" r="1.3" fill="currentColor" stroke="none"/></svg>`;
+}
+
 function plurale(n, uno, molti){ return n===1 ? uno : molti; }
 function pad2(n){ return String(n).padStart(2,'0'); }
+function fmtNum(n){ return (n||0).toLocaleString('it-IT'); }
+function fmtEuro(n){
+  const v = n||0;
+  // costi molto piccoli (free tier ~0): mostra più decimali per non collassare a 0,00
+  return '€ ' + v.toLocaleString('it-IT', {minimumFractionDigits:2, maximumFractionDigits: v>0 && v<0.01 ? 6 : 2});
+}
+function nomeTema(id){
+  const t = trovaTema(id);
+  return (t && t.nome) || ETICHETTE_TEMA[id] || id;
+}
 
 /* una notizia nella colonna di lettura del digest: numero d'ordine, titolo,
    fonte (link), tag del tema, sintesi completa, eventuale nota, "perché conta". */
@@ -193,7 +220,8 @@ function vaiHome(){
 
   const nav = TEMI.map(t =>
     `<button class="pill" onclick="vaiTema('${t.id}')">${iconaTema(t.id,15)}${t.nome}</button>`
-  ).join('');
+  ).join('')
+  + `<button class="pill pill-osserva" onclick="vaiDashboard()">${iconaOsserva(15)}Osservabilità</button>`;
 
   // un box per ogni tema: quelli senza novità restano visibili con stato "vuoto"
   const boxes = TEMI.map(boxTema).join('');
@@ -233,9 +261,34 @@ function cardGruppo(id, g){
     </div>`;
 }
 
-function controlliFiltroData(){
-  const range = [['all','Tutte'],['7','7 giorni'],['30','30 giorni'],['90','90 giorni']];
-  const pills = range.map((r,i)=>
+/* ---- filtro periodo riusabile (lista tema + dashboard) ------------------
+   Stato letto dai controlli (pill attiva + intervallo dal/al) e applicato in modo
+   PURO a una lista di item con {data:'YYYY-MM-DD', giorni:int}: così la stessa
+   logica serve la lista dei gruppi e i pannelli della dashboard, senza duplicarla. */
+function statoFiltroPeriodo(){
+  const pill = document.querySelector('.filtro-range .pill-f.attivo');
+  return {val: pill ? pill.dataset.giorni : 'all', dal: FILTRO_DATE.dal, al: FILTRO_DATE.al};
+}
+
+function filtraPerPeriodo(items, st){
+  if(st.val === 'run'){                       // solo gli item del run/giorno più recente
+    const ultima = items.reduce((m,x)=> (x.data && x.data > m) ? x.data : m, '');
+    return items.filter(x => x.data === ultima);
+  }
+  const rg = (st.val && st.val !== 'all') ? Number(st.val) : null;
+  return items.filter(x=>{
+    if(rg != null && x.giorni > rg) return false;
+    if(st.dal && !(x.data && x.data >= st.dal)) return false;
+    if(st.al && !(x.data && x.data <= st.al)) return false;
+    return true;
+  });
+}
+
+function filtroPeriodoAttivo(st){ return (st.val && st.val !== 'all') || !!st.dal || !!st.al; }
+
+function controlliFiltroData(range){
+  const rng = range || RANGE_TEMA;
+  const pills = rng.map((r,i)=>
     `<button class="pill-f${i===0?' attivo':''}" data-giorni="${r[0]}" onclick="attivaRange(this)">${r[1]}</button>`
   ).join('');
   return `<div class="filtri">
@@ -259,7 +312,7 @@ function attivaRange(el){
   el.parentElement.querySelectorAll('.pill-f').forEach(p=>p.classList.remove('attivo'));
   el.classList.add('attivo');
   PAGINA = 1;               // un nuovo filtro riparte dalla prima pagina
-  renderListaGruppi();
+  if(FILTRO_ONCHANGE) FILTRO_ONCHANGE();
 }
 
 function azzeraFiltriData(){
@@ -268,8 +321,8 @@ function azzeraFiltriData(){
   aggiornaCampiData();
   chiudiCalendario();
   document.querySelectorAll('.filtro-range .pill-f').forEach(p=>
-    p.classList.toggle('attivo', p.dataset.giorni === 'all'));   // torna a "Tutte"
-  renderListaGruppi();
+    p.classList.toggle('attivo', p.dataset.giorni === 'all'));   // torna alla prima pill
+  if(FILTRO_ONCHANGE) FILTRO_ONCHANGE();
 }
 
 /* ---- date picker custom (calendario) del filtro "Periodo" -------------- */
@@ -348,7 +401,7 @@ function calSeleziona(iso, ev){
   PAGINA = 1;
   aggiornaCampiData();
   chiudiCalendario();
-  renderListaGruppi();
+  if(FILTRO_ONCHANGE) FILTRO_ONCHANGE();
 }
 
 function chiudiCalendario(){
@@ -370,15 +423,8 @@ function renderListaGruppi(){
   const t = trovaTema(TEMA_CORRENTE);
   const cont = document.getElementById('lista-gruppi');
   if(!t || !cont) return;
-  const pill = document.querySelector('.filtro-range .pill-f.attivo');
-  const rg = (pill && pill.dataset.giorni !== 'all') ? Number(pill.dataset.giorni) : null;
-  const dal = FILTRO_DATE.dal, al = FILTRO_DATE.al;
-  let gruppi = t.gruppi.filter(g=>{
-    if(rg != null && g.giorni > rg) return false;
-    if(dal && !(g.data && g.data >= dal)) return false;
-    if(al && !(g.data && g.data <= al)) return false;
-    return true;
-  });
+  const st = statoFiltroPeriodo();
+  let gruppi = filtraPerPeriodo(t.gruppi, st);
   // paginazione: mostra solo PER_PAGINA gruppi per volta (evita scroll infiniti).
   // La pagina corrente resta nei limiti disponibili (i filtri possono ridurre i risultati).
   const totale = gruppi.length;
@@ -393,7 +439,7 @@ function renderListaGruppi(){
     : '<p class="sez-nota">Nessun aggiornamento per il periodo selezionato.</p>';
   // il tasto Azzera compare solo quando c'è un filtro attivo
   const btn = document.querySelector('.btn-azzera');
-  if(btn) btn.classList.toggle('nascosto', !(rg != null || dal || al));
+  if(btn) btn.classList.toggle('nascosto', !filtroPeriodoAttivo(st));
   attivaEffetti();
 }
 
@@ -443,6 +489,7 @@ async function vaiTema(id){
   if(!t) return;
   TEMA_CORRENTE = id;
   FILTRO_DATE = {dal:'', al:''};   // i filtri data non persistono tra temi diversi
+  FILTRO_ONCHANGE = renderListaGruppi;  // il filtro periodo aggiorna la lista del tema
   PAGINA = 1;                      // ogni tema riparte dalla prima pagina
   // subito la testata + un segnaposto di caricamento (il dettaglio arriva via fetch)
   app.innerHTML = `<section class="view"><main class="crono">
@@ -576,6 +623,204 @@ async function vaiGruppo(id, data){
         <div id="digest-lettura" class="digest-lettura"></div>
       </div>`;
   renderArticoliGruppo();
+}
+
+/* ===================== DASHBOARD DI OSSERVABILITÀ =======================
+   Legge metriche.json (un record per run, prodotto dal backend) e mostra, per il
+   periodo scelto col filtro riusato dalla lista tema: stato delle fonti, costi,
+   deduplica e copertura dei 5 sotto-temi. Nessun dato editoriale né nota interna:
+   solo metriche operative. Il sito è pubblico (vedi DECISIONI): sul free tier i
+   costi sono ~0; in produzione gira in intranet. */
+async function caricaDashboard(){
+  if(DASH) return DASH;
+  const resp = await fetch('metriche.json', {cache:'no-store'});
+  if(!resp.ok) throw new Error('HTTP '+resp.status);
+  const dati = await resp.json();
+  DASH = {
+    generato: dati.generato || '',
+    temi: (dati.temi && dati.temi.length) ? dati.temi
+        : ['chip','data_center','energia','supply_chain','cloud_capacity'],
+    // ogni run ottiene data (YYYY-MM-DD) e giorni-fa per il filtro periodo
+    run: (dati.run||[]).map(function(r){
+      const data = (r.timestamp||'').slice(0,10);
+      return Object.assign({}, r, {data: data, giorni: giorniFa(data)});
+    })
+  };
+  return DASH;
+}
+
+async function vaiDashboard(){
+  TEMA_CORRENTE = null;
+  FILTRO_DATE = {dal:'', al:''};
+  FILTRO_ONCHANGE = renderDashboard;      // il filtro periodo aggiorna i pannelli
+  app.innerHTML = `<section class="view"><main class="crono dash">
+      <button class="indietro" onclick="vaiHome()">← Home</button>
+      <h2><span class="tema-ic">${iconaOsserva(26)}</span>Osservabilità</h2>
+      <p class="sez-nota">Stato delle fonti, costi, deduplica e copertura dei temi — per periodo.</p>
+      <div id="dash-corpo"><p class="sez-nota">Caricamento…</p></div>
+    </main></section>`;
+  window.scrollTo({top:0,behavior:'smooth'});
+  try{
+    await caricaDashboard();
+  }catch(err){
+    const c = document.getElementById('dash-corpo');
+    if(c) c.innerHTML = '<p class="sez-nota">Metriche non ancora disponibili ('+err.message+'). '
+      + 'Vengono registrate a partire dal primo run.</p>';
+    return;
+  }
+  const c = document.getElementById('dash-corpo');
+  if(!c) return;
+  if(!DASH.run.length){
+    c.innerHTML = '<p class="sez-nota">Nessun run registrato finora.</p>';
+    return;
+  }
+  c.innerHTML = `${controlliFiltroData(RANGE_DASH)}<div id="dash-pannelli"></div>`;
+  renderDashboard();
+}
+
+function renderDashboard(){
+  const cont = document.getElementById('dash-pannelli');
+  if(!DASH || !cont) return;
+  const st = statoFiltroPeriodo();
+  const runs = filtraPerPeriodo(DASH.run, st);       // DASH.run è già dal più recente
+  const btn = document.querySelector('.btn-azzera');
+  if(btn) btn.classList.toggle('nascosto', !filtroPeriodoAttivo(st));
+  cont.innerHTML = runs.length
+    ? pannelloFonti(runs) + pannelloCosti(runs) + pannelloDedup(runs) + pannelloCopertura(runs)
+    : '<p class="sez-nota">Nessun run nel periodo selezionato.</p>';
+  attivaEffetti();
+}
+
+/* barra orizzontale 0–100% (meter) */
+function dashBar(frazione, cls){
+  const pct = Math.max(0, Math.min(100, Math.round((frazione||0)*100)));
+  return `<div class="dash-bar ${cls||''}"><span style="width:${pct}%"></span></div>`;
+}
+function statCard(valore, etichetta){
+  return `<div class="dash-stat"><div class="ds-val">${valore}</div><div class="ds-lbl">${etichetta}</div></div>`;
+}
+
+/* --- pannello STATO FONTI ---------------------------------------------- */
+function pannelloFonti(runs){
+  const cron = runs.slice().reverse();                       // vecchio -> nuovo (per i dot)
+  const ultimo = runs[0];
+  // unione dei nomi fonte (l'ultimo run per primo, poi eventuali fonti sparite)
+  const nomi = [];
+  runs.forEach(r => (r.fonti||[]).forEach(f => { if(!nomi.includes(f.nome)) nomi.push(f.nome); }));
+  const koUltimo = (ultimo.fonti||[]).filter(f => f.stato === 'fetch_failed').length;
+
+  const righe = nomi.map(function(nome){
+    const serie = cron.map(r => (r.fonti||[]).find(f => f.nome === nome) || null);
+    const corr = (ultimo.fonti||[]).find(f => f.nome === nome) || null;
+    const falliti = serie.filter(f => f && f.stato === 'fetch_failed').length;
+    const dots = serie.map(function(f){
+      if(!f) return '<span class="dot dot-na" title="assente"></span>';
+      const ok = f.stato === 'ok';
+      const tip = f.stato + (f.errore ? ': ' + f.errore.replace(/"/g,'') : '');
+      return `<span class="dot ${ok?'dot-ok':'dot-ko'}" title="${tip}"></span>`;
+    }).join('');
+    const badge = corr
+      ? (corr.stato === 'ok' ? '<span class="badge-ok">OK</span>' : '<span class="badge-ko">Fallito</span>')
+      : '<span class="badge-na">—</span>';
+    const strk = (corr && corr.consecutivi_falliti > 0)
+      ? `<span class="dash-strk">${corr.consecutivi_falliti} run consecutivi</span>` : '';
+    return `<div class="dash-fonte">
+        <div class="df-testa"><span class="df-nome">${nome}</span> ${badge} ${strk}</div>
+        <div class="df-serie">${dots}</div>
+        <div class="df-conta">${falliti}/${serie.length} run falliti nel periodo</div>
+      </div>`;
+  }).join('');
+
+  return `<section class="dash-card reveal">
+      <div class="dash-tit">${iconaOsserva(16)} Stato fonti</div>
+      <div class="dash-stats">
+        ${statCard(nomi.length, 'fonti')}
+        ${statCard(koUltimo, 'in errore (ultimo run)')}
+        ${statCard(runs.length, plurale(runs.length,'run','run'))}
+      </div>
+      <div class="dash-fonti">${righe}</div>
+    </section>`;
+}
+
+/* --- pannello COSTI ---------------------------------------------------- */
+function pannelloCosti(runs){
+  const tot = runs.reduce((a,r)=>({
+    p: a.p + r.costo.prompt_tokens, c: a.c + r.costo.completion_tokens, e: a.e + r.costo.costo_stimato
+  }), {p:0,c:0,e:0});
+  const maxTok = Math.max.apply(null,
+    runs.map(r => r.costo.prompt_tokens + r.costo.completion_tokens).concat([1]));
+  const righe = runs.map(function(r){
+    const tk = r.costo.prompt_tokens + r.costo.completion_tokens;
+    return `<div class="dash-run">
+        <div class="dr-data">${fmtData(r.data)}</div>
+        <div class="dr-bar">${dashBar(tk/maxTok,'bar-cost')}</div>
+        <div class="dr-val">${fmtNum(tk)} tok · ${fmtEuro(r.costo.costo_stimato)}</div>
+      </div>`;
+  }).join('');
+  return `<section class="dash-card reveal">
+      <div class="dash-tit">${iconaOsserva(16)} Costi</div>
+      <div class="dash-stats">
+        ${statCard(fmtEuro(tot.e), 'costo stimato')}
+        ${statCard(fmtNum(tot.p), 'token input')}
+        ${statCard(fmtNum(tot.c), 'token output')}
+      </div>
+      <div class="dash-runs">${righe}</div>
+    </section>`;
+}
+
+/* --- pannello DEDUPLICA ------------------------------------------------ */
+function pannelloDedup(runs){
+  const tot = runs.reduce((a,r)=>({
+    racc: a.racc + r.dedup.raccolti,
+    pub:  a.pub  + r.dedup.pubblicati,
+    dup:  a.dup  + r.dedup.duplicati_esatti + r.dedup.duplicati_fuzzy,
+    agg:  a.agg  + r.dedup.aggiornamenti
+  }), {racc:0,pub:0,dup:0,agg:0});
+  const righe = runs.map(function(r){
+    const d = r.dedup;
+    const scartati = d.duplicati_esatti + d.duplicati_fuzzy + d.scartati_classificazione;
+    return `<div class="dash-run">
+        <div class="dr-data">${fmtData(r.data)}</div>
+        <div class="dr-bar">${dashBar(d.raccolti ? d.pubblicati/d.raccolti : 0,'bar-pub')}</div>
+        <div class="dr-val">${d.pubblicati}/${d.raccolti} pubblicati
+          · <span class="mut">${scartati} scartati, ${d.aggiornamenti} agg.</span></div>
+      </div>`;
+  }).join('');
+  return `<section class="dash-card reveal">
+      <div class="dash-tit">${iconaOsserva(16)} Deduplica</div>
+      <div class="dash-stats">
+        ${statCard(fmtNum(tot.racc), 'raccolti')}
+        ${statCard(fmtNum(tot.pub), 'pubblicati')}
+        ${statCard(fmtNum(tot.dup), 'duplicati scartati')}
+        ${statCard(fmtNum(tot.agg), 'inclusi come agg.')}
+      </div>
+      <div class="dash-runs">${righe}</div>
+    </section>`;
+}
+
+/* --- pannello COPERTURA TEMI ------------------------------------------- */
+function pannelloCopertura(runs){
+  const ultimo = runs[0];
+  const righe = DASH.temi.map(function(id){
+    const conAgg = runs.filter(r =>
+      ((r.copertura||[]).find(c => c.tema === id) || {}).stato === 'con_aggiornamenti').length;
+    const cUlt = (ultimo.copertura||[]).find(c => c.tema === id) || {};
+    return `<div class="dash-cop">
+        <div class="dc-testa"><span class="tema-ic">${iconaTema(id,15)}</span>${nomeTema(id)}
+          <span class="dc-ult">${cUlt.n_articoli||0} nell'ultimo run</span></div>
+        <div class="dc-bar">${dashBar(runs.length ? conAgg/runs.length : 0,'bar-cop')}</div>
+        <div class="dc-conta">${conAgg}/${runs.length} run con aggiornamenti</div>
+      </div>`;
+  }).join('');
+  const streak = ultimo.energia_zero_consecutivi || 0;
+  const avviso = streak >= 3
+    ? `<div class="dash-avviso">⚠ Energia a zero da ${streak} run consecutivi (fonte unica arXiv): controllo manuale.</div>`
+    : `<div class="dash-nota-min">Energia a zero da ${streak} run consecutivi.</div>`;
+  return `<section class="dash-card reveal">
+      <div class="dash-tit">${iconaOsserva(16)} Copertura dei temi</div>
+      <div class="dash-cops">${righe}</div>
+      ${avviso}
+    </section>`;
 }
 
 /* --------------------- animazioni / micro-interazioni --------------------- */

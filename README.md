@@ -22,10 +22,14 @@ le fonti né inventa URL.
    - *notifica* con link alla homepage, se almeno una sezione ha aggiornamenti;
    - *reminder* ("Nessun aggiornamento questa settimana - DRA") se tutte vuote.
 2. **Il sito web interno** (statico): homepage con box per i temi aggiornati nella
-   settimana, una pagina di cronologia per tema e una pagina per articolo.
+   settimana, una pagina di cronologia per tema, una pagina per articolo e una
+   **dashboard di osservabilità** (stato fonti, costi, deduplica, copertura temi).
 3. **Eventuale email di note interne** al comparto IT (fetch falliti ripetuti o
    sezione energia a zero per 3 run) — solo segnalazione, mai un blocco.
 4. Un Markdown tecnico di anteprima in `out/digest.md`.
+5. **Le metriche operative del run** (`backend/data/metriche/<run>.json`), che
+   alimentano la dashboard: token/costo, stato di ogni fonte, statistiche dedup,
+   copertura dei temi.
 
 ## Principi vincolanti
 
@@ -83,6 +87,7 @@ backend/
 │   ├── schemas.py          schema dati (5 sezioni fisse, enum, note_interne)   [Fase 1]
 │   ├── config.py           caricamento/validazione config                     [Fase 2]
 │   ├── state.py            memoria persistente (SQLite): dedup + conteggi run
+│   ├── metriche.py         metriche operative per run + dati dashboard
 │   ├── pipeline.py         orchestrazione del run completo                    [Fase 6]
 │   ├── raccolta/           acquisizione e selezione dei candidati
 │   │   ├── fetch.py        raccolta RSS/Atom, stati fetch, troncamento         [Fase 2]
@@ -101,7 +106,7 @@ backend/
 ├── config.yaml          beat, 12 fonti, dedup, sito, email  (produzione)
 ├── Dockerfile           immagine del backend/generatore
 ├── requirements.txt
-├── data/                stato persistente: dedup (sqlite) + archivio digest (gitignored)
+├── data/                stato persistente: dedup (sqlite) + archivio digest + metriche (gitignored)
 └── tests/               test deterministici (offline, LLM mockato)
 
 frontend/concept/     interfaccia web (legge data.json e genera le pagine)
@@ -137,6 +142,10 @@ docker-compose.yml    backend (generator) + frontend (nginx)
    Il backend scrive `sito/data.json` (archivio pubblico aggregato per tema) e
    copia `frontend/concept/index.html` in `sito/index.html`. Il frontend statico
    legge `data.json` e genera lato client homepage, cronologie e pagine articolo.
+8. **Metriche** (`metriche.py`): raccolte durante il run (stato fonti, esiti dedup,
+   copertura e token/costo del modello) e salvate in `backend/data/metriche/<run>.json`
+   (un file per run). Da tutti i record si scrive `sito/metriche.json`, che alimenta
+   la dashboard di osservabilità. Lo storico parte dal primo run (nessun retro-fill).
 
 ## Schema dati (sintesi)
 
@@ -160,6 +169,9 @@ Tutto in `config.yaml`:
   **`HOMEPAGE_URL`**, che ha la precedenza su questo campo, oppure sostituiscilo qui.
   Se resta il placeholder il run si ferma con un errore), `out_dir`, `archivio_dir`,
   `badge_giorni` (soglia badge), `template` (default `frontend/concept/index.html`).
+- `metriche_dir` (default `data/metriche`) e `prezzi`: listino €/1M token per modello
+  (input/output) per la stima di costo in dashboard. Sul free tier è 0 — i token si
+  contano comunque, basta valorizzarlo passando all'API a pagamento.
 - `email`: **i destinatari non stanno in `config.yaml`** (sono dati personali e cambiano
   a ogni adozione del repo): si leggono da due variabili d'ambiente, indirizzi separati
   da virgola. `DIGEST_RECIPIENTS` (lettori del digest) è **obbligatoria** — senza, il run
@@ -196,8 +208,9 @@ git push -u origin main
 ```
 
 Il repo ti arriva con lo storico dei digest già generati da noi (`sito/`,
-`backend/data/archivio/`). Per ripartire da zero, svuota `backend/data/archivio/`,
-cancella `backend/data/seen.sqlite3` e `sito/`: la prima run li ricrea. Se li tieni,
+`backend/data/archivio/`). Per ripartire da zero, svuota `backend/data/archivio/` e
+`backend/data/metriche/`, cancella `backend/data/seen.sqlite3` e `sito/`: la prima
+run li ricrea (la dashboard riparte da vuota). Se li tieni,
 il dedup non ti riproporrà gli articoli già usciti.
 
 ### b) Crea i secret
@@ -390,10 +403,10 @@ e le 06:30 sono già passate, le email partono subito invece di saltare la setti
 1. I secret stanno in *Settings → Secrets and variables → Actions*: `GROQ_API_KEY`
    e `DIGEST_RECIPIENTS` sono obbligatori (elenco completo in
    *[Adottare il repo](#adottare-il-repo)*).
-2. Il job genera digest + `sito/` (`data.json` + `index.html`), lo allega come
-   artifact e **ricommitta** lo stato (`backend/data/seen.sqlite3`,
-   `backend/data/archivio/`) e `sito/` nel repo, così il dedup ricorda gli
-   articoli già pubblicati.
+2. Il job genera digest + `sito/` (`data.json` + `index.html` + `metriche.json`), lo
+   allega come artifact e **ricommitta** lo stato (`backend/data/seen.sqlite3`,
+   `backend/data/archivio/`, `backend/data/metriche/`) e `sito/` nel repo, così il
+   dedup ricorda gli articoli già pubblicati e la dashboard conserva lo storico.
 3. **Pubblicazione.** Il workflow non conosce l'host: si limita a ricommittare
    `sito/`. Pubblicare vuol dire collegare al repo un hosting statico qualsiasi che
    serva quella cartella e ridispieghi a ogni push, poi impostare
@@ -409,6 +422,13 @@ backend) e genera lato client: home → cronologia tema → articolo con "Perch�
 e nota preprint. In home compaiono solo i temi con aggiornamenti della settimana,
 box **autocentrati**, badge "Nuovo" (≤ `badge_giorni`) e finestra settimana
 (≤ `settimana_giorni`) calcolati lato client dalle date assolute in `data.json`.
+
+Dalla home si apre anche **Osservabilità**, una dashboard che legge `metriche.json`
+e mostra — con un filtro per periodo (ultimo run / 30-90 giorni / 12 mesi / intervallo
+personalizzato, lo stesso pattern del calendario della cronologia) — stato delle fonti
+(ok/fallito e run consecutivi falliti), costi (token e € stimati), statistiche di
+deduplica e copertura dei 5 sotto-temi. Se `metriche.json` non c'è ancora (es. nel
+concept senza dati) mostra lo stato vuoto.
 
 Stile "KVAdra": tema quasi-nero, accento rosa/rosso, card glass, **sfondo ripreso da
 kakashi.ventures** (gli 8 simboli reali del sito, incorporati e disposti sparsi su
@@ -427,7 +447,8 @@ docker compose up web              # sito generato con i dati → http://localho
 
 ## Stato
 
-Tutte le 8 fasi sono implementate; la suite conta **135 test verdi**. Le scelte di
+Tutte le 8 fasi sono implementate, più la **dashboard di osservabilità**
+(metriche operative per run); la suite conta **161 test verdi**. Le scelte di
 progetto e il perché sono in [`DECISIONI.md`](DECISIONI.md).
 
 Punti noti, non bloccanti, che chi adotta il repo farà bene a tenere d'occhio:
