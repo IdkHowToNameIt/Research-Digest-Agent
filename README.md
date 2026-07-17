@@ -154,8 +154,8 @@ Tutto in `config.yaml`:
 - `fonti`: elenco con `nome`, `url`, `tema`, `max`, `troncamento` (int o `null`),
   `filtro_rilevanza` (solo Google Cloud Blog).
 - `soglia_overlap_dedup` (0.7) e `finestra_dedup_settimane` (6) — calibrabili.
-- `sito`: `homepage_url` (URL pubblico del sito, es. quello di Render — è il link
-  che l'email di notifica manda ai lettori), `out_dir`, `archivio_dir`,
+- `sito`: `homepage_url` (URL pubblico del sito — è il link che l'email di notifica
+  manda ai lettori; **da sostituire** con il proprio), `out_dir`, `archivio_dir`,
   `badge_giorni` (soglia badge), `template` (default `frontend/concept/index.html`).
 - `email`: **i destinatari non stanno in `config.yaml`** (sono dati personali e cambiano
   a ogni adozione del repo): si leggono da due variabili d'ambiente, indirizzi separati
@@ -181,7 +181,7 @@ pip install -r backend/requirements.txt
 cd backend
 python -m pytest -q                # test offline, modello LLM e SMTP mockati
 
-cp ../.env.example ../.env         # inserisci GROQ_API_KEY
+cp ../.env.example ../.env         # inserisci GROQ_API_KEY e DIGEST_RECIPIENTS
 python main.py --config config.yaml
 ```
 
@@ -210,13 +210,16 @@ Lo stack ha due servizi: `generator` (backend Python, gira una volta e termina) 
 `web` (nginx, serve il sito quando il generatore ha finito).
 
 ```bash
-export GROQ_API_KEY=...             # (PowerShell: $env:GROQ_API_KEY="...")
-docker compose up --build           # genera il sito e lo serve
+export GROQ_API_KEY=...              # (PowerShell: $env:GROQ_API_KEY="...")
+export DIGEST_RECIPIENTS=tu@example.com   # obbligatoria (in locale basta il tuo indirizzo)
+docker compose up --build            # genera il sito e lo serve
 # poi apri:  http://localhost:8080
 ```
 
-- `generator` esegue `main.py --config config.yaml` (richiede `GROQ_API_KEY`)
-  e scrive `data.json` + `index.html` nel volume `sito`.
+- `generator` esegue `main.py --config config.yaml` (richiede `GROQ_API_KEY` e
+  `DIGEST_RECIPIENTS`) e scrive `data.json` + `index.html` nel volume `sito`.
+  Le variabili si possono mettere anche in un file `.env` in root, che
+  `docker compose` legge da solo (vedi `.env.example`).
 - `web` (nginx) pubblica quei file su **http://localhost:8080**.
 
 Per rigenerare dopo una modifica: `docker compose up --build --force-recreate`.
@@ -233,20 +236,22 @@ docker compose down -v             # rimuove anche i volumi (sito + storico)
 Il workflow `.github/workflows/digest-settimanale.yml` esegue la pipeline reale
 ogni lunedì alle 06:00 UTC (e a mano da *Actions → Run workflow*):
 
-1. Su GitHub aggiungi il secret `GROQ_API_KEY`
-   (*Settings → Secrets and variables → Actions*). Creane una gratis su
-   [console.groq.com/keys](https://console.groq.com/keys).
+> Se stai configurando il repo per la prima volta nel tuo account, parti da
+> **[Adottare il repo](#adottare-il-repo)**: qui sotto c'è solo come funziona il
+> workflow, là c'è la procedura passo-passo.
+
+1. I secret stanno in *Settings → Secrets and variables → Actions*: `GROQ_API_KEY`
+   e `DIGEST_RECIPIENTS` sono obbligatori (elenco completo in
+   *[Adottare il repo](#adottare-il-repo)*).
 2. Il job genera digest + `sito/` (`data.json` + `index.html`), lo allega come
    artifact e **ricommitta** lo stato (`backend/data/seen.sqlite3`,
    `backend/data/archivio/`) e `sito/` nel repo, così il dedup ricorda gli
    articoli già pubblicati.
-3. **Pubblicazione (Render).** Il sito è statico → su Render creare un **Static Site**
-   collegato a questo repo, *Publish directory* = `sito/`, nessun comando di build.
-   Render fa auto-deploy a ogni push: quando il workflow ricommitta `sito/`, il sito
-   si aggiorna da solo. (Un *Private Service* non ha URL pubblico e **non** è adatto
-   a servire il sito.) Impostare poi `sito.homepage_url` in `config.yaml` con l'URL
-   Render. Per l'invio email aggiungere i secret `SMTP_USER`/`SMTP_PASS` (App
-   Password Gmail) su GitHub; senza, le email restano solo nel log del run.
+3. **Pubblicazione.** Il workflow non conosce l'host: si limita a ricommittare
+   `sito/`. Pubblicare vuol dire collegare al repo un hosting statico qualsiasi che
+   serva quella cartella e ridispieghi a ogni push, poi impostare
+   `sito.homepage_url` in `config.yaml` con l'URL ottenuto. Scelta dell'host e
+   caveat in *[Adottare il repo](#adottare-il-repo)*.
 
 ## Interfaccia web (frontend/concept)
 

@@ -1,7 +1,11 @@
 # Orchestrazione: separazione backend (generatore Python) / frontend (nginx statico).
 #
 #   export GROQ_API_KEY=...
+#   export DIGEST_RECIPIENTS=tu@example.com     # obbligatoria (anche solo il tuo indirizzo)
 #   docker compose up --build        # genera i dati del sito e lo serve su http://localhost:8080
+#
+# In alternativa alle export: un file .env accanto a questo compose (vedi .env.example),
+# che docker compose legge da solo.
 #
 # Il sito è statico per progetto (sez. 18: no login, no stato server, badge lato
 # client): non serve un backend web dinamico. Il generatore (backend) scrive
@@ -16,6 +20,11 @@ services:
     image: dra-generator
     environment:
       GROQ_API_KEY: ${GROQ_API_KEY:-}
+      DIGEST_RECIPIENTS: ${DIGEST_RECIPIENTS:-}
+      INTERNAL_NOTES_RECIPIENTS: ${INTERNAL_NOTES_RECIPIENTS:-}
+      # SMTP assente = le email restano stampate a log (nessun invio reale).
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
     volumes:
       - sito:/app/sito               # output HTML del sito (condiviso con nginx)
       - data:/app/backend/data       # storico dedup + archivio digest pubblici (persistente)

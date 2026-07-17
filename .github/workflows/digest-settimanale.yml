@@ -21,12 +21,20 @@
 #   e la cronologia del sito (backend/data/archivio/). Questi file sono in .gitignore per lo
 #   sviluppo locale, ma qui vengono ricommittati con `git add -f` così sopravvivono
 #   tra i run settimanali. Anche sito/ (data.json + index.html) viene committato per
-#   essere pubblicato (vedi "PUBBLICAZIONE").
+#   essere pubblicato (vedi "PUBBLICAZIONE"): l'host statico serve i file committati,
+#   quindi sito/ deve restare nel repo anche se è in .gitignore.
 #
-# PUBBLICAZIONE (Render Static Site)
-#   Il sito è statico. Creare su Render uno Static Site collegato a questo repo con
-#   Publish directory = sito/ e nessun comando di build: Render fa auto-deploy a
-#   ogni push, quindi quando questo job ricommitta sito/ il sito si aggiorna da solo.
+# PUBBLICAZIONE (qualunque hosting statico)
+#   Il sito è statico e senza build: basta un host che serva la cartella sito/ del
+#   repo e ridispieghi a ogni push. Il workflow non dipende da nessun host in
+#   particolare — si limita a ricommittare sito/.
+#   Render è l'host su cui la configurazione è stata testata (Static Site,
+#   Publish directory = sito/, nessun comando di build), ma Netlify e altri sono
+#   equivalenti: vedi la sezione "Adottare il repo" del README.
+#   ATTENZIONE con GitHub Pages via Action: i push fatti qui usano GITHUB_TOKEN e
+#   i push del GITHUB_TOKEN NON innescano altri workflow, quindi un workflow di
+#   deploy Pages non partirebbe da solo. Gli host con webhook esterno (Render,
+#   Netlify) non hanno questo problema.
 #   (L'artifact `sito` allegato al run resta comunque scaricabile a mano.)
 
 name: digest-settimanale
