@@ -105,8 +105,9 @@ backend/
 └── tests/               test deterministici (offline, LLM mockato)
 
 frontend/concept/     interfaccia web (legge data.json e genera le pagine)
+sito/                 output pubblicato dall'hosting statico (generato, committato dalla CI)
 docker-compose.yml    backend (generator) + frontend (nginx)
-claude-progress.txt   log di avanzamento per sessione (non versionato)
+.env.example          variabili d'ambiente da impostare (copia in .env)
 ```
 
 ## Come funziona (pipeline)
@@ -168,6 +169,119 @@ Tutto in `config.yaml`:
   `SMTP_USER`/`SMTP_PASS` (vedi `.env.example`); altrimenti le email vengono solo
   stampate a log. Con Gmail `SMTP_PASS` è una **App Password** a 16 cifre (richiede
   la verifica in due passaggi), non la password dell'account.
+
+---
+
+## Adottare il repo
+
+Questa sezione è per chi **prende il repo e lo fa girare nel proprio account**, da
+zero. Se invece devi lavorare sul codice, salta a *[Avvio — in locale](#avvio--in-locale)*.
+
+A regime il sistema gira da solo: una GitHub Action settimanale esegue la pipeline,
+ricommitta i risultati nel repo, e l'hosting statico ripubblica il sito a ogni push.
+Non c'è nessun server da gestire e nessun servizio nostro nel mezzo.
+
+### a) Prendi il repo
+
+**Fork** (*Fork* in alto a destra) se vuoi restare agganciato all'originale per
+ricevere aggiornamenti; **clone + push su un repo nuovo** se preferisci una copia
+indipendente:
+
+```bash
+git clone <url-di-questo-repo> dra && cd dra
+git remote set-url origin <url-del-tuo-repo-vuoto>
+git push -u origin main
+```
+
+Il repo ti arriva con lo storico dei digest già generati da noi (`sito/`,
+`backend/data/archivio/`). Per ripartire da zero, svuota `backend/data/archivio/`,
+cancella `backend/data/seen.sqlite3` e `sito/`: la prima run li ricrea. Se li tieni,
+il dedup non ti riproporrà gli articoli già usciti.
+
+### b) Crea i secret
+
+*Settings → Secrets and variables → Actions → New repository secret*. **Nessun
+secret è nel repo** e nessuno ha un default silenzioso: se manca un obbligatorio, il
+run si ferma subito con un errore che dice quale.
+
+| Secret | Obbligatorio | Dove si prende |
+|---|---|---|
+| `GROQ_API_KEY` | **Sì** | Gratis su [console.groq.com/keys](https://console.groq.com/keys) (free tier ampio, basta un account) |
+| `DIGEST_RECIPIENTS` | **Sì** | Lo decidi tu: gli indirizzi dei lettori del digest, separati da virgola |
+| `INTERNAL_NOTES_RECIPIENTS` | Solo per le note interne | Gli indirizzi di chi gestisce il sistema. Serve **solo** nei run che producono note operative; se manca, quel run fallisce |
+| `SMTP_USER` / `SMTP_PASS` | No | Per inviare le email davvero. Con Gmail `SMTP_PASS` è una **App Password** a 16 cifre (*Account Google → Sicurezza → Verifica in due passaggi → Password per le app*), **non** la password dell'account. Senza questi due, le email vengono solo stampate nel log del run |
+| `SMTP_HOST` / `SMTP_PORT` / `SMTP_FROM` | No | Default Gmail: `smtp.gmail.com`, `587`, mittente = `SMTP_USER` |
+
+`DIGEST_RECIPIENTS` e `INTERNAL_NOTES_RECIPIENTS` sono **due liste distinte apposta**:
+le note interne segnalano guasti e anomalie e non devono finire ai lettori del digest.
+
+Poi apri `backend/config.yaml` e sostituisci `homepage_url`, che nel repo è un
+placeholder (`https://DA-SOSTITUIRE.example.com`): è il link che l'email settimanale
+manda ai lettori. Ti serve l'URL del punto (d), quindi puoi tornarci dopo.
+
+### c) Abilita la Action settimanale
+
+**Su un fork le Action sono disabilitate di default.** Vai su *Actions* e conferma
+(*"I understand my workflows, go ahead and enable them"*). Se hai fatto clone + push
+su un repo tuo, sono già attive.
+
+Due cose che sorprendono spesso:
+
+- **GitHub disattiva gli scheduled workflow dopo 60 giorni di inattività** del repo
+  (e sui fork il `schedule` può non partire affatto). Se il digest smette di
+  arrivare, controlla qui prima di cercare bug.
+- Il workflow ha bisogno di `permissions: contents: write` per ricommittare lo stato:
+  è già nel file, ma se la tua organizzazione forza i workflow in sola lettura devi
+  consentirlo in *Settings → Actions → General → Workflow permissions*.
+
+Non aspettare lunedì: *Actions → digest-settimanale → Run workflow* la lancia subito.
+
+### d) Collega un hosting statico
+
+Il sito è **statico e senza build**: il workflow scrive `sito/` e lo committa. Serve
+solo un host che pubblichi quella cartella del repo e ridispieghi a ogni push — non
+c'è niente di specifico a un provider.
+
+**Render** (l'host su cui questa configurazione è testata): *New → Static Site* →
+collega il repo → *Publish directory* = `sito/` → **nessun comando di build**. Fa
+auto-deploy a ogni push, quindi quando il workflow ricommitta `sito/` il sito si
+aggiorna da solo. Un *Private Service* non ha URL pubblico e **non** va bene.
+
+**Netlify**: equivalente — *publish directory* = `sito/`, build command vuoto.
+
+**GitHub Pages**: funziona, ma con un caveat. Se lo servi con un workflow di deploy,
+quel workflow **non partirà** dopo il run settimanale: i push del job usano il
+`GITHUB_TOKEN`, e i push fatti col `GITHUB_TOKEN` non innescano altri workflow. Con
+Pages usa la modalità *Deploy from a branch* (che non dipende da un workflow), oppure
+mettilo in conto. Render e Netlify non hanno il problema perché usano webhook esterni.
+
+Ottenuto l'URL pubblico, riportalo in `sito.homepage_url` in `backend/config.yaml` e
+committa: da lì in poi le email punteranno al tuo sito.
+
+### e) Verifica che la prima run sia andata bene
+
+Nell'ordine:
+
+1. **Actions → il run**: spunta verde. Se è rosso, il log dice quale secret manca —
+   gli errori di configurazione escono all'inizio, prima che il modello venga
+   interrogato.
+2. **Il log dello step "Genera il digest e il sito"** contiene una riga tipo
+   `Digest generato (2026-07-20): 14 articoli in 3 sezioni con aggiornamenti [...]`.
+   Zero articoli non è di per sé un errore (può essere una settimana povera), ma
+   ripetuto suggerisce feed bloccati: vedi le note interne.
+3. **Un commit nuovo** `chore(run): digest settimanale <data>` da `dra-bot`, che
+   tocca `sito/` e `backend/data/`. Se il run è verde ma il commit non c'è, il job
+   non ha trovato modifiche da salvare.
+4. **Il sito pubblico** mostra la nuova data. Se il commit c'è ma il sito è vecchio,
+   il problema è nel collegamento dell'host, non nella pipeline.
+5. **Le email**: se hai configurato SMTP, arriva una mail ai `DIGEST_RECIPIENTS`
+   (notifica se ci sono aggiornamenti, altrimenti reminder — sempre una, mai zero).
+   Senza SMTP, la trovi stampata nel log del run: è il modo più rapido per provare
+   tutto il resto senza configurare la posta.
+
+Vuoi provare prima di toccare GitHub? *[Avvio — in locale](#avvio--in-locale)* fa
+girare la stessa pipeline sulla tua macchina; ti bastano `GROQ_API_KEY` e
+`DIGEST_RECIPIENTS` in un file `.env` (vedi `.env.example`).
 
 ---
 
@@ -280,12 +394,17 @@ docker compose up web              # sito generato con i dati → http://localho
 
 ## Stato
 
-Tutte le 8 fasi sono implementate (`claude-progress.txt` per il dettaglio); la
-suite conta **92 test verdi**. Prima del deploy reale restano (non-bloccanti):
+Tutte le 8 fasi sono implementate; la suite conta **135 test verdi**. Le scelte di
+progetto e il perché sono in [`DECISIONI.md`](DECISIONI.md).
 
-- verifica dei feed dall'ambiente di produzione (possibili anti-bot da IP cloud);
-- verifica manuale con una `GROQ_API_KEY` reale e con SMTP Gmail reale;
-- calibrazione della soglia di dedup (0.7) e dell'elenco entità note sul flusso reale.
+Punti noti, non bloccanti, che chi adotta il repo farà bene a tenere d'occhio:
+
+- i feed possono rispondere diversamente da un IP cloud (possibile anti-bot): se una
+  fonte sparisce per più run di fila arriva una nota interna;
+- la soglia di dedup (`soglia_overlap_dedup`, 0.7) e l'elenco di entità note sono
+  calibrati sul nostro flusso: su un beat diverso vanno ritarati;
+- le fonti in `config.yaml` sono scelte per il beat *"Infrastruttura & Hardware AI"*;
+  cambiando tema vanno sostituite.
 
 ## Test
 
