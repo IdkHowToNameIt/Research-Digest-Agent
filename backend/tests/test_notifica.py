@@ -16,6 +16,7 @@ from src.consegna.notifica import (
     NOTE_INTERNE,
     OGGETTO_REMINDER,
     DestinatariNonConfigurati,
+    HomepageNonConfigurata,
     Messaggio,
     attendi_fino_a,
     componi_email_note_interne,
@@ -23,6 +24,7 @@ from src.consegna.notifica import (
     crea_sender_smtp,
     leggi_config_smtp,
     leggi_destinatari,
+    leggi_homepage_url,
     invia_tutti,
     prepara_invii,
     spedisci_console,
@@ -172,6 +174,46 @@ def test_note_interne_non_vanno_ai_lettori_del_digest():
     assert note.destinatari == ["it@example.com"]
     assert "team@example.com" not in note.destinatari
     assert "Azure KO x3" not in settimanale.corpo
+
+
+# --- homepage: env ha la precedenza sul config ------------------------------
+
+def test_homepage_da_config_se_env_non_la_sovrascrive():
+    assert leggi_homepage_url(CFG, {}) == HOMEPAGE
+
+
+def test_homepage_da_env_vince_sul_config():
+    env = {"HOMEPAGE_URL": "https://sito-del-cliente.example"}
+    assert leggi_homepage_url(CFG, env) == "https://sito-del-cliente.example"
+
+
+def test_homepage_env_vuota_o_spazi_ricade_sul_config():
+    for env in ({"HOMEPAGE_URL": ""}, {"HOMEPAGE_URL": "   "}):
+        assert leggi_homepage_url(CFG, env) == HOMEPAGE
+
+
+def test_homepage_fail_fast_se_manca():
+    for cfg in ({}, {"sito": {}}, {"sito": {"homepage_url": ""}}):
+        with pytest.raises(HomepageNonConfigurata):
+            leggi_homepage_url(cfg, {})
+
+
+def test_homepage_fail_fast_sul_placeholder_del_repo():
+    """Il placeholder non deve passare silenziosamente: finirebbe nell'email."""
+    cfg = {"sito": {"homepage_url": "https://DA-SOSTITUIRE.example.com"}}
+    with pytest.raises(HomepageNonConfigurata):
+        leggi_homepage_url(cfg, {})
+    # ...ma la variabile d'ambiente lo sovrascrive senza toccare il config
+    assert leggi_homepage_url(cfg, {"HOMEPAGE_URL": "https://vero.example"}) \
+        == "https://vero.example"
+
+
+def test_prepara_invii_usa_la_homepage_dell_ambiente():
+    env = dict(ENV, HOMEPAGE_URL="https://sito-del-cliente.example")
+    invii = prepara_invii(_digest_con_aggiornamenti(), CFG, env)
+    msg = [m for m in invii if m.tipo == DIGEST_AGGIORNAMENTI][0]
+    assert "https://sito-del-cliente.example" in msg.corpo
+    assert HOMEPAGE not in msg.corpo
 
 
 # --- attesa dell'orario di invio --------------------------------------------

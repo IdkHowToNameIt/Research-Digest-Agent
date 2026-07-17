@@ -22,6 +22,8 @@ services:
       GROQ_API_KEY: ${GROQ_API_KEY:-}
       DIGEST_RECIPIENTS: ${DIGEST_RECIPIENTS:-}
       INTERNAL_NOTES_RECIPIENTS: ${INTERNAL_NOTES_RECIPIENTS:-}
+      # Senza, si ricade sul placeholder di config.yaml e il run si ferma.
+      HOMEPAGE_URL: ${HOMEPAGE_URL:-http://localhost:8080}
       # SMTP assente = le email restano stampate a log (nessun invio reale).
       SMTP_USER: ${SMTP_USER:-}
       SMTP_PASS: ${SMTP_PASS:-}

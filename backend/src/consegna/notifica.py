@@ -38,6 +38,12 @@ SUFFISSO_OGGETTO = "- DRA"
 ENV_DESTINATARI_DIGEST = "DIGEST_RECIPIENTS"
 ENV_DESTINATARI_NOTE_INTERNE = "INTERNAL_NOTES_RECIPIENTS"
 
+# URL pubblico del sito: se impostato, ha la precedenza su sito.homepage_url del
+# config. E' configurazione del singolo deployment, non del progetto.
+ENV_HOMEPAGE_URL = "HOMEPAGE_URL"
+# Segnale che nel config c'e' ancora il placeholder di repo, mai sostituito.
+PLACEHOLDER_HOMEPAGE = "DA-SOSTITUIRE"
+
 OGGETTO_REMINDER = "Nessun aggiornamento questa settimana - DRA"
 CORPO_REMINDER = (
     "Questa settimana non sono emersi aggiornamenti rilevanti sui temi monitorati. "
@@ -54,12 +60,36 @@ class DestinatariNonConfigurati(RuntimeError):
     """Sollevata quando manca la lista destinatari di un'email da spedire."""
 
 
+class HomepageNonConfigurata(RuntimeError):
+    """Sollevata quando l'URL pubblico del sito manca o e' ancora il placeholder."""
+
+
 @dataclass
 class Messaggio:
     oggetto: str
     corpo: str
     destinatari: list[str]
     tipo: str
+
+
+def leggi_homepage_url(cfg: dict, env: dict | None = None) -> str:
+    """URL pubblico del sito, con precedenza a HOMEPAGE_URL sul config.
+
+    Fail-fast anche sul placeholder di repo: un'email che invita a leggere il
+    digest su un link finto e' peggio di un run fallito, perche' nessuno se ne
+    accorge finche' non la apre un lettore.
+    """
+    env = os.environ if env is None else env
+    da_env = (env.get(ENV_HOMEPAGE_URL) or "").strip()
+    url = da_env or str(cfg.get("sito", {}).get("homepage_url") or "").strip()
+    if not url or PLACEHOLDER_HOMEPAGE in url:
+        raise HomepageNonConfigurata(
+            "Manca l'URL pubblico del sito: imposta la variabile "
+            f"{ENV_HOMEPAGE_URL} (su GitHub: Settings > Secrets and variables > "
+            "Actions > scheda Variables) oppure il campo sito.homepage_url in "
+            "config.yaml. E' il link che l'email settimanale manda ai lettori."
+        )
+    return url
 
 
 def leggi_destinatari(nome_var: str, env: dict | None = None) -> list[str]:
@@ -117,7 +147,7 @@ def prepara_invii(digest: Digest, cfg: dict, env: dict | None = None) -> list[Me
     rare e un run senza note non deve fallire per un secret che non gli serve.
     """
     env = os.environ if env is None else env
-    homepage = cfg.get("sito", {}).get("homepage_url", "")
+    homepage = leggi_homepage_url(cfg, env)
     invii = [
         componi_email_settimanale(
             digest, homepage, leggi_destinatari(ENV_DESTINATARI_DIGEST, env)
