@@ -7,11 +7,15 @@ produzione; qui si verifica la contabilizzazione con `registra_uso` diretto.
 """
 from datetime import datetime, timezone
 
+import json
+
 from src.metriche import (
     RaccoltaMetriche,
     _stima_costo,
     carica_metriche,
+    costruisci_dati_dashboard,
     salva_metriche,
+    scrivi_dashboard,
 )
 from src.pipeline import costruisci_digest
 from src.state import SeenStore
@@ -191,3 +195,44 @@ def test_carica_ordina_per_timestamp(tmp_path):
 
 def test_carica_da_cartella_inesistente(tmp_path):
     assert carica_metriche(str(tmp_path / "non-esiste")) == []
+
+
+# --- dati per la dashboard del sito -----------------------------------------
+def _record(ts, prompt=0, completion=0):
+    r = RaccoltaMetriche()
+    if prompt or completion:
+        r.registra_uso("m", prompt, completion)
+    return r.finalizza({}, ts[:10], ts)
+
+
+def test_dashboard_run_dal_piu_recente():
+    dati = costruisci_dati_dashboard([
+        _record("2026-07-07T05:40:00Z"),
+        _record("2026-07-21T05:40:00Z"),
+        _record("2026-07-14T05:40:00Z"),
+    ])
+    assert dati["generato"] == "2026-07-21T05:40:00Z"       # ultimo run
+    assert [r["timestamp"] for r in dati["run"]] == [
+        "2026-07-21T05:40:00Z", "2026-07-14T05:40:00Z", "2026-07-07T05:40:00Z",
+    ]
+    assert dati["temi"] == ["chip", "data_center", "energia", "supply_chain", "cloud_capacity"]
+
+
+def test_dashboard_vuota_senza_run():
+    dati = costruisci_dati_dashboard([])
+    assert dati["generato"] == "" and dati["run"] == []
+
+
+def test_dashboard_run_e_serializzabile_e_completo():
+    dati = costruisci_dati_dashboard([_record("2026-07-14T05:40:00Z", 100, 50)])
+    run = dati["run"][0]
+    # il record esposto al frontend contiene tutte le sezioni della dashboard
+    assert set(run) >= {"fonti", "dedup", "copertura", "energia_zero_consecutivi", "costo"}
+    assert run["costo"]["prompt_tokens"] == 100
+
+
+def test_scrivi_dashboard_produce_json_valido(tmp_path):
+    percorso = scrivi_dashboard([_record("2026-07-14T05:40:00Z", 10, 5)], str(tmp_path))
+    assert percorso.endswith("metriche.json")
+    dati = json.loads((tmp_path / "metriche.json").read_text(encoding="utf-8"))
+    assert len(dati["run"]) == 1 and dati["generato"] == "2026-07-14T05:40:00Z"

@@ -41,7 +41,12 @@ from src.consegna.notifica import (
 from src.pipeline import costruisci_digest
 from src.consegna.sito import carica_archivio, genera_sito, salva_digest_pubblico
 from src.consegna.deliver import deliver_markdown
-from src.metriche import RaccoltaMetriche, salva_metriche
+from src.metriche import (
+    RaccoltaMetriche,
+    carica_metriche,
+    salva_metriche,
+    scrivi_dashboard,
+)
 from src.schemas import Digest
 
 load_dotenv()
@@ -103,6 +108,11 @@ def fase_genera(cfg: dict) -> Digest:
     percorso_metriche = salva_metriche(record, metriche_dir)
     print(f"Metriche run salvate: {record.costo.prompt_tokens}+{record.costo.completion_tokens} "
           f"token, costo stimato {record.costo.costo_stimato} € -> {percorso_metriche}")
+
+    # Dati per la dashboard: dopo genera_sito (che svuota la publish-dir) e dopo aver
+    # salvato il record di questo run, così metriche.json include l'intero storico.
+    percorso_dash = scrivi_dashboard(carica_metriche(metriche_dir), sito_cfg.get("out_dir", "sito"))
+    print(f"Dashboard metriche aggiornata -> {percorso_dash}")
     return digest
 
 

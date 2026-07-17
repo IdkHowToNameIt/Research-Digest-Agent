@@ -236,3 +236,48 @@ def carica_metriche(dir_metriche: str) -> list[MetricheRun]:
     record = [MetricheRun.model_validate_json(f.read_text(encoding="utf-8"))
               for f in p.glob("*.json")]
     return sorted(record, key=lambda r: r.timestamp)
+
+
+# --- dati per la dashboard del sito (contratto col frontend) ----------------
+# File pubblicato nella publish-dir e letto via fetch dalla dashboard. Diverso da
+# data.json (contenuto editoriale): qui vivono le metriche operative per run.
+NOME_FILE_DASHBOARD = "metriche.json"
+
+
+def costruisci_dati_dashboard(record: list[MetricheRun]) -> dict:
+    """Contratto dati della dashboard di osservabilità.
+
+    A differenza dell'archivio (che il sito spezza in indice + bucket per non
+    scaricare tutta la storia), le metriche sono un record leggero per run e a
+    bassa frequenza (uno a settimana): stanno comodamente in un unico file, che il
+    frontend filtra per periodo lato client — stessa logica dei gruppi-giorno.
+
+    Forma:
+        {
+          "generato": "<timestamp ISO dell'ultimo run>",
+          "temi": ["chip","data_center",...],   # ordine canonico per l'asse UI
+          "run": [ <MetricheRun>, ... ]          # dal più recente al più vecchio
+        }
+    """
+    runs = sorted(record, key=lambda r: r.timestamp, reverse=True)
+    return {
+        "generato": runs[0].timestamp if runs else "",
+        "temi": [t.value for t in TEMI_ORDINE],
+        "run": [r.model_dump(mode="json") for r in runs],
+    }
+
+
+def scrivi_dashboard(record: list[MetricheRun], out_dir: str) -> str:
+    """Scrive `metriche.json` nella publish-dir del sito. Ritorna il percorso.
+
+    Va invocata DOPO `genera_sito` (che svuota la publish-dir): così il file
+    sopravvive e riflette l'intero storico a ogni run.
+    """
+    p = Path(out_dir)
+    p.mkdir(parents=True, exist_ok=True)
+    percorso = p / NOME_FILE_DASHBOARD
+    percorso.write_text(
+        json.dumps(costruisci_dati_dashboard(record), ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    return str(percorso)
