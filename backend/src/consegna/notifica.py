@@ -7,6 +7,11 @@ Regole (17.1):
 - la notifica rimanda alla homepage del sito, senza elencare tema/titolo/link.
 - le note interne (se presenti) vanno in un'email SEPARATA al comparto IT (17.2).
 
+I destinatari NON stanno nel repo: si leggono da due variabili d'ambiente distinte
+(`DIGEST_RECIPIENTS`, `INTERNAL_NOTES_RECIPIENTS`), cosi' chi adotta il repo li
+configura nel proprio account senza toccare il codice. Restano due liste separate
+apposta: le note interne non devono mai raggiungere i lettori del digest (16.7/17.2).
+
 La composizione (testata) e' separata dall'invio (I/O): `invia_tutti` accetta una
 callable `spedisci` iniettabile. Sender disponibili:
 - `spedisci_console`: stampa l'email (sviluppo locale, nessuna credenziale);
@@ -19,13 +24,19 @@ import os
 import smtplib
 import ssl
 import sys
+import time
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from email.message import EmailMessage
 from typing import Callable
 
 from ..schemas import Digest, NotaInterna, Stato
 
 SUFFISSO_OGGETTO = "- DRA"
+
+# Variabili d'ambiente con i destinatari (liste separate da virgola).
+ENV_DESTINATARI_DIGEST = "DIGEST_RECIPIENTS"
+ENV_DESTINATARI_NOTE_INTERNE = "INTERNAL_NOTES_RECIPIENTS"
 
 OGGETTO_REMINDER = "Nessun aggiornamento questa settimana - DRA"
 CORPO_REMINDER = (
@@ -39,12 +50,32 @@ DIGEST_REMINDER = "digest_reminder"
 NOTE_INTERNE = "note_interne"
 
 
+class DestinatariNonConfigurati(RuntimeError):
+    """Sollevata quando manca la lista destinatari di un'email da spedire."""
+
+
 @dataclass
 class Messaggio:
     oggetto: str
     corpo: str
     destinatari: list[str]
     tipo: str
+
+
+def leggi_destinatari(nome_var: str, env: dict | None = None) -> list[str]:
+    """Legge una lista di destinatari da una variabile d'ambiente (separati da
+    virgola). Fail-fast: mai un default silenzioso, perche' un digest spedito a
+    nessuno passerebbe inosservato.
+    """
+    env = os.environ if env is None else env
+    indirizzi = [x.strip() for x in (env.get(nome_var) or "").split(",") if x.strip()]
+    if not indirizzi:
+        raise DestinatariNonConfigurati(
+            f"Manca la lista destinatari: imposta {nome_var} con gli indirizzi "
+            "separati da virgola (in locale nel file .env, in produzione come "
+            "secret di GitHub Actions)."
+        )
+    return indirizzi
 
 
 def ci_sono_aggiornamenti(digest: Digest) -> bool:
@@ -77,21 +108,28 @@ def componi_email_note_interne(
     return Messaggio(f"Note interne DRA {SUFFISSO_OGGETTO}", corpo, list(destinatari), NOTE_INTERNE)
 
 
-def prepara_invii(digest: Digest, cfg: dict) -> list[Messaggio]:
+def prepara_invii(digest: Digest, cfg: dict, env: dict | None = None) -> list[Messaggio]:
     """Prepara i messaggi da inviare per il run: sempre 1 email settimanale,
-    piu' eventualmente 1 email di note interne."""
-    email_cfg = cfg.get("email", {})
+    piu' eventualmente 1 email di note interne.
+
+    I destinatari arrivano dall'ambiente, non da `cfg`. INTERNAL_NOTES_RECIPIENTS
+    e' richiesto solo quando ci sono davvero note da spedire: le note interne sono
+    rare e un run senza note non deve fallire per un secret che non gli serve.
+    """
+    env = os.environ if env is None else env
     homepage = cfg.get("sito", {}).get("homepage_url", "")
     invii = [
         componi_email_settimanale(
-            digest, homepage, email_cfg.get("destinatari_digest", [])
+            digest, homepage, leggi_destinatari(ENV_DESTINATARI_DIGEST, env)
         )
     ]
-    nota = componi_email_note_interne(
-        digest.note_interne, email_cfg.get("destinatari_note_interne", [])
-    )
-    if nota is not None:
-        invii.append(nota)
+    if digest.note_interne:
+        nota = componi_email_note_interne(
+            digest.note_interne,
+            leggi_destinatari(ENV_DESTINATARI_NOTE_INTERNE, env),
+        )
+        if nota is not None:
+            invii.append(nota)
     return invii
 
 
@@ -110,6 +148,52 @@ def spedisci_console(m: Messaggio) -> None:
     print(f"  Oggetto: {m.oggetto}")
     for riga in m.corpo.splitlines() or [m.corpo]:
         print(f"  {riga}")
+
+
+# --- attesa dell'orario di invio --------------------------------------------
+
+# Oltre questa attesa non si aspetta: significa che il run non e' quello
+# schedulato (es. avvio manuale a meta' giornata) e bloccare il runner per ore
+# sarebbe assurdo.
+ATTESA_MASSIMA_MINUTI = 90
+
+
+def attendi_fino_a(
+    orario_utc: str | None,
+    adesso: Callable[[], datetime] | None = None,
+    dormi: Callable[[float], None] = time.sleep,
+    attesa_massima_minuti: int = ATTESA_MASSIMA_MINUTI,
+) -> int:
+    """Attende fino a `orario_utc` ("HH:MM", UTC) di oggi. Ritorna i secondi attesi.
+
+    Non attende (ritorna 0) se l'orario e' gia' passato o se manca piu' di
+    `attesa_massima_minuti`. L'orario e' in UTC perche' e' la stessa base di
+    tempo del cron di GitHub Actions: nessuna sorpresa col cambio d'ora.
+
+    `adesso`/`dormi` sono iniettabili per i test (nessuna attesa reale).
+    """
+    if not orario_utc:
+        return 0
+    ora_corrente = (adesso or (lambda: datetime.now(timezone.utc)))()
+    try:
+        ore, minuti = (int(x) for x in orario_utc.split(":"))
+        obiettivo = ora_corrente.replace(hour=ore, minute=minuti, second=0, microsecond=0)
+    except (ValueError, TypeError):
+        print(f"[attesa] orario non valido ({orario_utc!r}), atteso HH:MM: invio subito.",
+              file=sys.stderr)
+        return 0
+
+    secondi = int((obiettivo - ora_corrente).total_seconds())
+    if secondi <= 0:
+        return 0
+    if secondi > attesa_massima_minuti * 60:
+        print(f"[attesa] a {orario_utc} UTC mancano piu' di {attesa_massima_minuti} "
+              f"minuti: non e' il run schedulato, invio subito.", file=sys.stderr)
+        return 0
+    print(f"[attesa] invio email rimandato alle {orario_utc} UTC "
+          f"({secondi // 60} min).")
+    dormi(secondi)
+    return secondi
 
 
 # --- invio SMTP reale (Gmail di default), sez. 17.4 -------------------------

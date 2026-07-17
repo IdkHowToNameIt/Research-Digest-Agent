@@ -1,6 +1,6 @@
 """Criteri editoriali e costruzione del prompt di sintesi (sez. 14).
 
-Il modello (Gemini) interviene SOLO sulla sintesi testuale del singolo articolo
+Il modello LLM (Groq) interviene SOLO sulla sintesi testuale del singolo articolo
 (campi `sintesi`, `perche_conta`, eventuale `note`): non sceglie le fonti, non
 inventa URL, non produce lo schema del digest (quello e' assemblato da codice).
 Metadati (titolo, fonte, link, data) restano quelli reali del candidato.
