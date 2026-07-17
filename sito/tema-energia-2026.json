@@ -2,6 +2,38 @@
   "anno": "2026",
   "gruppi": [
     {
+      "data": "2026-07-15",
+      "titolo": "AI più efficiente: acceleratori a precisione adattiva e sfide di sostenibilità dei data center",
+      "articoli": [
+        {
+          "titolo": "CIMERA: Compute-in-Interconnect e Memoria con Precisione Riconfigurabile per l'Inference di LLM",
+          "fonti": [
+            {
+              "nome": "arXiv (energia x AI)",
+              "link": "https://arxiv.org/abs/2607.13649v1"
+            }
+          ],
+          "data": "2026-07-15",
+          "sintesi": "I risultati preliminari di uno studio indicano che le LLM impongono richieste computazionali e di memoria significative, creando sfide per l'inferenza a basso consumo energetico su piattaforme che vanno dai data center ai dispositivi edge con risorse limitate. La precisione dei pesi è cruciale per bilanciare accuratezza, throughput e consumo energetico, e i carichi di lavoro moderni mostrano eterogeneità e tolleranza che favoriscono un'esecuzione a precisione adattiva. Il documento presenta CIMERA, un acceleratore per l'inferenza di LLM a precisione riconfigurabile che integra compute‑in‑interconnect e memoria per mitigare il “memory wall” e abilitare esecuzioni consapevoli della precisione. Rispetto a Nvidia H100, CIMERA offre fino a $25\times$ e $10\times$ maggiore efficienza energetica per modelli da 1 B e 13 B parametri, rispettivamente.",
+          "perche_conta": "L'efficienza energetica migliorata di CIMERA può ridurre i costi operativi dei data center e rendere più sostenibile l'adozione di LLM su larga scala, un fattore chiave per gli investitori infrastrutturali e i CTO che gestiscono capacità di calcolo AI.",
+          "note": "(preprint, non ancora sottoposto a peer review)"
+        },
+        {
+          "titolo": "Costo ambientale della sovranità digitale: acqua, energia ed emissioni dell'AI sovrana nel Global South",
+          "fonti": [
+            {
+              "nome": "arXiv (energia x AI)",
+              "link": "https://arxiv.org/abs/2607.13443v1"
+            }
+          ],
+          "data": "2026-07-15",
+          "sintesi": "I risultati preliminari di uno studio indicano che la sovranità AI è diventata una priorità strategica nel Global South, con oltre 200 miliardi di dollari di impegni statali annunciati tra il 2024 e il 2026. L'analisi comparativa di quattro casi (UAE, Bangladesh, India e Kenya) mostra che un cluster di 1.024 GPU con raffreddamento evaporativo negli Emirati consumerebbe oltre 30 milioni di litri d’acqua all'anno, in un contesto di stress idrico “estremamente alto”. In Bangladesh le politiche di AI sovrana prevedono l’acquisto centralizzato di GPU ma non indicano dove collocare i data center, nonostante più di un quinto del territorio sia soggetto a inondazioni annuali e la rete elettrica abbia difficoltà a garantire un approvvigionamento affidabile. Gli autori identificano un trilemma sovranità‑sostenibilità, proponendo principi di progettazione quali la rendicontazione obbligatoria dell’efficacia idrica, valutazioni di vulnerabilità climatica per la localizzazione e la preferenza per modelli linguistici di piccola scala rispetto al pre‑training di frontiera.",
+          "perche_conta": "Il documento evidenzia come i vincoli idrici, energetici e di emissioni possano determinare costi operativi, rischi normativi e limitazioni di scala per le infrastrutture AI, informazioni cruciali per CTO e investitori che valutano progetti di sovranità digitale nei mercati emergenti.",
+          "note": "(preprint, non ancora sottoposto a peer review)"
+        }
+      ]
+    },
+    {
       "data": "2026-07-09",
       "titolo": "Who Needs DRAM? We Have Fiber",
       "articoli": [

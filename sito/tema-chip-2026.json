@@ -2,6 +2,277 @@
   "anno": "2026",
   "gruppi": [
     {
+      "data": "2026-07-17",
+      "titolo": "Architetture AI e tensioni di fornitura: costi, litografia e restrizioni geopolitiche",
+      "articoli": [
+        {
+          "titolo": "NVIDIA Vera Rubin massimizza l'intelligenza per dollaro per carichi di lavoro post-addestramento",
+          "fonti": [
+            {
+              "nome": "NVIDIA Newsroom",
+              "link": "https://blogs.nvidia.com/blog/nvidia-vera-rubin-post-training-intelligence-per-dollar/"
+            }
+          ],
+          "data": "2026-07-17",
+          "sintesi": "La tecnologia NVIDIA Vera Rubin offre il costo più basso per token grazie a un'estrema progettazione congiunta, massimizzando l'intelligenza per dollaro per carichi di lavoro post-addestramento nell'era dell'AI agente. Ciò rappresenta un importante vantaggio per le applicazioni di intelligenza artificiale.",
+          "perche_conta": "Questo sviluppo è rilevante per gli investitori e i responsabili tecnici perché rappresenta un progresso significativo nella riduzione dei costi per le applicazioni di intelligenza artificiale, rendendole più accessibili e sostenibili.",
+          "note": null
+        },
+        {
+          "titolo": "Aumenti di prezzo delle macchine Low-NA EUV di ASML frustrano TSMC, rischiano miliardi",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/tech-industry/semiconductors/asmls-planned-low-na-euv-machine-price-hikes-reportedly-frustrate-tsmc-lithography-machine-maker-comes-knocking-to-make-bank-on-tsmcs-profitable-fabs-potentially-costing-the-taiwanese-chipmaker-billions"
+            }
+          ],
+          "data": "2026-07-17",
+          "sintesi": "ASML ha dichiarato che la maggiore produttività dei suoi strumenti Low‑NA EUV gli consente di aumentare i prezzi di questi scanner in futuro. TSMC, che ha puntato molto sui sistemi di litografia attuali per le sue fab, potrebbe vedere compromessi i piani di espansione. L’aumento dei costi potrebbe tradursi in una spesa aggiuntiva di miliardi per il produttore taiwanese.",
+          "perche_conta": "Il rialzo dei prezzi delle macchine EUV incide direttamente sui CAPEX dei data center e dei chip AI, influenzando la tempistica e la redditività degli investimenti in capacità di fabbricazione.",
+          "note": null
+        },
+        {
+          "titolo": "TSMC conferma miglioramenti di resa e prestazioni nell'aggiornamento A14 — interesse AI/HPC e smartphone",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/tech-industry/semiconductors/tsmc-confirms-significant-yield-and-performance-improvements-in-a14-update-strong-interest-from-ai-hpc-and-smartphone-customers"
+            }
+          ],
+          "data": "2026-07-17",
+          "sintesi": "TSMC ha confermato che la tecnologia di processo A14 registra miglioramenti significativi di resa e prestazioni. L'avanzamento dell'A14 è più rapido rispetto al nodo N2 nella fase attuale di sviluppo. Sia i clienti di dispositivi consumer che quelli di AI/HPC prevedono di adottare questa generazione.",
+          "perche_conta": "Questi progressi accelerano la disponibilità di chip più efficienti per carichi di lavoro AI e per smartphone, riducendo i costi di fabbricazione e influenzando le decisioni di investimento in capacità produttiva.",
+          "note": null
+        },
+        {
+          "titolo": "Uomo della Florida arrestato per furto di 220.000 $ in crypto con malware in giochi Steam — 8.000 dispositivi infetti",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/tech-industry/cyber-security/fbi-arrests-florida-man-in-steam-malware-investigaton-after-tracing-stolen-bitcoin-to-uber-eats-gift-cards"
+            }
+          ],
+          "data": "2026-07-17",
+          "sintesi": "Le autorità federali hanno arrestato Zyaire Dontaevious Zamarion Wilkins, 21 anni, di North Lauderdale, Florida. È accusato di aver rubato circa 220.000 $ in criptovalute distribuendo malware nascosto in giochi su Steam, che ha infettato circa 8.000 dispositivi. L'operazione evidenzia come le piattaforme di distribuzione software possano essere sfruttate per attacchi su larga scala.",
+          "perche_conta": "Il caso dimostra i rischi di sicurezza legati alla catena di distribuzione del software e alla diffusione di malware su milioni di endpoint, un tema cruciale per i CTO e gli investitori che devono garantire resilienza delle infrastrutture e protezione dei data center.",
+          "note": null
+        },
+        {
+          "titolo": "Le migliori offerte tech back to school su laptop e dispositivi essenziali — risparmia sugli articoli per il nuovo semestre ora",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/gift-guides-seasonal-sales/best-back-to-school-tech-deals-on-laptops-and-essential-tech-save-on-new-semester-essentials-now"
+            }
+          ],
+          "data": "2026-07-17",
+          "sintesi": "Tom's Hardware segnala una serie di offerte per laptop e dispositivi essenziali dedicati al ritorno a scuola, con sconti per gli acquisti del nuovo semestre.",
+          "perche_conta": "Le promozioni su hardware di consumo riflettono la domanda di dispositivi di calcolo a livello edge, influenzando le previsioni di capacità, le catene di fornitura e le opportunità di investimento nell'infrastruttura AI.",
+          "note": null
+        },
+        {
+          "titolo": "CEO di GameStop: i dischi di Sony sono irrilevanti, il software è solo 12%",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/video-games/console-gaming/gamestop-ceo-says-sonys-decision-to-go-disc-less-is-totally-irrelevant-claims-software-including-physical-discs-accounts-for-only-12-percent-of-the-companys-business"
+            }
+          ],
+          "data": "2026-07-17",
+          "sintesi": "Ryan Cohen, CEO di GameStop, afferma che l'abbandono dei giochi fisici da parte di Sony non incide sul business dell'azienda. Sostiene che il software, compresi i dischi fisici, rappresenta solo il 12% delle sue entrate. L'attenzione è ora sui collezionabili, in un contesto di possibile acquisizione da parte di eBay per 56 miliardi di dollari.",
+          "perche_conta": "Indica un cambiamento strutturale verso i prodotti fisici di nicchia (collezionabili) e riduce la rilevanza delle catene di fornitura legate ai supporti fisici, influenzando le decisioni di investimento in infrastrutture hardware e logistica.",
+          "note": null
+        },
+        {
+          "titolo": "Legislatori USA chiedono divieto chip di memoria cinesi, anche nelle catene alleate",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/pc-components/dram/lawmakers-want-us-government-to-ban-memory-chips-from-china-even-in-allied-supply-chains-citing-unacceptable-risk-to-national-economic-and-supply-chain-security"
+            }
+          ],
+          "data": "2026-07-17",
+          "sintesi": "I membri del Congresso statunitense hanno chiesto al Segretario del Commercio Howard Lutnick di vietare le importazioni di chip di memoria provenienti dalla Cina verso gli Stati Uniti. La proposta include anche una sollecitazione affinché gli alleati adottino misure analoghe. Il provvedimento è motivato da quello che i legislatori definiscono un \"rischio inaccettabile\" per la sicurezza nazionale, economica e della catena di approvvigionamento.",
+          "perche_conta": "I chip di memoria sono componenti chiave per i data center e le piattaforme AI; limitare la dipendenza da fornitori cinesi riduce vulnerabilità operative e geopolitiche, influenzando gli investimenti in infrastrutture hardware.",
+          "note": null
+        },
+        {
+          "titolo": "Data center AI devono produrre energia consumata, dice il PM — quadro idrica e IP",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/tech-industry/policy/ai-data-centers-must-produce-as-much-power-as-they-use-australia-pm-says-new-national-ai-framework-will-also-ensure-water-efficiency-and-protect-intellectual-property-rights"
+            }
+          ],
+          "data": "2026-07-17",
+          "sintesi": "Il Primo Ministro australiano ha presentato gli \"Australian Standards for A.I.\", un quadro normativo nazionale per lo sviluppo di data center legati all'AI. Il piano prevede che i data center producano energia pari al consumo, migliorino l’efficienza idrica e tutelino la proprietà intellettuale. Il governo intende attrarre hyperscaler AI sfruttando l’ampio territorio e le fonti rinnovabili del Paese.",
+          "perche_conta": "Queste regole impattano direttamente sui costi operativi, sulla sostenibilità e sulla protezione IP dei progetti AI, fattori chiave per CTO e investitori infrastrutturali.",
+          "note": null
+        },
+        {
+          "titolo": "Intel Nova Lake: Core Ultra 400, rilascio scaglionato, CPU 52 core a fine 2027",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/pc-components/cpus/intel-nova-lake-leak-points-to-core-ultra-series-400-branding-staggered-release-next-year-hotly-anticipated-flagship-52-core-desktop-cpu-might-not-arrive-until-late-2027"
+            }
+          ],
+          "data": "2026-07-17",
+          "sintesi": "Le ultime indiscrezioni su Nova Lake confermano il branding Core Ultra Series 400 per i prossimi processori desktop di Intel. Il lancio sarà scaglionato a partire dal prossimo anno, con una prima fase di disponibilità limitata. La variante flagship, dotata di 52 core, è prevista solo per la fine del 2027. Queste tempistiche allungano il ciclo di aggiornamento hardware per i data center e le workstation ad alte prestazioni.",
+          "perche_conta": "Il ritardo della CPU flagship influisce sui piani di capacità di calcolo, sugli investimenti in data center e sulla catena di fornitura di componenti ad alta densità, elementi chiave per CTO e investitori infrastrutturali.",
+          "note": null
+        },
+        {
+          "titolo": "Kimi K3 2,8 trilioni di parametri supera Claude Fable 5 nel benchmark Code Arena",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/tech-industry/artificial-intelligence/moonshot-releases-2-8-trillion-parameter-kimi-k3"
+            }
+          ],
+          "data": "2026-07-17",
+          "sintesi": "Moonshot AI di Pechino ha lanciato Kimi K3, un modello da 2,8 trilioni di parametri definito come il primo sistema open‑weight di classe 3T. Nel benchmark Code Arena, Kimi K3 ha superato Claude Fable 5. L'azienda lo presenta come il più grande modello open‑weight mai realizzato.",
+          "perche_conta": "Il risultato dimostra che la Cina può sviluppare modelli AI di scala globale aggirando i limiti di calcolo imposti dagli Stati Uniti, con implicazioni dirette sulla domanda di chip ad alte prestazioni, data center e investimenti infrastrutturali.",
+          "note": null
+        },
+        {
+          "titolo": "Risparmia $1,100 su laptop gaming OLED HP Omen Max con RTX 5070 Ti",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/laptops/gaming-laptops/score-usd1-100-off-this-oled-gaming-laptop-with-rtx-5070-ti-the-ultimate-back-to-school-powerhouse-also-features-a-24-core-ultra-9-290hx-32gb-of-ram-and-a-1tb-ssd"
+            }
+          ],
+          "data": "2026-07-17",
+          "sintesi": "HP propone l'Omen Max, un laptop da gaming con display OLED. Il dispositivo monta una GPU RTX 5070 Ti e una CPU Ultra 9 290HX a 24 core. Include 32 GB di RAM, SSD da 1 TB e un risparmio di $1,100 sul prezzo di listino.",
+          "perche_conta": "Il modello dimostra come le offerte promozionali possano accelerare l'adozione di hardware AI di fascia alta, influenzando la domanda di chip, capacità di data center e le dinamiche della supply chain.",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2026-07-16",
+      "titolo": "NVIDIA guida l'espansione di GPU AI in Giappone e nel cloud gaming",
+      "articoli": [
+        {
+          "titolo": "Onimusha: Way of the Sword arriva su GeForce NOW",
+          "fonti": [
+            {
+              "nome": "NVIDIA Newsroom",
+              "link": "https://blogs.nvidia.com/blog/geforce-now-thursday-onimusha-coming/"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "Il gioco Onimusha: Way of the Sword sarà disponibile su GeForce NOW al lancio, con una demo giocabile già questa settimana. Inoltre, GeForce NOW lancia ufficialmente in India, uscendo dalla fase beta e permettendo agli utenti di iscriversi senza liste d'attesa. Ci saranno anche cinque nuovi giochi disponibili sulla piattaforma.",
+          "perche_conta": "Questo annuncio è rilevante per il beat 'Infrastruttura & Hardware AI' perché mostra l'espansione della capacità di cloud gaming di NVIDIA e la sua disponibilità in nuovi mercati, come l'India, evidenziando la crescente importanza dell'infrastruttura cloud per l'industria dei giochi e dell'intrattenimento.",
+          "note": null
+        },
+        {
+          "titolo": "Giappone, leader industriali e NVIDIA lanciano la prima infrastruttura nazionale AI",
+          "fonti": [
+            {
+              "nome": "NVIDIA Newsroom",
+              "link": "https://nvidianews.nvidia.com/news/japan-government-industrial-leaders-and-nvidia-launch-the-worlds-first-national-ai-infrastructure"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "Il governo giapponese, leader industriali e NVIDIA hanno lanciato la prima infrastruttura nazionale AI del mondo. NVIDIA sta lavorando con Noetra Corp. per lanciare una fabbrica di intelligenza artificiale NVIDIA Vera Rubin con 13,750 CPU e 27,500 GPU NVIDIA Rubin per l'AI fisica nazionale.",
+          "perche_conta": "Questo progetto è rilevante per il settore dell'infrastruttura AI poiché rappresenta un importante investimento nel campo dell'intelligenza artificiale a livello nazionale, con potenziali impatti sulla capacità di calcolo e sulla competitività del Giappone nel mercato globale dell'AI.",
+          "note": null
+        },
+        {
+          "titolo": "Leader giapponesi della robotica e produzione adottano NVIDIA Cosmos per avanzare l'AI fisica",
+          "fonti": [
+            {
+              "nome": "NVIDIA Newsroom",
+              "link": "https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "I leader giapponesi della robotica e della produzione stanno utilizzando le piattaforme NVIDIA Cosmos, NVIDIA Isaac, NVIDIA Metropolis e NVIDIA Jetson per accelerare il dispiegamento di macchine intelligenti in settori come la produzione, la mobilità, le infrastrutture e la robotica. Ciò permetterà di avanzare l'AI fisica in questi campi.",
+          "perche_conta": "Questo sviluppo è rilevante per il beat 'Infrastruttura & Hardware AI' perché mostra come le aziende leader stiano adottando tecnologie avanzate per migliorare l'efficienza e l'intelligenza nelle loro operazioni, influenzando così lo sviluppo futuro dell'AI e dell'industria",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2026-07-15",
+      "titolo": "NVIDIA guida AI edge e robotica giapponese con nuovi chip Jetson Thor e Nemotron",
+      "articoli": [
+        {
+          "titolo": "NVIDIA Introduce Nuovi Computer Jetson Thor per Avanzare la Robotica e l'AI Edge di Massa",
+          "fonti": [
+            {
+              "nome": "NVIDIA Newsroom",
+              "link": "https://blogs.nvidia.com/blog/jetson-thor-robotics-edge-ai-agent/"
+            }
+          ],
+          "data": "2026-07-15",
+          "sintesi": "NVIDIA ha introdotto i nuovi moduli T3000 e T2000 basati sull'architettura Thor, progettati per supportare la robotica e l'AI edge di massa. Questi moduli sono pensati per essere compact e efficienti in termini di potenza, consentendo di eseguire modelli di base AI ai margini della rete. Ciò risponde alla crescente domanda di computer super-efficienti per la robotica e l'AI edge.",
+          "perche_conta": "Questo annuncio è rilevante per il settore dell'infrastruttura e dell'hardware AI poiché rappresenta un passo avanti nella diffusione della robotica e dell'AI edge di massa, con potenziali implicazioni per lo sviluppo di applicazioni e servizi innovativi.",
+          "note": null
+        },
+        {
+          "titolo": "Le imprese e startup giapponesi costruiscono AI specializzate con NVIDIA Nemotron",
+          "fonti": [
+            {
+              "nome": "NVIDIA Newsroom",
+              "link": "https://nvidianews.nvidia.com/news/japans-enterprises-and-startups-build-industry-specialized-ai-with-nvidia-nemotron-open-models"
+            }
+          ],
+          "data": "2026-07-15",
+          "sintesi": "Le principali imprese, startup e istituzioni di ricerca giapponesi stanno utilizzando NVIDIA Nemotron per costruire modelli e applicazioni AI specializzate per le industrie del paese. Ciò accelera lo sviluppo di AI adattate al linguaggio, alle industrie e alla forza lavoro giapponese. Le aziende stanno sfruttando i modelli, i dati e le librerie open di NVIDIA Nemotron.",
+          "perche_conta": "Questo sviluppo è rilevante per il settore dell'AI e gli investitori perché mostra come le tecnologie open di NVIDIA stanno facilitando la creazione di soluzioni AI personalizzate per specifici mercati e industrie, migliorando l'efficienza e l'adattabilità delle soluzioni AI.",
+          "note": null
+        },
+        {
+          "titolo": "NVIDIA e Giappone portano AI e robotica a tutte le industrie",
+          "fonti": [
+            {
+              "nome": "NVIDIA Newsroom",
+              "link": "https://blogs.nvidia.com/blog/japan-ecosystem-2026/"
+            }
+          ],
+          "data": "2026-07-15",
+          "sintesi": "Il Giappone, leader nella produzione e nell'innovazione robotica, sta collaborando con NVIDIA per portare l'AI e la robotica a tutte le industrie. NVIDIA e i suoi partner in Giappone stanno presentando gli ultimi progressi dell'ecosistema AI.",
+          "perche_conta": "Questo partenariato è rilevante per il settore dell'infrastruttura e dell'hardware AI, poiché mostra come il Giappone stia sfruttando le tecnologie NVIDIA per avanzare nell'adozione dell'AI a livello industriale.",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2026-07-14",
+      "titolo": "Efficienza energetica e modelli aperti: la nuova frontiera dei chip AI",
+      "articoli": [
+        {
+          "titolo": "Nemotron Labs: Come i modelli aperti offrono alle imprese e alle nazioni un'intelligenza artificiale affidabile, controllabile e personalizzabile",
+          "fonti": [
+            {
+              "nome": "NVIDIA Newsroom",
+              "link": "https://blogs.nvidia.com/blog/nemotron-open-models-ai-trust-control-customize/"
+            }
+          ],
+          "data": "2026-07-14",
+          "sintesi": "Le imprese hanno a disposizione numerosi modelli potenti, ma la vera sfida è se l'AI che costruiscono risponde unicamente alle esigenze dell'azienda, migliorando i flussi di lavoro, sfruttando la conoscenza del dominio e superando gli standard di accuratezza e fiducia. Nemotron Labs propone un approccio basato su modelli aperti per raggiungere questo obiettivo.",
+          "perche_conta": "Questo approccio è rilevante per il beat 'Infrastruttura & Hardware AI' perché consente alle imprese di avere un controllo maggiore sull'AI e di personalizzarla in base alle proprie esigenze, garantendo una maggiore fiducia e accuratezza.",
+          "note": null
+        },
+        {
+          "titolo": "Perché la performance per watt è la metrica definitiva per l'efficienza dell'infrastruttura AI",
+          "fonti": [
+            {
+              "nome": "NVIDIA Newsroom",
+              "link": "https://blogs.nvidia.com/blog/performance-per-watt-ai-infrastructure-efficiency/"
+            }
+          ],
+          "data": "2026-07-14",
+          "sintesi": "Il consumo energetico è un vincolo inevitabile per le infrastrutture AI. La quantità di token che una \"fabbrica\" AI può produrre con un budget energetico fisso determina il suo fatturato e la sua redditività. Per questo motivo la performance per watt, una misura che non può essere manipolata ma solo dimostrata con risultati reali, è considerata la base per le AI factory. Con l’aumento della domanda di token da parte dell’AI agentica, la capacità di generare più token per watt diventa ancora più critica.",
+          "perche_conta": "Per i CTO e gli investitori, la performance per watt traduce direttamente la capacità di massimizzare i ricavi rispetto ai costi energetici, influenzando le decisioni di investimento in data center, chip e architetture di cloud.",
+          "note": null
+        }
+      ]
+    },
+    {
       "data": "2026-07-13",
       "titolo": "Amazon Prime members can get this Asus RTX 5060 for just $2 above MSRP — upgrade to Blackwell gaming power for less than the cost of an RTX 3060",
       "articoli": [

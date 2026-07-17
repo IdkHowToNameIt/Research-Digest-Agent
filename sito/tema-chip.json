@@ -3,6 +3,45 @@
   "nome": "Chip",
   "gruppi": [
     {
+      "data": "2026-07-17",
+      "titolo": "Architetture AI e tensioni di fornitura: costi, litografia e restrizioni geopolitiche",
+      "n_articoli": 11,
+      "anteprima_titoli": [
+        "NVIDIA Vera Rubin massimizza l'intelligenza per dollaro per carichi di lavoro post-addestramento",
+        "Aumenti di prezzo delle macchine Low-NA EUV di ASML frustrano TSMC, rischiano miliardi",
+        "TSMC conferma miglioramenti di resa e prestazioni nell'aggiornamento A14 — interesse AI/HPC e smartphone"
+      ]
+    },
+    {
+      "data": "2026-07-16",
+      "titolo": "NVIDIA guida l'espansione di GPU AI in Giappone e nel cloud gaming",
+      "n_articoli": 3,
+      "anteprima_titoli": [
+        "Onimusha: Way of the Sword arriva su GeForce NOW",
+        "Giappone, leader industriali e NVIDIA lanciano la prima infrastruttura nazionale AI",
+        "Leader giapponesi della robotica e produzione adottano NVIDIA Cosmos per avanzare l'AI fisica"
+      ]
+    },
+    {
+      "data": "2026-07-15",
+      "titolo": "NVIDIA guida AI edge e robotica giapponese con nuovi chip Jetson Thor e Nemotron",
+      "n_articoli": 3,
+      "anteprima_titoli": [
+        "NVIDIA Introduce Nuovi Computer Jetson Thor per Avanzare la Robotica e l'AI Edge di Massa",
+        "Le imprese e startup giapponesi costruiscono AI specializzate con NVIDIA Nemotron",
+        "NVIDIA e Giappone portano AI e robotica a tutte le industrie"
+      ]
+    },
+    {
+      "data": "2026-07-14",
+      "titolo": "Efficienza energetica e modelli aperti: la nuova frontiera dei chip AI",
+      "n_articoli": 2,
+      "anteprima_titoli": [
+        "Nemotron Labs: Come i modelli aperti offrono alle imprese e alle nazioni un'intelligenza artificiale affidabile, controllabile e personalizzabile",
+        "Perché la performance per watt è la metrica definitiva per l'efficienza dell'infrastruttura AI"
+      ]
+    },
+    {
       "data": "2026-07-13",
       "titolo": "Amazon Prime members can get this Asus RTX 5060 for just $2 above MSRP — upgrade to Blackwell gaming power for less than the cost of an RTX 3060",
       "n_articoli": 10,

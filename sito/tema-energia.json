@@ -3,6 +3,15 @@
   "nome": "Energia",
   "gruppi": [
     {
+      "data": "2026-07-15",
+      "titolo": "AI più efficiente: acceleratori a precisione adattiva e sfide di sostenibilità dei data center",
+      "n_articoli": 2,
+      "anteprima_titoli": [
+        "CIMERA: Compute-in-Interconnect e Memoria con Precisione Riconfigurabile per l'Inference di LLM",
+        "Costo ambientale della sovranità digitale: acqua, energia ed emissioni dell'AI sovrana nel Global South"
+      ]
+    },
+    {
       "data": "2026-07-09",
       "titolo": "Who Needs DRAM? We Have Fiber",
       "n_articoli": 1,

@@ -1,5 +1,5 @@
 {
-  "generato": "2026-07-14",
+  "generato": "2026-07-17",
   "badge_giorni": 2,
   "settimana_giorni": 7,
   "temi": [
@@ -8,6 +8,26 @@
       "nome": "Chip",
       "file": "tema-chip.json",
       "recenti": [
+        {
+          "data": "2026-07-17",
+          "titolo": "Architetture AI e tensioni di fornitura: costi, litografia e restrizioni geopolitiche",
+          "n_articoli": 11
+        },
+        {
+          "data": "2026-07-16",
+          "titolo": "NVIDIA guida l'espansione di GPU AI in Giappone e nel cloud gaming",
+          "n_articoli": 3
+        },
+        {
+          "data": "2026-07-15",
+          "titolo": "NVIDIA guida AI edge e robotica giapponese con nuovi chip Jetson Thor e Nemotron",
+          "n_articoli": 3
+        },
+        {
+          "data": "2026-07-14",
+          "titolo": "Efficienza energetica e modelli aperti: la nuova frontiera dei chip AI",
+          "n_articoli": 2
+        },
         {
           "data": "2026-07-13",
           "titolo": "Amazon Prime members can get this Asus RTX 5060 for just $2 above MSRP — upgrade to Blackwell gaming power for less than the cost of an RTX 3060",
@@ -32,21 +52,6 @@
           "data": "2026-07-06",
           "titolo": "How Open Models Are Driving AI Research",
           "n_articoli": 2
-        },
-        {
-          "data": "2026-07-02",
-          "titolo": "Joyride Through July With 12 Games Coming to GeForce NOW",
-          "n_articoli": 3
-        },
-        {
-          "data": "2026-07-01",
-          "titolo": "NVIDIA and Partners Build in America, for America",
-          "n_articoli": 1
-        },
-        {
-          "data": "2026-06-30",
-          "titolo": "NVIDIA BioNeMo Agent Toolkit Brings Accelerated AI to Life Sciences Researchers in Claude Science",
-          "n_articoli": 1
         }
       ]
     },
@@ -56,18 +61,13 @@
       "file": "tema-data_center.json",
       "recenti": [
         {
-          "data": "2026-07-13",
-          "titolo": "Modernizing the Meta Ads Service With an Open-Source Kernel Scheduler",
-          "n_articoli": 1
-        },
-        {
-          "data": "2026-07-01",
-          "titolo": "Meta’s AI Storage Blueprint at Scale",
+          "data": "2026-07-15",
+          "titolo": "Efficienza dell'IA: ottimizzazione dei funnel pubblicitari e riduzione del training",
           "n_articoli": 2
         },
         {
-          "data": "2026-06-30",
-          "titolo": "10 Years of Meta’s Commitment to Python",
+          "data": "2026-07-13",
+          "titolo": "Modernizing the Meta Ads Service With an Open-Source Kernel Scheduler",
           "n_articoli": 1
         }
       ]
@@ -77,6 +77,11 @@
       "nome": "Energia",
       "file": "tema-energia.json",
       "recenti": [
+        {
+          "data": "2026-07-15",
+          "titolo": "AI più efficiente: acceleratori a precisione adattiva e sfide di sostenibilità dei data center",
+          "n_articoli": 2
+        },
         {
           "data": "2026-07-09",
           "titolo": "Who Needs DRAM? We Have Fiber",
@@ -106,11 +111,6 @@
           "data": "2026-07-03",
           "titolo": "Hierarchical Multi-Agent Reinforcement Learning for Carbon-Aware AI Data Centers in Power Distribution Systems",
           "n_articoli": 1
-        },
-        {
-          "data": "2026-07-02",
-          "titolo": "WattGPU: Predicting Inference Power and Latency on Unseen GPUs and LLMs",
-          "n_articoli": 1
         }
       ]
     },
@@ -120,9 +120,24 @@
       "file": "tema-supply_chain.json",
       "recenti": [
         {
+          "data": "2026-07-17",
+          "titolo": "TSMC annuncia un investimento aggiuntivo di 100 miliardi di dollari in Arizona",
+          "n_articoli": 1
+        },
+        {
+          "data": "2026-07-16",
+          "titolo": "TSMC investe 100 miliardi negli USA per espandere capacità AI e rafforzare supply chain",
+          "n_articoli": 15
+        },
+        {
+          "data": "2026-07-15",
+          "titolo": "ASML alza prezzi e capacità per soddisfare domanda AI, ma azioni volatili",
+          "n_articoli": 7
+        },
+        {
           "data": "2026-07-14",
-          "titolo": "TSMC seen riding AI boom to fifth straight quarter of record profit - Reuters",
-          "n_articoli": 3
+          "titolo": "Trattamento favorevole potenziato per gli Emirati Arabi Uniti sotto i Regolamenti di Amministrazione delle Esportazioni",
+          "n_articoli": 4
         },
         {
           "data": "2026-07-13",
@@ -162,6 +177,26 @@
       "file": "tema-cloud_capacity.json",
       "recenti": [
         {
+          "data": "2026-07-17",
+          "titolo": "Cloud: miglioramenti e nuove funzionalità per la sicurezza e l'ottimizzazione",
+          "n_articoli": 2
+        },
+        {
+          "data": "2026-07-16",
+          "titolo": "Cloud capacity e AI: innovazioni e soluzioni per la scalabilità e la sicurezza",
+          "n_articoli": 7
+        },
+        {
+          "data": "2026-07-15",
+          "titolo": "Cloud capacity e governance: sfide e soluzioni per l'AI agente",
+          "n_articoli": 5
+        },
+        {
+          "data": "2026-07-14",
+          "titolo": "Google si conferma leader nella gestione di capacità per l'intelligenza artificiale",
+          "n_articoli": 2
+        },
+        {
           "data": "2026-07-13",
           "titolo": "Key findings from the 2026 Public Sector M-Trends report and beyond",
           "n_articoli": 5
@@ -190,21 +225,6 @@
           "data": "2026-07-06",
           "titolo": "AWS Weekly Roundup: Claude Sonnet 5 on AWS, Amazon WorkSpaces for AI agents, AWS service availability updates, and more (July 6, 2026)",
           "n_articoli": 1
-        },
-        {
-          "data": "2026-07-02",
-          "titolo": "Meet Brain: The AI system behind Azure reliability",
-          "n_articoli": 1
-        },
-        {
-          "data": "2026-07-01",
-          "titolo": "Proving application resilience on Azure with Chaos Studio",
-          "n_articoli": 2
-        },
-        {
-          "data": "2026-06-30",
-          "titolo": "Azure IaaS: How to design, build, and optimize cloud infrastructure for long-term cost efficiency",
-          "n_articoli": 4
         }
       ]
     }

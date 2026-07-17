@@ -3,6 +3,15 @@
   "nome": "Data center",
   "gruppi": [
     {
+      "data": "2026-07-15",
+      "titolo": "Efficienza dell'IA: ottimizzazione dei funnel pubblicitari e riduzione del training",
+      "n_articoli": 2,
+      "anteprima_titoli": [
+        "Esplorare la Rappresentazione Gerarchica degli Interessi per l'Ottimizzazione del Funnel Profondo di Meta Ads",
+        "I progressi nel fine-tuning riducono il volume totale di addestramento dell'IA"
+      ]
+    },
+    {
       "data": "2026-07-13",
       "titolo": "Modernizing the Meta Ads Service With an Open-Source Kernel Scheduler",
       "n_articoli": 1,

@@ -3,6 +3,44 @@
   "nome": "Cloud capacity",
   "gruppi": [
     {
+      "data": "2026-07-17",
+      "titolo": "Cloud: miglioramenti e nuove funzionalità per la sicurezza e l'ottimizzazione",
+      "n_articoli": 2,
+      "anteprima_titoli": [
+        "13 dimostrazioni pratiche per costruire su Gemini Enterprise Agent Platform",
+        "Migliora la sicurezza a livello di colonna: utilizzo dei tag di governance dei dati IAM in BigQuery"
+      ]
+    },
+    {
+      "data": "2026-07-16",
+      "titolo": "Cloud capacity e AI: innovazioni e soluzioni per la scalabilità e la sicurezza",
+      "n_articoli": 7,
+      "anteprima_titoli": [
+        "Google è Leader e posizionato più in avanti nella Visione e più alto nell'Esecuzione nel 2026 Gartner® Magic Quadrant per Piattaforme di AI Conversazionale",
+        "Cloud CISO Perspectives: Come l'IA sfrutta il contesto profondo come vantaggio del difensore",
+        "Colmare il divario tra SQL e Python con BigQuery e la magia %%bqsql"
+      ]
+    },
+    {
+      "data": "2026-07-15",
+      "titolo": "Cloud capacity e governance: sfide e soluzioni per l'AI agente",
+      "n_articoli": 5,
+      "anteprima_titoli": [
+        "Come superare i limiti della ricerca full-text multilingue in PostgreSQL con AlloyDB AI",
+        "Come analizzare e governare l'utilizzo di Gemini Enterprise App a livello di scala con BigQuery",
+        "IDC: Perché un approccio di rete adeguato è fondamentale per l'AI agente"
+      ]
+    },
+    {
+      "data": "2026-07-14",
+      "titolo": "Google si conferma leader nella gestione di capacità per l'intelligenza artificiale",
+      "n_articoli": 2,
+      "anteprima_titoli": [
+        "Google nominata Leader nel MarketScape IDC per i Modelli di Fondazione Software Mondiali 2026",
+        "Claude su Google Cloud: Frontiera dell'IA, costruita per la produzione aziendale"
+      ]
+    },
+    {
       "data": "2026-07-13",
       "titolo": "Key findings from the 2026 Public Sector M-Trends report and beyond",
       "n_articoli": 5,

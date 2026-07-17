@@ -3,13 +3,41 @@
   "nome": "Supply chain",
   "gruppi": [
     {
-      "data": "2026-07-14",
-      "titolo": "TSMC seen riding AI boom to fifth straight quarter of record profit - Reuters",
-      "n_articoli": 3,
+      "data": "2026-07-17",
+      "titolo": "TSMC annuncia un investimento aggiuntivo di 100 miliardi di dollari in Arizona",
+      "n_articoli": 1,
       "anteprima_titoli": [
+        "TSMC annuncia un investimento aggiuntivo di 100 miliardi di dollari in Arizona"
+      ]
+    },
+    {
+      "data": "2026-07-16",
+      "titolo": "TSMC investe 100 miliardi negli USA per espandere capacità AI e rafforzare supply chain",
+      "n_articoli": 15,
+      "anteprima_titoli": [
+        "TSMC comunica EPS del secondo trimestre di NT$27,25 | Taiwan Semiconductor Manufacturing Company Limited",
+        "TSMC aggiunge $100 Billion al suo piano di spesa negli USA",
+        "Il produttore di chip taiwanese TSMC promette altri $100 billion per espandere la capacità di produzione negli USA"
+      ]
+    },
+    {
+      "data": "2026-07-15",
+      "titolo": "ASML alza prezzi e capacità per soddisfare domanda AI, ma azioni volatili",
+      "n_articoli": 7,
+      "anteprima_titoli": [
+        "Le azioni di ASML scendono dopo aver alzato la previsione di vendite per la seconda volta quest'anno a causa della forte domanda di chip AI",
+        "ASML prevede aumenti di prezzo per le apparecchiature di produzione chip, nonostante la resistenza di TSMC",
+        "ASML ha margine per aumentare i prezzi, dice il CFO"
+      ]
+    },
+    {
+      "data": "2026-07-14",
+      "titolo": "Trattamento favorevole potenziato per gli Emirati Arabi Uniti sotto i Regolamenti di Amministrazione delle Esportazioni",
+      "n_articoli": 4,
+      "anteprima_titoli": [
+        "Trattamento favorevole potenziato per gli Emirati Arabi Uniti sotto i Regolamenti di Amministrazione delle Esportazioni",
         "TSMC seen riding AI boom to fifth straight quarter of record profit - Reuters",
-        "Chip toolmaker ASML expected to shine light on capacity and China challenges - Reuters",
-        "Chip toolmaker ASML expected to shine light on capacity and China challenges - Yahoo Finance"
+        "Chip toolmaker ASML expected to shine light on capacity and China challenges - Reuters"
       ]
     },
     {

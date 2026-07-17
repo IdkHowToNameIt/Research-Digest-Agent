@@ -2,9 +2,339 @@
   "anno": "2026",
   "gruppi": [
     {
-      "data": "2026-07-14",
-      "titolo": "TSMC seen riding AI boom to fifth straight quarter of record profit - Reuters",
+      "data": "2026-07-17",
+      "titolo": "TSMC annuncia un investimento aggiuntivo di 100 miliardi di dollari in Arizona",
       "articoli": [
+        {
+          "titolo": "TSMC annuncia un investimento aggiuntivo di 100 miliardi di dollari in Arizona",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxQTmVDUm90RldpejVsc1pFUEloeTNGLV9fWWRtWklKUHRaYkpBVTZIRmluWG5NVm8zUTBReWxTOURua25jY2p6RTJlb3pCTlBzbzYxYndFVTJEbjZ1VTFwcmsxSjZDMXdBeC04TzJMTFV1eGZkd29ZTHVwcHFJcXNtbjJ5QjNNZnFmMzBMcmxYbjFtZW9icDJZS1JjTi1pcURHcWJlRVhrVk11Y2M?oc=5"
+            }
+          ],
+          "data": "2026-07-17",
+          "sintesi": "TSMC ha comunicato un investimento aggiuntivo di $100 Billion in Arizona, secondo il comunicato della City of Phoenix. L’annuncio indica un ulteriore impegno finanziario dell’azienda taiwanese nel territorio statunitense. Si tratta di una nuova iniezione di capitale destinata a potenziare le capacità produttive locali.",
+          "perche_conta": "L’investimento massiccio di TSMC rafforza la catena di approvvigionamento dei semiconduttori negli USA, riduce la dipendenza da fabbriche estere e offre opportunità di ritorno per gli investitori infrastrutturali nel settore hardware AI.",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2026-07-16",
+      "titolo": "TSMC investe 100 miliardi negli USA per espandere capacità AI e rafforzare supply chain",
+      "articoli": [
+        {
+          "titolo": "TSMC comunica EPS del secondo trimestre di NT$27,25 | Taiwan Semiconductor Manufacturing Company Limited",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE1zcklOeFlyOThxTGM2S1p6UTBOSDl5TG5SLVBGSmpiaHVuT1pZS2gwOWZJZlpJUFpjcTZ0V3NWR0tNT0FUMmJ1S28tOC1qQQ?oc=5"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "TSMC ha pubblicato gli utili per azione (EPS) del secondo trimestre pari a NT$27.25. Il risultato evidenzia la solidità della produzione di semiconduttori avanzati, elemento chiave per i chip destinati all'intelligenza artificiale. La performance di TSMC influisce direttamente sulla disponibilità e sui costi della supply chain hardware AI.",
+          "perche_conta": "Gli EPS di TSMC indicano la redditività del principale fornitore di chip AI, influenzando le decisioni di investimento in capacità di fabbricazione, prezzi dei componenti e piani di espansione dei data center.",
+          "note": null
+        },
+        {
+          "titolo": "TSMC aggiunge $100 Billion al suo piano di spesa negli USA",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxOOW9IS3E1SVlKMmNId0I1bDNNbVdFeGN6OEZlZDBNb0c0bHZqQzBWTEp2YnJfdDc4MVBvOWtFMjZhcTFmOFRyMDBRdGRwY1R2NVRWUEVlZGxfdC1zS1ZvS040RDhQZHplZ2JzeFBtd3F3bmkzVnpEemVNT1IwZU5rcWVvWTY?oc=5"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "TSMC ha annunciato un aumento di $100 Billion al suo piano di spese negli Stati Uniti, secondo quanto riportato dal New York Times. L’incremento fa parte del piano di investimento americano della società. La notizia è stata diffusa tramite Google News.",
+          "perche_conta": "L’investimento massiccio di TSMC negli USA potrà ampliare la disponibilità di chip avanzati per data center e AI, riducendo la dipendenza dalla produzione asiatica e influenzando la catena di fornitura globale.",
+          "note": null
+        },
+        {
+          "titolo": "Il produttore di chip taiwanese TSMC promette altri $100 billion per espandere la capacità di produzione negli USA",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxOT2MzZG5oUVN6dDFLX0dtWk5GNXdoakNILXBqRmZsUlQ5NzdEbk1aZTlxcU9xWl9lS1NBLWNwb0JfbWctbUwxeFBKMlNMeVN6UEZmbF95NlRIRVFZbDN2SW9VZjFzUHpTYTljR21GU2xrM1JtRU9ETTFBMnhFeHBQcHRKQzRIV202RWdYZXFmektSalBDckxITVRFeDJNZw?oc=5"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "TSMC ha annunciato un ulteriore impegno di $100 billion per aumentare la capacità di fabbricazione di semiconduttori negli Stati Uniti. L’investimento mira a rafforzare la presenza produttiva locale, riducendo la dipendenza da catene di approvvigionamento esterne. La mossa si inserisce nel più ampio sforzo di espansione delle infrastrutture hardware per l’AI sul territorio americano.",
+          "perche_conta": "Un capitale di questa entità indica una significativa espansione della capacità produttiva statunitense, con impatti diretti su disponibilità di chip per AI, resilienza della supply chain e opportunità di investimento infrastrutturale.",
+          "note": null
+        },
+        {
+          "titolo": "TSMC aumenta capex e previsioni di fatturato, evidenziando la crescente domanda di chip AI",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMiywFBVV95cUxPZEtLT0pUSHFicmNvSlZYRUtLLXJob2xXV2VEZndWcEY3TV8tU3ltX08waTg1RDVpeEQ4S3VsRHhGNzZYQWdCT0lkaENNXzN5d0RLX3R2NVRZWm5fc1htZjE2S24xamZiS0FwNXJpdDdhMURoUUFDUWtEeEp3RUZ6ZV9sbEo5dGpWN3ZMZm13Ym9KOFo2VmZ3cUlsUnlWd3F6YVJDNHc5TC00NWlLS2U3a3ZmNXVpVzJXdjAzYy1GR29JUi1Vd1kxLTBsbw?oc=5"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "TSMC ha annunciato un rialzo del suo investimento in conto capitale (capex) e delle previsioni di fatturato. L’azienda attribuisce questo upgrade alla crescente domanda di chip per intelligenza artificiale. L’aumento del capex suggerisce un’espansione della capacità produttiva per rispondere a tale domanda. Questo segnale indica una pressione crescente sul settore dei semiconduttori per ampliare la produzione di nodi avanzati.",
+          "perche_conta": "Riflette l’accelerazione della domanda di hardware AI, con implicazioni dirette su capacità di fabbrica, catena di fornitura e opportunità di investimento in infrastrutture di calcolo avanzato.",
+          "note": null
+        },
+        {
+          "titolo": "TSMC investirà ulteriori $100 Miliardi negli Stati Uniti dopo che l'IA ha spinto a un aumento degli utili",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNR2F6a01DSDV3TC10TENhU0VkUXppaXNkTGswdHFnb0tSOS1PM2pTajEzY3JmNEtCU2ktSUlEZWpDUWMxMHdtSmFYNVBLcF9rQlF6ZTkxanRkYXdYWmh3cV9aT0lqOF94amZ0OUhWQWdKUnBoRi1Tb0pxNi1BYnhJZGJtalAwN19INnp6bE1R?oc=5"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "TSMC ha annunciato un nuovo investimento di $100 Miliardi negli USA, motivato dal forte incremento dei ricavi legato all'IA. L'espansione prevede probabilmente nuovi fabbricati o capacità di produzione per chip destinati a carichi di lavoro AI. Questo investimento rafforza la presenza di TSMC nella catena di fornitura americana. La mossa risponde alla crescente domanda di capacità di fabbricazione avanzata per applicazioni di intelligenza artificiale.",
+          "perche_conta": "L’iniezione di capitale negli Stati Uniti riduce i colli di bottiglia della supply chain di chip AI, aumenta la capacità produttiva locale e segnala un forte flusso di investimenti verso l’infrastruttura hardware necessaria per sostenere la crescita dell’AI, elementi chiave per CTO e investitori infrastrutturali.",
+          "note": null
+        },
+        {
+          "titolo": "TSMC: utili del Q2 aumentano del 77% a record, superano di gran lunga le previsioni",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxOYnh6a29MX0JydGlXMF83eUJWTTJrcEJZMTR1al8xTXVoTk1QTkduOTBCTjBFa09Qbmd5SjE3NGFiOHl3SHZ6RmFOM0ZoVmg3dFo2TUpiLWhqYnpJME1SdHhZZ2VwX3RuTmhwTHo1TzFjc0V5dDhaU3lELVdNcy1xM2tiZUZwSXdScFNrVmYtSFU2dFgwZUVwV2ZCQUZrZ0VUQUl5Zm1oQ0xfcktCWE5KVEp3?oc=5"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "TSMC ha registrato un profitto record nel secondo trimestre, con un incremento del 77% rispetto al periodo precedente, superando ampiamente le aspettative degli analisti. Il risultato riflette la crescente domanda di semiconduttori avanzati, in particolare per le GPU e i chip destinati all'intelligenza artificiale. L’impulso di profitto indica una solida capacità produttiva e la possibilità di ulteriori investimenti in capacità di fabbricazione. Per gli investitori infrastrutturali, segnala un mercato in espansione per le tecnologie AI e una catena di fornitura più resiliente.",
+          "perche_conta": "La crescita dei margini di TSMC conferma la sostenibilità della supply chain dei chip AI, influenzando le decisioni di capex e la valutazione del rischio per gli investitori nel settore dell'infrastruttura digitale.",
+          "note": null
+        },
+        {
+          "titolo": "TSMC: utile Q2 salta del 77% a record, supera di gran lunga le aspettative",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxNajE0SHpFdFpWYkktdHp5dkNIN2Ytb3VDWEZwTUs1NU5pSEZHN0RxWGwwUTNnNnNjbXVsRS1wdXNmV0hvSWp6RFA4V1RnNk5Ra09ZZUdvX0QxZlRSeXNOcVo4bTFmWUpuelo2QTBGUHd6Q2Z5bjM5S3VtZ1RWU0theWQySVFPZW5ydzVPTHRQa2hJZw?oc=5"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "TSMC ha comunicato che l'utile del secondo trimestre è aumentato del 77%, raggiungendo un livello record. Il risultato supera di gran lunga le previsioni degli analisti. L'annuncio evidenzia una domanda robusta per i suoi chip avanzati, in particolare quelli destinati a carichi di lavoro AI.",
+          "perche_conta": "Un profitto così elevato indica una crescita sostenuta della domanda di capacità di fabbricazione avanzata, fattore chiave per gli investitori infrastrutturali che puntano su AI e data center.",
+          "note": null
+        },
+        {
+          "titolo": "TSMC investirà ulteriori $100 miliardi in Arizona dopo che l'utile del secondo trimestre è aumentato del 77 %",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE9UME5mV1RnT1B1TjZfcWhybXd1MEhKdndFNDhwU21pd29CakVKdUNRRW1sYldVNmV2Y2EzNTVfWWxrejBXeF9JM21zSWhKaXZUUG9YQ2NZRlFPblVmcm9XNms2dy1JU2otZ3BhRDlfYm5LQdIBd0FVX3lxTE15WHpRU2xvZnBaVFJUZERLTVRsYl8yZUl2RlhKZXIzNHhRVW9Mdk9hRlBta2lvQVNMYVpTb0xxam5iREZEem5XREFqb1pPakpJcGs4MFdUNnBFS0htRDdMd2V0YTRoSGM5UlNDcURzWmRUZW41NEZV?oc=5"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "TSMC ha annunciato un investimento aggiuntivo di $100 miliardi per la sua fabbrica in Arizona, in seguito a un aumento del 77 % dell'utile del secondo trimestre. L’iniezione di capitale mira ad ampliare la capacità produttiva negli Stati Uniti, rafforzando la catena di approvvigionamento dei semiconduttori. Questa espansione è direttamente collegata alla crescente domanda di chip per applicazioni AI, con implicazioni per la capacità di data center e la sicurezza della supply chain.",
+          "perche_conta": "L’investimento segnala un forte impulso al fabbisogno di capacità di produzione di chip AI negli USA, offrendo opportunità di investimento in infrastrutture critiche e riducendo la dipendenza da fornitori esteri.",
+          "note": null
+        },
+        {
+          "titolo": "TSMC investirà altri 100 miliardi di dollari negli USA mentre l'utile del Q2 supera le previsioni",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPUk5mYmNUVFNRQ1VkeFE1RHUyQzZEb1YzRncyMVVTR2VSdVZiaFJRM0Q3RWNXZUl6c3JQV2xldkowNmdKUTNzVmZvVGt3NDZjZy1lN0I3S1Y4a2dvT2psbUNvVFhjWW12ckZLREdHeWlweUgzbGJ6UG0za25BRGlpcVlhMkJpRHFkVVFZWWRZeFVIV18xelNBV2x1QWF3aFAyY1NydG1pWmpCWDJNY1ZF?oc=5"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "TSMC ha annunciato un ulteriore investimento di 100 miliardi di dollari negli Stati Uniti, ampliando la sua presenza produttiva sul territorio. L’annuncio arriva dopo che il risultato del secondo trimestre ha superato le previsioni degli analisti. Questo massiccio capex evidenzia la crescente domanda di capacità di produzione avanzata per i chip destinati all’AI.",
+          "perche_conta": "L’investimento segnala un rafforzamento della catena di fornitura nordamericana, creando opportunità per data center, infrastrutture cloud e progetti di energia legati all’AI, e interessa direttamente gli investitori che valutano la capacità di produzione futura.",
+          "note": null
+        },
+        {
+          "titolo": "L'upgrade di capacità di ASML attenua le paure di colli di bottiglia nei chip AI",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxPXzZLbXpRNUdRRjYtV203dG1SS1l6U29PMFZGelkzMVV3Mm1tSXI4ak90clF2Q0EwMW5sV1ptV2JURmVSRzYtMUZjenlvLWNuQklqZ2FDX1EzUWR1ZWI0bkZYcXVrbXNTZHdPZS1sNmthTlpOTHNpMkMxc1FfSUR1NEplT3l5Nk84Z3c?oc=5"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "ASML ha annunciato un potenziamento della capacità produttiva, riducendo le preoccupazioni di un collo di bottiglia nella fornitura di chip per l'intelligenza artificiale. L'espansione riguarda le sue linee di litografia avanzata, fondamentali per i nodi più piccoli richiesti nei data center AI. Questo dovrebbe migliorare la disponibilità di wafer per clienti chiave della catena di approvvigionamento.",
+          "perche_conta": "Un aumento della capacità di ASML diminuisce il rischio di interruzioni nella supply chain dei chip AI, garantendo continuità operativa per data center e sostenendo gli investimenti infrastrutturali nel settore.",
+          "note": null
+        },
+        {
+          "titolo": "Il produttore di chip TSMC investirà altri 100 miliardi di dollari nella produzione negli USA",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxQTFQ5ZnZOX0lDUnNlalY1TXg0TjdTMHg2eUdyVXRHMVJGajY5OEp0aWR4bjFPQ2tZOXVHVU5WWFgtM1V5RGZiWllKMmJEU3dlU3UzMXhxV2NNdVUyTnB5VFN3c280UGdUVDgzZllSMjRaUnhBRXVRQS0wcEtoVkpQNm1vV1Q?oc=5"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "TSMC ha annunciato un ulteriore investimento di $100 miliardi per espandere la sua capacità produttiva negli Stati Uniti. L’iniezione di capitale mira a costruire nuovi impianti di fabbricazione avanzata sul territorio americano. L’annuncio rafforza la presenza di TSMC nella catena di fornitura dei semiconduttori fuori dall’Asia.",
+          "perche_conta": "L’espansione della produzione di TSMC negli USA riduce i colli di bottiglia della supply chain e garantisce una maggiore disponibilità di chip di ultima generazione, fondamentali per i data center e le applicazioni AI ad alta intensità di calcolo.",
+          "note": null
+        },
+        {
+          "titolo": "Il produttore di chip taiwanese TSMC investirà altri 100 miliardi di dollari negli stabilimenti dell'Arizona",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNNzJHekhuQVlwWmlhTG9ub3FpYXUwejBhcUQwaVc3d190V0ZNZm1jU1h3QWVWYXlLbm1iZ0o2NllsWnFScEtXeUNSRENfRjgxZDZqN1dNS3J2ZklrZGoxb2w3VTJIYm00dmptdnh0aUdxbWNTOTU1LXA2SFNucjk4MGtFUmEtZjZLZDMwenRQSW13Y1RFZXNRZEhZaHRMQUpQR2c?oc=5"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "TSMC ha annunciato un ulteriore investimento di US$100 miliardi per espandere le proprie fabbriche nello stato dell'Arizona. L’iniezione di capitale mira a potenziare la capacità produttiva locale, rafforzando la presenza del leader dei semiconduttori negli Stati Uniti. L’operazione si inserisce nella strategia di diversificazione della catena di fornitura globale dei chip, riducendo la dipendenza da impianti asiatici.",
+          "perche_conta": "L’espansione di TSMC in Arizona aumenterà la capacità di produzione di chip avanzati, un fattore critico per alimentare i data center e le applicazioni AI, e offre agli investitori infrastrutturali una maggiore resilienza della supply chain.",
+          "note": null
+        },
+        {
+          "titolo": "TSMC aumenta le previsioni di vendite e spesa per cogliere il megatrend AI",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQeXFMd1QtVVYwTDVYNUFCTkppRGZ0OEFzbElVS2VpemNrN3VGTVhFMHROaFBVek5WUzRYYm1mYThXdG1QZ1F4SVZ4cklvbUV4MmttdWNMTDRxTEZWdHI4VDk0UEpKdEpycFQxMVpZT1labl84ZWdfNmVsVjh5aUszZEFUZHYzdjkwNXNqc19haDFaM1RYSHJVNXdQVExvN0tUY0JoNklHTGFQblhland2clpKZkNFdw?oc=5"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "TSMC ha annunciato un incremento delle previsioni di vendite e di spesa. L’azienda intende adeguarsi alla crescente domanda di chip per l’intelligenza artificiale. L’aggiornamento riflette la strategia di posizionamento di TSMC nel mercato AI.",
+          "perche_conta": "Il rialzo delle previsioni di vendita e spesa di TSMC è rilevante per gli investitori e i CTO perché indica l’impegno del principale fornitore di semiconduttori a sostenere la crescita dell’AI, con impatti diretti sulla supply chain, capacità di produzione e investimenti in tecnologie avanzate.",
+          "note": null
+        },
+        {
+          "titolo": "Taiwan chipmaker TSMC reports record quarterly profit",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQQ3hBMmlnZDgxV09jYm1vVGRkZzhpWU9EU3ZtN1VJdENRWjhaNFdYNTZfa1pIdzJwUDdFSXpKUzJwLVVnWWlGeXdmMnducUFXOWtwOGRyamdMTDRqTlFjVlNQbXlUT3VjcmJOSHY4Z2RXdTUwa0FMcTBFMV9jNXNPOTR4cE9WdE45Zld1YWVuZE9hNkY2NXBmV0JHcjJqbjFraGc?oc=5"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "TSMC ha registrato un utile trimestrale record. L’articolo non fornisce dettagli su cifre o cause. L’informazione è rilevante per gli investitori e CTO che monitorano la performance finanziaria dei principali produttori di semiconduttori.",
+          "perche_conta": "Rilevante per gli investitori e CTO perché indica la solidità finanziaria di TSMC, un attore chiave nel settore dei semiconduttori.",
+          "note": null
+        },
+        {
+          "titolo": "Azioni di TSMC scendono dopo gli utili. Il semiconductore taiwanese aumenta gli investimenti negli USA di fronte alla minaccia di Intel. - Barron's",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE9GTmt4d2xkaWZta21vTENaWXp2akozT0s1VFU0NlNiTm0zajg4VUhkSlJIX19VMEJHa2ZPVS1pbVBHNGg0VzRnUUotaGNvSlRpcFJFNHMxT3pvdjFqbEVaRTlpbnIzSmI2Zjl3RVE5V2ZxT3ZtTUE?oc=5"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "TSMC ha registrato una caduta delle azioni subito dopo la pubblicazione dei risultati trimestrali. L'azienda taiwanese ha annunciato un incremento degli investimenti negli Stati Uniti per rafforzare la propria posizione di fronte alla crescente minaccia di Intel. L'evento evidenzia la pressione competitiva nel settore dei semiconduttori e l'importanza di espandere la capacità produttiva internazionale.",
+          "perche_conta": "Rilevante per gli investitori e i CTO perché mostra l'impatto delle performance finanziarie di TSMC sul mercato e l'importanza di investimenti strategici negli USA per contrastare la concorrenza di Intel.",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2026-07-15",
+      "titolo": "ASML alza prezzi e capacità per soddisfare domanda AI, ma azioni volatili",
+      "articoli": [
+        {
+          "titolo": "Le azioni di ASML scendono dopo aver alzato la previsione di vendite per la seconda volta quest'anno a causa della forte domanda di chip AI",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMieEFVX3lxTE9ONk5EcFhJVFp0WWpsV0dvckdvbzlyVS1vN1hIY0tvTUYweVdiVG1FNkZPOXV2NlA5djgyeU5pMFpaUHBnbVhBZi0zUFFjbWgyd2xpa19DQ3hMT0F5Nm9PRXp6andPZEQwcS1BcFNaeTRPajgtMS01SNIBfkFVX3lxTFBqNDRfNDNHZk9XMWZrX0ZFVlM1dF9NV2VZeW9uRkNucFotOHk3bkxjX2NhS2N3djZkZ2trbHlUOU5BQ05BNmk4RFVUNi1UbXBiTW5zYWswUDVFRS0wY1Z2alJMcjdFN2w5S3dZMkIteUlzaUh6QW9kRThDNmhBZw?oc=5"
+            }
+          ],
+          "data": "2026-07-15",
+          "sintesi": "ASML ha aumentato la sua previsione di vendite per la seconda volta nel 2024, spinta dalla crescente domanda di chip per l'intelligenza artificiale. Nonostante l'upgrade, le azioni dell'azienda sono cadute. Il risultato evidenzia la volatilità del mercato legata alle aspettative di crescita dell'infrastruttura AI.",
+          "perche_conta": "Il contrasto tra la forte domanda di chip AI e il calo del prezzo delle azioni di ASML segnala a investitori e CTO la necessità di valutare attentamente i rischi di mercato quando si pianificano investimenti in capacità di produzione e supply chain per l'AI.",
+          "note": null
+        },
+        {
+          "titolo": "ASML prevede aumenti di prezzo per le apparecchiature di produzione chip, nonostante la resistenza di TSMC",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQUlFaNVg0em9GdXpNV2g5R21POTNMc05HQ1lEdnkwVll6dzJ4R2I2TVZFLUdFZWc2ajgzNmoxZmt3c1dfZWdGdnhtdjh4Z0k1VXZHWHpabzBHc29jOGJBOWNUVURiUmdQTnpqcGhMQV90Z0pYOU1NWEtjM2d3SDNvWGZ3MzJ3Mm5veFZaOUJHS0pVSXdxUmZOZGMwcU9ZTXFHaUFtcFBIU2lBNmxrSHZhMA?oc=5"
+            }
+          ],
+          "data": "2026-07-15",
+          "sintesi": "ASML ha annunciato l’intenzione di incrementare i prezzi delle sue apparecchiature per la fabbricazione di chip. TSMC, uno dei principali clienti, sta opponendosi a questi aumenti. La decisione di ASML potrebbe tradursi in costi di capitale più elevati per i produttori di semiconduttori, con potenziali ripercussioni sui piani di espansione dei data center e sull’offerta di hardware AI.",
+          "perche_conta": "Per i CTO e gli investitori infrastrutturali, l’aumento dei prezzi delle attrezzature di litografia influisce direttamente sui budget di CAPEX dei fabbisogni di chip, incidendo sui costi di produzione di AI e sulla disponibilità di capacità di data center.",
+          "note": null
+        },
+        {
+          "titolo": "ASML ha margine per aumentare i prezzi, dice il CFO",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMilAFBVV95cUxQb203ZEJFdmZZWlBieTFSdS1idTZGTE1fdjNoVnFlLVpnLXlKejF4N21TellMV3kteFU0dWppblZUb3dIWWZ5Y0Z5N3FkMkFmemFjTVdiclAwUnNKemkzWnNHT1dzbnZZOTVrUGNHakhSWlVybExIM3ZaVDYyUDBHaEo4Z1p3ZVlqcXlhZVZfdVFyOGl6?oc=5"
+            }
+          ],
+          "data": "2026-07-15",
+          "sintesi": "Il CFO di ASML ha dichiarato che l'azienda dispone di spazio per incrementare i prezzi dei suoi sistemi di litografia. La possibilità di alzare i prezzi suggerisce una domanda sostenuta e una posizione di mercato forte, senza ulteriori dettagli forniti nell'estratto.",
+          "perche_conta": "Un aumento dei prezzi di ASML si traduce in costi di capex più elevati per i produttori di chip, influenzando la catena di approvvigionamento, i costi di sviluppo dell'hardware AI e le decisioni di investimento in nuovi data center.",
+          "note": null
+        },
+        {
+          "titolo": "Intel ricorre a strumento di nuova generazione di ASML per produrre i suoi chip per laptop",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNei1rVk9jUWNTRUFfMGszT3VXQUxkV3lhS3VZZkI4S2M5cDdoVDREVmNUM25nbEozb25PQl9teDRxZkFFd0pISFVxazNzaTFuZjY2REVqREdNczRDZnJ4QUgyMm94eHNCMXB5aFJCZ1dmS2lUUDJDNFNxRHY5Rk9qSlhaMnRsRUpXblc4c3RmREszaUdjY3NDSFdPNlBuMTZBQUNhUlVVMG9yYVhKaVE?oc=5"
+            }
+          ],
+          "data": "2026-07-15",
+          "sintesi": "Intel ha deciso di utilizzare una nuova macchina di litografia di ASML per la fabbricazione dei chip destinati ai laptop. La scelta punta a migliorare la densità e le prestazioni dei prodotti di fascia consumer.",
+          "perche_conta": "L'adozione di tecnologie di litografia più avanzate da parte di Intel influisce sulla capacità produttiva, sui costi di fabbricazione e sulla competitività dei laptop, fattori chiave per gli investitori infrastrutturali e per i CTO che valutano la roadmap hardware AI.",
+          "note": null
+        },
+        {
+          "titolo": "Le azioni di ASML guadagnano mentre gli utili cavalcano l'ondata di spesa per l'AI - Barron's",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE1pXzhqd3RmelZWQV94U19DQlUzMVhaV0xYQjhhMWNNeUlYSGZpSkJQNDlHTV9VLTBfYWN3SlhfSDFIYTRfcjBHRkFMS09nY3EzNVZYeElJZVd3WHFaWU1OdFJBMGpSb2FYdmx4UEFlRXN3T2l5SUE?oc=5"
+            }
+          ],
+          "data": "2026-07-15",
+          "sintesi": "Le azioni di ASML sono in rialzo, sostenute da utili legati alla crescente spesa per l'intelligenza artificiale. Il mercato interpreta questo trend come un segnale di domanda più forte per le tecnologie di litografia avanzata necessarie ai chip AI. La performance di ASML riflette quindi l'espansione dell'infrastruttura hardware necessaria per i carichi di lavoro AI.",
+          "perche_conta": "Per gli investitori e i CTO, il rialzo di ASML indica una potenziale accelerazione nella capacità di produzione di chip AI, con implicazioni dirette su supply chain, costi di fabbricazione e disponibilità di hardware avanzato.",
+          "note": null
+        },
+        {
+          "titolo": "ASML registra €9,3 miliardi di vendite nette totali e €2,9 miliardi di utile netto nel Q2 2026",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMikwFBVV95cUxNNnE5OXY4ZTNNS0daQVVQRWRoM2JvT0UxZC00N2h3ZHluMjRjSk9Ec3ZEeUtpdU1XUV9hSlI1NTNOa21UVktjdnc2Qk1fdVZ2V2NjdmRDWXFWclZRbjNsdEVhUXZLdFFFejQ3YnFKTFFrc1hYX0lGUHdCVDl6WUVSN0dRUkdveHkzcmR5OVg1VERkbFk?oc=5"
+            }
+          ],
+          "data": "2026-07-15",
+          "sintesi": "ASML ha chiuso il secondo trimestre 2026 con vendite nette totali di €9,3 miliardi e un utile netto di €2,9 miliardi. I risultati confermano la solidità finanziaria dell'azienda. L'andamento suggerisce continuità nella domanda di capacità produttiva per chip avanzati.",
+          "perche_conta": "Le performance di ASML sono un indicatore della salute della catena di fornitura dei chip, un elemento critico per gli investimenti in infrastrutture AI.",
+          "note": null
+        },
+        {
+          "titolo": "ASML alza le previsioni e prevede un aumento di capacità grazie alla domanda AI",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOM3FuX2pJaXEyc2l6RGFadnNQRzg1dDVRdGZCaWRoUVo2Mk96cnRDeVlQclVuS2tNQ245alRDdTFqanJxYmVrYUVNd3VsVHlvS0JLQ19vLXFzUHpnRlQ4MkhsU2dIWkE1UVVsTlBHT21TS3laTXR4ZndDZGszdEdMcDVEbE1ESThBWElreUF2S0ZKTHpmeldabVQ1QXJNMmJFSk9oMGlzamZjSWJabm8xcXZXeUY?oc=5"
+            }
+          ],
+          "data": "2026-07-15",
+          "sintesi": "ASML ha rivisto al rialzo le proprie previsioni di fatturato e annuncia un incremento della capacità produttiva, motivato dalla crescente domanda di chip per applicazioni di intelligenza artificiale. L'azienda, leader nella litografia EUV, intende espandere la produzione per soddisfare le esigenze dei data center e dei fornitori di AI. Questo segnale indica pressioni di capacità nella catena di fornitura di semiconduttori.",
+          "perche_conta": "Un aumento di capacità da parte di ASML è cruciale per garantire la disponibilità di chip avanzati necessari a sostenere la rapida espansione dei data center e delle infrastrutture AI, influenzando direttamente gli investimenti in hardware e la pianificazione di capacità dei CTO.",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2026-07-14",
+      "titolo": "Trattamento favorevole potenziato per gli Emirati Arabi Uniti sotto i Regolamenti di Amministrazione delle Esportazioni",
+      "articoli": [
+        {
+          "titolo": "Trattamento favorevole potenziato per gli Emirati Arabi Uniti sotto i Regolamenti di Amministrazione delle Esportazioni",
+          "fonti": [
+            {
+              "nome": "Federal Register — BIS",
+              "link": "https://www.federalregister.gov/documents/2026/07/14/2026-14132/enhanced-favorable-treatment-for-the-united-arab-emirates-under-the-export-administration"
+            }
+          ],
+          "data": "2026-07-14",
+          "sintesi": "Il Bureau of Industry and Security (BIS) ha modificato i Regolamenti di Amministrazione delle Esportazioni (EAR) per offrire un trattamento più favorevole agli Emirati Arabi Uniti. L'Unione è stata rimossa dai gruppi di paese D:3 e D:4 e inserita nel gruppo A:5. Questa revisione amplia le eccezioni di licenza, tra cui l'autorizzazione al commercio strategico (STA) per il governo e le entità commerciali approvate negli UAE. L'STA consentirà l'esportazione di beni controllati con meno restrizioni.",
+          "perche_conta": "Il nuovo regime facilita l'accesso a componenti e tecnologie di AI per le aziende UAE, con impatti diretti sulla catena di fornitura globale e sulle decisioni di investimento in data center e chip.",
+          "note": null
+        },
         {
           "titolo": "TSMC seen riding AI boom to fifth straight quarter of record profit - Reuters",
           "fonti": [

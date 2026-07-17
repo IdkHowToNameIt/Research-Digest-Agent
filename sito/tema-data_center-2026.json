@@ -2,6 +2,38 @@
   "anno": "2026",
   "gruppi": [
     {
+      "data": "2026-07-15",
+      "titolo": "Efficienza dell'IA: ottimizzazione dei funnel pubblicitari e riduzione del training",
+      "articoli": [
+        {
+          "titolo": "Esplorare la Rappresentazione Gerarchica degli Interessi per l'Ottimizzazione del Funnel Profondo di Meta Ads",
+          "fonti": [
+            {
+              "nome": "Meta Engineering",
+              "link": "https://engineering.fb.com/2026/07/15/ai-research/exploring-hierarchical-interest-representation-for-meta-ads-deep-funnel-optimization/"
+            }
+          ],
+          "data": "2026-07-15",
+          "sintesi": "Meta Engineering descrive un nuovo strato di rappresentazione gerarchica che apprende embedding unificati per l’intero universo di entità pubblicitarie – utenti, inserzionisti, prodotti e servizi. Questi embedding collegano gli interessi inferiti degli utenti con l’offerta degli inserzionisti nei funnel pubblicitari più approfonditi. L’obiettivo è migliorare la precisione del targeting e l’efficacia delle campagne pubblicitarie attraverso una modellazione più ricca delle relazioni tra utenti e offerte.",
+          "perche_conta": "Una migliore rappresentazione degli interessi richiede modelli AI più complessi e capacità di calcolo intensivo, influenzando la domanda di infrastrutture di data center, GPU e reti ad alta velocità, fattori chiave per gli investitori in infrastrutture AI.",
+          "note": null
+        },
+        {
+          "titolo": "I progressi nel fine-tuning riducono il volume totale di addestramento dell'IA",
+          "fonti": [
+            {
+              "nome": "Uptime Institute Journal",
+              "link": "https://journal.uptimeinstitute.com/advances-in-fine-tuning-reduce-total-volume-of-ai-training/"
+            }
+          ],
+          "data": "2026-07-15",
+          "sintesi": "All'inizio dell'era dell'IA generativa l'attenzione era rivolta all'addestramento di modelli da zero. Con la maturazione della tecnologia, le organizzazioni cercano sempre più di adattare i grandi modelli linguistici esistenti alle proprie esigenze. Il fine‑tuning di modelli già addestrati elimina la necessità di reperire nuovi dati di training e di impiegare specialisti di machine learning, riducendo così il volume complessivo di lavoro di addestramento.",
+          "perche_conta": "Meno dati e meno competenze richieste si traducono in minori esigenze di capacità di calcolo, consumo energetico e spese di capitale, fattori chiave per i CTO e gli investitori infrastrutturali che valutano la scalabilità e la redditività dei progetti AI.",
+          "note": null
+        }
+      ]
+    },
+    {
       "data": "2026-07-13",
       "titolo": "Modernizing the Meta Ads Service With an Open-Source Kernel Scheduler",
       "articoli": [

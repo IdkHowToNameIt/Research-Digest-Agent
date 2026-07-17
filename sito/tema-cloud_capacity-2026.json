@@ -2,6 +2,238 @@
   "anno": "2026",
   "gruppi": [
     {
+      "data": "2026-07-17",
+      "titolo": "Cloud: miglioramenti e nuove funzionalità per la sicurezza e l'ottimizzazione",
+      "articoli": [
+        {
+          "titolo": "13 dimostrazioni pratiche per costruire su Gemini Enterprise Agent Platform",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/products/ai-machine-learning/13-demos-on-gemini-enterprise-agent-platform/"
+            }
+          ],
+          "data": "2026-07-17",
+          "sintesi": "L’articolo illustra 13 demo pratiche che mostrano come sfruttare la Gemini Enterprise Agent Platform di Google per costruire, scalare, governare e ottimizzare agenti AI. Ogni demo affronta un concetto o un pattern specifico, dal primo agente conversazionale con l’ADK, all’agente di approvazione spesa con loop umano, alla connessione a dati tramite il Model Context Protocol, fino al deployment di agenti stateful su Agent Runtime e alla orchestrazione di pipeline multilingua con A2A. Vengono inoltre presentate funzionalità di governance, come coding sicuro con hook pre‑commit, gateway con mTLS e IAM, e un flywheel di valutazione a cinque fasi che utilizza AutoRaters per testare le modifiche ai prompt. Infine, l’articolo mostra come esporre gli agenti tramite UI, monitorarli con Cloud Trace e Logging, e scalare l’ecosistema attraverso framework come CrewAI e LangGraph.",
+          "perche_conta": "Rivela come Google consente alle aziende di sviluppare, distribuire e gestire agenti AI in modo rapido e sicuro, fornendo un ecosistema completo di strumenti e best practice che sono direttamente rilevanti per CTO e investitori infrastrutturali.",
+          "note": null
+        },
+        {
+          "titolo": "Migliora la sicurezza a livello di colonna: utilizzo dei tag di governance dei dati IAM in BigQuery",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/products/data-analytics/level-up-your-column-level-security-using-iam-data-governance-tags-in-bigquery/"
+            }
+          ],
+          "data": "2026-07-17",
+          "sintesi": "Google Cloud introduce i tag di governance dei dati IAM in preview per BigQuery, sostituendo i tradizionali policy tags. Questi tag sono globali, consentendo di definire una chiave tag a livello di organizzazione e applicarla in qualsiasi progetto o regione. Supportano una gerarchia fino a cinque livelli, permettendo una classificazione granulare (es. PII → Financial → CreditCardNumber) e la replica automatica delle politiche di sicurezza in caso di failover. Il processo prevede la creazione di chiavi e valori tag, l’attaccamento ai campi tramite schema JSON o SQL, e la possibilità di rimuoverli impostando un array vuoto.",
+          "perche_conta": "L’adozione di tag di governance dei dati IAM permette alle infrastrutture AI di gestire la sicurezza a livello di colonna in modo scalabile, globale e resiliente, un requisito fondamentale per le operazioni di data center, compliance e gestione del rischio nei progetti di intelligenza artificiale.",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2026-07-16",
+      "titolo": "Cloud capacity e AI: innovazioni e soluzioni per la scalabilità e la sicurezza",
+      "articoli": [
+        {
+          "titolo": "Google è Leader e posizionato più in avanti nella Visione e più alto nell'Esecuzione nel 2026 Gartner® Magic Quadrant per Piattaforme di AI Conversazionale",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/products/ai-machine-learning/google-is-a-leader-in-the-gartner-magic-quadrant-for-conversational-ai/"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "Google è stato nominato Leader per il secondo anno consecutivo nel 2026 Gartner® Magic Quadrant per Piattaforme di AI Conversazionale, posizionandosi più in avanti nella Visione e più alto nell'Esecuzione. Il riconoscimento riflette l'investimento continuo in ricerca AI all'avanguardia, infrastruttura aziendale e la capacità di spostare l'AI dalla sperimentazione alla produzione su larga scala. Google è #1 in tre delle quattro Critical Capabilities Use Cases, grazie al successo delle organizzazioni che costruiscono con Gemini Enterprise for Customer Experience. Il nuovo CX Agent Studio consente di creare agenti multimodali, assistere il supporto umano in tempo reale e analizzare conversazioni per migliorare i risultati di business, con esempi pratici come Home Depot che ottiene soluzioni fino a 4x più rapide. La piattaforma è costruita su Gemini models e su Google Cloud’s AI stack, garantendo sicurezza, governance e scalabilità globale.",
+          "perche_conta": "Rilevante per CTO e investitori perché dimostra la posizione di leadership di Google, la capacità di scalare soluzioni AI in produzione con sicurezza e governance, e l'adozione reale da parte di grandi clienti come Home Depot.",
+          "note": null
+        },
+        {
+          "titolo": "Cloud CISO Perspectives: Come l'IA sfrutta il contesto profondo come vantaggio del difensore",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/products/identity-security/cloud-ciso-perspectives-how-ai-leverages-deep-context-defenders-advantage/"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "Francis deSouza di Google Cloud sottolinea come l'IA trasformi la sicurezza informatica, sfruttando il contesto interno per contrastare attacchi che ora si evolvono in 22 secondi. Il nuovo Google AI Threat Defense unifica Gemini, Wiz, CodeMender e Mandiant in un unico flusso di preparazione, scansione, rimedio e monitoraggio. Un caso di studio con Morgan Stanley ha ridotto il tempo medio di rilevamento del 99,9 %, passando da 45 min a 90 s. L’approccio enfatizza l’automazione AI con supervisione umana, proteggendo sia minacce esterne sia rischi interni come agenti non autorizzati. L’architettura “secure‑by‑default” blocca quasi 15 miliardi di email indesiderate quotidianamente.",
+          "perche_conta": "Il tema evidenzia come l'IA offra un vantaggio competitivo ai difensori, riducendo drasticamente i tempi di rilevamento e risposta, un fattore chiave per CTO e investitori che puntano su infrastrutture AI‑native e sicurezza scalabile.",
+          "note": null
+        },
+        {
+          "titolo": "Colmare il divario tra SQL e Python con BigQuery e la magia %%bqsql",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/products/data-analytics/bridge-sql-and-python-with-bigquery/"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "Google Cloud ha introdotto la magia %%bqsql per collegare notebook Python a BigQuery, consentendo di eseguire query SQL direttamente su DataFrames pandas senza spostare manualmente i dati. Il nuovo strumento, disponibile in Jupyter, BigFrames e nel sandbox gratuito di BigQuery, permette di concatenare operazioni SQL e Python in un unico flusso di lavoro, salvando i risultati come DataFrames BigQuery accessibili in Python. L’implementazione richiede solo l’abilitazione del sandbox, l’installazione di pacchetti come bigframes e python-calamine, e la configurazione del project ID per la fatturazione. Un esempio pratico mostra come caricare i dati sul grano USDA in un DataFrame, filtrare le righe mancanti, eseguire una query SQL con %%bqsql e salvare il risultato in una variabile per ulteriori elaborazioni Python.",
+          "perche_conta": "Permette ai CTO e agli investitori di valutare l’efficienza di pipeline ibridi SQL‑Python su BigQuery, riducendo latenza e complessità di gestione dei dati.",
+          "note": null
+        },
+        {
+          "titolo": "10 squadre autonome di produzione hanno insegnato a lavorare insieme gli agenti",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/topics/developers-practitioners/what-we-learned-about-agent-teamwork/"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "Google ha condotto un hackathon per vedere se gli agenti AI potessero collaborare per creare un cortometraggio. 10 squadre di agenti hanno prodotto un totale di 25+ cortometraggi, con un tempo di produzione di circa 44 minuti. Gli agenti hanno collaborato attraverso file e messaggi, utilizzando un sistema di orchestrazione chiamato Scion.",
+          "perche_conta": "Questo esperimento insegna come gli agenti AI possano collaborare per creare progetti complessi, come un cortometraggio, e come possano essere utilizzati in domini diversi da quello software.",
+          "note": null
+        },
+        {
+          "titolo": "Tre lezioni per accelerare gli aggiornamenti dei modelli di base",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/products/compute/lessons-in-accelerating-foundation-model-upgrades/"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "L'azienda Google ha sviluppato un flusso di lavoro agente per accelerare gli aggiornamenti dei modelli di base. Tre lezioni sono state apprese: iniziare con una scoperta manuale, evitare l'automazione tradizionale e passare a un'architettura agente flessibile. Questo approccio ha permesso di ridurre il tempo di migrazione e migliorare la qualità.",
+          "perche_conta": "Queste lezioni sono rilevanti per gli investitori e i CTO che vogliono sapere come accelerare gli aggiornamenti dei modelli di base e ridurre il tempo di migrazione.",
+          "note": null
+        },
+        {
+          "titolo": "Demistificare gli sfruttamenti AI: un piano per la gestione delle vulnerabilità assistita da AI",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/topics/threat-intelligence/ai-assisted-vulnerability-management/"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "La gestione delle vulnerabilità assistita da AI può essere accelerata senza compromettere la sicurezza. È possibile utilizzare modelli di linguaggio grande (LLM) per scoprire e rimediare alle vulnerabilità, ma è necessario stabilire controlli operativi per prevenire rischi architettonici. La Google ha pubblicato un blog che fornisce linee guida per la sicura integrazione di AI nelle workflow di gestione delle vulnerabilità.",
+          "perche_conta": "La gestione delle vulnerabilità assistita da AI è rilevante per gli investitori perché può ridurre i rischi di sfruttamento delle vulnerabilità e migliorare la sicurezza delle infrastrutture.",
+          "note": "Il blog della Google fornisce linee guida per la sicura integrazione di AI nelle workflow di gestione delle vulnerabilità."
+        },
+        {
+          "titolo": "Sicurezza AI a livello aziendale: il blueprint di Google per Kubernetes Engine",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/topics/developers-practitioners/securing-ai-at-enterprise-scale-the-google-kubernetes-engine-blueprint/"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "Google presenta un blueprint per la sicurezza dei carichi di lavoro AI su Google Kubernetes Engine (GKE), che consolida controlli multipli per creare una piattaforma sicura per default. Il blueprint identifica tre livelli critici della pila AI e fornisce raccomandazioni per la sicurezza in ciascuno di essi.",
+          "perche_conta": "Questo blueprint è rilevante per gli investitori e i CTO che cercano di proteggere i propri carichi di lavoro AI da minacce tradizionali e nuove, come l'iniezione di prompt e l'esfiltrazione di dati.",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2026-07-15",
+      "titolo": "Cloud capacity e governance: sfide e soluzioni per l'AI agente",
+      "articoli": [
+        {
+          "titolo": "Come superare i limiti della ricerca full-text multilingue in PostgreSQL con AlloyDB AI",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/products/databases/how-alloydb-overcomes-indexing-limitations-with-ai-functions/"
+            }
+          ],
+          "data": "2026-07-15",
+          "sintesi": "AlloyDB consente di eseguire ricerche full-text multilingue senza limiti, grazie alla sua integrazione nativa con Gemini, un modello di linguaggio avanzato. Ciò consente di eseguire ricerche accurate e veloci su testi in lingue logografiche come il cinese, il giapponese e il coreano, senza dover utilizzare workarounds complessi o pipeline di elaborazione dei dati esterni.",
+          "perche_conta": "Questa tecnologia è rilevante per gli investitori e i CTO che vogliono sfruttare al meglio le potenzialità dell'intelligenza artificiale per migliorare le prestazioni delle loro infrastrutture di database.",
+          "note": null
+        },
+        {
+          "titolo": "Come analizzare e governare l'utilizzo di Gemini Enterprise App a livello di scala con BigQuery",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/products/data-analytics/analyze-and-govern-gemini-enterprise-at-scale-with-bigquery/"
+            }
+          ],
+          "data": "2026-07-15",
+          "sintesi": "Google Cloud fornisce una soluzione per analizzare e governare l'utilizzo di Gemini Enterprise App a livello di scala utilizzando BigQuery. La soluzione consente di tracciare l'adozione, l'impegno degli utenti e le metriche degli utenti attivi. Inoltre, consente di eseguire analisi approfondite e di eseguire audit di compliance con precisione.",
+          "perche_conta": "Questa soluzione è rilevante per gli investitori e i CTO perché consente di analizzare e governare l'utilizzo di Gemini Enterprise App a livello di scala, fornendo una visione completa e dettagliata dell'adozione e dell'impegno degli utenti.",
+          "note": null
+        },
+        {
+          "titolo": "IDC: Perché un approccio di rete adeguato è fondamentale per l'AI agente",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/products/networking/idc-on-the-right-networking-approach-for-agentic-ai/"
+            }
+          ],
+          "data": "2026-07-15",
+          "sintesi": "Secondo un recente rapporto di IDC, le aziende stanno affrontando sfide significative nella implementazione di AI agente a causa di preoccupazioni relative alla sicurezza, all'autonomazione e alla governance. Un approccio di rete adeguato è fondamentale per garantire il controllo operativo, la sicurezza e la governance a livello di scala. Le aziende devono bilanciare l'uso di piattaforme e soluzioni di rete best-of-breed per gestire le complessità dell'AI agente.",
+          "perche_conta": "Questo articolo è rilevante per gli investitori e i CTO poiché offre una visione d'insieme delle sfide e delle opportunità relative all'implementazione di AI agente e alla scelta di un approccio di rete adeguato.",
+          "note": null
+        },
+        {
+          "titolo": "Il rischio delle funzioni cloud esposte e come hardenle",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/topics/threat-intelligence/exposed-cloud-functions-harden/"
+            }
+          ],
+          "data": "2026-07-15",
+          "sintesi": "Le funzioni serverless possono essere vulnerabili a attacchi di inclusione di file locali e di esecuzione di codice remoto, che possono consentire agli attaccanti di accedere ai dati sensibili e compromettere l'ambiente cloud. Per mitigare questo rischio, è importante implementare strategie di hardening, come utilizzare un gestore di segreti e non memorizzare segreti o credenziali all'interno del codice o dei file del container.",
+          "perche_conta": "La sicurezza delle funzioni serverless è cruciale per proteggere i dati sensibili e prevenire l'accesso non autorizzato ai sistemi e alle risorse cloud.",
+          "note": null
+        },
+        {
+          "titolo": "Azure Databricks offre valore commerciale provato",
+          "fonti": [
+            {
+              "nome": "Azure Blog",
+              "link": "https://azure.microsoft.com/en-us/blog/azure-databricks-delivers-proven-business-value/"
+            }
+          ],
+          "data": "2026-07-15",
+          "sintesi": "Microsoft Azure Databricks offre un vantaggio di primo piano di Databricks su Microsoft, che si traduce in valore misurabile per i clienti. La piattaforma è la stessa che i team già conoscono, co-progettata con Microsoft e fornita come servizio nativo di Azure.",
+          "perche_conta": "Questo articolo è rilevante per gli investitori e i CTO che vogliono comprendere come le piattaforme di Azure possano offrire valore commerciale ai clienti.",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2026-07-14",
+      "titolo": "Google si conferma leader nella gestione di capacità per l'intelligenza artificiale",
+      "articoli": [
+        {
+          "titolo": "Google nominata Leader nel MarketScape IDC per i Modelli di Fondazione Software Mondiali 2026",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/products/ai-machine-learning/google-named-a-leader-in-idc-marketscape/"
+            }
+          ],
+          "data": "2026-07-14",
+          "sintesi": "Google è stata nominata Leader nel MarketScape IDC per i Modelli di Fondazione Software Mondiali 2026 grazie alla sua capacità di tradurre la ricerca di frontiera in sistemi di produzione sicuri e scalabili. La società ha sviluppato Gemini Enterprise, un sistema unificato per l'era agente, che consente alle organizzazioni di utilizzare modelli di fondazione in modo sicuro e efficiente.",
+          "perche_conta": "Questa notizia è rilevante per gli investitori e i CTO perché dimostra la leadership di Google nel mercato dei modelli di fondazione software e la sua capacità di sviluppare soluzioni innovative per le organizzazioni.",
+          "note": null
+        },
+        {
+          "titolo": "Claude su Google Cloud: Frontiera dell'IA, costruita per la produzione aziendale",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/products/ai-machine-learning/claude-at-scale-on-google-cloud-frontier-ai-built-for-enterprise-production/"
+            }
+          ],
+          "data": "2026-07-14",
+          "sintesi": "Google Cloud presenta Claude, un modello di frontiera dell'IA costruito per la produzione aziendale. Claude è disponibile su Google Cloud e offre una piattaforma gestita per l'infrastruttura, la raggiungibilità globale e la conformità alle normative. Ciò consente alle aziende di concentrarsi sulla creazione di feature anziché sulla gestione dell'infrastruttura di inferenza.",
+          "perche_conta": "Claude è rilevante per gli investitori perché rappresenta un passo avanti significativo nella costruzione di modelli di frontiera dell'IA per la produzione aziendale, potenzialmente apportando benefici economici e di prestazioni.",
+          "note": null
+        }
+      ]
+    },
+    {
       "data": "2026-07-13",
       "titolo": "Key findings from the 2026 Public Sector M-Trends report and beyond",
       "articoli": [
