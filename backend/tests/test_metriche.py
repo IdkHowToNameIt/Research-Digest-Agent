@@ -161,6 +161,20 @@ def test_costo_totale_applica_listino():
     assert rec.costo.modelli[0].costo_stimato == 5.0
 
 
+def test_stima_costo_converte_col_tasso():
+    # prezzi in USD, tasso USD->EUR: il costo esce convertito
+    prezzi = {"m": {"input": 1.0, "output": 2.0}}
+    assert _stima_costo(prezzi, "m", 1_000_000, 500_000, tasso=0.5) == 1.0   # 2.0 * 0.5
+
+
+def test_finalizza_applica_tasso_di_cambio():
+    racc = RaccoltaMetriche()
+    racc.registra_uso("m", 2_000_000, 1_000_000)
+    rec = racc.finalizza({"m": {"input": 1.0, "output": 3.0}}, "2026-07-09",
+                         "2026-07-09T05:40:00Z", tasso=0.5)
+    assert rec.costo.costo_stimato == 2.5          # (2*1 + 1*3) * 0.5
+
+
 def test_free_tier_costo_zero_ma_token_contati():
     racc = RaccoltaMetriche()
     racc.registra_uso("m", 5000, 3000)

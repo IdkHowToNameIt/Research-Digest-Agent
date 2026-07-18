@@ -7,30 +7,39 @@ beat_slug: "infra-hardware-ai"
 # Sintesi finale (~20% del lavoro) via Groq (una chiave, free tier ampio).
 # ID modello — verificabili/aggiornabili dalla lista live:
 #   curl -s https://api.groq.com/openai/v1/models -H "Authorization: Bearer $GROQ_API_KEY" | jq -r '.data[].id'
-model: "llama-3.3-70b-versatile"
+model: "llama-3.1-8b-instant"
 # Cascata di ripiego se il primario esaurisce quota (429) o viene deprecato
 # (400/404/5xx). Su Groq il free tier per modello e' ampio, quindi la cascata e'
 # soprattutto una rete di sicurezza. Il passaggio e' "sticky" (un modello
-# esaurito non viene ri-provato per ogni articolo). In ordine di qualita'.
+# esaurito non viene ri-provato per ogni articolo). ORDINE PER COSTO CRESCENTE:
+# si parte dal modello piu' economico e si ripiega via via su quelli piu' cari (e
+# piu' capaci). Compromesso: il primario e' anche il meno potente — se serve piu'
+# qualita' nella sintesi, rimettere llama-3.3-70b come primario. Tariffe: vedi `prezzi`.
 modelli_fallback:
-  - "openai/gpt-oss-120b"
   - "openai/gpt-oss-20b"
   - "gemma2-9b-it"
-  - "llama-3.1-8b-instant"
+  - "openai/gpt-oss-120b"
+  - "llama-3.3-70b-versatile"
 db_path: "data/seen.sqlite3"   # memoria per dedup e conteggi run consecutivi
 out_dir: "out"                 # output tecnico (il canale reale e' email + sito)
 metriche_dir: "data/metriche"  # metriche operative per run (un JSON per run, per la dashboard)
 
-# Listino prezzi per la stima di costo nella dashboard: €/1M token, per modello.
-# Sul free tier di Groq il costo reale e' 0: i token vengono comunque contati, cosi'
-# passando all'API a pagamento basta valorizzare qui le tariffe (input/output) e lo
-# storico futuro mostra il costo vero. Un modello assente da questa lista costa 0.
+# Listino prezzi per la stima di costo nella dashboard. I valori sono il LISTINO
+# UFFICIALE Groq in USD/1M token (input/output), verificabile su groq.com/pricing.
+# Sul free tier il costo REALE che paghiamo resta 0, ma con queste tariffe la dashboard
+# stima quanto costerebbe lo stesso identico run sull'API a pagamento (i token sono
+# gia' contati). La conversione in euro usa `tasso_cambio_usd_eur` qui sotto. Un modello
+# assente da questa lista costa 0. Ordine: dal piu' economico al piu' caro (come la cascata).
 prezzi:
-  "llama-3.3-70b-versatile": {input: 0.0, output: 0.0}
-  "openai/gpt-oss-120b":     {input: 0.0, output: 0.0}
-  "openai/gpt-oss-20b":      {input: 0.0, output: 0.0}
-  "gemma2-9b-it":            {input: 0.0, output: 0.0}
-  "llama-3.1-8b-instant":    {input: 0.0, output: 0.0}
+  "llama-3.1-8b-instant":    {input: 0.05,  output: 0.08}
+  "openai/gpt-oss-20b":      {input: 0.075, output: 0.30}
+  "gemma2-9b-it":            {input: 0.20,  output: 0.20}   # non piu' sul listino pubblico Groq: valore storico
+  "openai/gpt-oss-120b":     {input: 0.15,  output: 0.60}
+  "llama-3.3-70b-versatile": {input: 0.59,  output: 0.79}
+
+# Cambio USD -> EUR applicato ai prezzi qui sopra, cosi' la dashboard mostra il costo
+# in euro. 1 USD = 0.874 EUR (mid-market, 18 lug 2026). Aggiornare quando serve.
+tasso_cambio_usd_eur: 0.874
 
 # Sito web interno (Fase 8): la homepage a cui rimanda l'email di notifica.
 sito:

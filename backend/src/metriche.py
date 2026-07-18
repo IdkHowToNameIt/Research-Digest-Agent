@@ -19,7 +19,7 @@ Separazione delle responsabilità:
   una callback (`registra_uso`) passata a `crea_generatore`, così `llm.py` non
   dipende da questo modulo; i dati operativi glieli passa la pipeline alla fine.
 - `finalizza()` produce il record immutabile (`MetricheRun`), applicando il
-  listino prezzi (€/1M token) per la stima di costo.
+  listino prezzi (USD/1M token, listino Groq) e il cambio USD→€ per la stima di costo.
 - `salva_metriche`/`carica_metriche` sono l'I/O, gemelle di quelle dell'archivio.
 
 Nessun dato sensibile o nota interna entra qui: sono numeri operativi. La
@@ -101,17 +101,21 @@ class MetricheRun(BaseModel):
 
 
 # --- raccolta durante il run -----------------------------------------------
-def _stima_costo(prezzi: dict, modello: str, prompt_tokens: int, completion_tokens: int) -> float:
-    """Costo stimato (€) per un modello dato il listino €/1M token.
+def _stima_costo(prezzi: dict, modello: str, prompt_tokens: int, completion_tokens: int,
+                 tasso: float = 1.0) -> float:
+    """Costo stimato per un modello dato il listino per 1M token.
 
-    `prezzi` = {modello_id: {"input": €/1M, "output": €/1M}}. Un modello assente dal
-    listino (o il free tier, prezzi a 0) contribuisce 0: i token restano contati
-    comunque, così passando all'API a pagamento basta valorizzare il listino.
+    `prezzi` = {modello_id: {"input": prezzo/1M, "output": prezzo/1M}} nella valuta del
+    listino (USD, listino Groq). `tasso` converte nella valuta di visualizzazione (€):
+    il costo grezzo in USD viene moltiplicato per `tasso` (default 1.0 = nessuna
+    conversione). Un modello assente dal listino (o il free tier, prezzi a 0)
+    contribuisce 0: i token restano contati comunque.
     """
     tariffa = prezzi.get(modello, {})
     inp = float(tariffa.get("input", 0.0))
     out = float(tariffa.get("output", 0.0))
-    return prompt_tokens / 1_000_000 * inp + completion_tokens / 1_000_000 * out
+    costo = prompt_tokens / 1_000_000 * inp + completion_tokens / 1_000_000 * out
+    return costo * tasso
 
 
 class RaccoltaMetriche:
@@ -189,15 +193,20 @@ class RaccoltaMetriche:
         self._energia_zero = store.leggi_contatore(_CHIAVE_ENERGIA)
 
     # cristallizzazione ------------------------------------------------------
-    def finalizza(self, prezzi: dict, data_generazione: str, timestamp: str) -> MetricheRun:
-        """Produce il record immutabile del run, applicando il listino prezzi."""
+    def finalizza(self, prezzi: dict, data_generazione: str, timestamp: str,
+                  tasso: float = 1.0) -> MetricheRun:
+        """Produce il record immutabile del run, applicando il listino prezzi.
+
+        `tasso` è il cambio verso la valuta di visualizzazione (USD→€): i prezzi sono
+        in USD (listino Groq), il costo salvato è in euro.
+        """
         modelli = [
             UsoModello(
                 modello=m,
                 chiamate=acc[0],
                 prompt_tokens=acc[1],
                 completion_tokens=acc[2],
-                costo_stimato=round(_stima_costo(prezzi, m, acc[1], acc[2]), 6),
+                costo_stimato=round(_stima_costo(prezzi, m, acc[1], acc[2], tasso), 6),
             )
             for m, acc in sorted(self._uso.items())
         ]
