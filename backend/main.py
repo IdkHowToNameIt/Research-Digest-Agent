@@ -104,6 +104,7 @@ def fase_genera(cfg: dict) -> Digest:
         cfg.get("prezzi", {}),
         digest.data_generazione,
         ora_run.replace(microsecond=0).isoformat().replace("+00:00", "Z"),
+        float(cfg.get("tasso_cambio_usd_eur", 1.0)),
     )
     percorso_metriche = salva_metriche(record, metriche_dir)
     print(f"Metriche run salvate: {record.costo.prompt_tokens}+{record.costo.completion_tokens} "
