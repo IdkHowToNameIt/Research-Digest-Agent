@@ -7,19 +7,20 @@ beat_slug: "infra-hardware-ai"
 # Sintesi finale (~20% del lavoro) via Groq (una chiave, free tier ampio).
 # ID modello — verificabili/aggiornabili dalla lista live:
 #   curl -s https://api.groq.com/openai/v1/models -H "Authorization: Bearer $GROQ_API_KEY" | jq -r '.data[].id'
-model: "llama-3.1-8b-instant"
+model: "llama-3.3-70b-versatile"
 # Cascata di ripiego se il primario esaurisce quota (429) o viene deprecato
 # (400/404/5xx). Su Groq il free tier per modello e' ampio, quindi la cascata e'
 # soprattutto una rete di sicurezza. Il passaggio e' "sticky" (un modello
-# esaurito non viene ri-provato per ogni articolo). ORDINE PER COSTO CRESCENTE:
-# si parte dal modello piu' economico e si ripiega via via su quelli piu' cari (e
-# piu' capaci). Compromesso: il primario e' anche il meno potente — se serve piu'
-# qualita' nella sintesi, rimettere llama-3.3-70b come primario. Tariffe: vedi `prezzi`.
+# esaurito non viene ri-provato per ogni articolo). ORDINE: qualita' prima, costo
+# come secondo criterio — il primario e' il modello piu' capace (llama-3.3-70b) per
+# non rinunciare alla resa della sintesi; i ripieghi restano forti ma via via piu'
+# economici (gpt-oss-120b e' capace E piu' economico del 70b), fino all'8b come
+# ultima rete solo in emergenza. Tariffe per modello: vedi `prezzi`.
 modelli_fallback:
+  - "openai/gpt-oss-120b"
   - "openai/gpt-oss-20b"
   - "gemma2-9b-it"
-  - "openai/gpt-oss-120b"
-  - "llama-3.3-70b-versatile"
+  - "llama-3.1-8b-instant"
 db_path: "data/seen.sqlite3"   # memoria per dedup e conteggi run consecutivi
 out_dir: "out"                 # output tecnico (il canale reale e' email + sito)
 metriche_dir: "data/metriche"  # metriche operative per run (un JSON per run, per la dashboard)

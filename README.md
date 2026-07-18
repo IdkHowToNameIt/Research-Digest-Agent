@@ -169,9 +169,10 @@ Tutto in `config.yaml`:
   **`HOMEPAGE_URL`**, che ha la precedenza su questo campo, oppure sostituiscilo qui.
   Se resta il placeholder il run si ferma con un errore), `out_dir`, `archivio_dir`,
   `badge_giorni` (soglia badge), `template` (default `frontend/concept/index.html`).
-- `metriche_dir` (default `data/metriche`) e `prezzi`: listino €/1M token per modello
-  (input/output) per la stima di costo in dashboard. Sul free tier è 0 — i token si
-  contano comunque, basta valorizzarlo passando all'API a pagamento.
+- `metriche_dir` (default `data/metriche`), `prezzi` e `tasso_cambio_usd_eur`: `prezzi`
+  è il listino Groq in **USD/1M token** per modello (input/output); `tasso_cambio_usd_eur`
+  converte in **euro** il costo mostrato in dashboard. Sul free tier il costo reale è 0,
+  ma i token si contano comunque e la dashboard stima quanto costerebbe sull'API a pagamento.
 - `email`: **i destinatari non stanno in `config.yaml`** (sono dati personali e cambiano
   a ogni adozione del repo): si leggono da due variabili d'ambiente, indirizzi separati
   da virgola. `DIGEST_RECIPIENTS` (lettori del digest) è **obbligatoria** — senza, il run
