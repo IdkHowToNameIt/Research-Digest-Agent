@@ -217,8 +217,17 @@
 
   /* --- dettaglio del gruppo: testata col titolo riassuntivo + notizie suddivise --- */
   .giorno-testata{margin:.4rem 0 1.1rem}
+  .giorno-testa-riga{display:flex;gap:1rem;align-items:flex-start;justify-content:space-between}
   .giorno-testata h2{font-family:var(--serif);font-weight:600;font-size:1.7rem;color:var(--verde-scuro);margin:.2rem 0 .4rem}
   .giorno-sub{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;color:var(--inchiostro-2);font-size:.88rem}
+  /* pulsante "Scarica PDF" (Fase 1 export): tinta accento, coerente con .btn-azzera */
+  .btn-pdf{display:inline-flex;align-items:center;gap:.4rem;flex:none;margin-top:.35rem;font:inherit;
+    font-size:.82rem;font-weight:600;cursor:pointer;border:1px solid rgba(224,80,110,.55);
+    background:rgba(224,80,110,.14);color:var(--verde-vivo);border-radius:999px;padding:.4rem .95rem;
+    transition:background .15s,color .15s,border-color .15s}
+  .btn-pdf:hover{background:var(--verde);color:#fff;border-color:var(--verde)}
+  .btn-pdf:disabled,.btn-pdf.caricando{opacity:.55;cursor:progress}
+  @media(max-width:560px){.giorno-testa-riga{flex-direction:column;gap:.3rem}.btn-pdf{margin-top:0}}
   /* --- digest del giorno: indice laterale (sticky) + colonna di lettura --- */
   .crono.report{max-width:1040px}
   .digest-layout{display:flex;gap:2.2rem;align-items:flex-start;margin-top:.6rem}

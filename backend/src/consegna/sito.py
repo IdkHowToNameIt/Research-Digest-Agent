@@ -66,7 +66,8 @@ ANTEPRIMA_TITOLI = 3
 # (~200 parole/minuto, lettura silenziosa media). Il valore è indicativo.
 PAROLE_AL_MINUTO = 200
 # Asset del frontend a cui aggiungere il token ?v=<generato> in index.html (cache-busting).
-ASSET_VERSIONABILI = ("app.js", "stile.css", "sfondo.js")
+# pdf.js è versionato; jspdf.umd.min.js è una libreria vendorizzata stabile (non versionata).
+ASSET_VERSIONABILI = ("app.js", "stile.css", "sfondo.js", "pdf.js")
 # Template del frontend copiato accanto a data.json come index.html della publish-dir.
 TEMPLATE_DEFAULT = "frontend/concept/index.html"
 
