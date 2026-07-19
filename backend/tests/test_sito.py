@@ -177,9 +177,13 @@ def test_genera_sito_scrive_indice_temi_e_copia_frontend(tmp_path):
     front.mkdir()
     (front / "index.html").write_text(
         '<html><link rel="stylesheet" href="stile.css"><script src="app.js"></script>'
+        '<script src="jspdf.umd.min.js"></script><script src="pdf.js"></script>'
         "CONCEPT-TEMPLATE fetch('data.json')</html>", encoding="utf-8")
     (front / "stile.css").write_text("body{color:pink}", encoding="utf-8")
     (front / "app.js").write_text("caricaDati();", encoding="utf-8")
+    # asset di export PDF: la libreria vendorizzata + la logica
+    (front / "jspdf.umd.min.js").write_text("/*jspdf*/", encoding="utf-8")
+    (front / "pdf.js").write_text("/*export pdf*/", encoding="utf-8")
     d = _digest(chip=[_art("A", "https://x/1")])
     scritti = genera_sito(d, [d.contenuto_pubblico()], str(tmp_path / "out"),
                           template_path=str(front / "index.html"))
@@ -205,11 +209,17 @@ def test_genera_sito_scrive_indice_temi_e_copia_frontend(tmp_path):
     # tutti i file del frontend sono copiati mantenendo il nome
     assert (out / "stile.css").read_text(encoding="utf-8") == "body{color:pink}"
     assert (out / "app.js").read_text(encoding="utf-8") == "caricaDati();"
+    # gli asset di export PDF sono copiati (la libreria vendorizzata invariata)
+    assert (out / "jspdf.umd.min.js").read_text(encoding="utf-8") == "/*jspdf*/"
+    assert (out / "pdf.js").read_text(encoding="utf-8") == "/*export pdf*/"
     # cache-busting: i riferimenti in index.html hanno ?v=<generato>
     html = (out / "index.html").read_text(encoding="utf-8")
     assert "CONCEPT-TEMPLATE" in html
     assert f'app.js?v={d.data_generazione}' in html
     assert f'stile.css?v={d.data_generazione}' in html
+    # pdf.js è versionato; la libreria vendorizzata jspdf resta senza ?v (stabile)
+    assert f'pdf.js?v={d.data_generazione}' in html
+    assert 'jspdf.umd.min.js"' in html and 'jspdf.umd.min.js?v=' not in html
     assert any("data.json" in s for s in scritti)
     assert any(s.endswith(NOME_FILE_TEMA_ANNO.format(id="chip", anno="2026")) for s in scritti)
 

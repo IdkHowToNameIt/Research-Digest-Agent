@@ -600,7 +600,13 @@ async function vaiGruppo(id, data){
   app.innerHTML = `<section class="view"><main class="crono report">
       <button class="indietro" onclick="vaiTema('${id}')">← ${t.nome}</button>
       <div class="giorno-testata">
-        <h2>${g.titolo}</h2>
+        <div class="giorno-testa-riga">
+          <h2>${g.titolo}</h2>
+          <button class="btn-pdf" onclick="scaricaPdfGruppoCorrente(event)" title="Scarica questo digest in PDF">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="M8 11l4 4 4-4"/><path d="M5 21h14"/></svg>
+            <span>Scarica PDF</span>
+          </button>
+        </div>
         <div class="giorno-sub"><span class="tag">${iconaTema(t.id,13)}${t.nome}</span>
           · ${fmtData(g.data)} ${nuovo?'<span class="badge-nuovo">Nuovo</span>':''}
           · ${g.n} ${plurale(g.n,'aggiornamento','aggiornamenti')}${fmtLettura(g.minuti)?' · '+fmtLettura(g.minuti):''}</div>
