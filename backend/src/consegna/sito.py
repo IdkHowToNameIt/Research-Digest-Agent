@@ -35,6 +35,7 @@ digest corrente, mai dalle note interne.
 from __future__ import annotations
 
 import json
+import math
 import shutil
 from datetime import date
 from pathlib import Path
@@ -61,6 +62,9 @@ NOME_FILE_TEMA = "tema-{id}.json"
 NOME_FILE_TEMA_ANNO = "tema-{id}-{anno}.json"
 # Quanti titoli d'anteprima mettere nella lista leggera (per la card del gruppo).
 ANTEPRIMA_TITOLI = 3
+# Velocità di lettura per la stima del tempo di lettura mostrato all'utente
+# (~200 parole/minuto, lettura silenziosa media). Il valore è indicativo.
+PAROLE_AL_MINUTO = 200
 # Asset del frontend a cui aggiungere il token ?v=<generato> in index.html (cache-busting).
 ASSET_VERSIONABILI = ("app.js", "stile.css", "sfondo.js")
 # Template del frontend copiato accanto a data.json come index.html della publish-dir.
@@ -135,6 +139,24 @@ def raccogli_gruppi_per_tema(archivio: list[dict]) -> dict[Tema, dict[str, dict]
     return per_tema
 
 
+def _minuti_lettura(articoli: list[dict]) -> int:
+    """Tempo di lettura stimato (minuti) di un gruppo, dai testi delle sue voci.
+
+    Conta le parole dei campi che il lettore legge davvero (titolo, sintesi,
+    perché conta, nota) su tutte le voci del gruppo e divide per PAROLE_AL_MINUTO,
+    arrotondando per eccesso. Minimo 1 minuto se c'è del testo; 0 se il gruppo è
+    vuoto (caso difensivo: un gruppo pubblicato ha sempre almeno una voce).
+    """
+    parole = 0
+    for a in articoli:
+        for campo in ("titolo", "sintesi", "perche_conta", "note"):
+            testo = a.get(campo) or ""
+            parole += len(testo.split())
+    if parole <= 0:
+        return 0
+    return max(1, math.ceil(parole / PAROLE_AL_MINUTO))
+
+
 def costruisci_dati(
     digest_corrente: Digest,
     archivio: list[dict],
@@ -163,7 +185,8 @@ def costruisci_dati(
             g = per_tema[tema][data]
             articoli = g["articoli"]
             titolo = g["titolo"] or (articoli[0]["titolo"] if articoli else "")
-            gruppi.append({"data": data, "titolo": titolo, "articoli": articoli})
+            gruppi.append({"data": data, "titolo": titolo, "articoli": articoli,
+                           "minuti_lettura": _minuti_lettura(articoli)})
         temi.append({"id": tema.value, "nome": ETICHETTE[tema], "gruppi": gruppi})
     return {
         "generato": digest_corrente.data_generazione,
@@ -192,7 +215,8 @@ def _indice_da_full(full: dict, recenti_giorni: int) -> dict:
     temi = []
     for t in full["temi"]:
         recenti = [
-            {"data": g["data"], "titolo": g["titolo"], "n_articoli": len(g["articoli"])}
+            {"data": g["data"], "titolo": g["titolo"], "n_articoli": len(g["articoli"]),
+             "minuti_lettura": g.get("minuti_lettura", 0)}
             for g in t["gruppi"]
             if _giorni_tra(generato, g["data"]) <= recenti_giorni
         ]
@@ -233,6 +257,7 @@ def _lista_leggera_tema(t: dict) -> dict:
             "data": g["data"],
             "titolo": g["titolo"],
             "n_articoli": len(g["articoli"]),
+            "minuti_lettura": g.get("minuti_lettura", 0),
             "anteprima_titoli": [a.get("titolo", "") for a in g["articoli"][:ANTEPRIMA_TITOLI]],
         }
         for g in t["gruppi"]
