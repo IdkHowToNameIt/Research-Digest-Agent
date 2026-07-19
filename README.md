@@ -427,6 +427,13 @@ Ogni digest riporta un **tempo di lettura stimato** ("~N min di lettura", ~200
 parole/minuto): calcolato dal backend e salvato nell'indice, così compare già sulla
 card del digest (oltre che nella testata di lettura).
 
+Aprendo un digest, il pulsante **"Scarica PDF"** genera al volo il PDF di quel giorno
+(tema + data) e lo scarica: pensato per leggerlo **offline, sul telefono**. Il PDF è
+costruito **lato browser** dai dati già in memoria (testo selezionabile, fonti con link,
+non uno screenshot) con **jsPDF vendorizzata** (`jspdf.umd.min.js`, nessuna CDN a
+runtime). È la Fase 1; l'invio del PDF via email (Cloudflare Worker + Resend, senza SMTP)
+è previsto come Fase 2. Dettagli e razionale in [`DECISIONI.md`](DECISIONI.md) §13.
+
 Dalla home si apre anche **Sotto il cofano**, una dashboard di osservabilità che legge `metriche.json`
 e mostra — con un filtro per periodo (ultimo run / 30-90 giorni / 12 mesi / intervallo
 personalizzato, lo stesso pattern del calendario della cronologia) — stato delle fonti
