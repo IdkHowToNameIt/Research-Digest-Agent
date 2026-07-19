@@ -60,7 +60,7 @@ sito:
   # Resend. Se vuoto, il sito mostra solo "Scarica PDF" (nessun bottone email).
   # Override con la variabile d'ambiente INVIO_EMAIL_URL (ha la precedenza).
   # La API key di Resend NON sta qui: vive solo nell'env del Worker.
-  invio_email_url: ""
+  invio_email_url: "https://dra-mail.matteo-abis.workers.dev"
 
 # Email (Fase 7, sez. 17). Nessuna sezione admin (17.3).
 # I destinatari NON stanno qui: sono dati personali e cambiano per ogni adozione del
