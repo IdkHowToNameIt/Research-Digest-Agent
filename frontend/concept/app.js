@@ -80,7 +80,7 @@ async function caricaDati(){
         file: t.file || ('tema-'+t.id+'.json'),
         // gruppi recenti (solo data/titolo/conteggio) per i box della landing
         recenti: (t.recenti||[]).map(function(r){
-          return {data: r.data, giorni: giorniFa(r.data), titolo: r.titolo||'', n: r.n_articoli||0};
+          return {data: r.data, giorni: giorniFa(r.data), titolo: r.titolo||'', n: r.n_articoli||0, minuti: r.minuti_lettura||0};
         }),
         gruppi: null   // dettaglio completo: caricato on-demand (caricaTema)
       };
@@ -113,6 +113,7 @@ async function caricaTema(t){
       giorni: giorniFa(g.data),
       titolo: g.titolo||'',
       n: g.n_articoli||0,             // conteggio (dai metadati)
+      minuti: g.minuti_lettura||0,    // tempo di lettura stimato (dai metadati)
       anteprima: g.anteprima_titoli||[],
       articoli: null                  // corpi caricati per anno on-demand (caricaDettaglioGiorno)
     };
@@ -245,15 +246,19 @@ function vaiHome(){
 /* ------------------- LISTA GRUPPI DI UN TEMA ---------------------
    Un gruppo per giorno, rappresentato dal titolo riassuntivo; il click apre il
    dettaglio. In cima, filtri per DATA (periodo rapido + intervallo dal/al). */
+/* etichetta del tempo di lettura (vuota se il dato manca): "~4 min di lettura" */
+function fmtLettura(min){ return min>0 ? '~'+min+' min di lettura' : ''; }
+
 function cardGruppo(id, g){
   const nuovo = g.giorni <= SOGLIA_NUOVO;
   const n = g.n;                                  // conteggio dai metadati (corpi non caricati)
+  const lettura = fmtLettura(g.minuti);           // tempo di lettura (dai metadati)
   const preview = n>1
     ? `<ul class="preview">${g.anteprima.slice(0,3).map(tit=>`<li>${tit}</li>`).join('')}
          ${n>3?`<li class="piu">…e altre ${n-3}</li>`:''}</ul>` : '';
   return `<div class="gruppo-card reveal" onclick="vaiGruppo('${id}','${g.data}')">
       <div class="meta">${fmtData(g.data)} ${nuovo?'<span class="badge-nuovo">Nuovo</span>':''}
-        · ${n} ${plurale(n,'aggiornamento','aggiornamenti')}</div>
+        · ${n} ${plurale(n,'aggiornamento','aggiornamenti')}${lettura?' · '+lettura:''}</div>
       <h4>${g.titolo}</h4>
       ${preview}
       <span class="apri">Apri il digest del giorno →</span>
@@ -598,7 +603,7 @@ async function vaiGruppo(id, data){
         <h2>${g.titolo}</h2>
         <div class="giorno-sub"><span class="tag">${iconaTema(t.id,13)}${t.nome}</span>
           · ${fmtData(g.data)} ${nuovo?'<span class="badge-nuovo">Nuovo</span>':''}
-          · ${g.n} ${plurale(g.n,'aggiornamento','aggiornamenti')}</div>
+          · ${g.n} ${plurale(g.n,'aggiornamento','aggiornamenti')}${fmtLettura(g.minuti)?' · '+fmtLettura(g.minuti):''}</div>
       </div>
       <div id="gruppo-corpo"><p class="sez-nota">Caricamento…</p></div>
     </main></section>`;

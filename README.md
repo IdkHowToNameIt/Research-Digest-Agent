@@ -423,6 +423,9 @@ backend) e genera lato client: home → cronologia tema → articolo con "Perch�
 e nota preprint. In home compaiono solo i temi con aggiornamenti della settimana,
 box **autocentrati**, badge "Nuovo" (≤ `badge_giorni`) e finestra settimana
 (≤ `settimana_giorni`) calcolati lato client dalle date assolute in `data.json`.
+Ogni digest riporta un **tempo di lettura stimato** ("~N min di lettura", ~200
+parole/minuto): calcolato dal backend e salvato nell'indice, così compare già sulla
+card del digest (oltre che nella testata di lettura).
 
 Dalla home si apre anche **Sotto il cofano**, una dashboard di osservabilità che legge `metriche.json`
 e mostra — con un filtro per periodo (ultimo run / 30-90 giorni / 12 mesi / intervallo
@@ -449,7 +452,7 @@ docker compose up web              # sito generato con i dati → http://localho
 ## Stato
 
 Tutte le 8 fasi sono implementate, più la **dashboard di osservabilità**
-(metriche operative per run); la suite conta **161 test verdi**. Le scelte di
+(metriche operative per run); la suite conta **165 test verdi**. Le scelte di
 progetto e il perché sono in [`DECISIONI.md`](DECISIONI.md).
 
 Punti noti, non bloccanti, che chi adotta il repo farà bene a tenere d'occhio:

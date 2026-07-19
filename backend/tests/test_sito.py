@@ -32,6 +32,7 @@ from src.consegna.sito import (
     NOME_FILE_TEMA,
     NOME_FILE_TEMA_ANNO,
     _cache_bust,
+    _minuti_lettura,
     carica_archivio,
     costruisci_dati,
     costruisci_indice,
@@ -140,6 +141,32 @@ def test_cronologia_storica_multi_run():
     chip = next(t for t in dati["temi"] if t["id"] == "chip")
     assert [g["data"] for g in chip["gruppi"]] == ["2026-07-09", "2026-06-01"]
     assert [a["titolo"] for a in _articoli_di(chip)] == ["Recente", "Vecchio"]
+
+
+# --- tempo di lettura -------------------------------------------------------
+
+def test_minuti_lettura_arrotonda_per_eccesso():
+    quattrocento = " ".join(["parola"] * 400)
+    art = {"titolo": "", "sintesi": quattrocento, "perche_conta": "", "note": None}
+    assert _minuti_lettura([art]) == 2                  # 400/200
+    poche = {"titolo": "una due tre", "sintesi": "", "perche_conta": "", "note": None}
+    assert _minuti_lettura([poche]) == 1                # minimo 1 minuto se c'è testo
+    assert _minuti_lettura([]) == 0                     # gruppo vuoto -> 0
+
+
+def test_minuti_lettura_in_dati_indice_e_lista(tmp_path):
+    d = _digest(chip=[_art("A", "https://x/1")])
+    g = _dati(d)["temi"][0]["gruppi"][0]
+    assert g["minuti_lettura"] >= 1                     # presente nei dati completi
+    # stesso valore nell'indice (recenti) e nella lista leggera del tema
+    indice = costruisci_indice(d, [d.contenuto_pubblico()])
+    chip = next(t for t in indice["temi"] if t["id"] == "chip")
+    assert chip["recenti"][0]["minuti_lettura"] == g["minuti_lettura"]
+    genera_sito(d, [d.contenuto_pubblico()], str(tmp_path / "out"),
+                template_path=str(tmp_path / "nope.html"))
+    lista = json.loads(
+        (tmp_path / "out" / NOME_FILE_TEMA.format(id="chip")).read_text(encoding="utf-8"))
+    assert lista["gruppi"][0]["minuti_lettura"] == g["minuti_lettura"]
 
 
 # --- generazione file (data.json + copia template) --------------------------
