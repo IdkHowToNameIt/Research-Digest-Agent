@@ -1,0 +1,18 @@
+# Configurazione del Cloudflare Worker per l'invio email (Fase 2 export PDF).
+# Serve solo se pubblichi via CLI (`wrangler deploy`). Se usi l'editor della
+# dashboard Cloudflare puoi ignorare questo file: crei il Worker dalla UI, incolli
+# worker.js e imposti le variabili in Settings > Variables.
+name = "dra-mail"
+main = "worker.js"
+compatibility_date = "2024-11-01"
+
+# Variabili NON segrete (modificabili anche da dashboard > Settings > Variables):
+[vars]
+# Origine del sito ammessa in CORS (senza slash finale). Sostituisci col tuo URL.
+ALLOWED_ORIGIN = "https://DA-SOSTITUIRE.example.com"
+# Mittente: senza dominio verificato su Resend lascia questo valore.
+MITTENTE = "onboarding@resend.dev"
+
+# La API key di Resend NON va qui: è un secret.
+#   via CLI:        wrangler secret put RESEND_API_KEY
+#   via dashboard:  Settings > Variables > Add variable > [x] Encrypt  (nome: RESEND_API_KEY)

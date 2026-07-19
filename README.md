@@ -431,8 +431,11 @@ Aprendo un digest, il pulsante **"Scarica PDF"** genera al volo il PDF di quel g
 (tema + data) e lo scarica: pensato per leggerlo **offline, sul telefono**. Il PDF è
 costruito **lato browser** dai dati già in memoria (testo selezionabile, fonti con link,
 non uno screenshot) con **jsPDF vendorizzata** (`jspdf.umd.min.js`, nessuna CDN a
-runtime). È la Fase 1; l'invio del PDF via email (Cloudflare Worker + Resend, senza SMTP)
-è previsto come Fase 2. Dettagli e razionale in [`DECISIONI.md`](DECISIONI.md) §13.
+runtime). Se è configurato `sito.invio_email_url` (l'URL del Worker, vedi sotto) compare
+anche **"Invia via email"**: il sito manda il PDF a un **Cloudflare Worker** che lo inoltra
+a **Resend** (HTTP API, **senza SMTP**) come allegato — la API key vive solo nel Worker.
+Codice e guida di deploy in [`worker/`](worker/README.md); razionale in
+[`DECISIONI.md`](DECISIONI.md) §13.
 
 Dalla home si apre anche **Sotto il cofano**, una dashboard di osservabilità che legge `metriche.json`
 e mostra — con un filtro per periodo (ultimo run / 30-90 giorni / 12 mesi / intervallo
@@ -459,7 +462,7 @@ docker compose up web              # sito generato con i dati → http://localho
 ## Stato
 
 Tutte le 8 fasi sono implementate, più la **dashboard di osservabilità**
-(metriche operative per run); la suite conta **165 test verdi**. Le scelte di
+(metriche operative per run); la suite conta **166 test verdi**. Le scelte di
 progetto e il perché sono in [`DECISIONI.md`](DECISIONI.md).
 
 Punti noti, non bloccanti, che chi adotta il repo farà bene a tenere d'occhio:

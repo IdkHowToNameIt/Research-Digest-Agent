@@ -20,6 +20,7 @@ interne — quindi NON è l'archivio pubblico e non va servito (sez. 16.7).
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -89,11 +90,15 @@ def fase_genera(cfg: dict) -> Digest:
     archivio_dir = sito_cfg.get("archivio_dir", "data/archivio")
     salva_digest_pubblico(digest, archivio_dir)
     archivio = carica_archivio(archivio_dir)
+    # URL del Worker per l'invio del PDF via email (Fase 2 export): env con
+    # precedenza sul config; se vuoto il frontend non mostra il bottone "Invia email".
+    invio_email_url = os.environ.get("INVIO_EMAIL_URL") or sito_cfg.get("invio_email_url", "")
     file_sito = genera_sito(
         digest, archivio, sito_cfg.get("out_dir", "sito"),
         badge_giorni=int(sito_cfg.get("badge_giorni", 2)),
         template_path=sito_cfg.get("template", "../frontend/concept/index.html"),
         settimana_giorni=int(sito_cfg.get("settimana_giorni", 7)),
+        invio_email_url=invio_email_url.strip(),
     )
     print(f"Sito aggiornato: {len(file_sito)} file in {sito_cfg.get('out_dir', 'sito')}/ "
           f"(data.json indice + tema-<id>.json + frontend)")

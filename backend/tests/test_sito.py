@@ -261,6 +261,22 @@ def test_bucket_separati_per_anno(tmp_path):
     assert [g["data"] for g in lista["gruppi"]] == ["2026-07-09", "2025-05-01"]
 
 
+def test_invio_email_url_feature_flag(tmp_path):
+    # Con l'URL configurato finisce in data.json (accende il bottone "Invia email");
+    # senza, la chiave è assente (retro-compatibile, bottone nascosto).
+    d = _digest(chip=[_art("A", "https://x/1")])
+    archivio = [d.contenuto_pubblico()]
+    genera_sito(d, archivio, str(tmp_path / "con"),
+                template_path=str(tmp_path / "nope.html"),
+                invio_email_url="https://dra-mail.example.workers.dev")
+    con = json.loads((tmp_path / "con" / "data.json").read_text(encoding="utf-8"))
+    assert con["invio_email_url"] == "https://dra-mail.example.workers.dev"
+    genera_sito(d, archivio, str(tmp_path / "senza"),
+                template_path=str(tmp_path / "nope.html"))
+    senza = json.loads((tmp_path / "senza" / "data.json").read_text(encoding="utf-8"))
+    assert "invio_email_url" not in senza
+
+
 def test_cache_bust_solo_asset_versionabili():
     html = '<link href="stile.css"><script src="app.js"></script>' \
            "<script src='sfondo.js'></script>fetch('data.json')"
