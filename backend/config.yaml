@@ -56,6 +56,11 @@ sito:
   out_dir: "../sito"              # cartella dei file statici generati (pubblicata dall'host)
   archivio_dir: "data/archivio"   # storico dei digest pubblici (JSON, per la cronologia)
   badge_giorni: 2                 # soglia "nuovo aggiornamento" (calcolo lato client)
+  # Invio del PDF via email (Fase 2 export): URL del Cloudflare Worker che inoltra a
+  # Resend. Se vuoto, il sito mostra solo "Scarica PDF" (nessun bottone email).
+  # Override con la variabile d'ambiente INVIO_EMAIL_URL (ha la precedenza).
+  # La API key di Resend NON sta qui: vive solo nell'env del Worker.
+  invio_email_url: ""
 
 # Email (Fase 7, sez. 17). Nessuna sezione admin (17.3).
 # I destinatari NON stanno qui: sono dati personali e cambiano per ogni adozione del

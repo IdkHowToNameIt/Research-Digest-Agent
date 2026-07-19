@@ -205,12 +205,16 @@ def _giorni_tra(a: str, b: str) -> int:
         return 10**9
 
 
-def _indice_da_full(full: dict, recenti_giorni: int) -> dict:
+def _indice_da_full(full: dict, recenti_giorni: int, invio_email_url: str = "") -> dict:
     """Deriva l'indice leggero (`data.json`) dai dati completi.
 
     Per ogni tema tiene solo i gruppi entro `recenti_giorni` da `generato`
     (per la landing), con il minimo indispensabile: data, titolo, n. articoli.
     Il dettaglio completo vive nei file `tema-<id>.json`.
+
+    `invio_email_url` (opzionale) è l'endpoint del Worker per l'invio del PDF via
+    email: finisce in `data.json` solo se valorizzato, così il frontend accende il
+    bottone "Invia via email" solo quando il relay è configurato (feature-flag).
     """
     generato = full["generato"]
     temi = []
@@ -227,12 +231,15 @@ def _indice_da_full(full: dict, recenti_giorni: int) -> dict:
             "file": NOME_FILE_TEMA.format(id=t["id"]),
             "recenti": recenti,
         })
-    return {
+    indice = {
         "generato": generato,
         "badge_giorni": full["badge_giorni"],
         "settimana_giorni": full["settimana_giorni"],
         "temi": temi,
     }
+    if invio_email_url:
+        indice["invio_email_url"] = invio_email_url
+    return indice
 
 
 def costruisci_indice(
@@ -319,6 +326,7 @@ def genera_sito(
     template_path: str = TEMPLATE_DEFAULT,
     settimana_giorni: int = SETTIMANA_GIORNI_DEFAULT,
     recenti_giorni: int = RECENTI_GIORNI_DEFAULT,
+    invio_email_url: str = "",
 ) -> list[str]:
     """Scrive indice + lista/bucket per-tema e copia il frontend nella publish-dir.
 
@@ -345,7 +353,10 @@ def genera_sito(
     # Indice leggero (data.json): l'unico file caricato all'avvio dal frontend.
     percorso_indice = base / "data.json"
     percorso_indice.write_text(
-        json.dumps(_indice_da_full(full, recenti_giorni), ensure_ascii=False, indent=2),
+        json.dumps(
+            _indice_da_full(full, recenti_giorni, invio_email_url),
+            ensure_ascii=False, indent=2,
+        ),
         encoding="utf-8",
     )
     scritti.append(str(percorso_indice))

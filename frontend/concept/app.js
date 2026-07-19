@@ -74,6 +74,9 @@ async function caricaDati(){
     if(dati.badge_giorni != null) SOGLIA_NUOVO = dati.badge_giorni;
     if(dati.settimana_giorni != null) SOGLIA_SETTIMANA = dati.settimana_giorni;
     GENERATO = dati.generato || '';
+    // URL del Worker per l'invio email (Fase 2): presente solo se configurato nel
+    // backend; pdf.js lo usa per accendere il bottone "Invia via email".
+    window.DRA_INVIO_EMAIL_URL = dati.invio_email_url || '';
     TEMI = (dati.temi||[]).map(function(t){
       return {
         id: t.id, nome: t.nome,
@@ -602,11 +605,23 @@ async function vaiGruppo(id, data){
       <div class="giorno-testata">
         <div class="giorno-testa-riga">
           <h2>${g.titolo}</h2>
-          <button class="btn-pdf" onclick="scaricaPdfGruppoCorrente(event)" title="Scarica questo digest in PDF">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="M8 11l4 4 4-4"/><path d="M5 21h14"/></svg>
-            <span>Scarica PDF</span>
-          </button>
+          <div class="giorno-azioni">
+            <button class="btn-pdf" onclick="scaricaPdfGruppoCorrente(event)" title="Scarica questo digest in PDF">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="M8 11l4 4 4-4"/><path d="M5 21h14"/></svg>
+              <span>Scarica PDF</span>
+            </button>
+            ${window.DRA_INVIO_EMAIL_URL ? `<button class="btn-pdf" onclick="apriInvioEmail(event)" title="Ricevi questo digest via email">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+              <span>Invia via email</span>
+            </button>` : ''}
+          </div>
         </div>
+        ${window.DRA_INVIO_EMAIL_URL ? `<div class="mail-panel" id="mail-panel" hidden>
+          <input id="mail-input" type="email" inputmode="email" autocomplete="email" placeholder="tua@email.it"
+            onkeydown="if(event.key==='Enter')inviaPdfEmail(event)">
+          <button class="btn-pdf mail-send" onclick="inviaPdfEmail(event)"><span>Invia</span></button>
+          <span id="mail-stato" class="mail-stato" role="status" aria-live="polite"></span>
+        </div>` : ''}
         <div class="giorno-sub"><span class="tag">${iconaTema(t.id,13)}${t.nome}</span>
           · ${fmtData(g.data)} ${nuovo?'<span class="badge-nuovo">Nuovo</span>':''}
           · ${g.n} ${plurale(g.n,'aggiornamento','aggiornamenti')}${fmtLettura(g.minuti)?' · '+fmtLettura(g.minuti):''}</div>

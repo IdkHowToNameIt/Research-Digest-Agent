@@ -201,18 +201,26 @@
     return y + lh;
   }
 
-  // Entrypoint agganciato al pulsante "Scarica PDF" nel dettaglio di un giorno.
+  // Costruisce il documento PDF del gruppo aperto. Condiviso da download e invio email.
+  // Ritorna {doc, filename} o lancia se manca la libreria/il gruppo.
+  async function creaDocGruppo(){
+    const cur = (typeof gruppoCorrente === 'function') ? gruppoCorrente() : null;
+    if(!cur || !cur.g || !cur.g.articoli){ throw new Error('Nessun digest aperto.'); }
+    const jspdf = window.jspdf || {};
+    if(!jspdf.jsPDF){ throw new Error('Componente PDF non disponibile.'); }
+    const logo = await caricaLogo();
+    const doc = new jspdf.jsPDF({unit: 'mm', format: 'a4'});
+    costruisci(doc, cur.t, cur.g, logo);
+    return {doc: doc, filename: nomeFile(cur.t, cur.g), cur: cur};
+  }
+
+  // "Scarica PDF": genera e scarica in locale.
   async function scaricaPdfGruppoCorrente(ev){
     const btn = ev && ev.currentTarget ? ev.currentTarget : null;
-    const cur = (typeof gruppoCorrente === 'function') ? gruppoCorrente() : null;
-    if(!cur || !cur.g || !cur.g.articoli){ return; }
-    const jspdf = window.jspdf || {};
-    if(!jspdf.jsPDF){ alert('Componente PDF non disponibile.'); return; }
     if(btn){ btn.disabled = true; btn.classList.add('caricando'); }
     try{
-      const logo = await caricaLogo();
-      const doc = new jspdf.jsPDF({unit: 'mm', format: 'a4'});
-      costruisci(doc, cur.t, cur.g, logo).save(nomeFile(cur.t, cur.g));
+      const r = await creaDocGruppo();
+      r.doc.save(r.filename);
     }catch(e){
       alert('Non è stato possibile generare il PDF (' + (e && e.message || e) + ').');
     }finally{
@@ -220,5 +228,70 @@
     }
   }
 
+  // "Invia via email": mostra/nasconde il pannello con il campo indirizzo.
+  function apriInvioEmail(){
+    const panel = document.getElementById('mail-panel');
+    if(!panel) return;
+    panel.hidden = !panel.hidden;
+    if(!panel.hidden){
+      const input = document.getElementById('mail-input');
+      if(input) input.focus();
+    }
+  }
+
+  function statoMail(testo, cls){
+    const el = document.getElementById('mail-stato');
+    if(!el) return;
+    el.textContent = testo || '';
+    el.className = 'mail-stato' + (cls ? ' ' + cls : '');
+  }
+
+  // Genera il PDF e lo invia al Worker (che inoltra a Resend). Nessun SMTP lato client.
+  async function inviaPdfEmail(ev){
+    const btn = ev && ev.currentTarget ? ev.currentTarget : null;
+    const url = window.DRA_INVIO_EMAIL_URL || '';
+    if(!url){ statoMail('Invio email non configurato.', 'ko'); return; }
+    const input = document.getElementById('mail-input');
+    const email = input ? input.value.trim() : '';
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+      statoMail('Inserisci un indirizzo email valido.', 'ko');
+      if(input) input.focus();
+      return;
+    }
+    if(btn){ btn.disabled = true; btn.classList.add('caricando'); }
+    statoMail('Invio in corso…', 'loading');
+    try{
+      const r = await creaDocGruppo();
+      // base64 puro (senza prefisso "data:...;base64,") per l'allegato Resend
+      const durl = r.doc.output('datauristring');
+      const b64 = durl.substring(durl.indexOf('base64,') + 7);
+      const resp = await fetch(url, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          email: email,
+          filename: r.filename,
+          pdf: b64,
+          tema: (r.cur.t && r.cur.t.nome) || '',
+          data: r.cur.g.data || ''
+        })
+      });
+      let dati = {};
+      try{ dati = await resp.json(); }catch(e){}
+      if(resp.ok && dati.ok){
+        statoMail('Inviato a ' + email + '.', 'ok');
+        if(input) input.value = '';
+      }else{
+        statoMail(dati.errore || 'Invio non riuscito. Riprova.', 'ko');
+      }
+    }catch(e){
+      statoMail('Rete non disponibile. Riprova.', 'ko');
+    }finally{
+      if(btn){ btn.disabled = false; btn.classList.remove('caricando'); }
+    }
+  }
+
   window.scaricaPdfGruppoCorrente = scaricaPdfGruppoCorrente;
+  window.apriInvioEmail = apriInvioEmail;
+  window.inviaPdfEmail = inviaPdfEmail;
 })();

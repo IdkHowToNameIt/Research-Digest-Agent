@@ -227,7 +227,18 @@
     transition:background .15s,color .15s,border-color .15s}
   .btn-pdf:hover{background:var(--verde);color:#fff;border-color:var(--verde)}
   .btn-pdf:disabled,.btn-pdf.caricando{opacity:.55;cursor:progress}
-  @media(max-width:560px){.giorno-testa-riga{flex-direction:column;gap:.3rem}.btn-pdf{margin-top:0}}
+  .giorno-azioni{display:flex;gap:.5rem;flex:none;flex-wrap:wrap;margin-top:.35rem}
+  /* pannello "Invia via email": campo + invio + stato, sotto la testata */
+  .mail-panel{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin:.1rem 0 .6rem}
+  .mail-panel input{font:inherit;font-size:.85rem;color:var(--inchiostro);background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:.42rem .95rem;min-width:min(15rem,70vw)}
+  .mail-panel input:focus{outline:none;border-color:rgba(224,80,110,.6);background:rgba(255,255,255,.06)}
+  .mail-send{margin-top:0}
+  .mail-stato{font-size:.82rem;color:var(--inchiostro-2)}
+  .mail-stato.ok{color:#3fb98a}
+  .mail-stato.ko{color:#e5556b}
+  .mail-stato.loading{color:var(--verde-vivo)}
+  @media(max-width:560px){.giorno-testa-riga{flex-direction:column;gap:.3rem}.giorno-azioni{margin-top:0}}
   /* --- digest del giorno: indice laterale (sticky) + colonna di lettura --- */
   .crono.report{max-width:1040px}
   .digest-layout{display:flex;gap:2.2rem;align-items:flex-start;margin-top:.6rem}
