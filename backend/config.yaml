@@ -16,10 +16,11 @@ model: "llama-3.3-70b-versatile"
 # non rinunciare alla resa della sintesi; i ripieghi restano forti ma via via piu'
 # economici (gpt-oss-120b e' capace E piu' economico del 70b), fino all'8b come
 # ultima rete solo in emergenza. Tariffe per modello: vedi `prezzi`.
+# NB: 'gemma2-9b-it' rimosso il 2026-07-20 — non e' piu' sul listino Groq e
+# rispondeva HTTP 400, quindi bruciava uno scalino della cascata a ogni run.
 modelli_fallback:
   - "openai/gpt-oss-120b"
   - "openai/gpt-oss-20b"
-  - "gemma2-9b-it"
   - "llama-3.1-8b-instant"
 db_path: "data/seen.sqlite3"   # memoria per dedup e conteggi run consecutivi
 out_dir: "out"                 # output tecnico (il canale reale e' email + sito)
