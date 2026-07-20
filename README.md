@@ -109,7 +109,10 @@ backend/
 ├── data/                stato persistente: dedup (sqlite) + archivio digest + metriche (gitignored)
 └── tests/               test deterministici (offline, LLM mockato)
 
-frontend/concept/     interfaccia web (legge data.json e genera le pagine)
+frontend/              interfaccia web React + Vite
+├── src/               componenti, livello dati, sfondo canvas, export PDF
+├── package.json       dipendenze JS (+ package-lock.json, usato da `npm ci`)
+└── dist/              build prodotta da `npm run build` (gitignored)
 sito/                 output pubblicato dall'hosting statico (generato, committato dalla CI)
 docker-compose.yml    backend (generator) + frontend (nginx)
 .env.example          variabili d'ambiente da impostare (copia in .env)
@@ -143,7 +146,7 @@ docker-compose.yml    backend (generator) + frontend (nginx)
    sezioni; le sezioni vuote non invocano il modello.
 7. **Consegna** (`consegna/notifica.py`, `consegna/sito.py`): email + dati del sito.
    Il backend scrive `sito/data.json` (archivio pubblico aggregato per tema) e
-   copia `frontend/concept/index.html` in `sito/index.html`. Il frontend statico
+   copia la build del frontend (`frontend/dist/`) nella publish-dir. L'app React
    legge `data.json` e genera lato client homepage, cronologie e pagine articolo.
 8. **Metriche** (`metriche.py`): raccolte durante il run (stato fonti, esiti dedup,
    copertura e token/costo del modello) e salvate in `backend/data/metriche/<run>.json`
@@ -176,7 +179,7 @@ Tutto in `config.yaml`:
   manda ai lettori. Nel repo è un placeholder: impostalo con la variabile d'ambiente
   **`HOMEPAGE_URL`**, che ha la precedenza su questo campo, oppure sostituiscilo qui.
   Se resta il placeholder il run si ferma con un errore), `out_dir`, `archivio_dir`,
-  `badge_giorni` (soglia badge), `template` (default `frontend/concept/index.html`).
+  `badge_giorni` (soglia badge), `template` (default `../frontend/dist/index.html`).
 - `metriche_dir` (default `data/metriche`), `prezzi` e `tasso_cambio_usd_eur`: `prezzi`
   è il listino Groq in **USD/1M token** per modello (input/output); `tasso_cambio_usd_eur`
   converte in **euro** il costo mostrato in dashboard. Sul free tier il costo reale è 0,
@@ -289,9 +292,10 @@ sovrascritto (DECISIONI sez. 15) — ma è lavoro sprecato e consuma quota del m
 
 ### d) Collega un hosting statico
 
-Il sito è **statico e senza build**: il workflow scrive `sito/` e lo committa. Serve
-solo un host che pubblichi quella cartella del repo e ridispieghi a ogni push — non
-c'è niente di specifico a un provider.
+Il sito pubblicato resta **statico**: il workflow costruisce il frontend, scrive `sito/`
+e lo committa. Serve solo un host che pubblichi quella cartella del repo e ridispieghi
+a ogni push — non c'è niente di specifico a un provider. La build avviene **in CI**,
+non sull'host: l'hosting continua a servire file statici e basta.
 
 **Render** (l'host su cui questa configurazione è testata): *New → Static Site* →
 collega il repo → *Publish directory* = `sito/` → **nessun comando di build**. Fa
@@ -429,11 +433,10 @@ garantito senza bisogno di attese.
    `sito.homepage_url` in `config.yaml` con l'URL ottenuto. Scelta dell'host e
    caveat in *[Adottare il repo](#adottare-il-repo)*.
 
-## Interfaccia web (frontend/concept)
+## Interfaccia web (frontend/)
 
-L'interfaccia web è **una sola**, definitiva, in `frontend/concept/index.html`,
-separata dal backend Python (`backend/src/`, `backend/main.py`). È una web-app statica vanilla
-(HTML/CSS/JS, zero dipendenze esterne) che **legge `data.json`** (prodotto dal
+L'interfaccia è una **single-page app React** (build con Vite), separata dal backend
+Python (`backend/src/`, `backend/main.py`). **Legge `data.json`** (prodotto dal
 backend) e genera lato client: home → cronologia tema → articolo con "Perché conta"
 e nota preprint. In home compaiono solo i temi con aggiornamenti della settimana,
 box **autocentrati**, badge "Nuovo" (≤ `badge_giorni`) e finestra settimana
@@ -445,8 +448,9 @@ card del digest (oltre che nella testata di lettura).
 Aprendo un digest, il pulsante **"Scarica PDF"** genera al volo il PDF di quel giorno
 (tema + data) e lo scarica: pensato per leggerlo **offline, sul telefono**. Il PDF è
 costruito **lato browser** dai dati già in memoria (testo selezionabile, fonti con link,
-non uno screenshot) con **jsPDF vendorizzata** (`jspdf.umd.min.js`, nessuna CDN a
-runtime). Se è configurato `sito.invio_email_url` (l'URL del Worker, vedi sotto) compare
+non uno screenshot) con **jsPDF da npm**, impacchettata nel bundle (nessuna CDN a
+runtime). Il modulo PDF si carica **solo al primo click** su Scarica: jsPDF si porta
+dietro ~230 kB di dipendenze che non useremmo mai per chi legge e basta. Se è configurato `sito.invio_email_url` (l'URL del Worker, vedi sotto) compare
 anche **"Invia via email"**: il sito manda il PDF a un **Cloudflare Worker** che lo inoltra
 a **Resend** (HTTP API, **senza SMTP**) come allegato — la API key vive solo nel Worker.
 Codice e guida di deploy in [`worker/`](worker/README.md); razionale in
@@ -477,7 +481,9 @@ docker compose up web              # sito generato con i dati → http://localho
 ## Stato
 
 Tutte le 8 fasi sono implementate, più la **dashboard di osservabilità**
-(metriche operative per run); la suite conta **190 test verdi**. Le scelte di
+(metriche operative per run); la suite conta **190 test Python verdi** (`cd backend && pytest`) piu' **42 test
+del frontend** (`cd frontend && npm test`), che coprono livello dati, export PDF e
+popover di download. Le scelte di
 progetto e il perché sono in [`DECISIONI.md`](DECISIONI.md).
 
 Punti noti, non bloccanti, che chi adotta il repo farà bene a tenere d'occhio:

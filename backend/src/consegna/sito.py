@@ -20,9 +20,11 @@ unico gruppo.
 
 `genera_sito`:
 - scrive `<out_dir>/data.json` (indice) + un `<out_dir>/tema-<id>.json` per tema;
-- copia i file del frontend (index.html + stile.css + app.js + sfondo.js) in
-  `<out_dir>/`, aggiungendo a `index.html` un token `?v=<generato>` sui riferimenti
-  a JS/CSS (**cache-busting**): dopo un deploy il browser non serve versioni vecchie.
+- copia la build del frontend (frontend/dist: index.html + assets/) in `<out_dir>/`.
+  Il cache-busting degli asset non si fa piu' a mano: Vite mette l'hash del
+  contenuto nei nomi dei file, quindi un asset cambiato cambia nome da solo. I JSON
+  dei dati, che il nome lo mantengono, restano versionati lato client con
+  `?v=<generato>`.
 
 Il badge "nuovo aggiornamento" (soglia configurabile, default 2 giorni) e la vista
 "questa settimana" (7 giorni) sono calcolati LATO CLIENT dal frontend a partire
@@ -66,11 +68,12 @@ ANTEPRIMA_TITOLI = 3
 # Velocità di lettura per la stima del tempo di lettura mostrato all'utente
 # (~200 parole/minuto, lettura silenziosa media). Il valore è indicativo.
 PAROLE_AL_MINUTO = 200
-# Asset del frontend a cui aggiungere il token ?v=<generato> in index.html (cache-busting).
-# pdf.js è versionato; jspdf.umd.min.js è una libreria vendorizzata stabile (non versionata).
-ASSET_VERSIONABILI = ("app.js", "stile.css", "sfondo.js", "pdf.js")
-# Template del frontend copiato accanto a data.json come index.html della publish-dir.
-TEMPLATE_DEFAULT = "frontend/concept/index.html"
+# Build del frontend (React + Vite) copiata accanto ai JSON nella publish-dir.
+# Va prodotta PRIMA di questo passo con `npm run build` in frontend/ (in CI c'è uno
+# step apposta): se manca, il sito viene pubblicato senza interfaccia.
+# NB: relativo a backend/, la cartella da cui gira main.py (come il percorso che
+# main.py passa davvero). Scriverlo senza "../" lo rendeva un default morto.
+TEMPLATE_DEFAULT = "../frontend/dist/index.html"
 
 
 def temi_con_aggiornamenti(digest: Digest) -> list[Tema]:
@@ -290,20 +293,6 @@ def _bucket_anni_tema(t: dict) -> dict[str, dict]:
     return buckets
 
 
-def _cache_bust(html: str, token: str) -> str:
-    """Aggiunge `?v=<token>` ai riferimenti JS/CSS in index.html (cache-busting).
-
-    Cerca gli asset tra virgolette singole o doppie (es. `src="app.js"`), così il
-    browser scarica la nuova versione dopo un deploy invece di servire la cache.
-    """
-    if not token:
-        return html
-    for asset in ASSET_VERSIONABILI:
-        html = html.replace(f'"{asset}"', f'"{asset}?v={token}"')
-        html = html.replace(f"'{asset}'", f"'{asset}?v={token}'")
-    return html
-
-
 def _svuota_dir(base: Path) -> None:
     """Rimuove tutto il contenuto di `base` (file e sottocartelle), non la cartella.
 
@@ -339,8 +328,7 @@ def genera_sito(
     - `tema-<id>-<anno>.json` = corpi degli articoli del tema per quell'anno,
       caricati aprendo un giorno di quell'anno (così un tema con anni di storia non
       si scarica mai tutto in una volta, senza perdere alcun dato);
-    - index.html/stile.css/app.js/sfondo.js, con `?v=<generato>` sui riferimenti
-      JS/CSS di index.html (cache-busting).
+    - la build del frontend (index.html + assets/), copiata ricorsivamente.
     La publish-dir viene svuotata prima della scrittura, così riflette l'ultimo run.
     """
     base = Path(out_dir)
@@ -380,19 +368,34 @@ def genera_sito(
 
     tpl = Path(template_path)
     if tpl.exists():
-        # Il frontend è suddiviso in più file (index.html + stile.css + app.js +
-        # sfondo.js): copia l'intera cartella del template nella publish-dir.
-        # `template_path` indica index.html; a esso si applica il cache-busting.
-        for asset in sorted(tpl.parent.iterdir()):
-            if asset.is_file():
-                destinazione = base / asset.name
-                if asset.name == "index.html":
-                    testo = _cache_bust(asset.read_text(encoding="utf-8"), generato)
-                    destinazione.write_text(testo, encoding="utf-8")
-                else:
-                    shutil.copyfile(asset, destinazione)
-                scritti.append(str(destinazione))
+        # Il frontend e' una build Vite (frontend/dist): index.html piu' una
+        # sottocartella assets/ con JS e CSS. Si copia l'intero albero nella
+        # publish-dir, RICORSIVAMENTE: la versione precedente copiava solo i file
+        # diretti (`asset.is_file()`) perche' il frontend era piatto, e con la
+        # build avrebbe pubblicato l'index senza il suo bundle — pagina bianca,
+        # senza alcun errore che lo segnalasse.
+        scritti.extend(_copia_albero(tpl.parent, base))
 
+    return scritti
+
+
+def _copia_albero(sorgente: Path, destinazione: Path) -> list[str]:
+    """Copia ricorsivamente `sorgente` dentro `destinazione`. Ritorna i file scritti.
+
+    Niente cache-busting a mano: Vite mette gia' l'hash del contenuto nei nomi dei
+    file generati, quindi un asset cambiato cambia nome da solo. I JSON dei dati,
+    che il nome invece non lo cambiano, restano versionati lato client dal
+    parametro `?v=<generato>` (conVersione in src/dati.js).
+    """
+    scritti: list[str] = []
+    for elemento in sorted(sorgente.rglob("*")):
+        if not elemento.is_file():
+            continue
+        relativo = elemento.relative_to(sorgente)
+        arrivo = destinazione / relativo
+        arrivo.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(elemento, arrivo)
+        scritti.append(str(arrivo))
     return scritti
 
 

@@ -92,6 +92,28 @@ jobs:
       - name: Installa le dipendenze
         run: pip install -r backend/requirements.txt
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      # L'interfaccia e' React+Vite e va COSTRUITA prima di generare il sito: il
+      # passo qui sotto copia frontend/dist/ nella publish-dir. Senza questo step
+      # il sito verrebbe pubblicato con i soli JSON e senza interfaccia.
+      # `npm ci` (non `install`) per installare esattamente il lock file.
+      - name: Costruisci il frontend
+        working-directory: frontend
+        run: |
+          npm ci
+          npm run build
+
+      # I test del frontend girano qui e non in un workflow separato: se il bundle
+      # e' rotto, meglio scoprirlo prima di spendere le chiamate al modello.
+      - name: Test del frontend
+        working-directory: frontend
+        run: npm test
+
       # Fase 1: digest + sito, senza email. Il digest resta in backend/out/ per la
       # fase 2 (stesso job, stesso runner: il filesystem persiste tra gli step).
       - name: Genera il digest e il sito

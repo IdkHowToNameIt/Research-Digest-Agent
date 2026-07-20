@@ -13,5 +13,10 @@ sito/
 frontend/_artifact_*.html
 claude-progress.txt
 
+# Frontend React: dipendenze e build. package-lock.json INVECE va committato,
+# perche' la CI usa `npm ci`, che installa esattamente quel lock.
+frontend/node_modules/
+frontend/dist/
+
 # PDF di esempio usati per analisi manuale, non materiale di progetto
 ex pdf/
