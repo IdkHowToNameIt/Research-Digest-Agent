@@ -158,7 +158,11 @@ def _motivo(e: Exception) -> str:
     diversi, e il log era l'unico modo per accorgersene a run finita.
     """
     if isinstance(e, RispostaNonJSON):
-        return "risposta non JSON"
+        # `_estrai_json` mette gia' nel messaggio i primi 200 caratteri della
+        # risposta: riportarli e' l'unico modo per sapere COSA scrive il modello
+        # invece di dedurlo. Senza, ogni causa diversa (testo libero, risposta
+        # vuota, JSON troncato) si legge uguale nei log.
+        return f"risposta non JSON — {e}"
     codice = _codice_errore(e)
     if codice is not None:
         return f"HTTP {codice}"
@@ -276,7 +280,19 @@ def crea_generatore(
                 getattr(uso, "prompt_tokens", 0) or 0,
                 getattr(uso, "completion_tokens", 0) or 0,
             )
-        return _estrai_json(risposta.choices[0].message.content or "")
+        scelta = risposta.choices[0]
+        contenuto = scelta.message.content or ""
+        try:
+            return _estrai_json(contenuto)
+        except RispostaNonJSON as e:
+            # Il perche' di un JSON illeggibile cambia il rimedio: 'length' vuol
+            # dire risposta TRONCATA (serve piu' spazio o un prompt piu' corto),
+            # 'stop' vuol dire che il modello ha ignorato il formato (serve
+            # response_format). A log erano indistinguibili.
+            motivo = getattr(scelta, "finish_reason", None)
+            raise RispostaNonJSON(
+                f"{e} [finish_reason={motivo}, {len(contenuto)} caratteri]"
+            ) from e
 
     # cascata sticky (fallback tra modelli) con retry backoff sui 5xx del modello
     # corrente; il 429 (quota) fa cambiare modello subito, senza attese.
