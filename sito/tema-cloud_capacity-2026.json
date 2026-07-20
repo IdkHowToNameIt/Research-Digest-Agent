@@ -1,0 +1,410 @@
+{
+  "anno": "2026",
+  "gruppi": [
+    {
+      "data": "2026-07-17",
+      "titolo": "Google Cloud annuncia novità per la gestione della capacità e della sicurezza",
+      "articoli": [
+        {
+          "titolo": "Google Cloud: novità e aggiornamenti",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/topics/inside-google-cloud/whats-new-google-cloud/"
+            }
+          ],
+          "data": "2026-07-17",
+          "sintesi": "Google Cloud annuncia diverse novità, tra cui l'abilitazione predefinita della condivisione dei prezzi commessi per i nuovi conti di fatturazione e l'arrivo in anteprima del sandbox di Cloud Run per eseguire codice generato da AI in modo sicuro e isolato. Inoltre, la piattaforma offre nuove funzionalità per la gestione dell'infrastruttura AI, come la scalabilità dei servizi multi-regionali su Cloud Run e la protezione delle infrastrutture da attacchi avanzati.",
+          "perche_conta": "Queste novità sono rilevanti per gli investitori e i CTO che vogliono rimanere aggiornati sulle ultime tendenze e tecnologie di Google Cloud.",
+          "note": null
+        },
+        {
+          "titolo": "Livella la sicurezza dei tuoi dati: utilizza le etichette di governance dei dati IAM in BigQuery",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/products/data-analytics/level-up-your-column-level-security-using-iam-data-governance-tags-in-bigquery/"
+            }
+          ],
+          "data": "2026-07-17",
+          "sintesi": "Google Cloud introduce le etichette di governance dei dati IAM in BigQuery per fornire una soluzione scalabile e robusta per la gestione dei controlli di accesso e la protezione dei dati dei colonne. Le etichette di governance dei dati IAM consentono di creare un albero gerarchico di etichette per la classificazione e la gestione dei dati dei colonne, con funzionalità come la gestione della riproduzione dei dati, la sicurezza globale e la classificazione gerarchica.",
+          "perche_conta": "Le etichette di governance dei dati IAM in BigQuery sono rilevanti per gli investitori perché offrono una soluzione innovativa per la gestione dei dati sensibili e la protezione dei dati dei colonne, che è essenziale per le organizzazioni che lavorano con grandi quantità di dati.",
+          "note": null
+        },
+        {
+          "titolo": "13 demo pratiche per costruire la piattaforma di agenti Gemini Enterprise",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/products/ai-machine-learning/13-demos-on-gemini-enterprise-agent-platform/"
+            }
+          ],
+          "data": "2026-07-17",
+          "sintesi": "Google Cloud presenta 13 demo pratiche per costruire la piattaforma di agenti Gemini Enterprise, che consentono di creare, scalare, governare e ottimizzare gli agenti. Le demo coprono vari aspetti, dalla creazione di agenti conversazionali alla gestione della scalabilità e della sicurezza. La piattaforma di agenti Gemini Enterprise consente di costruire agenti che possono essere integrati con diversi servizi di Google Cloud, come BigQuery e Cloud Run.",
+          "perche_conta": "La piattaforma di agenti Gemini Enterprise è rilevante per gli investitori e i CTO perché offre una soluzione completa per la creazione, la scalabilità e la gestione degli agenti AI, che è un aspetto fondamentale per l'adozione dell'intelligenza artificiale nelle organizzazioni.",
+          "note": null
+        },
+        {
+          "titolo": "Guida alle Tokenomics dell'Intelligenza Artificiale: Undici Principi per l'Ingegneria del Software Efficiente",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/topics/developers-practitioners/guide-to-ai-tokenomics-eleven-principles-for-token-efficient-software-engineering/"
+            }
+          ],
+          "data": "2026-07-17",
+          "sintesi": "Google Cloud propone undici principi per ottimizzare l'uso dei token nelle sessioni di AI, riducendo la latenza e aumentando la produttività. Questi principi includono l'uso di modelli bilanciati, l'automazione di compiti ripetitivi e la delega di compiti pesanti.",
+          "perche_conta": "Questi principi sono rilevanti per gli investitori e i CTO perché offrono una guida pratica per ottimizzare l'uso dei token nelle sessioni di AI, riducendo i costi e aumentando la produttività.",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2026-07-16",
+      "titolo": "Google si conferma leader nella piattaforma di AI conversazionale e nella gestione di capacità",
+      "articoli": [
+        {
+          "titolo": "Google è un leader e si colloca più a destra nella Visione e più in alto nell'Esecuzione nel Magic Quadrant 2026 di Gartner per piattaforme di AI conversazionale",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/products/ai-machine-learning/google-is-a-leader-in-the-gartner-magic-quadrant-for-conversational-ai/"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "Google è stato nuovamente nominato leader nel Magic Quadrant di Gartner per piattaforme di AI conversazionale. La piattaforma Gemini Enterprise per Esperienza del Cliente di Google si colloca al primo posto in tre delle quattro capacità critiche. Questo riconoscimento riflette l'investimento di Google in ricerche di AI frontiera, infrastrutture aziendali e l'aiuto ai clienti a trasferire l'AI dall'esperimentazione alla produzione su larga scala.",
+          "perche_conta": "Questo riconoscimento è rilevante per gli investitori e i CTO perché riflette la leadership di Google nel settore dell'AI conversazionale e la sua capacità di fornire soluzioni di produzione per esperienze del cliente avanzate.",
+          "note": null
+        },
+        {
+          "titolo": "L'AI come vantaggio per i difensori: come la profondità del contesto aiuta a contrastare le minacce",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/products/identity-security/cloud-ciso-perspectives-how-ai-leverages-deep-context-defenders-advantage/"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "Francis deSouza, COO di Google Cloud e Presidente di Security Products, spiega come l'AI possa essere utilizzata come vantaggio per i difensori contro le minacce informatiche. L'AI può fornire una visione completa del contesto, consentendo di rispondere in modo più rapido e preciso alle minacce. Google ha sviluppato un'architettura di difesa basata sull'AI, chiamata Google AI Threat Defense, che combina le capacità di sicurezza di Google in un'unica piattaforma.",
+          "perche_conta": "Questo articolo è rilevante per gli investitori e i CTO che vogliono comprendere come l'AI possa essere utilizzata per migliorare la sicurezza informatica e contrastare le minacce informatiche.",
+          "note": null
+        },
+        {
+          "titolo": "10 squadre autonome di produzione hanno insegnato a noi come gli agenti collaborano",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/topics/developers-practitioners/what-we-learned-about-agent-teamwork/"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "Google ha organizzato un hackathon per valutare se gli agenti AI possono collaborare per creare un film. 10 squadre di agenti hanno prodotto ciascuna un breve film, utilizzando un processo di 7 passaggi basato sui fondamenti del cinema tradizionale. Gli agenti hanno collaborato attraverso messaggi e file condivisi, utilizzando un sistema di orchestrazione degli agenti chiamato Scion. Il risultato è stato un totale di 25+ produzioni, 44 minuti di film e una documentario sulla creazione dei film.",
+          "perche_conta": "Questo esperimento ci insegna come gli agenti AI possano collaborare per creare contenuti complessi come film, e come possano essere utilizzati in contesti di produzione autonoma.",
+          "note": null
+        },
+        {
+          "titolo": "Bridging the gap tra SQL e Python con BigQuery e il %%bqsql magic",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/products/data-analytics/bridge-sql-and-python-with-bigquery/"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "Il team di Google Cloud ha introdotto il %%bqsql magic per unire SQL e Python in un unico notebook. Questo permette di concatenare processi di elaborazione dati tra SQL e Python senza dover muovere dati da SQL a memoria e viceversa. Il %%bqsql magic è disponibile anche per l'ecosistema open-source.",
+          "perche_conta": "Questo strumento è rilevante per gli investitori perché rappresenta un passo avanti nella gestione dei dati e nella loro elaborazione, potenzialmente aumentando l'efficienza e la produttività.",
+          "note": null
+        },
+        {
+          "titolo": "Tre lezioni per accelerare gli aggiornamenti dei modelli fondamentali",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/products/compute/lessons-in-accelerating-foundation-model-upgrades/"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "Google Cloud ha sviluppato un approccio agente per accelerare gli aggiornamenti dei modelli fondamentali. Tre lezioni sono state apprese: iniziare con la scoperta manuale, evitare l'automazione tradizionale e passare a un'architettura agente flessibile. Questo approccio ha permesso di ridurre il tempo di migrazione e migliorare la qualità.",
+          "perche_conta": "Questo approccio può essere applicato da qualsiasi team di ingegneria per accelerare gli aggiornamenti dei propri modelli fondamentali.",
+          "note": null
+        },
+        {
+          "titolo": "Demistificare gli sfruttamenti AI: un piano per la gestione di vulnerabilità assistita da AI",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/topics/threat-intelligence/ai-assisted-vulnerability-management/"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "La gestione di vulnerabilità assistita da AI può accelerare i flussi di lavoro, ma richiede un approccio strutturato per evitare rischi. La Google Cloud fornisce una guida per stabilire controlli operativi per la gestione di vulnerabilità assistita da AI, inclusi scenari dettagliati. L'integrazione di AI nelle vulnerabilità richiede un approccio maturo e una struttura di integrazione. La combinazione di capacità AI con controlli deterministici e intelligenza umana riduce i rischi.",
+          "perche_conta": "Questo articolo è rilevante per gli investitori e i CTO che vogliono comprendere come la gestione di vulnerabilità assistita da AI possa influire sulle infrastrutture e sulle tecnologie di AI.",
+          "note": null
+        },
+        {
+          "titolo": "Sicurezza AI a scala aziendale: il blueprint di Google per Kubernetes Engine",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/topics/developers-practitioners/securing-ai-at-enterprise-scale-the-google-kubernetes-engine-blueprint/"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "Google presenta un blueprint per la sicurezza dei carichi di lavoro AI su Google Kubernetes Engine (GKE), che consolida controlli multipli per fornire una piattaforma sicura per default. Il blueprint identifica tre livelli critici della pila AI e propone una serie di misure di sicurezza per ciascuno di essi.",
+          "perche_conta": "Questo blueprint è rilevante per gli investitori e i CTO che vogliono sapere come proteggere i carichi di lavoro AI da minacce tradizionali e nuove, come la iniezione di prompt e l'esfiltrazione di dati.",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2026-07-15",
+      "titolo": "Gestione e sicurezza delle risorse cloud per l'AI e l'applicazione agente",
+      "articoli": [
+        {
+          "titolo": "Come analizzare e governare l'utilizzo di Gemini Enterprise App a livello di scala con BigQuery",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/products/data-analytics/analyze-and-govern-gemini-enterprise-at-scale-with-bigquery/"
+            }
+          ],
+          "data": "2026-07-15",
+          "sintesi": "Google Cloud fornisce strumenti di analisi e governance per aiutare gli amministratori a comprendere l'utilizzo di Gemini Enterprise App a livello di scala. Utilizzando BigQuery, gli amministratori possono analizzare e governare l'adozione di agentic AI, profiliare l'adozione e le comportamenti degli utenti, quantificare il valore organizzativo e eseguire audit di compliance.",
+          "perche_conta": "Questo articolo è rilevante per gli investitori e i CTO che vogliono comprendere come gestire l'adozione di agentic AI a livello di scala e come utilizzare BigQuery per analizzare e governare l'utilizzo di Gemini Enterprise App.",
+          "note": null
+        },
+        {
+          "titolo": "IDC: Perché un approccio di rete adeguato è fondamentale per l'AI agente",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/products/networking/idc-on-the-right-networking-approach-for-agentic-ai/"
+            }
+          ],
+          "data": "2026-07-15",
+          "sintesi": "Secondo un rapporto dell'IDC, le aziende stanno affrontando sfide significative nella gestione delle reti per supportare l'AI agente. La mancanza di un approccio di rete adeguato è una delle principali cause di ritardi e abbandoni di progetti AI. Le aziende devono implementare un approccio di rete che consenta di gestire la complessità dell'AI agente e garantire la sicurezza e la governance.",
+          "perche_conta": "Un approccio di rete adeguato è fondamentale per l'AI agente perché consente di gestire la complessità delle reti e garantire la sicurezza e la governance.",
+          "note": null
+        },
+        {
+          "titolo": "Come risolvere le limitazioni della ricerca full-text multilingue di PostgreSQL con AlloyDB AI",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/products/databases/how-alloydb-overcomes-indexing-limitations-with-ai-functions/"
+            }
+          ],
+          "data": "2026-07-15",
+          "sintesi": "AlloyDB offre una soluzione per le limitazioni della ricerca full-text multilingue di PostgreSQL, integrando le capacità di intelligenza artificiale di Gemini per la segmentazione delle parole in linguaggi logografici come il cinese, il giapponese e il coreano.",
+          "perche_conta": "Questa soluzione è rilevante per gli investitori perché rappresenta un avanzamento significativo nella capacità di eseguire ricerche full-text accurate e rapide in linguaggi logografici, senza l'overhead amministrativo di complessi pipeline ETL.",
+          "note": null
+        },
+        {
+          "titolo": "Il rischio delle funzioni cloud esposte e come hardenle",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/topics/threat-intelligence/exposed-cloud-functions-harden/"
+            }
+          ],
+          "data": "2026-07-15",
+          "sintesi": "Le funzioni serverless esposte possono essere vulnerabili a attacchi di tipo LFI/RFI e Command Injection, consentendo agli attaccanti di ottenere accesso completo al container e potenzialmente compromettere l'ambiente cloud. Per mitigare questo rischio, è necessario implementare strategie di hardening per le funzioni serverless, come ad esempio utilizzare un gestore di segreti e non memorizzare segreti o credenziali all'interno del codice o dei file del container.",
+          "perche_conta": "La sicurezza delle funzioni serverless è cruciale per proteggere l'ambiente cloud e prevenire attacchi di tipo LFI/RFI e Command Injection.",
+          "note": null
+        },
+        {
+          "titolo": "Azure Databricks offre valore commerciale provato",
+          "fonti": [
+            {
+              "nome": "Azure Blog",
+              "link": "https://azure.microsoft.com/en-us/blog/azure-databricks-delivers-proven-business-value/"
+            }
+          ],
+          "data": "2026-07-15",
+          "sintesi": "Microsoft Azure Databricks offre il vantaggio di primo piano di Databricks su Microsoft, traducendosi in valore misurabile per i clienti. La piattaforma è la stessa che i team già conoscono, co-progettata con Microsoft e fornita come servizio nativo di Azure, integrandosi facilmente con gli strumenti, l'identità e la governance già utilizzati dall'organizzazione.",
+          "perche_conta": "Questo articolo è rilevante per gli investitori e i CTO che vogliono comprendere come la piattaforma Azure Databricks possa offrire valore commerciale ai clienti.",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2026-07-14",
+      "titolo": "Google Cloud espande la sua capacità di infrastruttura per l'IA avanzata",
+      "articoli": [
+        {
+          "titolo": "Google nominata Leader nel MarketScape IDC per il Software di Modelli Fondamentali a livello mondiale 2026",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/products/ai-machine-learning/google-named-a-leader-in-idc-marketscape/"
+            }
+          ],
+          "data": "2026-07-14",
+          "sintesi": "Google è stata nominata Leader nel MarketScape IDC per il software di modelli fondamentali a livello mondiale 2026 grazie alla sua capacità di tradurre la ricerca di frontiera in sistemi di produzione sicuri e scalabili. La società ha sviluppato una piattaforma unificata, Gemini Enterprise, per consentire alle organizzazioni di utilizzare i modelli fondamentali in modo sicuro e efficiente.",
+          "perche_conta": "Questa nomina è rilevante per gli investitori e i CTO poiché dimostra la leadership di Google nel settore dei modelli fondamentali e la sua capacità di fornire soluzioni scalabili e sicure.",
+          "note": null
+        },
+        {
+          "titolo": "Claude a scala su Google Cloud: IA di frontiera, costruita per la produzione aziendale",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/products/ai-machine-learning/claude-at-scale-on-google-cloud-frontier-ai-built-for-enterprise-production/"
+            }
+          ],
+          "data": "2026-07-14",
+          "sintesi": "Google Cloud presenta Claude, un'IA di frontiera costruita per la produzione aziendale. Claude è disponibile su Google Cloud e offre una piattaforma gestita per l'infrastruttura, la raggiungibilità globale e la conformità postura che le aziende già utilizzano. La piattaforma offre quattro aree di produzione: infrastruttura gestita, endpoint globali, sicurezza e dati sovrani, e caratteristiche di livello di servizio ottimizzate per costo e prestazioni.",
+          "perche_conta": "Claude a scala su Google Cloud conta per gli investitori perché offre una piattaforma gestita per l'IA di frontiera, che è essenziale per le aziende che vogliono implementare l'intelligenza artificiale in produzione.",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2026-07-13",
+      "titolo": "Cloud capacity e sicurezza: innovazioni e tendenze nel settore AI e infrastrutture",
+      "articoli": [
+        {
+          "titolo": "La sicurezza della catena di approvvigionamento AI su GKE: presentato k8s-aibom per BOM automatizzati AI",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/products/identity-security/introducing-k8s-aibom-on-gke-for-automated-ai-bills-of-materials/"
+            }
+          ],
+          "data": "2026-07-13",
+          "sintesi": "Google ha presentato k8s-aibom, un controller Kubernetes lightweight e non privilegiato che monitora il cluster API e gli ambienti dei container per automatizzare la generazione di BOM standard CycloneDX Machine Learning. Questo strumento può aiutare le organizzazioni a gestire la sicurezza della catena di approvvigionamento AI e a garantire la visibilità e la tracciabilità dei modelli AI in esecuzione.",
+          "perche_conta": "k8s-aibom può aiutare le organizzazioni a gestire la sicurezza della catena di approvvigionamento AI e a garantire la visibilità e la tracciabilità dei modelli AI in esecuzione.",
+          "note": "k8s-aibom è un progetto open-source sviluppato da Google che può essere utilizzato su qualsiasi cluster Kubernetes conformante."
+        },
+        {
+          "titolo": "La creazione del veicolo definito dall'AI con Android, Google Cloud e Nexus SDV",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/products/databases/nexus-sdv-uses-bigtable-android-automotive-for-agentic-vehicles/"
+            }
+          ],
+          "data": "2026-07-13",
+          "sintesi": "L'industria automobilistica sta passando da piattaforme incentrate sul hardware a quelle software definite, con Google Android e Google Cloud che guidano questa transizione. La piattaforma AAOS SDV di Android implementa il veicolo definito dall'AI, mentre Google Cloud fornisce un'infrastruttura scalabile con strumenti di integrazione AI, tra cui Bigtable per telemetria automobilistica e manifatturiera. La piattaforma Nexus SDV di Valtech utilizza Google tecnologie per creare un sistema di veicolo connesso completo e integrato.",
+          "perche_conta": "Questa tecnologia è rilevante per gli investitori perché rappresenta un'opportunità per le aziende automobilistiche di creare veicoli più intelligenti e connessi, aumentando la loro competitività e la loro capacità di generare ricavi.",
+          "note": null
+        },
+        {
+          "titolo": "Tendenze chiave dal rapporto M-Trends 2026 per il settore pubblico e oltre",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/topics/public-sector/key-findings-from-the-2026-public-sector-m-trends-report-and-beyond/"
+            }
+          ],
+          "data": "2026-07-13",
+          "sintesi": "Il settore pubblico non difende più un perimetro tradizionale, ma una rete complessa di relazioni di fiducia interconnesse contro attaccanti che operano a velocità di macchina. Il rapporto M-Trends 2026 evidenzia la compressione dell'attacco, la persistenza dei malware, l'attacco alla pila di virtualizzazione e l'effetto dominò dei servizi a pagamento.",
+          "perche_conta": "Queste tendenze sono rilevanti per gli investitori e i CTO perché mostrano la necessità di una difesa a velocità di macchina e di una verifica continua della fiducia per il settore pubblico.",
+          "note": null
+        },
+        {
+          "titolo": "Amazon SQS compie 20 anni: due decadi di messaggistica affidabile a scala",
+          "fonti": [
+            {
+              "nome": "AWS News Blog",
+              "link": "https://aws.amazon.com/blogs/aws/amazon-sqs-turns-20-two-decades-of-reliable-messaging-at-scale/"
+            }
+          ],
+          "data": "2026-07-13",
+          "sintesi": "Amazon SQS è stato lanciato il 13 luglio 2006 come uno dei primi tre servizi disponibili per i clienti, insieme a Amazon EC2 e Amazon S3. È stato progettato per fornire una soluzione affidabile per la comunicazione tra componenti distribuiti senza creare dipendenze strette.",
+          "perche_conta": "Amazon SQS è una tecnologia fondamentale per l'architettura a servizi distribuiti e rappresenta un esempio di come la tecnologia possa supportare la scalabilità e la flessibilità dei sistemi.",
+          "note": null
+        },
+        {
+          "titolo": "AWS Builder Center compie un anno: piattaforma cresciuta",
+          "fonti": [
+            {
+              "nome": "AWS News Blog",
+              "link": "https://aws.amazon.com/blogs/aws/aws-weekly-roundup-aws-builder-center-at-one-year-network-scanning-in-security-hub-loom-for-aws-and-more-july-13-2026/"
+            }
+          ],
+          "data": "2026-07-13",
+          "sintesi": "AWS Builder Center è cresciuta da una piattaforma di community a un ecosistema completo con sandbox, workshop e biblioteca. La piattaforma è stata lanciata un anno fa e ha già registrato un importante sviluppo.",
+          "perche_conta": "La piattaforma rappresenta un importante investimento di AWS nel settore dell'AI e dell'innovazione tecnologica.",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2026-07-09",
+      "titolo": "Modelli frontiera e agenti di produzione: Microsoft Foundry per l'era agente",
+      "articoli": [
+        {
+          "titolo": "Modelli frontiera e agenti di produzione: Microsoft Foundry per l'era agente",
+          "fonti": [
+            {
+              "nome": "Azure Blog",
+              "link": "https://azure.microsoft.com/en-us/blog/frontier-models-and-production-agents-advancing-microsoft-foundry-for-the-agentic-era/"
+            }
+          ],
+          "data": "2026-07-09",
+          "sintesi": "Microsoft introduce i modelli frontiera di OpenAI e la zona dati Asia Pacific, oltre alle funzionalità degli agenti di produzione, disponibili in Microsoft Foundry.",
+          "perche_conta": "Questo annuncio è rilevante per gli investitori e i CTO interessati allo sviluppo di tecnologie AI avanzate.",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2026-07-08",
+      "titolo": "Come Azure ha evoluto la resilienza dei sistemi",
+      "articoli": [
+        {
+          "titolo": "Come Azure ha evoluto la resilienza dei sistemi",
+          "fonti": [
+            {
+              "nome": "Azure Blog",
+              "link": "https://azure.microsoft.com/en-us/blog/built-to-bounce-back-how-azure-resiliency-evolved/"
+            }
+          ],
+          "data": "2026-07-08",
+          "sintesi": "Azure ha migliorato la resilienza dei sistemi per adattarsi, riprendersi e funzionare nel mondo reale. La resilienza è essenziale per garantire la continuità operativa e ridurre i costi di recupero.",
+          "perche_conta": "La resilienza è cruciale per gli investitori e i CTO che vogliono garantire la stabilità e la scalabilità delle infrastrutture AI.",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2026-07-07",
+      "titolo": "Gestione chiavi esterna per Azure Managed HSM ora in anteprima pubblica",
+      "articoli": [
+        {
+          "titolo": "Gestione chiavi esterna per Azure Managed HSM ora in anteprima pubblica",
+          "fonti": [
+            {
+              "nome": "Azure Blog",
+              "link": "https://azure.microsoft.com/en-us/blog/external-key-management-for-azure-managed-hsm-is-now-in-public-preview/"
+            }
+          ],
+          "data": "2026-07-07",
+          "sintesi": "Azure Key Vault Managed Hardware Security Module (HSM) offre una forte sovranità sulla gestione delle chiavi di crittografia. Le chiavi vengono generate e archiviate in un modulo di sicurezza hardware a singolo tenant, FIPS 140-3 Level 3, controllato esclusivamente dall'utente. Microsoft non ha accesso al materiale chiave e l'utente governa chi può utilizzare ogni chiave.",
+          "perche_conta": "La gestione sicura delle chiavi è fondamentale per proteggere i dati critici e garantire la sicurezza delle applicazioni cloud.",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2026-07-06",
+      "titolo": "AWS Weekly Roundup: aggiornamenti su AWS, WorkSpaces e servizi disponibili",
+      "articoli": [
+        {
+          "titolo": "AWS Weekly Roundup: aggiornamenti su AWS, WorkSpaces e servizi disponibili",
+          "fonti": [
+            {
+              "nome": "AWS News Blog",
+              "link": "https://aws.amazon.com/blogs/aws/aws-weekly-roundup-claude-sonnet-5-on-aws-amazon-workspaces-for-ai-agents-aws-service-availability-updates-and-more-july-6-2026/"
+            }
+          ],
+          "data": "2026-07-06",
+          "sintesi": "L'articolo è una rassegna settimanale di notizie relative all'azienda AWS, che include aggiornamenti sui servizi disponibili, la presentazione di nuove funzionalità come Amazon WorkSpaces per agenti AI e la versione 5 di Claude Sonnet su AWS.",
+          "perche_conta": "Questo articolo è rilevante per gli investitori e i CTO che seguono le ultime novità e aggiornamenti sulla piattaforma AWS.",
+          "note": null
+        }
+      ]
+    }
+  ]
+}

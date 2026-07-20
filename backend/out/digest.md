@@ -4,27 +4,836 @@ _Generato il 2026-07-20_
 
 ## Chip
 
-_Nessun aggiornamento rilevante questa settimana._
+### NVIDIA Vera Rubin massimizza l'intelligenza per dollaro per carichi di lavoro post-addestramento
+
+- **Fonti:** [NVIDIA Newsroom](https://blogs.nvidia.com/blog/nvidia-vera-rubin-post-training-intelligence-per-dollar/)
+- **Data:** 2026-07-17
+
+La tecnologia NVIDIA Vera Rubin offre il minor costo per token grazie a un'estrema progettazione congiunta, massimizzando l'intelligenza per dollaro per carichi di lavoro post-addestramento nell'era dell'AI agente. Ciò rappresenta un importante vantaggio per le applicazioni di intelligenza artificiale.
+
+**Perché conta:** Questo sviluppo è rilevante per gli investitori e i CTO poiché può influenzare notevolmente i costi operativi e l'efficienza delle implementazioni di AI, specialmente in ambienti in cui il rapporto costo-prestazione è cruciale.
+
+### Onimusha: Way of the Sword arriva su GeForce NOW
+
+- **Fonti:** [NVIDIA Newsroom](https://blogs.nvidia.com/blog/geforce-now-thursday-onimusha-coming/)
+- **Data:** 2026-07-16
+
+Il gioco Onimusha: Way of the Sword sarà disponibile su GeForce NOW al lancio, con una demo giocabile già questa settimana. Inoltre, GeForce NOW lancia ufficialmente in India, passando dalla versione beta alla disponibilità pubblica. Ciò significa che gli utenti possono iscriversi senza attendere. Sono inoltre arrivati cinque nuovi giochi su GeForce NOW con Denshattack!
+
+**Perché conta:** Questo annuncio è rilevante per gli investitori e gli appassionati di tecnologia perché mostra l'espansione di GeForce NOW e la sua capacità di offrire contenuti di qualità ai giocatori, evidenziando la crescita del mercato del cloud gaming e le strategie di NVIDIA per competere in questo settore.
+
+### Giappone, leader industriali e NVIDIA lanciano la prima infrastruttura nazionale AI
+
+- **Fonti:** [NVIDIA Newsroom](https://nvidianews.nvidia.com/news/japan-government-industrial-leaders-and-nvidia-launch-the-worlds-first-national-ai-infrastructure)
+- **Data:** 2026-07-16
+
+Il governo giapponese, leader industriali e NVIDIA hanno lanciato la prima infrastruttura nazionale AI. NVIDIA sta lavorando con Noetra Corp. per lanciare una fabbrica di intelligenza artificiale NVIDIA Vera Rubin con 13,750 CPU e 27,500 GPU NVIDIA Rubin per l'AI fisica nazionale.
+
+**Perché conta:** E' rilevante per il beat degli investitori infrastrutturali poiché rappresenta un importante passo avanti nell'adozione dell'AI a livello nazionale e potrebbe influenzare le strategie di investimento nel settore dell'infrastruttura AI.
+
+### Leader giapponesi della robotica e della produzione adottano NVIDIA Cosmos per avanzare l'AI fisica
+
+- **Fonti:** [NVIDIA Newsroom](https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier)
+- **Data:** 2026-07-16
+
+Le aziende leader giapponesi nel settore della robotica e della produzione stanno utilizzando le piattaforme NVIDIA Cosmos, NVIDIA Isaac, NVIDIA Metropolis e NVIDIA Jetson per accelerare il dispiegamento di macchine intelligenti in vari settori. Ciò include la produzione, la mobilità, le infrastrutture e la robotica. L'obiettivo è quello di avanzare l'AI fisica.
+
+**Perché conta:** Questo sviluppo è rilevante per il settore dell'infrastruttura e dell'hardware AI poiché mostra come le aziende leader stiano adottando tecnologie avanzate per migliorare l'efficienza e l'intelligenza nelle loro operazioni.
+
+### NVIDIA Introduce Nuovi Computer Jetson Thor per Avanzare la Robotica e l'AI Edge di Massa
+
+- **Fonti:** [NVIDIA Newsroom](https://blogs.nvidia.com/blog/jetson-thor-robotics-edge-ai-agent/)
+- **Data:** 2026-07-15
+
+NVIDIA ha introdotto i nuovi moduli T3000 e T2000 basati sull'architettura Thor, progettati per supportare la robotica e l'AI edge di massa. Questi moduli sono stati sviluppati per soddisfare la crescente domanda di supercomputer AI compatti ed efficienti in termini di potenza, in grado di eseguire modelli di base ai bordi della rete. Sono destinati a supportare la diffusione di robot e macchine autonome dal laboratorio alla produzione di massa.
+
+**Perché conta:** Questo annuncio è rilevante per il settore dell'infrastruttura e dell'hardware AI, poiché rappresenta un passo avanti significativo nella democratizzazione dell'accesso alla tecnologia AI avanzata per applicazioni di robotica e edge computing, con potenziali implicazioni per gli investitori e i CTO interessati allo sviluppo di soluzioni AI efficienti e scalabili.
+
+### Le imprese e startup giapponesi costruiscono AI specializzate con NVIDIA Nemotron
+
+- **Fonti:** [NVIDIA Newsroom](https://nvidianews.nvidia.com/news/japans-enterprises-and-startups-build-industry-specialized-ai-with-nvidia-nemotron-open-models)
+- **Data:** 2026-07-15
+
+Le principali imprese, startup e istituti di ricerca giapponesi stanno utilizzando NVIDIA Nemotron per costruire modelli e applicazioni AI specializzate per le industrie, accelerando lo sviluppo di AI adattate al linguaggio, alle industrie e alla forza lavoro del Giappone. Ciò avviene grazie all'utilizzo di modelli, dati e librerie aperti di NVIDIA Nemotron.
+
+**Perché conta:** Questo sviluppo è rilevante per il settore dell'infrastruttura e dell'hardware AI poiché mostra come le aziende giapponesi stiano adottando tecnologie AI specializzate per migliorare le loro operazioni e competitività.
+
+### NVIDIA e Giappone portano AI e robotica full-stack in ogni industria
+
+- **Fonti:** [NVIDIA Newsroom](https://blogs.nvidia.com/blog/japan-ecosystem-2026/)
+- **Data:** 2026-07-15
+
+Il Giappone, leader nella produzione e nell'innovazione robotica, sta adottando tecnologie NVIDIA per costruire un ecosistema AI completo. NVIDIA e i suoi partner in Giappone stanno presentando le ultime novità dell'ecosistema AI.
+
+**Perché conta:** Questo partenariato è rilevante per il beat 'Infrastruttura & Hardware AI' perché mostra come le tecnologie NVIDIA stiano essere utilizzate per costruire un ecosistema AI completo in un paese leader nell'innovazione tecnologica
+
+### Nemotron Labs: Come i modelli aperti offrono alle imprese e alle nazioni un'intelligenza artificiale affidabile, controllabile e personalizzabile
+
+- **Fonti:** [NVIDIA Newsroom](https://blogs.nvidia.com/blog/nemotron-open-models-ai-trust-control-customize/)
+- **Data:** 2026-07-14
+
+Le imprese hanno a disposizione numerosi modelli potenti, ma il vero test è se l'AI che costruiscono risponde unicamente alle esigenze dell'azienda, migliorando i flussi di lavoro, sfruttando la conoscenza del dominio e superando gli standard di accuratezza e fiducia. Nemotron Labs si concentra su questo aspetto.
+
+**Perché conta:** Questo tema è rilevante per il beat 'Infrastruttura & Hardware AI' perché evidenzia l'importanza della personalizzazione e del controllo dell'AI per le imprese e le nazioni, che cercano di sfruttare al meglio le tecnologie di intelligenza artificiale per migliorare i propri processi e risultati.
+
+### Perché la performance per watt è la metrica definitiva per l'efficienza dell'infrastruttura AI
+
+- **Fonti:** [NVIDIA Newsroom](https://blogs.nvidia.com/blog/performance-per-watt-ai-infrastructure-efficiency/)
+- **Data:** 2026-07-14
+
+L'energia è un vincolo inevitabile per le infrastrutture AI. Il numero di token che una fabbrica AI può produrre entro un budget energetico fisso determina il suo fatturato e la sua redditività. Per questo motivo la performance per watt, una misura che non può essere manipolata ma solo dimostrata con risultati reali, è il fondamento delle AI factory. Con la crescita della domanda di token da parte dell'AI agentica, questo indicatore diventa ancora più critico.
+
+**Perché conta:** Gli investitori e i CTO devono monitorare la performance per watt perché il consumo energetico è il principale driver di costi operativi e di margini di profitto nelle strutture AI di nuova generazione.
+
+### GeForce NOW accende i riflettori con il nuovo server a Toronto basato su GeForce RTX 5080
+
+- **Fonti:** [NVIDIA Newsroom](https://blogs.nvidia.com/blog/geforce-now-thursday-toronto-expansion/)
+- **Data:** 2026-07-09
+
+GeForce NOW annuncia l’espansione del servizio con un nuovo server a Toronto equipaggiato con la GPU GeForce RTX 5080. La mossa porta più giochi, più potenza e nuove modalità di fruizione, avvicinando le capacità di calcolo ad alte prestazioni ai membri della regione. Inoltre, il titolo “Neverness to Everness” riceve un aggiornamento nella cloud.
+
+**Perché conta:** L’introduzione di server RTX 5080 evidenzia la crescente domanda di GPU di fascia alta nei data center cloud, con implicazioni per gli investimenti in capacità di calcolo, consumo energetico e infrastrutture di rete nella regione.
+
+### NVIDIA Nemotron Raggiunge Prestazioni Leader nei Benchmark con LangChain Deep Agents Harness
+
+- **Fonti:** [NVIDIA Blog](https://blogs.nvidia.com/blog/nemotron-langchain-agents-open-stack/)
+- **Data:** 2026-07-08
+
+Il modello NVIDIA Nemotron 3 Ultra offre prestazioni di riferimento superiori rispetto ai principali modelli chiusi, mantenendo costi inferiori. È stato valutato sulla più ampia e più adottata piattaforma di orchestrazione di agenti AI. LangChain ha ottimizzato il suo Deep Agents harness per Nemotron 3 Ultra, ottenendo la massima accuratezza tra i modelli open‑source. Il sistema completa più attività con una maggiore velocità di elaborazione, operando a una velocità di 10 volte superiore.
+
+**Perché conta:** Per i CTO e gli investitori infrastrutturali, una soluzione che combina benchmark‑leading performance, costi ridotti e alta accuratezza su una piattaforma di orchestrazione consolidata può tradursi in risparmi operativi e in un vantaggio competitivo nella costruzione di data center AI.
+
+### AI Innovators Adopt NVIDIA Vera — Why Max Single-Threaded CPU at Scale Matters
+
+- **Fonti:** [NVIDIA Blog](https://blogs.nvidia.com/blog/nvidia-vera-max-single-threaded-cpu-at-scale/)
+- **Data:** 2026-07-07
+
+NVIDIA Vera introduce le "max single-threaded CPUs at scale", una nuova categoria di CPU pensata per l'era dell'AI agentica. Secondo il blog NVIDIA, la CPU è sul percorso critico per il ragionamento, i tempi di risposta e l'apprendimento durante la creazione e il deployment di sistemi agentici. Le CPU eseguono il lavoro comandato dal modello AI, inclusi il tool calling e l'esecuzione di codice. Questa architettura punta a ottimizzare la latenza e l'efficienza operativa delle applicazioni AI più complesse.
+
+**Perché conta:** Ridurre il collo di bottiglia della CPU è fondamentale per scalare sistemi AI agentici, influenzando costi di infrastruttura, capacità di risposta in tempo reale e competitività degli investimenti in data center.
+
+### NVIDIA e Hugging Face introducono nuovi modelli e framework su LeRobot per la comunità di robotica open
+
+- **Fonti:** [NVIDIA Blog](https://blogs.nvidia.com/blog/hugging-face-lerobot-models-frameworks-open-robotics/)
+- **Data:** 2026-07-07
+
+L'open source AI dimostra come la condivisione di modelli, dati e strumenti possa accelerare l'innovazione. Nel settore della robotica, lo sviluppo di AI fisica resta ostacolato da risorse costose e frammentate, tra cui grandi dataset, robot foundation model, simulazione, capacità di calcolo e strumenti di validazione. NVIDIA e Hugging Face collaborano per mettere a disposizione nuovi modelli e framework su LeRobot, mirando a ridurre queste barriere per la comunità di robotica open.
+
+**Perché conta:** Abbassare i costi e semplificare l'accesso a modelli e infrastrutture di calcolo rende più veloce lo sviluppo di soluzioni robotiche, creando opportunità di investimento in hardware, data center e piattaforme cloud dedicate all'AI industriale.
+
+### Stampante 3D Creality K2 SE scontata del 17%, ora sotto $250
+
+- **Fonti:** [Tom's Hardware](https://www.tomshardware.com/pc-components/creality-k2-se-3d-printer-price-slashed-by-17-percent-now-under-usd250-grab-a-competitive-entry-level-high-speed-multicolor-device-at-a-bargain-price)
+- **Data:** 2026-07-19
+
+Il prezzo della Creality K2 SE scende a $248.99 in un’offerta a tempo limitato. Questo la rende una valida scelta per chi vuole avvicinarsi alla stampa 3D mantenendo alcune funzionalità avanzate. Il dispositivo è multicolore e ad alta velocità, posizionandosi come opzione competitiva per il segmento entry‑level.
+
+**Perché conta:** Abbassa la barriera d’ingresso alla produzione di componenti hardware personalizzati, accelerando i cicli di sviluppo e potenzialmente incrementando la domanda di capacità di calcolo per simulazioni e rendering nei data center.
+
+### L'APU a 10 core 'Medusa Point' di AMD batte tutti i chip x86 mobile nel test single‑core su Geekbench
+
+- **Fonti:** [Tom's Hardware](https://www.tomshardware.com/pc-components/cpus/amds-next-gen-10-core-medusa-point-apu-shows-up-on-geekbench-again-with-its-best-score-yet-leaked-sku-outpaces-every-other-x86-mobile-chip-in-the-single-core-test)
+- **Data:** 2026-07-19
+
+AMD ha presentato la nuova APU mobile a 10 core della famiglia Medusa Point, che supera le precedenti versioni Gorgon Point e Strix Point. I primi test su Geekbench mostrano un miglioramento significativo rispetto ai modelli precedenti. Le ultime indiscrezioni indicano che il chip ha raggiunto il suo punteggio più alto finora, confermando una tendenza di crescita delle prestazioni.
+
+**Perché conta:** Il record di prestazioni single‑core di un chip x86 mobile a 10 core influenza la competitività delle soluzioni AI edge e i piani di investimento in capacità di calcolo ad alta efficienza.
+
+### Zilog Z80 compie 50 anni: sostituzione open-source DIP40, 1976‑2024
+
+- **Fonti:** [Tom's Hardware](https://www.tomshardware.com/tech-industry/zilog-z80-turns-50-as-open-source-replacement-heads-for-drop-in-dip40-silicon)
+- **Data:** 2026-07-19
+
+Il microprocessore Zilog Z80, lanciato a luglio 1976, celebra il suo 50° anniversario. L'originale Z80 contava 8.500 transistor su un processo da 4 µm e operava tipicamente a 2,5 MHz. È in fase di rilascio una versione open‑source progettata per essere inserita direttamente in package DIP40, offrendo una soluzione drop‑in per sistemi legacy. La chiusura della produzione nel 2024 ha spinto la comunità a creare questa alternativa.
+
+**Perché conta:** La disponibilità di un clone open‑source in formato DIP40 permette di prolungare la vita dei sistemi embedded esistenti, riducendo i costi di redesign hardware e garantendo continuità operativa per infrastrutture legacy basate su Z80.
+
+### Capo chip memoria ammette prezzi RAM 'anomali' — SK Group valuta impianto USA
+
+- **Fonti:** [Tom's Hardware](https://www.tomshardware.com/tech-industry/policy/memory-chip-boss-admits-ram-prices-are-abnormally-high-sk-group-chairman-considering-building-a-semiconductor-plant-in-the-us-to-expand-supply-calm-chipflation)
+- **Data:** 2026-07-19
+
+Il presidente di SK Group, Chey Tae-won, ha dichiarato che i prezzi dei chip di memoria RAM sono "anomali". Ha sottolineato la necessità per il settore di aumentare la produzione e ridurre i prezzi. Avverte che, se non si interviene, nuovi entranti potrebbero sfidare i leader attuali, rendendo il mercato più competitivo, soprattutto quando la domanda tornerà a livelli più gestibili.
+
+**Perché conta:** Il rialzo dei costi della RAM influisce direttamente sui margini dei data center e sui piani di espansione hardware, rendendo cruciale per gli investitori valutare la capacità di SK Group di aumentare l'offerta tramite un nuovo impianto negli USA.
+
+### Drone ‘Phantom Twist’ ruota così veloce da diventare quasi invisibile
+
+- **Fonti:** [Tom's Hardware](https://www.tomshardware.com/tech-industry/drones/phantom-twist-drone-spins-so-fast-that-it-is-nearly-invisible-flying-device-adds-motion-blur-to-the-real-world)
+- **Data:** 2026-07-19
+
+Ricercatori della Northwestern University hanno realizzato un drone chiamato ‘Phantom Twist’. Il dispositivo ruota a una velocità tale da generare un motion blur che lo rende quasi invisibile all’occhio umano. Questa dimostrazione evidenzia come l’attuazione meccanica estrema possa alterare la percezione visiva, aprendo scenari per piattaforme a bassa osservabilità e nuove integrazioni di sensori. Il prototipo solleva questioni di alimentazione, design dei motori e controlli in tempo reale, temi centrali per l’hardware AI ad alte prestazioni.
+
+**Perché conta:** Per gli investitori e i CTO, la tecnologia dimostra che l’innovazione hardware può creare nuovi mercati di droni stealth, richiedendo investimenti in catene di fornitura di motori ad alta velocità, sistemi di potenza e algoritmi di controllo AI‑driven.
+
+### Samsung taglia posti negli USA — 739 ruoli colpiti nel New Jersey, profitto record chip
+
+- **Fonti:** [Tom's Hardware](https://www.tomshardware.com/tech-industry/samsung-cuts-hundreds-of-us-consumer-electronics-jobs-ahead-of-texas-hq-move)
+- **Data:** 2026-07-19
+
+Samsung ha annunciato il taglio di centinaia di posti di lavoro negli Stati Uniti nel settore consumer electronics, in vista del trasferimento della sede centrale in Texas. Nel New Jersey sono stati interessati 739 ruoli; la maggior parte dei dipendenti ha ricevuto offerte di ricollocazione, mentre altri sono stati licenziati. Contestualmente, la divisione chip dell'azienda registra un profitto record.
+
+**Perché conta:** Il ridimensionamento del personale e il profitto record della divisione chip evidenziano una riorganizzazione della supply chain e della capacità produttiva, fattori chiave per gli investimenti in infrastrutture AI e per la disponibilità di talenti tecnici.
+
+### Droni russi con bussole magnetiche avvitate: la telecamera verifica la rotta senza GPS
+
+- **Fonti:** [Tom's Hardware](https://www.tomshardware.com/tech-industry/drones/russian-drones-spotted-using-screwed-on-magnetic-compasses-as-navigation-aids-the-on-board-camera-can-occasionally-tilt-down-to-check-bearings-if-satellite-comms-are-lost)
+- **Data:** 2026-07-19
+
+Le forze di droni russe stanno aggiungendo bussole magnetiche economiche avvitate per mantenere la rotta. L’accessorio grezzo consente di orientarsi e localizzare i bersagli anche in assenza di GPS. La telecamera di bordo può inclinarsi verso il basso per controllare la direzione quando le comunicazioni satellitari sono perse.
+
+**Perché conta:** Dimostra come le soluzioni hardware a basso costo possano mitigare le vulnerabilità di dipendenza dal GPS, influenzando la resilienza delle piattaforme AI‑driven e le esigenze di infrastrutture di comunicazione e sensoristica.
+
+### Il ronzio delle bobine può diventare musicale, rumore odiato che fa felici
+
+- **Fonti:** [Tom's Hardware](https://www.tomshardware.com/pc-components/coil-whine-can-be-musical-demonstrates-engineering-student-this-usually-hated-noise-can-make-some-people-happy)
+- **Data:** 2026-07-19
+
+Un video dimostra che il ronzio delle bobine, tipico in elettronica, può essere trasformato in musica. Lo studente di ingegneria ha realizzato una dimostrazione pratica di questa conversione. L'esperimento evidenzia come un rumore elettronico tradizionalmente indesiderato possa essere reinterpretato artisticamente.
+
+**Perché conta:** Rendere utile o gradevole il coil whine apre nuove opportunità di design hardware e di gestione del rumore, influenzando costi di mitigazione e potenziali differenziazioni di prodotto per gli investitori del settore.
+
+### Hacker inserisce 537.000 domini in dongle ESP32 da $5: 50 KB RAM, risposta 10 ms
+
+- **Fonti:** [Tom's Hardware](https://www.tomshardware.com/networking/clever-hacker-fits-537-000-domains-in-a-tiny-usd5-esp32-ad-blocking-dongle-firmware-uses-only-around-50kb-of-ram-and-can-answer-blocked-lookups-in-10-milliseconds)
+- **Data:** 2026-07-19
+
+Un hacker ha realizzato un dongle ESP32 da circa $5 per il blocco di pubblicità. Il firmware sfrutta un trucco di hashing per memorizzare più di 537.000 domini in 4 MB di flash memory. Richiede solo circa 50 KB di RAM e risponde alle richieste di blocco in circa 10 ms. L'approccio dimostra come hardware a basso costo possa gestire filtri di rete su larga scala.
+
+**Perché conta:** Mostra che soluzioni di rete edge a costi minimi possono offrire filtri DNS ad alta capacità, riducendo la dipendenza da infrastrutture centralizzate e aprendo opportunità di investimento in dispositivi IoT per la sicurezza.
+
+### Appassionato fa funzionare PC con 192 batterie AA, avvia Hannah Montana Linux
+
+- **Fonti:** [Tom's Hardware](https://www.tomshardware.com/desktops/pc-building/crazed-enthusiast-runs-pc-on-192-aa-batteries-successfully-boots-into-hannah-montana-linux-system-is-stable-during-stress-testing-and-even-plays-freedoom)
+- **Data:** 2026-07-19
+
+Un creatore, “Uwoslab”, ha collegato tre bank di batterie da 64 celle AA ciascuna, creando un array da 192 batterie alcaline capace di alimentare un sistema AM4. Il PC è riuscito ad avviarsi con Hannah Montana Linux, è risultato stabile durante i test di stress e ha persino eseguito FreeDoom.
+
+**Perché conta:** Il progetto evidenzia le sfide di alimentazione e gestione termica quando si tenta di far funzionare carichi di calcolo su fonti di energia non convenzionali, un aspetto cruciale per la progettazione di data center resilienti e per valutare soluzioni di backup energetico in scenari AI.
 
 ## Data center
 
-_Nessun aggiornamento rilevante questa settimana._
+### Esplorare la Rappresentazione Gerarchica degli Interessi per l'Ottimizzazione del Funnel Profondo di Meta Ads
+
+- **Fonti:** [Meta Engineering](https://engineering.fb.com/2026/07/15/ai-research/exploring-hierarchical-interest-representation-for-meta-ads-deep-funnel-optimization/)
+- **Data:** 2026-07-15
+
+Meta Ads sta investigando la Rappresentazione Gerarchica degli Interessi, una nuova layer di rappresentazione che copre l’intero universo delle entità pubblicitarie – utenti, inserzionisti, prodotti e servizi. L’obiettivo è apprendere embedding unificati che colleghino gli interessi inferiti degli utenti con l’ampiezza dell’offerta degli inserzionisti nei loro annunci a funnel profondo. Le innovazioni in questo ambito mirano a migliorare la precisione del matching tra domanda e offerta nella pubblicità digitale.
+
+**Perché conta:** Questa ricerca influisce direttamente sui carichi di lavoro di AI su larga scala, richiedendo capacità di calcolo, storage e networking avanzati nei data center, e rappresenta un’opportunità per gli investitori di valutare le esigenze infrastrutturali legate ai futuri sistemi di targeting pubblicitario basati su embedding.
+
+### Modernizzare il servizio pubblicitario di Meta con un kernel scheduler open source
+
+- **Fonti:** [Meta Engineering](https://engineering.fb.com/2026/07/13/ml-applications/modernizing-the-meta-ads-service-with-an-open-source-kernel-scheduler/)
+- **Data:** 2026-07-13
+
+Meta ha affrontato il rischio di regressioni di latenza dovute a un aggiornamento del kernel Linux sulla sua flotta di server per la pubblicità, implementando una politica di scheduling personalizzata tramite sched_ext, il framework di scheduling estensibile basato su BPF. Questa soluzione open‑source consente di mantenere la latenza a pochi millisecondi, evitando impatti negativi sulle performance degli annunci.
+
+**Perché conta:** La latenza di pochi millisecondi è cruciale per l’efficacia degli annunci e, di conseguenza, per i ricavi; dimostra come l’ottimizzazione a livello di kernel sia un fattore chiave per le infrastrutture AI‑driven ad alta scala, attirando l’interesse di CTO e investitori infrastrutturali.
+
+### I progressi nel fine-tuning riducono il volume totale di addestramento dell'IA
+
+- **Fonti:** [Uptime Institute Journal](https://journal.uptimeinstitute.com/advances-in-fine-tuning-reduce-total-volume-of-ai-training/)
+- **Data:** 2026-07-15
+
+All'inizio dell'era dell'IA generativa l'attenzione era rivolta all'addestramento di modelli da zero. Con la maturazione della tecnologia, le organizzazioni cercano sempre più di adattare i grandi modelli linguistici esistenti alle proprie esigenze. Il fine‑tuning consente di personalizzare i modelli senza dover raccogliere nuovi dati di training né impiegare esperti di machine learning, riducendo così il volume complessivo di addestramento richiesto.
+
+**Perché conta:** Questa evoluzione abbassa i costi di infrastruttura, diminuisce il consumo energetico e velocizza il time‑to‑market, fattori chiave per CTO e investitori che valutano la sostenibilità e la redditività delle iniziative AI.
 
 ## Energia
 
-_Nessun aggiornamento rilevante questa settimana._
+### CIMERA: Compute-in-Interconnect e Memoria con Precisione Riconfigurabile per l'Inference di LLM
+
+- **Fonti:** [arXiv (energia x AI)](https://arxiv.org/abs/2607.13649v1)
+- **Data:** 2026-07-15
+- **Nota:** (preprint, non ancora sottoposto a peer review)
+
+I risultati preliminari di uno studio indicano che LLM impongono richieste computazionali e di memoria significative, creando sfide per l'inferenza a basso consumo energetico su data center e dispositivi edge. La precisione dei pesi è cruciale per bilanciare accuratezza, throughput ed energia, e i carichi di lavoro LLM mostrano eterogeneità e tolleranza che favoriscono esecuzioni a precisione adattiva. Il paper presenta CIMERA, un acceleratore di inferenza LLM a precisione riconfigurabile che integra compute‑in‑interconnect e memoria per mitigare il memory wall e abilitare esecuzioni consapevoli della precisione. Rispetto a Nvidia H100, CIMERA offre fino a $25\times$ e $10\times$ maggiore efficienza energetica per modelli da 1 B e 13 B rispettivamente.
+
+**Perché conta:** Migliorare l'efficienza energetica dell'inferenza LLM riduce i costi operativi dei data center e rende praticabile l'esecuzione di modelli avanzati su dispositivi con risorse limitate, un fattore chiave per gli investimenti infrastrutturali e le decisioni dei CTO.
+
+### Costo ambientale della sovranità digitale: acqua, energia ed emissioni dell'AI sovrana nel Global South
+
+- **Fonti:** [arXiv (energia x AI)](https://arxiv.org/abs/2607.13443v1)
+- **Data:** 2026-07-15
+- **Nota:** (preprint, non ancora sottoposto a peer review)
+
+I risultati preliminari di uno studio indicano che la sovranità AI è diventata una priorità strategica nel Global South, con oltre $200 billion di impegni statali annunciati tra il 2024 e il 2026. L’analisi comparativa su quattro casi – Emirati Arabi Uniti, Bangladesh, India e Africa (Kenya) – mostra che l’infrastruttura fisica, in particolare i data center, comporta costi idrici, energetici e di carbonio particolarmente gravosi per i paesi meno attrezzati. Un cluster di 1.024 GPU con raffreddamento evaporativo negli Emirati consumerebbe oltre 30 milioni di litri d’acqua all’anno, in un contesto classificato come “extremely high” water stress, mentre in Bangladesh le politiche richiedono l’acquisto centralizzato di GPU senza indicare dove collocare i data center, nonostante più di un quinto del territorio sia soggetto a inondazioni annuali e la rete elettrica sia poco affidabile. Gli autori identificano un trilemma sovranità‑sostenibilità‑accessibilità e propongono principi di progettazione, tra cui la rendicontazione obbligatoria dell’efficacia dell’uso dell’acqua, valutazioni di vulnerabilità climatica per la localizzazione e la preferenza per modelli linguistici ridotti rispetto al pre‑training di frontiera.
+
+**Perché conta:** Per gli investitori e i CTO, questi dati evidenziano i rischi ambientali e di approvvigionamento energetico legati alla costruzione di data center AI sovrani nei mercati emergenti, influenzando le decisioni di capex, la gestione della supply chain e la conformità normativa.
+
+### Chi ha bisogno di DRAM? Abbiamo la fibra
+
+- **Fonti:** [arXiv (energia x AI)](https://arxiv.org/abs/2607.08407v2)
+- **Data:** 2026-07-09
+- **Nota:** (preprint, non ancora sottoposto a peer review)
+
+I risultati preliminari di uno studio indicano che la pressione crescente sulla disponibilità e sui prezzi contrattuali della DRAM è alimentata dalle esigenze di memoria ad alte prestazioni dell'IA generativa e dall'espansione dei data center hyperscale, che ora consumano una parte significativa della produzione globale di DRAM. Gli autori propongono una nuova architettura, Fiber Memory, che utilizza la fibra ottica come memoria a linea di ritardo ricircolante per dati immutabili, come i pesi dei grandi modelli linguistici. L'architettura combina fibre multi‑core a divisione spaziale, interfacce ottiche passive di tap‑and‑amplify, ottica co‑packaged e rigenerazione ottica regionale. La valutazione di un caso di studio suggerisce che Fiber Memory può eliminare lo stoccaggio ridondante dei pesi su 10,000 acceleratori AI e ridurre l'energia di consegna dei pesi di oltre 70% rispetto alle configurazioni tradizionali HBM3e.
+
+**Perché conta:** Questa proposta affronta direttamente le limitazioni di approvvigionamento della DRAM e il consumo energetico dei data center, offrendo una potenziale via di risparmio di costi e di sostenibilità per gli investimenti infrastrutturali nell'AI su larga scala.
+
+### Valutare la resilienza della rete nell'era dei data center in costante crescita
+
+- **Fonti:** [arXiv (energia x AI)](https://arxiv.org/abs/2607.06958v1)
+- **Data:** 2026-07-08
+- **Nota:** (preprint, non ancora sottoposto a peer review)
+
+I risultati preliminari di uno studio indicano che la rapida crescita dei carichi di intelligenza artificiale aumenta la scala e la concentrazione della domanda dei data center, sollevando nuove preoccupazioni per la resilienza del sistema elettrico durante eventi dirompenti. Il lavoro estende un framework multi‑time‑step di flusso di potenza DC ottimale per valutare l'impatto della domanda aggregata dei data center sull'energia non servita indotta da contingenze, usando un sistema IEEE a 30 bus con risorse flessibili. Sostituendo un carico convenzionale con un carico costante di data center equiparato in energia, i risultati mostrano che la crescita della capacità dei data center aumenta notevolmente l'energia non servita sia a livello di sistema sia sul bus del data center sotto contingenze limitate dalla trasmissione; in uno scenario di derating accoppiato, il caso ad alta crescita porta l'energia non servita totale da 3.203 MWh a 22.891 MWh. Un caso supplementare di domanda coincidente, pur mantenendo lo stesso consumo energetico totale, incrementa l'energia non servita del 34.4%, dimostrando che la concentrazione temporale della domanda dei data center può amplificare gli effetti sulla resilienza della rete.
+
+**Perché conta:** Il documento evidenzia come l'espansione dei data center, trainata dai carichi AI, possa compromettere la capacità di risposta della rete elettrica, indicando la necessità di investimenti in infrastrutture di trasmissione, flessibilità operativa e gestione della domanda per garantire continuità e affidabilità dei servizi AI.
+
+### Bit2Watt: vulnerabilità cyber‑fisica che sfrutta i carichi GPU tra potenza e calcolo
+
+- **Fonti:** [arXiv (energia x AI)](https://arxiv.org/abs/2607.05993v1)
+- **Data:** 2026-07-07
+- **Nota:** (preprint, non ancora sottoposto a peer review)
+
+I risultati preliminari di uno studio indicano che un attaccante può manipolare i carichi di lavoro GPU per generare modulazioni di potenza ad alta frequenza che destabilizzano l’infrastruttura elettrica locale. La vulnerabilità, denominata Bit2Watt, opera interamente nel livello cyber sfruttando percorsi di esecuzione legittimi e componenti ad alta frequenza poco monitorati dai sistemi di telemetria tradizionali. Nel modello di aggregazione peggiore analizzato, la manipolazione di 1,000 GPU in un sistema di potenza locale da 1 MW con il 90 % di DER aumenta la distorsione armonica totale della corrente (THD) al 46.8 % e produce un rapporto di smorzamento di -0.27. Queste degradazioni della qualità dell’energia possono sollecitare le apparecchiature di distribuzione del data‑center, attivare meccanismi di protezione e, in scenari simulati estremi, innescare guasti a cascata su scala di trasmissione. Gli autori propongono difese cross‑layer che combinino la pianificazione dei workload con la protezione dell’elettronica di potenza, evidenziando la necessità di soluzioni integrate per la resilienza delle infrastrutture AI.
+
+**Perché conta:** Il fenomeno rivela un nuovo vettore di attacco che collega direttamente i carichi di lavoro GPU alle reti elettriche con alta penetrazione di DER, imponendo a CTO e investitori di considerare misure di sicurezza sia informatiche sia di power‑electronics per tutelare la continuità operativa e i costi di capitale.
+
+### Flessibilità della domanda a carico elevato come stoccaggio virtuale
+
+- **Fonti:** [arXiv (energia x AI)](https://arxiv.org/abs/2607.04564v1)
+- **Data:** 2026-07-06
+- **Nota:** (preprint, non ancora sottoposto a peer review)
+
+I risultati preliminari di uno studio indicano che impianti di elettrolisi dell’acqua, data center hyperscale e linee di produzione di alluminio offrono gigawatt di flessibilità della domanda, utili per l’equilibrio del sistema energetico, la pianificazione operativa e i servizi di acquisto. Il lavoro dimostra che, sebbene le carichi di grande scala siano programmati tramite limiti di potenza per intervallo e finestre energetiche di orizzonte, e le batterie co-localizzate (BESS) operino sotto dinamiche di stato di carica, si può collegare la loro formulazione a un equivalente di stoccaggio virtuale (VS) che consente di trattare ogni traiettoria di carico come una traiettoria di carica di VS con efficienza di bilanciamento a unità. L’aggregazione di carichi e BESS riduce il numero di vincoli da O(NT) a O(T) e produce un prezzo di co-dispatch per entrambe le risorse, con i costi di produzione e livello di servizio che entrano nel dispatch tramite costi di opportunità di riduzione. La validazione su IEEE RTS‑GMLC con tre classi di carico mostra che lo stoccaggio virtuale fornisce la quota dominante dei risparmi di procurement con risparmi additivi, poiché le risorse vengono dispatchate in intervalli non sovrapposti e il prezzo ombra di riduzione segue l’inizio della fascia di prezzo di picco anziché il picco giornaliero.
+
+**Perché conta:** Rilevante per gli investitori infrastrutturali e i CTO perché evidenzia come la flessibilità della domanda a carico elevato possa essere monetizzata come stoccaggio virtuale, ottimizzando i costi di procurement e riducendo la complessità operativa nei data center e nelle linee di produzione.
 
 ## Supply chain
 
-### ASML concede bonus di €20.000 ai dipendenti e nuove azioni
+### Rapporto di Fatturato di TSMC per Giugno 2026 | Taiwan Semiconductor Manufacturing Company Limited
+
+- **Fonti:** [Google News (TSMC/ASML)](https://news.google.com/rss/articles/CBMiTkFVX3lxTE1IVzNqUmZZcWF1RTZwZEdCdW5IcjdLRU1oRGZnbjRiaW9NOFVTQzNNdW5xQWVabWhFLTZlMGc0bUt1LTI1VFB6RXBuRUtSdw?oc=5)
+- **Data:** 2026-07-13
+
+TSMC ha pubblicato il rapporto di fatturato per giugno 2026.
+
+**Perché conta:** Il rapporto di fatturato fornisce indicazioni chiave sulla performance finanziaria di TSMC, elemento cruciale per CTO e investitori che monitorano la salute del settore dei semiconduttori.
+
+### Taiwan computer chipmaker TSMC promette altri 100 miliardi per espandere la capacità di produzione di chip negli USA
+
+- **Fonti:** [Google News (TSMC/ASML)](https://news.google.com/rss/articles/CBMingFBVV95cUxOT2MzZG5oUVN6dDFLX0dtWk5GNXdoakNILXBqRmZsUlQ5NzdEbk1aZTlxcU9xWl9lS1NBLWNwb0JfbWctbUwxeFBKMlNMeVN6UEZmbF95NlRIRVFZbDN2SW9VZjFzUHpTYTljR21GU2xrM1JtRU9ETTFBMnhFeHBQcHRKQzRIV202RWdYZXFmektSalBDckxITVRFeDJNZw?oc=5)
+- **Data:** 2026-07-16
+
+TSMC ha annunciato un impegno di 100 miliardi di dollari per aumentare la capacità di produzione di chip negli Stati Uniti.
+
+**Perché conta:** Rilevante per gli investitori infrastrutturali poiché indica un significativo aumento della capacità di produzione di chip negli USA, un settore cruciale per l'AI.
+
+### TSMC accelera la costruzione della fabbrica in Arizona per sfruttare il 'megatrend' AI, dice il CFO
+
+- **Fonti:** [Google News (TSMC/ASML)](https://news.google.com/rss/articles/CBMigwFBVV95cUxQd2FWclZGano0cHJOODVWcTdPLWpsQ2RXbzIxYkg4ZDFkd2JkOWRVMS1nWVlnR3c1bURNcFdCUE9sZzIyZUtzSU01V1FUdDZIdWRzbWlJVElCRXNWenUtejRIa2I3X1NrcjFMNEVRWTQ0YVBORFluR0hsTGVIWUpWUkpuONIBiAFBVV95cUxNUkJaNENZWmFKeTlhY3cxV254bVd1MWVLZWYxWEplcWZ0RXNKZWxCaXdzbWxVcld2OGdnMTU3WTRjQXNOLUNBNThIRVpWT1p1QWtPR2M4RTVnY0gyVlN5cVlTbVhTbWt0clBVaVRySF9mSUhaZU5mb1AzMm1jRFdWRmtUYTFjYTdX?oc=5)
+- **Data:** 2026-07-19
+
+TSMC sta accelerando la costruzione della sua fabbrica in Arizona per sfruttare il megatrend dell'IA, secondo il CFO. L'iniziativa mira a rafforzare la capacità di produzione di chip AI. Non sono stati forniti dettagli quantitativi sull'investimento o sulla capacità.
+
+**Perché conta:** Per gli investitori e i CTO, la rapida espansione di TSMC in Arizona evidenzia la crescente domanda di chip AI e l'importanza di aumentare la capacità produttiva in risposta a questa tendenza.
+
+### TSMC aumenta le previsioni di capex e fatturato, evidenziando la crescente domanda di chip AI
+
+- **Fonti:** [Google News (TSMC/ASML)](https://news.google.com/rss/articles/CBMiywFBVV95cUxPZEtLT0pUSHFicmNvSlZYRUtLLXJob2xXV2VEZndWcEY3TV8tU3ltX08waTg1RDVpeEQ4S3VsRHhGNzZYQWdCT0lkaENNXzN5d0RLX3R2NVRZWm5fc1htZjE2S24xamZiS0FwNXJpdDdhMURoUUFDUWtEeEp3RUZ6ZV9sbEo5dGpWN3ZMZm13Ym9KOFo2VmZ3cUlsUnlWd3F6YVJDNHc5TC00NWlLS2U3a3ZmNXVpVzJXdjAzYy1GR29JUi1Vd1kxLTBsbw?oc=5)
+- **Data:** 2026-07-17
+
+TSMC ha riveduto al rialzo le sue previsioni di capex e fatturato, evidenziando la domanda in crescita di chip AI. L'annuncio riflette un rafforzamento della domanda di semiconduttori per l'intelligenza artificiale. L'informazione è rilevante per gli investitori e i CTO che monitorano le prospettive di crescita del settore AI.
+
+**Perché conta:** Rilevante per capire l'impatto della domanda AI sui costi di investimento e sulle prospettive di fatturato dei principali produttori di chip.
+
+### TSMC aggiunge 100 miliardi di dollari al suo piano di spesa negli Stati Uniti
+
+- **Fonti:** [Google News (TSMC/ASML)](https://news.google.com/rss/articles/CBMihAFBVV95cUxOOW9IS3E1SVlKMmNId0I1bDNNbVdFeGN6OEZlZDBNb0c0bHZqQzBWTEp2YnJfdDc4MVBvOWtFMjZhcTFmOFRyMDBRdGRwY1R2NVRWUEVlZGxfdC1zS1ZvS040RDhQZHplZ2JzeFBtd3F3bmkzVnpEemVNT1IwZU5rcWVvWTY?oc=5)
+- **Data:** 2026-07-16
+
+TSMC ha annunciato l'aggiunta di 100 miliardi di dollari al suo piano di spesa negli Stati Uniti.
+
+**Perché conta:** L'investimento rafforza la capacità di produzione di chip AI negli USA, influenzando la supply chain e la competitività tecnologica.
+
+### TSMC: utile Q2 aumenta del 77% a record, supera di gran lunga le aspettative
+
+- **Fonti:** [Google News (TSMC/ASML)](https://news.google.com/rss/articles/CBMisgFBVV95cUxOYnh6a29MX0JydGlXMF83eUJWTTJrcEJZMTR1al8xTXVoTk1QTkduOTBCTjBFa09Qbmd5SjE3NGFiOHl3SHZ6RmFOM0ZoVmg3dFo2TUpiLWhqYnpJME1SdHhZZ2VwX3RuTmhwTHo1TzFjc0V5dDhaU3lELVdNcy1xM2tiZUZwSXdScFNrVmYtSFU2dFgwZUVwV2ZCQUZrZ0VUQUl5Zm1oQ0xfcktCWE5KVEp3?oc=5)
+- **Data:** 2026-07-16
+
+Nel secondo trimestre, TSMC ha registrato un utile che è aumentato del 77%, raggiungendo un nuovo record. L'utile ha superato di gran lunga le aspettative degli analisti. Questo risultato evidenzia la forte domanda di semiconduttori e la capacità di TSMC di gestire la produzione a livelli elevati.
+
+**Perché conta:** Il risultato di TSMC è rilevante per gli investitori e i CTO perché dimostra la resilienza della catena di fornitura dei chip e la capacità di aumentare la produzione in risposta alla domanda di AI e data center.
+
+### ASML aumenta nuovamente le previsioni a causa della domanda costante di AI
+
+- **Fonti:** [Google News (TSMC/ASML)](https://news.google.com/rss/articles/CBMivAFBVV95cUxOc2xhTkx4VDVUdnZlZ1RBU2M5VlNsdjdYQjBqNk1RUGhvUzhKd3VaZTBPa0NueThoN1NXbVp6RG1FTk90dFJuNHNLcEl4eGJXOUFtNEJQUmxnVmZUR3paX3RIN2NRSlUxQmJGN3RtUFZ2R0JsOW4yRUVpNGI5b1kwT2M0bGlPeHFCY0JNYVd2ZXlWSHZ4X1hnMS15NmJxOGRPdEplQktGWmhMekdRVVhaeXZsQ0ZYSWVES0gtbg?oc=5)
+- **Data:** 2026-07-15
+
+ASML, produttore di macchine per la fabbricazione di chip, ha annunciato un nuovo aumento delle sue previsioni di vendita. L'azienda attribuisce questo rialzo alla domanda costante e in crescita di tecnologie AI. L'azienda conferma che la domanda di AI continua a spingere la necessità di nuove macchine per la produzione di chip.
+
+**Perché conta:** La crescita delle previsioni di ASML evidenzia l'impatto continuo della domanda di AI sui costi di produzione di chip, un fattore cruciale per gli investitori in infrastrutture AI.
+
+### ASML prevede aumenti di prezzo per le attrezzature di chip, nonostante TSMC
+
+- **Fonti:** [Google News (TSMC/ASML)](https://news.google.com/rss/articles/CBMisAFBVV95cUxQUlFaNVg0em9GdXpNV2g5R21POTNMc05HQ1lEdnkwVll6dzJ4R2I2TVZFLUdFZWc2ajgzNmoxZmt3c1dfZWdGdnhtdjh4Z0k1VXZHWHpabzBHc29jOGJBOWNUVURiUmdQTnpqcGhMQV90Z0pYOU1NWEtjM2d3SDNvWGZ3MzJ3Mm5veFZaOUJHS0pVSXdxUmZOZGMwcU9ZTXFHaUFtcFBIU2lBNmxrSHZhMA?oc=5)
+- **Data:** 2026-07-15
+
+ASML ha annunciato piani per aumentare i prezzi delle sue attrezzature di produzione di chip. TSMC ha espresso resistenza a tali aumenti. L'azienda di semiconduttori si prepara a gestire l'impatto sui costi di produzione. L'informazione è rilevante per chi monitora i costi di infrastruttura AI.
+
+**Perché conta:** L'aumento dei costi delle attrezzature di produzione di chip influisce direttamente sulla capacità di costruire data center e sulla competitività dei costi di energia e di produzione di AI.
+
+### TSMC Reports Second Quarter EPS of NT$27.25|Taiwan Semiconductor Manufacturing Company Limited
+
+- **Fonti:** [Google News (TSMC/ASML)](https://news.google.com/rss/articles/CBMiTkFVX3lxTE1zcklOeFlyOThxTGM2S1p6UTBOSDl5TG5SLVBGSmpiaHVuT1pZS2gwOWZJZlpJUFpjcTZ0V3NWR0tNT0FUMmJ1S28tOC1qQQ?oc=5)
+- **Data:** 2026-07-16
+
+TSMC ha riportato l'EPS del secondo trimestre pari a NT$27,25. L'informazione è stata comunicata tramite il comunicato stampa ufficiale di TSMC. Il dato fornisce un indicatore della redditività operativa dell'azienda per quel periodo.
+
+**Perché conta:** Il risultato di utili per azione è un indicatore chiave della redditività di TSMC, influenzando le decisioni di investimento e la stabilità della catena di fornitura di semiconduttori.
+
+### Azioni ASML scendono dopo aver aumentato le previsioni di vendita per la seconda volta quest'anno a causa della forte domanda di chip AI
+
+- **Fonti:** [Google News (TSMC/ASML)](https://news.google.com/rss/articles/CBMieEFVX3lxTE9ONk5EcFhJVFp0WWpsV0dvckdvbzlyVS1vN1hIY0tvTUYweVdiVG1FNkZPOXV2NlA5djgyeU5pMFpaUHBnbVhBZi0zUFFjbWgyd2xpa19DQ3hMT0F5Nm9PRXp6andPZEQwcS1BcFNaeTRPajgtMS01SNIBfkFVX3lxTFBqNDRfNDNHZk9XMWZrX0ZFVlM1dF9NV2VZeW9uRkNucFotOHk3bkxjX2NhS2N3djZkZ2trbHlUOU5BQ05BNmk4RFVUNi1UbXBiTW5zYWswUDVFRS0wY1Z2alJMcjdFN2w5S3dZMkIteUlzaUh6QW9kRThDNmhBZw?oc=5)
+- **Data:** 2026-07-15
+
+ASML ha aumentato le previsioni di vendita per la seconda volta quest'anno, citando una forte domanda di chip AI. Nonostante l'incremento delle previsioni, le azioni dell'azienda sono scese. L'evento riflette l'attuale dinamica di mercato nei settori dei chip AI e delle tecnologie di produzione.
+
+**Perché conta:** Rilevante per gli investitori infrastrutturali perché evidenzia la crescita della domanda di chip AI e l'impatto sul mercato dei fornitori di strumentazione lithography.
+
+### ASML si aspetta di illuminare la capacità e le sfide cinesi
+
+- **Fonti:** [Google News (TSMC/ASML)](https://news.google.com/rss/articles/CBMitAFBVV95cUxNdmpoQzFRRHBiX2gwZEhPQ2lHeFJVVGxVc0tldmRHWTJyUEZYR1pVYWdYeHpvMmxSZ2pHa3Q3LVUtbXNWSGc2VnpDNldBMGg3cHhqZTFGaFdXNWEwQkFKbHVqMDJ1WWYwRnM4TWhFaHROeThsc1hTNmpaSk9DOGNLRHlPZkxGZGhnRWtwYUc1WVhQZDY0elhkU0xRSW15Rm0tVS1aZi1kSFRTTDhrdi1pX3Btb0k?oc=5)
+- **Data:** 2026-07-14
+
+ASML, produttore di strumenti per la produzione di chip, presenterà informazioni sulla sua capacità produttiva e sui problemi legati alla Cina. La presentazione potrebbe fornire indicazioni sulla situazione attuale della produzione di chip e sulle sfide che la azienda sta affrontando.
+
+**Perché conta:** La presentazione di ASML è rilevante per gli investitori e i CTO poiché fornisce informazioni sulla capacità produttiva e sui problemi legati alla Cina, che sono fattori critici per la produzione di chip.
+
+### TSMC investirà altri 100 miliardi di dollari negli Stati Uniti dopo un aumento delle entrate dovuto all'AI
+
+- **Fonti:** [Google News (TSMC/ASML)](https://news.google.com/rss/articles/CBMijgFBVV95cUxNR2F6a01DSDV3TC10TENhU0VkUXppaXNkTGswdHFnb0tSOS1PM2pTajEzY3JmNEtCU2ktSUlEZWpDUWMxMHdtSmFYNVBLcF9rQlF6ZTkxanRkYXdYWmh3cV9aT0lqOF94amZ0OUhWQWdKUnBoRi1Tb0pxNi1BYnhJZGJtalAwN19INnp6bE1R?oc=5)
+- **Data:** 2026-07-16
+
+TSMC annuncia un investimento aggiuntivo di 100 miliardi di dollari negli Stati Uniti, dopo un aumento delle entrate dovuto alla crescente domanda di chip per l'AI. Questo investimento seguirà la tendenza di crescita della società, che ha già investito pesantemente in nuove tecnologie e infrastrutture. La domanda di chip per l'AI è in aumento a causa della sua crescente applicazione in settori come l'intelligenza artificiale, la visione artificiale e il riconoscimento vocale.
+
+**Perché conta:** Questa notizia è rilevante per gli investitori e i CTO perché riflette la crescente domanda di chip per l'AI e l'importanza dell'investimento in nuove tecnologie e infrastrutture per soddisfare questa domanda.
+
+### TSMC: il profitto del Q2 sale del 77% a record, supera le aspettative
+
+- **Fonti:** [Google News (TSMC/ASML)](https://news.google.com/rss/articles/CBMikgFBVV95cUxNajE0SHpFdFpWYkktdHp5dkNIN2Ytb3VDWEZwTUs1NU5pSEZHN0RxWGwwUTNnNnNjbXVsRS1wdXNmV0hvSWp6RFA4V1RnNk5Ra09ZZUdvX0QxZlRSeXNOcVo4bTFmWUpuelo2QTBGUHd6Q2Z5bjM5S3VtZ1RWU0theWQySVFPZW5ydzVPTHRQa2hJZw?oc=5)
+- **Data:** 2026-07-16
+
+TSMC ha registrato un aumento del 77% del profitto nel Q2, superando le aspettative. Questo risultato è attribuibile alla domanda di chip avanzati per i dispositivi high-end. La crescita della domanda di chip è un segno positivo per l'industria dell'hardware AI.
+
+**Perché conta:** La crescita del profitto di TSMC è rilevante per gli investitori che seguono l'industria dell'hardware AI, poiché riflette la domanda di chip avanzati per i dispositivi high-end.
+
+### ASML cammina sul filo del rasoio tra vendite e geopolitica nel conflitto AI Stati Uniti-Cina
+
+- **Fonti:** [Google News (TSMC/ASML)](https://news.google.com/rss/articles/CBMijwFBVV95cUxONF9ENThRU1VCUm5CWklpN3Z5cVlEOU0yU0UxTlNsM2puWFhYZVRWdzBXTTQ5MUdnSnBvMU94OVQ3MTZiRHVJTXlvZEhmVmMyeXAtbGZ2ZmQ5OTZLYmFzMTZUZ0lINWIxV1djQmszWjIwUkhsdEZpSXFJT3lQR1M5ZUlKdDZ1X3JtSWptMjM3VdIBlAFBVV95cUxPQmpQNlN5S0V2X0RrT2ktOEJJTmR0NnVtY01yU3NPc0ZoTno2a1oxdzM0cXJLRHdpMlN6bllDUVB3SnBlWl9VejM0b0kxRGI4bFZLVXJDOTA0azBvQUNXSWFfcjhsaF9DelJFM0k2S2RsYkV0aWUwbG5fdUdpSEhIeFZiSkE5NFBvR2M1emhyMVQxX3p4?oc=5)
+- **Data:** 2026-07-17
+
+ASML, fornitore di tecnologia per i chip, si trova in una posizione delicata a causa del conflitto tra Stati Uniti e Cina sulla AI. La società deve bilanciare le sue vendite con le pressioni geopolitiche. Il conflitto potrebbe avere conseguenze significative per l'industria dei chip e la produzione di AI.
+
+**Perché conta:** Il conflitto tra Stati Uniti e Cina sulla AI potrebbe avere impatti significativi sull'industria dei chip e sulla produzione di AI, rendendo questo tema rilevante per gli investitori e i CTO.
+
+### TSMC investirà altri 100 miliardi di dollari negli Stati Uniti
+
+- **Fonti:** [Google News (TSMC/ASML)](https://news.google.com/rss/articles/CBMirwFBVV95cUxPUk5mYmNUVFNRQ1VkeFE1RHUyQzZEb1YzRncyMVVTR2VSdVZiaFJRM0Q3RWNXZUl6c3JQV2xldkowNmdKUTNzVmZvVGt3NDZjZy1lN0I3S1Y4a2dvT2psbUNvVFhjWW12ckZLREdHeWlweUgzbGJ6UG0za25BRGlpcVlhMkJpRHFkVVFZWWRZeFVIV18xelNBV2x1QWF3aFAyY1NydG1pWmpCWDJNY1ZF?oc=5)
+- **Data:** 2026-07-16
+
+TSMC annuncia un investimento di 100 miliardi di dollari negli Stati Uniti, dopo aver superato le previsioni di profitti nel secondo trimestre. Questo investimento è destinato a supportare la crescita della produzione di semiconduttori negli Stati Uniti. La decisione di TSMC potrebbe avere impatti significativi sulla supply chain globale dei semiconduttori.
+
+**Perché conta:** Questa notizia è rilevante per gli investitori e i CTO perché riflette la crescita della domanda di semiconduttori e la necessità di investimenti nella produzione di questi componenti essenziali per l'industria dell'AI e dell'hardware.
+
+### TSMC investe altri 100 miliardi in Arizona dopo utile del 77% nel secondo trimestre
+
+- **Fonti:** [Google News (TSMC/ASML)](https://news.google.com/rss/articles/CBMickFVX3lxTE9UME5mV1RnT1B1TjZfcWhybXd1MEhKdndFNDhwU21pd29CakVKdUNRRW1sYldVNmV2Y2EzNTVfWWxrejBXeF9JM21zSWhKaXZUUG9YQ2NZRlFPblVmcm9XNms2dy1JU2otZ3BhRDlfYm5LQdIBd0FVX3lxTE15WHpRU2xvZnBaVFJUZERLTVRsYl8yZUl2RlhKZXIzNHhRVW9Mdk9hRlBta2lvQVNMYVpTb0xxam5iREZEem5XREFqb1pPakpJcGs4MFdUNnBFS0htRDdMd2V0YTRoSGM5UlNDcURzWmRUZW41NEZV?oc=5)
+- **Data:** 2026-07-16
+
+TSMC annuncia un investimento aggiuntivo di 100 miliardi di dollari in Arizona, dopo aver registrato un utile del 77% nel secondo trimestre. Questo annuncio è importante per il settore delle tecnologie avanzate e per gli investitori interessati all'industria dei semiconduttori.
+
+**Perché conta:** L'investimento di TSMC in Arizona conta per gli investitori e per il settore delle tecnologie avanzate, poiché riflette la crescita della domanda di semiconduttori e la necessità di aumentare la capacità di produzione.
+
+### TSMC visto in sella all'esplosione dell'AI per un quinto trimestre consecutivo di profitti record
+
+- **Fonti:** [Google News (TSMC/ASML)](https://news.google.com/rss/articles/CBMitwFBVV95cUxPZXNNZTY0OFNsNFNDUVliQ081ZU9neVBvcHVpSS1FQ21uNFlKZ3lKTTN0R1VnQlRITnRlOU5TemY5bERQUExjcFBwVU5yejVyQWJ0ZjU0aW1UdDdiWXdlRjhsUFNpUy1BcC1BRXhtTnRkWXZ1a19xYXU0MDRoUTdFdWtJUHNIcDI2QUVDaW8zQlByaTRmejV1c1c1eFRqMFBZZGRqc05KVDFaRENCME9FTHFQdnRTc0U?oc=5)
+- **Data:** 2026-07-14
+
+TSMC, il principale produttore di chip, sembra essere in grado di mantenere i profitti record grazie all'esplosione dell'industria dell'intelligenza artificiale. Questo potrebbe essere il quinto trimestre consecutivo di profitti record per l'azienda. L'industria dell'AI continua a crescere e TSMC è in una posizione di vantaggio per approfittarne.
+
+**Perché conta:** L'esplosione dell'industria dell'AI sta influenzando la domanda di chip e potrebbe avere un impatto significativo sulle strategie di investimento degli investitori.
+
+### ASML ha spazio per aumentare i prezzi, dice il CFO
+
+- **Fonti:** [Google News (TSMC/ASML)](https://news.google.com/rss/articles/CBMilAFBVV95cUxQb203ZEJFdmZZWlBieTFSdS1idTZGTE1fdjNoVnFlLVpnLXlKejF4N21TellMV3kteFU0dWppblZUb3dIWWZ5Y0Z5N3FkMkFmemFjTVdiclAwUnNKemkzWnNHT1dzbnZZOTVrUGNHakhSWlVybExIM3ZaVDYyUDBHaEo4Z1p3ZVlqcXlhZVZfdVFyOGl6?oc=5)
+- **Data:** 2026-07-15
+
+Il CFO di ASML ha dichiarato che la società ha ancora spazio per aumentare i prezzi, ma non fornisce ulteriori dettagli. Questa affermazione potrebbe influire sul mercato delle tecnologie di fabbricazione di semiconduttori.
+
+**Perché conta:** Questa notizia è rilevante per gli investitori e i CTO che seguono il settore delle tecnologie di fabbricazione di semiconduttori e le tendenze di mercato.
+
+### TSMC si aspetta una forte domanda per i chip AI a lungo termine
+
+- **Fonti:** [Google News (TSMC/ASML)](https://news.google.com/rss/articles/CBMizAFBVV95cUxNeWtrc3R6QmdYREpuRHNxR3dFNkJkVjdSMTRYcFhmRHJYQ18yaGFfSHcwbmVKSjZvWVo2M0FqdF9VZkJmbG9CVTVObEZTQ2t1amx5MTlJZ201YWR3cE9IMFNxVTNXdlp6SVV5MnZDLXotWS1EQVFNbUFFV2hZUWJJeUVScVNRaUhjci1zUXJoUTBnMFBkSnFzeWgwWkNpd2FqZ2hZQW14cTNCRDcydkp4X2p2QlYyRWlTRWFISmFoSllBY01OWmNlVWNpamk?oc=5)
+- **Data:** 2026-07-19
+
+TSMC si aspetta una forte domanda per i chip AI a lungo termine, grazie all'aumento dell'investimento in Arizona. La domanda è stimata essere multi-annuale. Questo potrebbe influenzare la produzione di chip AI nel futuro.
+
+**Perché conta:** Questa notizia è rilevante per gli investitori e i CTO che seguono l'evoluzione dell'industria dei chip AI e dell'infrastruttura di produzione.
+
+### L'upgrade della capacità di ASML allevia le preoccupazioni per la carenza di chip per l'AI
+
+- **Fonti:** [Google News (TSMC/ASML)](https://news.google.com/rss/articles/CBMiigFBVV95cUxPXzZLbXpRNUdRRjYtV203dG1SS1l6U29PMFZGelkzMVV3Mm1tSXI4ak90clF2Q0EwMW5sV1ptV2JURmVSRzYtMUZjenlvLWNuQklqZ2FDX1EzUWR1ZWI0bkZYcXVrbXNTZHdPZS1sNmthTlpOTHNpMkMxc1FfSUR1NEplT3l5Nk84Z3c?oc=5)
+- **Data:** 2026-07-16
+
+ASML, il principale fornitore di macchine per la produzione di chip, sta aumentando la sua capacità di produzione per soddisfare la crescente domanda di chip per l'AI. Questo upgrade dovrebbe alleviare le preoccupazioni per la carenza di chip per l'AI, che potrebbe influire sulla crescita del settore.
+
+**Perché conta:** La disponibilità di chip per l'AI è cruciale per lo sviluppo di tecnologie avanzate e la crescita del settore, quindi è importante che la capacità di produzione di ASML sia sufficiente a soddisfare la domanda.
+
+### TSMC investirà altri 100 miliardi di dollari in Arizona
+
+- **Fonti:** [Google News (TSMC/ASML)](https://news.google.com/rss/articles/CBMiogFBVV95cUxNNzJHekhuQVlwWmlhTG9ub3FpYXUwejBhcUQwaVc3d190V0ZNZm1jU1h3QWVWYXlLbm1iZ0o2NllsWnFScEtXeUNSRENfRjgxZDZqN1dNS3J2ZklrZGoxb2w3VTJIYm00dmptdnh0aUdxbWNTOTU1LXA2SFNucjk4MGtFUmEtZjZLZDMwenRQSW13Y1RFZXNRZEhZaHRMQUpQR2c?oc=5)
+- **Data:** 2026-07-16
+
+TSMC annuncia un investimento di 100 miliardi di dollari per espandere le sue fabbriche in Arizona, rafforzando la sua presenza negli Stati Uniti.
+
+**Perché conta:** Questa notizia è rilevante per gli investitori e i CTO poiché rappresenta un importante investimento nella produzione di chip e potrebbe influenzare la domanda di hardware AI.
+
+### Intel si affida a un nuovo strumento ASML per produrre chip per laptop
+
+- **Fonti:** [Google News (TSMC/ASML)](https://news.google.com/rss/articles/CBMirgFBVV95cUxNei1rVk9jUWNTRUFfMGszT3VXQUxkV3lhS3VZZkI4S2M5cDdoVDREVmNUM25nbEozb25PQl9teDRxZkFFd0pISFVxazNzaTFuZjY2REVqREdNczRDZnJ4QUgyMm94eHNCMXB5aFJCZ1dmS2lUUDJDNFNxRHY5Rk9qSlhaMnRsRUpXblc4c3RmREszaUdjY3NDSFdPNlBuMTZBQUNhUlVVMG9yYVhKaVE?oc=5)
+- **Data:** 2026-07-15
+
+Intel sta utilizzando un nuovo strumento di produzione di ASML per migliorare la produzione di chip per laptop. Questo strumento è considerato una tecnologia all'avanguardia per la fabbricazione di chip. La scelta di Intel di utilizzare questo strumento potrebbe avere un impatto significativo sulla sua capacità di produrre chip di alta qualità.
+
+**Perché conta:** La scelta di Intel di utilizzare un nuovo strumento di produzione di ASML è rilevante per gli investitori e i CTO poiché potrebbe influenzare la capacità di Intel di produrre chip di alta qualità e soddisfare la domanda di mercato.
+
+### TSMC investirà altri 100 miliardi di dollari nella produzione statunitense
+
+- **Fonti:** [Google News (TSMC/ASML)](https://news.google.com/rss/articles/CBMihAFBVV95cUxQTFQ5ZnZOX0lDUnNlalY1TXg0TjdTMHg2eUdyVXRHMVJGajY5OEp0aWR4bjFPQ2tZOXVHVU5WWFgtM1V5RGZiWllKMmJEU3dlU3UzMXhxV2NNdVUyTnB5VFN3c280UGdUVDgzZllSMjRaUnhBRXVRQS0wcEtoVkpQNm1vV1Q?oc=5)
+- **Data:** 2026-07-16
+
+Il chipmaker TSMC annuncia un investimento di 100 miliardi di dollari per espandere la sua produzione negli Stati Uniti. Questo investimento potrebbe aumentare la sicurezza e la resilienza delle catene di approvvigionamento per le aziende che utilizzano tecnologie AI. La produzione negli Stati Uniti potrebbe ridurre la dipendenza dalle catene di approvvigionamento cinesi.
+
+**Perché conta:** Questa notizia è rilevante per gli investitori e i CTO che seguono l'evoluzione delle tecnologie AI e delle infrastrutture hardware.
+
+### ASML azioni guadagnano grazie ai profitti che navigano sulla marea del spending AI
+
+- **Fonti:** [Google News (TSMC/ASML)](https://news.google.com/rss/articles/CBMidkFVX3lxTE1pXzhqd3RmelZWQV94U19DQlUzMVhaV0xYQjhhMWNNeUlYSGZpSkJQNDlHTV9VLTBfYWN3SlhfSDFIYTRfcjBHRkFMS09nY3EzNVZYeElJZVd3WHFaWU1OdFJBMGpSb2FYdmx4UEFlRXN3T2l5SUE?oc=5)
+- **Data:** 2026-07-15
+
+ASML ha annunciato risultati finanziari positivi grazie all'aumento della domanda di tecnologie per l'AI. La società è un importante fornitore di tecnologie per la produzione di chip avanzati, utilizzati in molti settori, tra cui l'AI. Questo trend di crescita è rilevante per gli investitori che seguono il settore dell'hardware AI.
+
+**Perché conta:** Il trend di crescita dell'AI è un fattore importante per gli investitori che seguono il settore dell'hardware AI, poiché rappresenta un'opportunità di crescita per le società che forniscono tecnologie avanzate.
+
+### ASML è un acquisto obbligatorio prima degli utili del 15 luglio
+
+- **Fonti:** [Google News (TSMC/ASML)](https://news.google.com/rss/articles/CBMikgFBVV95cUxQSHdaek5qMGU4aVFzdmdReFpVU1VWZjFpNENqQndDOE9mYW5lR0RBNk13M1BzQmhiN2p0cDhJdGxmbEt3WHFReTdpMkJxNjhvbi04UEZlLTd5QndROWdQc04wc0hrSnFaMTR5YmlDc1RraV9GN0lkT1M4ZHZqT29NLXkyX01GVHJYcXZXb0tJbGNZdw?oc=5)
+- **Data:** 2026-07-13
+
+L'articolo sostiene che ASML sia un'azienda da acquistare prima degli utili del 15 luglio, senza fornire ulteriori dettagli tecnici o finanziari.
+
+**Perché conta:** Questo articolo è rilevante per gli investitori che vogliono comprendere le tendenze del mercato e le strategie di investimento.
+
+### TSMC aumenta previsioni di vendite e spesa per catturare la 'megatrend' dell'AI
+
+- **Fonti:** [Google News (TSMC/ASML)](https://news.google.com/rss/articles/CBMitgFBVV95cUxQeXFMd1QtVVYwTDVYNUFCTkppRGZ0OEFzbElVS2VpemNrN3VGTVhFMHROaFBVek5WUzRYYm1mYThXdG1QZ1F4SVZ4cklvbUV4MmttdWNMTDRxTEZWdHI4VDk0UEpKdEpycFQxMVpZT1labl84ZWdfNmVsVjh5aUszZEFUZHYzdjkwNXNqc19haDFaM1RYSHJVNXdQVExvN0tUY0JoNklHTGFQblhland2clpKZkNFdw?oc=5)
+- **Data:** 2026-07-16
+
+TSMC ha aumentato le proprie previsioni di vendite e spesa per il 2023, in risposta alla crescente domanda di chip per l'AI. La società di produzione di semiconduttori cerca di capitalizzare la 'megatrend' dell'AI, che sta influenzando la domanda di chip avanzati. L'aumento delle previsioni di vendite e spesa di TSMC è un segnale importante per l'industria dei semiconduttori e per gli investitori.
+
+**Perché conta:** La crescita dell'AI sta influenzando la domanda di chip avanzati, rendendo TSMC un'azienda chiave per gli investitori.
+
+### ASML segna €9,3 miliardi di vendite e €2,9 miliardi di utile netto nel Q2 2026
+
+- **Fonti:** [Google News (TSMC/ASML)](https://news.google.com/rss/articles/CBMikwFBVV95cUxNNnE5OXY4ZTNNS0daQVVQRWRoM2JvT0UxZC00N2h3ZHluMjRjSk9Ec3ZEeUtpdU1XUV9hSlI1NTNOa21UVktjdnc2Qk1fdVZ2V2NjdmRDWXFWclZRbjNsdEVhUXZLdFFFejQ3YnFKTFFrc1hYX0lGUHdCVDl6WUVSN0dRUkdveHkzcmR5OVg1VERkbFk?oc=5)
+- **Data:** 2026-07-15
+
+ASML ha registrato €9,3 miliardi di vendite totali e €2,9 miliardi di utile netto nel secondo trimestre 2026. Questi risultati sono stati resi pubblici da Yahoo Finance. La società ha raggiunto questi obiettivi finanziari nel corso del secondo trimestre dell'anno in corso.
+
+**Perché conta:** Questi risultati sono rilevanti per gli investitori e i CTO che seguono le tendenze dell'industria dei semiconduttori e dell'hardware AI.
+
+### ASML dà a lavoratori un bonus di €20.000 e nuovi premi azionari
 
 - **Fonti:** [Google News (TSMC/ASML)](https://news.google.com/rss/articles/CBMilgFBVV95cUxPR0xPLVd4dzhYN2hsenF5bUIzNDR6b0hldjNPaURHLVEwaWhLQWhOZlBGdUxvel8ya2pzaS1IWi1Qd0pnZnp4a05HNlFBTFJOc2g1cDdhVnBrQV9CQXZoX2lxcXB4dW9mM01uUWpKMzJhcG5oYkxIeHdaTTRfNWE2SUt6WW5iQnBkZmt4R21lcEJ0TmoyWlE?oc=5)
 - **Data:** 2026-07-19
 
-ASML ha concesso un bonus di €20.000 ai suoi dipendenti e nuove azioni. Questa mossa potrebbe essere un segnale di apprezzamento per il lavoro svolto e di fiducia nella crescita dell'azienda.
+ASML ha concesso un bonus di €20.000 e nuovi premi azionari ai propri lavoratori. Questa mossa potrebbe essere un segno di fiducia nella crescita futura dell'azienda. La decisione potrebbe anche influenzare la percezione degli investitori sulla salute finanziaria di ASML.
 
-**Perché conta:** Questo evento è rilevante per il beat 'Infrastruttura & Hardware AI' perché ASML è un importante fornitore di tecnologie per la produzione di chip e la sua crescita e stabilità possono influenzare l'intero settore dell'AI.
+**Perché conta:** La decisione di ASML di concesso un bonus ai lavoratori potrebbe influenzare la percezione degli investitori sulla salute finanziaria dell'azienda e potrebbe essere un indicatore di fiducia nella sua crescita futura.
+
+### ASML Innalza Prospettive, Pianifica Incremento Capacità a Fronte della Domanda di AI
+
+- **Fonti:** [Google News (TSMC/ASML)](https://news.google.com/rss/articles/CBMitAFBVV95cUxOM3FuX2pJaXEyc2l6RGFadnNQRzg1dDVRdGZCaWRoUVo2Mk96cnRDeVlQclVuS2tNQ245alRDdTFqanJxYmVrYUVNd3VsVHlvS0JLQ19vLXFzUHpnRlQ4MkhsU2dIWkE1UVVsTlBHT21TS3laTXR4ZndDZGszdEdMcDVEbE1ESThBWElreUF2S0ZKTHpmeldabVQ1QXJNMmJFSk9oMGlzamZjSWJabm8xcXZXeUY?oc=5)
+- **Data:** 2026-07-15
+
+ASML ha innalzato le proprie prospettive e pianifica un aumento della capacità di produzione a causa dell'aumento della domanda dovuto all'AI. La società di tecnologia olandese è stata influenzata dalla crescita della domanda di chip per l'AI. La domanda di chip per l'AI sta aumentando a causa della crescente adozione di tecnologie AI.
+
+**Perché conta:** Questa notizia è rilevante per gli investitori e i CTO poiché riflette la domanda crescente di tecnologie AI e la conseguente richiesta di chip specializzati.
+
+### TSMC supera le previsioni di ricavi nel Q2 con un aumento del 68% di vendite nel mese di giugno
+
+- **Fonti:** [Google News (TSMC/ASML)](https://news.google.com/rss/articles/CBMimwFBVV95cUxQeUphc09OSjh1MXk0NllhdUpFOXA2WnBjR0NpR0hURl9pUE1CWHVVS0MwMy1sa1lwWm90LUtFQlg4UTJwMTRQaXVHeU1kTm5JZEhGbU1DaDh5TEpiRTVMQjd2NHh3QzN5WnczQU9YNDd4WXBreTk5TDdUOXIwbnpBVUFLSHREYXNEWmVmOEJQcXp3VTBBR3NfcF9Vcw?oc=5)
+- **Data:** 2026-07-13
+
+TSMC ha superato le previsioni di ricavi per il secondo trimestre, grazie a un aumento del 68% delle vendite nel mese di giugno. Questo risultato è importante per gli investitori e i CTO che seguono il settore delle tecnologie hardware AI.
+
+**Perché conta:** Questo risultato è rilevante per gli investitori e i CTO che seguono il settore delle tecnologie hardware AI, poiché TSMC è un importante fornitore di chip per le aziende leader nel settore.
+
+### Trattamento favorevole rafforzato per gli Emirati Arabi Uniti nelle norme di regolamentazione dell'esportazione
+
+- **Fonti:** [Federal Register — BIS](https://www.federalregister.gov/documents/2026/07/14/2026-14132/enhanced-favorable-treatment-for-the-united-arab-emirates-under-the-export-administration)
+- **Data:** 2026-07-14
+
+Il Dipartimento di Industria e Sicurezza (BIS) modifica le norme di regolamentazione dell'esportazione per fornire un trattamento favorevole rafforzato agli Emirati Arabi Uniti. Ciò comporta la rimozione degli Emirati Arabi Uniti dalle categorie D:3 e D:4 e la loro aggiunta alla categoria A:5. Ciò consentirà di utilizzare più eccezioni di licenza, tra cui la Strategia di Autorizzazione Commerciale (STA) per il governo degli Emirati Arabi Uniti e per le entità commerciali approvate negli Emirati Arabi Uniti.
+
+**Perché conta:** Questa modifica ha impatti significativi per le aziende che esportano tecnologie sensibili negli Emirati Arabi Uniti.
+
+### Richiesta di commenti pubblici sull'indagine sulla sicurezza nazionale del carbone anthracite
+
+- **Fonti:** [Federal Register — BIS](https://www.federalregister.gov/documents/2026/07/07/2026-13663/notice-of-request-for-public-comments-on-section-232-national-security-investigation-of-anthracite)
+- **Data:** 2026-07-07
+
+Il Segretario del Commercio ha avviato un'indagine per determinare gli effetti sulla sicurezza nazionale degli importi di carbone anthracite. Le parti interessate sono invitate a presentare commenti scritti, dati, analisi o altre informazioni pertinenti all'indagine.
+
+**Perché conta:** Questa indagine potrebbe avere impatti significativi sull'industria energetica e sulla sicurezza nazionale.
 
 ## Cloud capacity
 
-_Nessun aggiornamento rilevante questa settimana._
+### Google Cloud: novità e aggiornamenti
+
+- **Fonti:** [Google Cloud Blog](https://cloud.google.com/blog/topics/inside-google-cloud/whats-new-google-cloud/)
+- **Data:** 2026-07-17
+
+Google Cloud annuncia diverse novità, tra cui l'abilitazione predefinita della condivisione dei prezzi commessi per i nuovi conti di fatturazione e l'arrivo in anteprima del sandbox di Cloud Run per eseguire codice generato da AI in modo sicuro e isolato. Inoltre, la piattaforma offre nuove funzionalità per la gestione dell'infrastruttura AI, come la scalabilità dei servizi multi-regionali su Cloud Run e la protezione delle infrastrutture da attacchi avanzati.
+
+**Perché conta:** Queste novità sono rilevanti per gli investitori e i CTO che vogliono rimanere aggiornati sulle ultime tendenze e tecnologie di Google Cloud.
+
+### Livella la sicurezza dei tuoi dati: utilizza le etichette di governance dei dati IAM in BigQuery
+
+- **Fonti:** [Google Cloud Blog](https://cloud.google.com/blog/products/data-analytics/level-up-your-column-level-security-using-iam-data-governance-tags-in-bigquery/)
+- **Data:** 2026-07-17
+
+Google Cloud introduce le etichette di governance dei dati IAM in BigQuery per fornire una soluzione scalabile e robusta per la gestione dei controlli di accesso e la protezione dei dati dei colonne. Le etichette di governance dei dati IAM consentono di creare un albero gerarchico di etichette per la classificazione e la gestione dei dati dei colonne, con funzionalità come la gestione della riproduzione dei dati, la sicurezza globale e la classificazione gerarchica.
+
+**Perché conta:** Le etichette di governance dei dati IAM in BigQuery sono rilevanti per gli investitori perché offrono una soluzione innovativa per la gestione dei dati sensibili e la protezione dei dati dei colonne, che è essenziale per le organizzazioni che lavorano con grandi quantità di dati.
+
+### 13 demo pratiche per costruire la piattaforma di agenti Gemini Enterprise
+
+- **Fonti:** [Google Cloud Blog](https://cloud.google.com/blog/products/ai-machine-learning/13-demos-on-gemini-enterprise-agent-platform/)
+- **Data:** 2026-07-17
+
+Google Cloud presenta 13 demo pratiche per costruire la piattaforma di agenti Gemini Enterprise, che consentono di creare, scalare, governare e ottimizzare gli agenti. Le demo coprono vari aspetti, dalla creazione di agenti conversazionali alla gestione della scalabilità e della sicurezza. La piattaforma di agenti Gemini Enterprise consente di costruire agenti che possono essere integrati con diversi servizi di Google Cloud, come BigQuery e Cloud Run.
+
+**Perché conta:** La piattaforma di agenti Gemini Enterprise è rilevante per gli investitori e i CTO perché offre una soluzione completa per la creazione, la scalabilità e la gestione degli agenti AI, che è un aspetto fondamentale per l'adozione dell'intelligenza artificiale nelle organizzazioni.
+
+### Guida alle Tokenomics dell'Intelligenza Artificiale: Undici Principi per l'Ingegneria del Software Efficiente
+
+- **Fonti:** [Google Cloud Blog](https://cloud.google.com/blog/topics/developers-practitioners/guide-to-ai-tokenomics-eleven-principles-for-token-efficient-software-engineering/)
+- **Data:** 2026-07-17
+
+Google Cloud propone undici principi per ottimizzare l'uso dei token nelle sessioni di AI, riducendo la latenza e aumentando la produttività. Questi principi includono l'uso di modelli bilanciati, l'automazione di compiti ripetitivi e la delega di compiti pesanti.
+
+**Perché conta:** Questi principi sono rilevanti per gli investitori e i CTO perché offrono una guida pratica per ottimizzare l'uso dei token nelle sessioni di AI, riducendo i costi e aumentando la produttività.
+
+### Google è un leader e si colloca più a destra nella Visione e più in alto nell'Esecuzione nel Magic Quadrant 2026 di Gartner per piattaforme di AI conversazionale
+
+- **Fonti:** [Google Cloud Blog](https://cloud.google.com/blog/products/ai-machine-learning/google-is-a-leader-in-the-gartner-magic-quadrant-for-conversational-ai/)
+- **Data:** 2026-07-16
+
+Google è stato nuovamente nominato leader nel Magic Quadrant di Gartner per piattaforme di AI conversazionale. La piattaforma Gemini Enterprise per Esperienza del Cliente di Google si colloca al primo posto in tre delle quattro capacità critiche. Questo riconoscimento riflette l'investimento di Google in ricerche di AI frontiera, infrastrutture aziendali e l'aiuto ai clienti a trasferire l'AI dall'esperimentazione alla produzione su larga scala.
+
+**Perché conta:** Questo riconoscimento è rilevante per gli investitori e i CTO perché riflette la leadership di Google nel settore dell'AI conversazionale e la sua capacità di fornire soluzioni di produzione per esperienze del cliente avanzate.
+
+### L'AI come vantaggio per i difensori: come la profondità del contesto aiuta a contrastare le minacce
+
+- **Fonti:** [Google Cloud Blog](https://cloud.google.com/blog/products/identity-security/cloud-ciso-perspectives-how-ai-leverages-deep-context-defenders-advantage/)
+- **Data:** 2026-07-16
+
+Francis deSouza, COO di Google Cloud e Presidente di Security Products, spiega come l'AI possa essere utilizzata come vantaggio per i difensori contro le minacce informatiche. L'AI può fornire una visione completa del contesto, consentendo di rispondere in modo più rapido e preciso alle minacce. Google ha sviluppato un'architettura di difesa basata sull'AI, chiamata Google AI Threat Defense, che combina le capacità di sicurezza di Google in un'unica piattaforma.
+
+**Perché conta:** Questo articolo è rilevante per gli investitori e i CTO che vogliono comprendere come l'AI possa essere utilizzata per migliorare la sicurezza informatica e contrastare le minacce informatiche.
+
+### 10 squadre autonome di produzione hanno insegnato a noi come gli agenti collaborano
+
+- **Fonti:** [Google Cloud Blog](https://cloud.google.com/blog/topics/developers-practitioners/what-we-learned-about-agent-teamwork/)
+- **Data:** 2026-07-16
+
+Google ha organizzato un hackathon per valutare se gli agenti AI possono collaborare per creare un film. 10 squadre di agenti hanno prodotto ciascuna un breve film, utilizzando un processo di 7 passaggi basato sui fondamenti del cinema tradizionale. Gli agenti hanno collaborato attraverso messaggi e file condivisi, utilizzando un sistema di orchestrazione degli agenti chiamato Scion. Il risultato è stato un totale di 25+ produzioni, 44 minuti di film e una documentario sulla creazione dei film.
+
+**Perché conta:** Questo esperimento ci insegna come gli agenti AI possano collaborare per creare contenuti complessi come film, e come possano essere utilizzati in contesti di produzione autonoma.
+
+### Bridging the gap tra SQL e Python con BigQuery e il %%bqsql magic
+
+- **Fonti:** [Google Cloud Blog](https://cloud.google.com/blog/products/data-analytics/bridge-sql-and-python-with-bigquery/)
+- **Data:** 2026-07-16
+
+Il team di Google Cloud ha introdotto il %%bqsql magic per unire SQL e Python in un unico notebook. Questo permette di concatenare processi di elaborazione dati tra SQL e Python senza dover muovere dati da SQL a memoria e viceversa. Il %%bqsql magic è disponibile anche per l'ecosistema open-source.
+
+**Perché conta:** Questo strumento è rilevante per gli investitori perché rappresenta un passo avanti nella gestione dei dati e nella loro elaborazione, potenzialmente aumentando l'efficienza e la produttività.
+
+### Tre lezioni per accelerare gli aggiornamenti dei modelli fondamentali
+
+- **Fonti:** [Google Cloud Blog](https://cloud.google.com/blog/products/compute/lessons-in-accelerating-foundation-model-upgrades/)
+- **Data:** 2026-07-16
+
+Google Cloud ha sviluppato un approccio agente per accelerare gli aggiornamenti dei modelli fondamentali. Tre lezioni sono state apprese: iniziare con la scoperta manuale, evitare l'automazione tradizionale e passare a un'architettura agente flessibile. Questo approccio ha permesso di ridurre il tempo di migrazione e migliorare la qualità.
+
+**Perché conta:** Questo approccio può essere applicato da qualsiasi team di ingegneria per accelerare gli aggiornamenti dei propri modelli fondamentali.
+
+### Demistificare gli sfruttamenti AI: un piano per la gestione di vulnerabilità assistita da AI
+
+- **Fonti:** [Google Cloud Blog](https://cloud.google.com/blog/topics/threat-intelligence/ai-assisted-vulnerability-management/)
+- **Data:** 2026-07-16
+
+La gestione di vulnerabilità assistita da AI può accelerare i flussi di lavoro, ma richiede un approccio strutturato per evitare rischi. La Google Cloud fornisce una guida per stabilire controlli operativi per la gestione di vulnerabilità assistita da AI, inclusi scenari dettagliati. L'integrazione di AI nelle vulnerabilità richiede un approccio maturo e una struttura di integrazione. La combinazione di capacità AI con controlli deterministici e intelligenza umana riduce i rischi.
+
+**Perché conta:** Questo articolo è rilevante per gli investitori e i CTO che vogliono comprendere come la gestione di vulnerabilità assistita da AI possa influire sulle infrastrutture e sulle tecnologie di AI.
+
+### Sicurezza AI a scala aziendale: il blueprint di Google per Kubernetes Engine
+
+- **Fonti:** [Google Cloud Blog](https://cloud.google.com/blog/topics/developers-practitioners/securing-ai-at-enterprise-scale-the-google-kubernetes-engine-blueprint/)
+- **Data:** 2026-07-16
+
+Google presenta un blueprint per la sicurezza dei carichi di lavoro AI su Google Kubernetes Engine (GKE), che consolida controlli multipli per fornire una piattaforma sicura per default. Il blueprint identifica tre livelli critici della pila AI e propone una serie di misure di sicurezza per ciascuno di essi.
+
+**Perché conta:** Questo blueprint è rilevante per gli investitori e i CTO che vogliono sapere come proteggere i carichi di lavoro AI da minacce tradizionali e nuove, come la iniezione di prompt e l'esfiltrazione di dati.
+
+### Come analizzare e governare l'utilizzo di Gemini Enterprise App a livello di scala con BigQuery
+
+- **Fonti:** [Google Cloud Blog](https://cloud.google.com/blog/products/data-analytics/analyze-and-govern-gemini-enterprise-at-scale-with-bigquery/)
+- **Data:** 2026-07-15
+
+Google Cloud fornisce strumenti di analisi e governance per aiutare gli amministratori a comprendere l'utilizzo di Gemini Enterprise App a livello di scala. Utilizzando BigQuery, gli amministratori possono analizzare e governare l'adozione di agentic AI, profiliare l'adozione e le comportamenti degli utenti, quantificare il valore organizzativo e eseguire audit di compliance.
+
+**Perché conta:** Questo articolo è rilevante per gli investitori e i CTO che vogliono comprendere come gestire l'adozione di agentic AI a livello di scala e come utilizzare BigQuery per analizzare e governare l'utilizzo di Gemini Enterprise App.
+
+### IDC: Perché un approccio di rete adeguato è fondamentale per l'AI agente
+
+- **Fonti:** [Google Cloud Blog](https://cloud.google.com/blog/products/networking/idc-on-the-right-networking-approach-for-agentic-ai/)
+- **Data:** 2026-07-15
+
+Secondo un rapporto dell'IDC, le aziende stanno affrontando sfide significative nella gestione delle reti per supportare l'AI agente. La mancanza di un approccio di rete adeguato è una delle principali cause di ritardi e abbandoni di progetti AI. Le aziende devono implementare un approccio di rete che consenta di gestire la complessità dell'AI agente e garantire la sicurezza e la governance.
+
+**Perché conta:** Un approccio di rete adeguato è fondamentale per l'AI agente perché consente di gestire la complessità delle reti e garantire la sicurezza e la governance.
+
+### Come risolvere le limitazioni della ricerca full-text multilingue di PostgreSQL con AlloyDB AI
+
+- **Fonti:** [Google Cloud Blog](https://cloud.google.com/blog/products/databases/how-alloydb-overcomes-indexing-limitations-with-ai-functions/)
+- **Data:** 2026-07-15
+
+AlloyDB offre una soluzione per le limitazioni della ricerca full-text multilingue di PostgreSQL, integrando le capacità di intelligenza artificiale di Gemini per la segmentazione delle parole in linguaggi logografici come il cinese, il giapponese e il coreano.
+
+**Perché conta:** Questa soluzione è rilevante per gli investitori perché rappresenta un avanzamento significativo nella capacità di eseguire ricerche full-text accurate e rapide in linguaggi logografici, senza l'overhead amministrativo di complessi pipeline ETL.
+
+### Il rischio delle funzioni cloud esposte e come hardenle
+
+- **Fonti:** [Google Cloud Blog](https://cloud.google.com/blog/topics/threat-intelligence/exposed-cloud-functions-harden/)
+- **Data:** 2026-07-15
+
+Le funzioni serverless esposte possono essere vulnerabili a attacchi di tipo LFI/RFI e Command Injection, consentendo agli attaccanti di ottenere accesso completo al container e potenzialmente compromettere l'ambiente cloud. Per mitigare questo rischio, è necessario implementare strategie di hardening per le funzioni serverless, come ad esempio utilizzare un gestore di segreti e non memorizzare segreti o credenziali all'interno del codice o dei file del container.
+
+**Perché conta:** La sicurezza delle funzioni serverless è cruciale per proteggere l'ambiente cloud e prevenire attacchi di tipo LFI/RFI e Command Injection.
+
+### Google nominata Leader nel MarketScape IDC per il Software di Modelli Fondamentali a livello mondiale 2026
+
+- **Fonti:** [Google Cloud Blog](https://cloud.google.com/blog/products/ai-machine-learning/google-named-a-leader-in-idc-marketscape/)
+- **Data:** 2026-07-14
+
+Google è stata nominata Leader nel MarketScape IDC per il software di modelli fondamentali a livello mondiale 2026 grazie alla sua capacità di tradurre la ricerca di frontiera in sistemi di produzione sicuri e scalabili. La società ha sviluppato una piattaforma unificata, Gemini Enterprise, per consentire alle organizzazioni di utilizzare i modelli fondamentali in modo sicuro e efficiente.
+
+**Perché conta:** Questa nomina è rilevante per gli investitori e i CTO poiché dimostra la leadership di Google nel settore dei modelli fondamentali e la sua capacità di fornire soluzioni scalabili e sicure.
+
+### Claude a scala su Google Cloud: IA di frontiera, costruita per la produzione aziendale
+
+- **Fonti:** [Google Cloud Blog](https://cloud.google.com/blog/products/ai-machine-learning/claude-at-scale-on-google-cloud-frontier-ai-built-for-enterprise-production/)
+- **Data:** 2026-07-14
+
+Google Cloud presenta Claude, un'IA di frontiera costruita per la produzione aziendale. Claude è disponibile su Google Cloud e offre una piattaforma gestita per l'infrastruttura, la raggiungibilità globale e la conformità postura che le aziende già utilizzano. La piattaforma offre quattro aree di produzione: infrastruttura gestita, endpoint globali, sicurezza e dati sovrani, e caratteristiche di livello di servizio ottimizzate per costo e prestazioni.
+
+**Perché conta:** Claude a scala su Google Cloud conta per gli investitori perché offre una piattaforma gestita per l'IA di frontiera, che è essenziale per le aziende che vogliono implementare l'intelligenza artificiale in produzione.
+
+### La sicurezza della catena di approvvigionamento AI su GKE: presentato k8s-aibom per BOM automatizzati AI
+
+- **Fonti:** [Google Cloud Blog](https://cloud.google.com/blog/products/identity-security/introducing-k8s-aibom-on-gke-for-automated-ai-bills-of-materials/)
+- **Data:** 2026-07-13
+- **Nota:** k8s-aibom è un progetto open-source sviluppato da Google che può essere utilizzato su qualsiasi cluster Kubernetes conformante.
+
+Google ha presentato k8s-aibom, un controller Kubernetes lightweight e non privilegiato che monitora il cluster API e gli ambienti dei container per automatizzare la generazione di BOM standard CycloneDX Machine Learning. Questo strumento può aiutare le organizzazioni a gestire la sicurezza della catena di approvvigionamento AI e a garantire la visibilità e la tracciabilità dei modelli AI in esecuzione.
+
+**Perché conta:** k8s-aibom può aiutare le organizzazioni a gestire la sicurezza della catena di approvvigionamento AI e a garantire la visibilità e la tracciabilità dei modelli AI in esecuzione.
+
+### La creazione del veicolo definito dall'AI con Android, Google Cloud e Nexus SDV
+
+- **Fonti:** [Google Cloud Blog](https://cloud.google.com/blog/products/databases/nexus-sdv-uses-bigtable-android-automotive-for-agentic-vehicles/)
+- **Data:** 2026-07-13
+
+L'industria automobilistica sta passando da piattaforme incentrate sul hardware a quelle software definite, con Google Android e Google Cloud che guidano questa transizione. La piattaforma AAOS SDV di Android implementa il veicolo definito dall'AI, mentre Google Cloud fornisce un'infrastruttura scalabile con strumenti di integrazione AI, tra cui Bigtable per telemetria automobilistica e manifatturiera. La piattaforma Nexus SDV di Valtech utilizza Google tecnologie per creare un sistema di veicolo connesso completo e integrato.
+
+**Perché conta:** Questa tecnologia è rilevante per gli investitori perché rappresenta un'opportunità per le aziende automobilistiche di creare veicoli più intelligenti e connessi, aumentando la loro competitività e la loro capacità di generare ricavi.
+
+### Tendenze chiave dal rapporto M-Trends 2026 per il settore pubblico e oltre
+
+- **Fonti:** [Google Cloud Blog](https://cloud.google.com/blog/topics/public-sector/key-findings-from-the-2026-public-sector-m-trends-report-and-beyond/)
+- **Data:** 2026-07-13
+
+Il settore pubblico non difende più un perimetro tradizionale, ma una rete complessa di relazioni di fiducia interconnesse contro attaccanti che operano a velocità di macchina. Il rapporto M-Trends 2026 evidenzia la compressione dell'attacco, la persistenza dei malware, l'attacco alla pila di virtualizzazione e l'effetto dominò dei servizi a pagamento.
+
+**Perché conta:** Queste tendenze sono rilevanti per gli investitori e i CTO perché mostrano la necessità di una difesa a velocità di macchina e di una verifica continua della fiducia per il settore pubblico.
+
+### Azure Databricks offre valore commerciale provato
+
+- **Fonti:** [Azure Blog](https://azure.microsoft.com/en-us/blog/azure-databricks-delivers-proven-business-value/)
+- **Data:** 2026-07-15
+
+Microsoft Azure Databricks offre il vantaggio di primo piano di Databricks su Microsoft, traducendosi in valore misurabile per i clienti. La piattaforma è la stessa che i team già conoscono, co-progettata con Microsoft e fornita come servizio nativo di Azure, integrandosi facilmente con gli strumenti, l'identità e la governance già utilizzati dall'organizzazione.
+
+**Perché conta:** Questo articolo è rilevante per gli investitori e i CTO che vogliono comprendere come la piattaforma Azure Databricks possa offrire valore commerciale ai clienti.
+
+### Modelli frontiera e agenti di produzione: Microsoft Foundry per l'era agente
+
+- **Fonti:** [Azure Blog](https://azure.microsoft.com/en-us/blog/frontier-models-and-production-agents-advancing-microsoft-foundry-for-the-agentic-era/)
+- **Data:** 2026-07-09
+
+Microsoft introduce i modelli frontiera di OpenAI e la zona dati Asia Pacific, oltre alle funzionalità degli agenti di produzione, disponibili in Microsoft Foundry.
+
+**Perché conta:** Questo annuncio è rilevante per gli investitori e i CTO interessati allo sviluppo di tecnologie AI avanzate.
+
+### Come Azure ha evoluto la resilienza dei sistemi
+
+- **Fonti:** [Azure Blog](https://azure.microsoft.com/en-us/blog/built-to-bounce-back-how-azure-resiliency-evolved/)
+- **Data:** 2026-07-08
+
+Azure ha migliorato la resilienza dei sistemi per adattarsi, riprendersi e funzionare nel mondo reale. La resilienza è essenziale per garantire la continuità operativa e ridurre i costi di recupero.
+
+**Perché conta:** La resilienza è cruciale per gli investitori e i CTO che vogliono garantire la stabilità e la scalabilità delle infrastrutture AI.
+
+### Gestione chiavi esterna per Azure Managed HSM ora in anteprima pubblica
+
+- **Fonti:** [Azure Blog](https://azure.microsoft.com/en-us/blog/external-key-management-for-azure-managed-hsm-is-now-in-public-preview/)
+- **Data:** 2026-07-07
+
+Azure Key Vault Managed Hardware Security Module (HSM) offre una forte sovranità sulla gestione delle chiavi di crittografia. Le chiavi vengono generate e archiviate in un modulo di sicurezza hardware a singolo tenant, FIPS 140-3 Level 3, controllato esclusivamente dall'utente. Microsoft non ha accesso al materiale chiave e l'utente governa chi può utilizzare ogni chiave.
+
+**Perché conta:** La gestione sicura delle chiavi è fondamentale per proteggere i dati critici e garantire la sicurezza delle applicazioni cloud.
+
+### Amazon SQS compie 20 anni: due decadi di messaggistica affidabile a scala
+
+- **Fonti:** [AWS News Blog](https://aws.amazon.com/blogs/aws/amazon-sqs-turns-20-two-decades-of-reliable-messaging-at-scale/)
+- **Data:** 2026-07-13
+
+Amazon SQS è stato lanciato il 13 luglio 2006 come uno dei primi tre servizi disponibili per i clienti, insieme a Amazon EC2 e Amazon S3. È stato progettato per fornire una soluzione affidabile per la comunicazione tra componenti distribuiti senza creare dipendenze strette.
+
+**Perché conta:** Amazon SQS è una tecnologia fondamentale per l'architettura a servizi distribuiti e rappresenta un esempio di come la tecnologia possa supportare la scalabilità e la flessibilità dei sistemi.
+
+### AWS Builder Center compie un anno: piattaforma cresciuta
+
+- **Fonti:** [AWS News Blog](https://aws.amazon.com/blogs/aws/aws-weekly-roundup-aws-builder-center-at-one-year-network-scanning-in-security-hub-loom-for-aws-and-more-july-13-2026/)
+- **Data:** 2026-07-13
+
+AWS Builder Center è cresciuta da una piattaforma di community a un ecosistema completo con sandbox, workshop e biblioteca. La piattaforma è stata lanciata un anno fa e ha già registrato un importante sviluppo.
+
+**Perché conta:** La piattaforma rappresenta un importante investimento di AWS nel settore dell'AI e dell'innovazione tecnologica.
+
+### AWS Weekly Roundup: aggiornamenti su AWS, WorkSpaces e servizi disponibili
+
+- **Fonti:** [AWS News Blog](https://aws.amazon.com/blogs/aws/aws-weekly-roundup-claude-sonnet-5-on-aws-amazon-workspaces-for-ai-agents-aws-service-availability-updates-and-more-july-6-2026/)
+- **Data:** 2026-07-06
+
+L'articolo è una rassegna settimanale di notizie relative all'azienda AWS, che include aggiornamenti sui servizi disponibili, la presentazione di nuove funzionalità come Amazon WorkSpaces per agenti AI e la versione 5 di Claude Sonnet su AWS.
+
+**Perché conta:** Questo articolo è rilevante per gli investitori e i CTO che seguono le ultime novità e aggiornamenti sulla piattaforma AWS.

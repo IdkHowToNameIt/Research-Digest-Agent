@@ -1,5 +1,25 @@
 {
   "id": "data_center",
   "nome": "Data center",
-  "gruppi": []
+  "gruppi": [
+    {
+      "data": "2026-07-15",
+      "titolo": "Efficienza AI: ottimizzazione del matching pubblicitario e riduzione del training",
+      "n_articoli": 2,
+      "minuti_lettura": 2,
+      "anteprima_titoli": [
+        "Esplorare la Rappresentazione Gerarchica degli Interessi per l'Ottimizzazione del Funnel Profondo di Meta Ads",
+        "I progressi nel fine-tuning riducono il volume totale di addestramento dell'IA"
+      ]
+    },
+    {
+      "data": "2026-07-13",
+      "titolo": "Modernizzare il servizio pubblicitario di Meta con un kernel scheduler open source",
+      "n_articoli": 1,
+      "minuti_lettura": 1,
+      "anteprima_titoli": [
+        "Modernizzare il servizio pubblicitario di Meta con un kernel scheduler open source"
+      ]
+    }
+  ]
 }

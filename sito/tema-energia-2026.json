@@ -1,0 +1,113 @@
+{
+  "anno": "2026",
+  "gruppi": [
+    {
+      "data": "2026-07-15",
+      "titolo": "Efficienza energetica e sostenibilità nei data center AI: innovazioni e sfide globali",
+      "articoli": [
+        {
+          "titolo": "CIMERA: Compute-in-Interconnect e Memoria con Precisione Riconfigurabile per l'Inference di LLM",
+          "fonti": [
+            {
+              "nome": "arXiv (energia x AI)",
+              "link": "https://arxiv.org/abs/2607.13649v1"
+            }
+          ],
+          "data": "2026-07-15",
+          "sintesi": "I risultati preliminari di uno studio indicano che LLM impongono richieste computazionali e di memoria significative, creando sfide per l'inferenza a basso consumo energetico su data center e dispositivi edge. La precisione dei pesi è cruciale per bilanciare accuratezza, throughput ed energia, e i carichi di lavoro LLM mostrano eterogeneità e tolleranza che favoriscono esecuzioni a precisione adattiva. Il paper presenta CIMERA, un acceleratore di inferenza LLM a precisione riconfigurabile che integra compute‑in‑interconnect e memoria per mitigare il memory wall e abilitare esecuzioni consapevoli della precisione. Rispetto a Nvidia H100, CIMERA offre fino a $25\\times$ e $10\\times$ maggiore efficienza energetica per modelli da 1 B e 13 B rispettivamente.",
+          "perche_conta": "Migliorare l'efficienza energetica dell'inferenza LLM riduce i costi operativi dei data center e rende praticabile l'esecuzione di modelli avanzati su dispositivi con risorse limitate, un fattore chiave per gli investimenti infrastrutturali e le decisioni dei CTO.",
+          "note": "(preprint, non ancora sottoposto a peer review)"
+        },
+        {
+          "titolo": "Costo ambientale della sovranità digitale: acqua, energia ed emissioni dell'AI sovrana nel Global South",
+          "fonti": [
+            {
+              "nome": "arXiv (energia x AI)",
+              "link": "https://arxiv.org/abs/2607.13443v1"
+            }
+          ],
+          "data": "2026-07-15",
+          "sintesi": "I risultati preliminari di uno studio indicano che la sovranità AI è diventata una priorità strategica nel Global South, con oltre $200 billion di impegni statali annunciati tra il 2024 e il 2026. L’analisi comparativa su quattro casi – Emirati Arabi Uniti, Bangladesh, India e Africa (Kenya) – mostra che l’infrastruttura fisica, in particolare i data center, comporta costi idrici, energetici e di carbonio particolarmente gravosi per i paesi meno attrezzati. Un cluster di 1.024 GPU con raffreddamento evaporativo negli Emirati consumerebbe oltre 30 milioni di litri d’acqua all’anno, in un contesto classificato come “extremely high” water stress, mentre in Bangladesh le politiche richiedono l’acquisto centralizzato di GPU senza indicare dove collocare i data center, nonostante più di un quinto del territorio sia soggetto a inondazioni annuali e la rete elettrica sia poco affidabile. Gli autori identificano un trilemma sovranità‑sostenibilità‑accessibilità e propongono principi di progettazione, tra cui la rendicontazione obbligatoria dell’efficacia dell’uso dell’acqua, valutazioni di vulnerabilità climatica per la localizzazione e la preferenza per modelli linguistici ridotti rispetto al pre‑training di frontiera.",
+          "perche_conta": "Per gli investitori e i CTO, questi dati evidenziano i rischi ambientali e di approvvigionamento energetico legati alla costruzione di data center AI sovrani nei mercati emergenti, influenzando le decisioni di capex, la gestione della supply chain e la conformità normativa.",
+          "note": "(preprint, non ancora sottoposto a peer review)"
+        }
+      ]
+    },
+    {
+      "data": "2026-07-09",
+      "titolo": "Chi ha bisogno di DRAM? Abbiamo la fibra",
+      "articoli": [
+        {
+          "titolo": "Chi ha bisogno di DRAM? Abbiamo la fibra",
+          "fonti": [
+            {
+              "nome": "arXiv (energia x AI)",
+              "link": "https://arxiv.org/abs/2607.08407v2"
+            }
+          ],
+          "data": "2026-07-09",
+          "sintesi": "I risultati preliminari di uno studio indicano che la pressione crescente sulla disponibilità e sui prezzi contrattuali della DRAM è alimentata dalle esigenze di memoria ad alte prestazioni dell'IA generativa e dall'espansione dei data center hyperscale, che ora consumano una parte significativa della produzione globale di DRAM. Gli autori propongono una nuova architettura, Fiber Memory, che utilizza la fibra ottica come memoria a linea di ritardo ricircolante per dati immutabili, come i pesi dei grandi modelli linguistici. L'architettura combina fibre multi‑core a divisione spaziale, interfacce ottiche passive di tap‑and‑amplify, ottica co‑packaged e rigenerazione ottica regionale. La valutazione di un caso di studio suggerisce che Fiber Memory può eliminare lo stoccaggio ridondante dei pesi su 10,000 acceleratori AI e ridurre l'energia di consegna dei pesi di oltre 70% rispetto alle configurazioni tradizionali HBM3e.",
+          "perche_conta": "Questa proposta affronta direttamente le limitazioni di approvvigionamento della DRAM e il consumo energetico dei data center, offrendo una potenziale via di risparmio di costi e di sostenibilità per gli investimenti infrastrutturali nell'AI su larga scala.",
+          "note": "(preprint, non ancora sottoposto a peer review)"
+        }
+      ]
+    },
+    {
+      "data": "2026-07-08",
+      "titolo": "Valutare la resilienza della rete nell'era dei data center in costante crescita",
+      "articoli": [
+        {
+          "titolo": "Valutare la resilienza della rete nell'era dei data center in costante crescita",
+          "fonti": [
+            {
+              "nome": "arXiv (energia x AI)",
+              "link": "https://arxiv.org/abs/2607.06958v1"
+            }
+          ],
+          "data": "2026-07-08",
+          "sintesi": "I risultati preliminari di uno studio indicano che la rapida crescita dei carichi di intelligenza artificiale aumenta la scala e la concentrazione della domanda dei data center, sollevando nuove preoccupazioni per la resilienza del sistema elettrico durante eventi dirompenti. Il lavoro estende un framework multi‑time‑step di flusso di potenza DC ottimale per valutare l'impatto della domanda aggregata dei data center sull'energia non servita indotta da contingenze, usando un sistema IEEE a 30 bus con risorse flessibili. Sostituendo un carico convenzionale con un carico costante di data center equiparato in energia, i risultati mostrano che la crescita della capacità dei data center aumenta notevolmente l'energia non servita sia a livello di sistema sia sul bus del data center sotto contingenze limitate dalla trasmissione; in uno scenario di derating accoppiato, il caso ad alta crescita porta l'energia non servita totale da 3.203 MWh a 22.891 MWh. Un caso supplementare di domanda coincidente, pur mantenendo lo stesso consumo energetico totale, incrementa l'energia non servita del 34.4%, dimostrando che la concentrazione temporale della domanda dei data center può amplificare gli effetti sulla resilienza della rete.",
+          "perche_conta": "Il documento evidenzia come l'espansione dei data center, trainata dai carichi AI, possa compromettere la capacità di risposta della rete elettrica, indicando la necessità di investimenti in infrastrutture di trasmissione, flessibilità operativa e gestione della domanda per garantire continuità e affidabilità dei servizi AI.",
+          "note": "(preprint, non ancora sottoposto a peer review)"
+        }
+      ]
+    },
+    {
+      "data": "2026-07-07",
+      "titolo": "Bit2Watt: vulnerabilità cyber‑fisica che sfrutta i carichi GPU tra potenza e calcolo",
+      "articoli": [
+        {
+          "titolo": "Bit2Watt: vulnerabilità cyber‑fisica che sfrutta i carichi GPU tra potenza e calcolo",
+          "fonti": [
+            {
+              "nome": "arXiv (energia x AI)",
+              "link": "https://arxiv.org/abs/2607.05993v1"
+            }
+          ],
+          "data": "2026-07-07",
+          "sintesi": "I risultati preliminari di uno studio indicano che un attaccante può manipolare i carichi di lavoro GPU per generare modulazioni di potenza ad alta frequenza che destabilizzano l’infrastruttura elettrica locale. La vulnerabilità, denominata Bit2Watt, opera interamente nel livello cyber sfruttando percorsi di esecuzione legittimi e componenti ad alta frequenza poco monitorati dai sistemi di telemetria tradizionali. Nel modello di aggregazione peggiore analizzato, la manipolazione di 1,000 GPU in un sistema di potenza locale da 1 MW con il 90 % di DER aumenta la distorsione armonica totale della corrente (THD) al 46.8 % e produce un rapporto di smorzamento di -0.27. Queste degradazioni della qualità dell’energia possono sollecitare le apparecchiature di distribuzione del data‑center, attivare meccanismi di protezione e, in scenari simulati estremi, innescare guasti a cascata su scala di trasmissione. Gli autori propongono difese cross‑layer che combinino la pianificazione dei workload con la protezione dell’elettronica di potenza, evidenziando la necessità di soluzioni integrate per la resilienza delle infrastrutture AI.",
+          "perche_conta": "Il fenomeno rivela un nuovo vettore di attacco che collega direttamente i carichi di lavoro GPU alle reti elettriche con alta penetrazione di DER, imponendo a CTO e investitori di considerare misure di sicurezza sia informatiche sia di power‑electronics per tutelare la continuità operativa e i costi di capitale.",
+          "note": "(preprint, non ancora sottoposto a peer review)"
+        }
+      ]
+    },
+    {
+      "data": "2026-07-06",
+      "titolo": "Flessibilità della domanda a carico elevato come stoccaggio virtuale",
+      "articoli": [
+        {
+          "titolo": "Flessibilità della domanda a carico elevato come stoccaggio virtuale",
+          "fonti": [
+            {
+              "nome": "arXiv (energia x AI)",
+              "link": "https://arxiv.org/abs/2607.04564v1"
+            }
+          ],
+          "data": "2026-07-06",
+          "sintesi": "I risultati preliminari di uno studio indicano che impianti di elettrolisi dell’acqua, data center hyperscale e linee di produzione di alluminio offrono gigawatt di flessibilità della domanda, utili per l’equilibrio del sistema energetico, la pianificazione operativa e i servizi di acquisto. Il lavoro dimostra che, sebbene le carichi di grande scala siano programmati tramite limiti di potenza per intervallo e finestre energetiche di orizzonte, e le batterie co-localizzate (BESS) operino sotto dinamiche di stato di carica, si può collegare la loro formulazione a un equivalente di stoccaggio virtuale (VS) che consente di trattare ogni traiettoria di carico come una traiettoria di carica di VS con efficienza di bilanciamento a unità. L’aggregazione di carichi e BESS riduce il numero di vincoli da O(NT) a O(T) e produce un prezzo di co-dispatch per entrambe le risorse, con i costi di produzione e livello di servizio che entrano nel dispatch tramite costi di opportunità di riduzione. La validazione su IEEE RTS‑GMLC con tre classi di carico mostra che lo stoccaggio virtuale fornisce la quota dominante dei risparmi di procurement con risparmi additivi, poiché le risorse vengono dispatchate in intervalli non sovrapposti e il prezzo ombra di riduzione segue l’inizio della fascia di prezzo di picco anziché il picco giornaliero.",
+          "perche_conta": "Rilevante per gli investitori infrastrutturali e i CTO perché evidenzia come la flessibilità della domanda a carico elevato possa essere monetizzata come stoccaggio virtuale, ottimizzando i costi di procurement e riducendo la complessità operativa nei data center e nelle linee di produzione.",
+          "note": "(preprint, non ancora sottoposto a peer review)"
+        }
+      ]
+    }
+  ]
+}
