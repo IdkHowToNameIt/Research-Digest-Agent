@@ -61,6 +61,51 @@ def test_google_cloud_blog_fuori_beat_scartato():
     assert classifica(c) is None
 
 
+# --- Confine di parola (regressione 2026-07-20) ----------------------------
+# Prima il confronto era `kw in testo`, cioe' sottostringa pura: bastava una
+# parola del beat annidata dentro un'altra per far passare voci fuori beat.
+# Casi reali dal feed Tom's Hardware quando e' stato attivato il filtro.
+
+def test_parola_del_beat_dentro_un_altra_parola_non_conta():
+    casi = [
+        # "mw" dentro "firmware"
+        ("Hacker fits 537,000 domains in a $5 ESP32 dongle",
+         "custom firmware, 50 KB of RAM, 10 ms response"),
+        # "compute" dentro "computer"
+        ("Jurassic Park scene recreated on a vintage computer",
+         "the original movie prop was a personal computer"),
+        # "nm" dentro "nmap"
+        ("Weekend project: scanning the home LAN", "a quick nmap sweep"),
+    ]
+    for titolo, estratto in casi:
+        c = _cand(titolo=titolo, estratto=estratto, filtro=True)
+        assert is_rilevante(c) is False, titolo
+
+
+def test_parole_esatte_contano_come_parola_intera():
+    # gli stessi termini, ma come parole a se': devono passare
+    c = _cand(titolo="New data center draws 300 MW",
+              estratto="compute capacity on a 3 nm process", filtro=True)
+    assert is_rilevante(c) is True
+
+
+def test_plurali_e_derivati_passano():
+    # il match e' per prefisso ancorato a inizio parola: i plurali non si perdono
+    for testo in ["new GPUs shipping", "three new regions", "racks of servers",
+                  "chips from the fab", "accelerators for AI"]:
+        assert is_rilevante(_cand(titolo=testo, filtro=True)) is True, testo
+
+
+def test_offerta_commerciale_hardware_viene_scartata():
+    # categoria "deals": e' hardware ma non e' notizia di beat
+    c = _cand(
+        titolo="Save $148 on an AMD Ryzen 7 9800X3D bundle",
+        estratto="with 32GB of RAM, motherboard, and liquid cooler",
+        filtro=True,
+    )
+    assert is_rilevante(c) is False
+
+
 # --- Raggruppamento: 5 chiavi sempre presenti, conteggi coerenti ------------
 
 def test_raggruppa_ha_sempre_cinque_temi():
