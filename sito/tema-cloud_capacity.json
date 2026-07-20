@@ -1,0 +1,147 @@
+{
+  "id": "cloud_capacity",
+  "nome": "Cloud capacity",
+  "gruppi": [
+    {
+      "data": "2026-07-17",
+      "titolo": "Google Cloud annuncia novità e aggiornamenti per la scalabilità e la sicurezza",
+      "n_articoli": 4,
+      "minuti_lettura": 3,
+      "anteprima_titoli": [
+        "Google Cloud: novità e aggiornamenti",
+        "13 demo pratiche per costruire su Gemini Enterprise Agent Platform",
+        "Aggiorna la sicurezza a livello di colonna: utilizzo di etichette di governance IAM in BigQuery"
+      ]
+    },
+    {
+      "data": "2026-07-16",
+      "titolo": "Google rafforza la propria leadership nel settore dell'intelligenza artificiale e della sicurezza",
+      "n_articoli": 7,
+      "minuti_lettura": 4,
+      "anteprima_titoli": [
+        "Google è un Leader e si colloca più a destra nella Visione e più in alto nell'Esecuzione nel Quadrante Magico 2026 di Gartner per piattaforme di Intelligenza Artificiale Conversazionale",
+        "Come l'AI utilizza il contesto profondo come vantaggio del difensore",
+        "10 squadre autonome di produzione cinematografica hanno insegnato a noi come lavorare in squadra"
+      ]
+    },
+    {
+      "data": "2026-07-15",
+      "titolo": "Cloud capacity e sicurezza: sfide e soluzioni per l'intelligenza artificiale",
+      "n_articoli": 5,
+      "minuti_lettura": 3,
+      "anteprima_titoli": [
+        "IDC: Perché l'approccio di rete giusto è fondamentale per l'intelligenza artificiale agente",
+        "Come analizzare e governare l'utilizzo di Gemini Enterprise App a livello di scala con BigQuery",
+        "Come risolvere i limiti della ricerca testuale multilingue in PostgreSQL con AlloyDB AI"
+      ]
+    },
+    {
+      "data": "2026-07-14",
+      "titolo": "Cloud capacity e infrastruttura gestita per l'AI avanzata",
+      "n_articoli": 2,
+      "minuti_lettura": 2,
+      "anteprima_titoli": [
+        "Google nominata Leader nel 2026 IDC MarketScape per Worldwide Foundation Model Software",
+        "Claude su Google Cloud: frontiera dell'AI, costruita per la produzione aziendale"
+      ]
+    },
+    {
+      "data": "2026-07-13",
+      "titolo": "Cloud capacity e gestione dei servizi a grande scala",
+      "n_articoli": 5,
+      "minuti_lettura": 3,
+      "anteprima_titoli": [
+        "Tendenze chiave dal rapporto M-Trends 2026 per il settore pubblico e oltre",
+        "Introduzione di k8s-aibom per la gestione automatizzata dei BOM AI su GKE",
+        "Costruire il veicolo definito dall'AI con Android, Google Cloud e Nexus SDV"
+      ]
+    },
+    {
+      "data": "2026-07-09",
+      "titolo": "Modello frontiera e agenti di produzione: avanzamento di Microsoft Foundry per l'era agente",
+      "n_articoli": 1,
+      "minuti_lettura": 1,
+      "anteprima_titoli": [
+        "Modello frontiera e agenti di produzione: avanzamento di Microsoft Foundry per l'era agente"
+      ]
+    },
+    {
+      "data": "2026-07-08",
+      "titolo": "Come è evoluta la resilienza di Azure",
+      "n_articoli": 1,
+      "minuti_lettura": 1,
+      "anteprima_titoli": [
+        "Come è evoluta la resilienza di Azure"
+      ]
+    },
+    {
+      "data": "2026-07-07",
+      "titolo": "Gestione chiavi esterna per Azure Managed HSM ora in anteprima pubblica",
+      "n_articoli": 1,
+      "minuti_lettura": 1,
+      "anteprima_titoli": [
+        "Gestione chiavi esterna per Azure Managed HSM ora in anteprima pubblica"
+      ]
+    },
+    {
+      "data": "2026-07-06",
+      "titolo": "AWS Weekly Roundup: aggiornamenti su AWS, WorkSpaces e più",
+      "n_articoli": 1,
+      "minuti_lettura": 1,
+      "anteprima_titoli": [
+        "AWS Weekly Roundup: aggiornamenti su AWS, WorkSpaces e più"
+      ]
+    },
+    {
+      "data": "2026-07-02",
+      "titolo": "Meet Brain: Il sistema AI dietro la affidabilità di Azure",
+      "n_articoli": 1,
+      "minuti_lettura": 1,
+      "anteprima_titoli": [
+        "Meet Brain: Il sistema AI dietro la affidabilità di Azure"
+      ]
+    },
+    {
+      "data": "2026-07-01",
+      "titolo": "La resilienza e la gestione della capacità in cloud: strategie per le organizzazioni",
+      "n_articoli": 2,
+      "minuti_lettura": 1,
+      "anteprima_titoli": [
+        "Prova la resilienza delle applicazioni su Azure con Chaos Studio",
+        "Aggiornamenti sicuri dei cluster EKS con Kubernetes"
+      ]
+    },
+    {
+      "data": "2026-06-30",
+      "titolo": "Cloud capacity e prestazioni: ottimizzazione e miglioramenti",
+      "n_articoli": 4,
+      "minuti_lettura": 2,
+      "anteprima_titoli": [
+        "Come progettare, costruire e ottimizzare l'infrastruttura Azure IaaS per l'efficienza a lungo termine",
+        "Accelera le tue deployment di infrastruttura fino a 4 volte con AWS CloudFormation Express mode",
+        "Amazon EC2 C9g e C9gd ora disponibili con processori AWS Graviton5"
+      ]
+    },
+    {
+      "data": "2026-06-29",
+      "titolo": "Cloud e AI: nuove tecnologie per accelerare l'innovazione e la produttività",
+      "n_articoli": 4,
+      "minuti_lettura": 2,
+      "anteprima_titoli": [
+        "Claude in Microsoft Foundry è ora disponibile in generale",
+        "L'Indice di Conferma dell'Agente 2026: 300 costruttori vedono un vero impulso",
+        "Accelera carichi di lavoro Linux moderni con Azure Files"
+      ]
+    },
+    {
+      "data": "2026-06-22",
+      "titolo": "AWS espande capacità cloud con nuove tecnologie e servizi",
+      "n_articoli": 2,
+      "minuti_lettura": 1,
+      "anteprima_titoli": [
+        "AWS Lambda introduce MicroVMs per sandbox isolati",
+        "AWS Weekly Roundup: NY Summit recap, Local Zone in Hanoi, Grok 4.3 in Bedrock, riduzioni prezzi e altro (22 giugno 2026)"
+      ]
+    }
+  ]
+}
