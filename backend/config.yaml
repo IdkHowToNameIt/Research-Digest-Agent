@@ -70,6 +70,19 @@ sito:
 #   INTERNAL_NOTES_RECIPIENTS   comparto IT, note interne   (serve solo se ci sono note, 17.2)
 # Le due liste restano separate: le note interne non vanno mai ai lettori (16.7/17.2).
 
+# Finestra di attualita' in GIORNI: le voci pubblicate da piu' di tanto vengono
+# scartate in fase di raccolta, prima del dedup e prima delle chiamate al modello.
+# Serve perche' il dedup risponde a "l'ho gia' pubblicato?", non a "e' ancora
+# attuale?": senza questo filtro il primo run dopo un azzeramento dello stato
+# pesca l'intero backlog dei feed (run del 2026-07-20: 59 articoli su 158 oltre il
+# mese, uno di agosto 2025 dentro un digest settimanale). Effetto collaterale
+# voluto: meno articoli = meno chiamate a Groq = meno 429 = cascata che regge sul
+# modello buono. Voci senza data leggibile vengono TENUTE (fail-open).
+# Toglierlo (o metterlo a null) ripristina il comportamento storico.
+# NB: le fonti a bassa frequenza (Uptime Institute, Meta Engineering, Federal
+# Register) certe settimane resteranno a zero: e' corretto per un settimanale.
+finestra_articoli_giorni: 14
+
 # Finestra (in settimane) per il confronto fuzzy anti-duplicati (Fase 4, sez. 16.4).
 finestra_dedup_settimane: 6
 # Soglia overlap parole/entita' (Jaccard) — parametro DA CALIBRARE (sez. 16.4).
