@@ -326,6 +326,74 @@ def test_quota_resta_sticky():
 
 def test_motivo_distingue_le_cause():
     # Prima finivano tutte in un indistinguibile "HTTP None".
-    assert _motivo(RispostaNonJSON("x")) == "risposta non JSON"
+    assert _motivo(RispostaNonJSON("x")).startswith("risposta non JSON")
     assert _motivo(_ErroreHTTP(429)) == "HTTP 429"
     assert "errore di rete" in _motivo(ConnectionError("giu'"))
+
+
+def test_motivo_riporta_cosa_ha_risposto_il_modello():
+    # Sapere CHE non era JSON non basta a decidere il rimedio: serve sapere COSA
+    # ha scritto. Il testo lo cattura gia' _estrai_json, _motivo non deve buttarlo.
+    try:
+        _estrai_json("Certo! Ecco la sintesi richiesta, in forma discorsiva.")
+    except RispostaNonJSON as e:
+        motivo = _motivo(e)
+    assert "Certo! Ecco la sintesi" in motivo
+
+
+class _RispostaFinta:
+    """Minimo indispensabile della risposta dell'SDK openai: choices + usage."""
+
+    def __init__(self, contenuto, finish_reason):
+        messaggio = type("M", (), {"content": contenuto})()
+        scelta = type("C", (), {"message": messaggio, "finish_reason": finish_reason})()
+        self.choices = [scelta]
+        self.usage = None
+
+
+def _generatore_finto(monkeypatch, contenuto, finish_reason):
+    """crea_generatore con un client openai finto (l'import e' pigro: si sostituisce)."""
+    import openai
+
+    def create(**kwargs):
+        return _RispostaFinta(contenuto, finish_reason)
+
+    completions = type("Co", (), {"create": staticmethod(create)})()
+    chat = type("Ch", (), {"completions": completions})()
+    monkeypatch.setattr(
+        openai, "OpenAI", lambda **kw: type("Cl", (), {"chat": chat})()
+    )
+    return llm.crea_generatore(api_key="finta", model="primario", modelli_fallback=[])
+
+
+def test_diagnostica_riporta_troncamento_della_risposta(monkeypatch):
+    # Risposta tagliata a meta': il JSON e' rotto ma la colpa e' dello spazio,
+    # non del modello che ignora il formato. Il log deve dirlo.
+    genera = _generatore_finto(monkeypatch, '{"sintesi": "inizio del te', "length")
+    with pytest.raises(RispostaNonJSON) as info:
+        genera("p")
+    assert "finish_reason=length" in str(info.value)
+
+
+def test_diagnostica_riporta_formato_ignorato(monkeypatch):
+    # Risposta completa ma discorsiva: qui la colpa e' del formato ignorato.
+    genera = _generatore_finto(monkeypatch, "Certo, ecco la sintesi.", "stop")
+    with pytest.raises(RispostaNonJSON) as info:
+        genera("p")
+    messaggio = str(info.value)
+    assert "finish_reason=stop" in messaggio
+    assert "Certo, ecco la sintesi." in messaggio
+
+
+def test_risposta_valida_non_viene_toccata_dalla_diagnostica(monkeypatch):
+    genera = _generatore_finto(monkeypatch, '{"sintesi": "ok"}', "stop")
+    assert genera("p") == {"sintesi": "ok"}
+
+
+def test_estrai_json_distingue_risposta_vuota_da_testo_libero():
+    # Risposta vuota e testo libero hanno rimedi diversi (spazio/token contro
+    # formato ignorato): i due messaggi non devono confondersi.
+    with pytest.raises(RispostaNonJSON, match="vuota"):
+        _estrai_json("")
+    with pytest.raises(RispostaNonJSON, match="nessun oggetto JSON"):
+        _estrai_json("testo discorsivo senza graffe")
