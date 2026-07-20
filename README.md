@@ -266,16 +266,23 @@ Due cose che sorprendono spesso:
   è già nel file, ma se la tua organizzazione forza i workflow in sola lettura devi
   consentirlo in *Settings → Actions → General → Workflow permissions*.
 
-**Orari.** Il run parte lunedì alle `05:40` UTC e le email alle `06:30` UTC (07:40 e
-08:30 italiane **d'estate**). Il cron di GitHub non conosce i fusi né l'ora legale:
-se ti servono orari locali fissi tutto l'anno, sposta il `cron` di un'ora ai cambi
-d'ora. Per cambiarli, il `cron` è in `.github/workflows/digest-settimanale.yml` e
-l'orario delle email è l'argomento `--attendi-invio` dell'ultimo step.
+**Orari.** Il run parte lunedì alle `06:20` UTC — le **08:20 italiane d'estate**,
+07:20 d'inverno — e le email partono subito dopo la pubblicazione del sito. Il cron
+di GitHub non conosce i fusi né l'ora legale: se ti servono orari locali fissi tutto
+l'anno, sposta il `cron` di un'ora ai cambi d'ora. Il `cron` è in
+`.github/workflows/digest-settimanale.yml`.
+
+**L'orario è indicativo, e non di poco.** GitHub accoda gli scheduled workflow e
+sotto carico li fa slittare di **ore** (il 2026-07-20: 2h48). Il lunedì mattina UTC
+è la fascia più congestionata, perché è quando parte il cron settimanale di mezzo
+mondo. Non è un guasto e non c'è niente da abilitare: se il run non è partito
+all'ora prevista, quasi sempre è solo in coda.
 
 Non aspettare lunedì: *Actions → digest-settimanale → Run workflow* la lancia subito.
-Sull'attesa delle email, un avvio manuale si comporta così: se lanci **dopo** le
-06:30 UTC le email partono subito; se lanci **poco prima**, lo step aspetta fino alle
-06:30 (al massimo 90 minuti, oltre i quali non attende e manda subito).
+⚠️ **Non lanciarlo a mano se il run schedulato della settimana non è ancora arrivato**:
+quello in coda partirà comunque dopo (`concurrency` accoda, non annulla) e girerebbe
+due volte nello stesso giorno. Non è più distruttivo — l'archivio viene fuso, non
+sovrascritto (DECISIONI sez. 15) — ma è lavoro sprecato e consuma quota del modello.
 
 ### d) Collega un hosting statico
 
@@ -390,17 +397,17 @@ docker compose down -v             # rimuove anche i volumi (sito + storico)
 ## Avvio — automatico settimanale (GitHub Actions)
 
 Il workflow `.github/workflows/digest-settimanale.yml` esegue la pipeline reale
-ogni lunedì alle **05:40 UTC** (e a mano da *Actions → Run workflow*):
+ogni lunedì alle **06:20 UTC** (e a mano da *Actions → Run workflow*):
 
-**Orari.** Il cron di GitHub ragiona solo in UTC: `05:40` sono le **07:40 italiane
-d'estate** e le 06:40 d'inverno. Per tenere fisso l'orario locale tutto l'anno il
-cron va spostato di un'ora ai cambi d'ora. Gli orari sono comunque indicativi —
-GitHub accoda gli scheduled workflow e nelle ore di punta partono in ritardo.
+**Orari.** Il cron di GitHub ragiona solo in UTC: `06:20` sono le **08:20 italiane
+d'estate** e le 07:20 d'inverno. Per tenere fisso l'orario locale tutto l'anno il
+cron va spostato di un'ora ai cambi d'ora. Gli orari sono comunque indicativi — e
+lo slittamento può essere di **ore**, non di minuti (vedi sopra).
 
-Il run è in **due fasi**: prima genera e pubblica il sito, poi (dalle **06:30 UTC**,
-08:30 italiane d'estate) manda le email. In quest'ordine perché l'email rimanda al
-sito: si mette online la pagina e solo dopo si manda il link. Se il run parte tardi
-e le 06:30 sono già passate, le email partono subito invece di saltare la settimana.
+Il run è in **due fasi**: prima genera e pubblica il sito, poi manda le email. In
+quest'ordine perché l'email rimanda al sito: si mette online la pagina e solo dopo
+si manda il link. Sono due step sequenziali dello stesso job, quindi l'ordine è
+garantito senza bisogno di attese.
 
 > Se stai configurando il repo per la prima volta nel tuo account, parti da
 > **[Adottare il repo](#adottare-il-repo)**: qui sotto c'è solo come funziona il
