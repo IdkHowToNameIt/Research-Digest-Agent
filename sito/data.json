@@ -7,112 +7,19 @@
       "id": "chip",
       "nome": "Chip",
       "file": "tema-chip.json",
-      "recenti": [
-        {
-          "data": "2026-07-19",
-          "titolo": "Nuove performance, open‑source e tensioni di mercato dominano le notizie sui chip",
-          "n_articoli": 10,
-          "minuti_lettura": 6
-        },
-        {
-          "data": "2026-07-17",
-          "titolo": "NVIDIA Vera Rubin massimizza l'intelligenza per dollaro per carichi di lavoro post-addestramento",
-          "n_articoli": 1,
-          "minuti_lettura": 1
-        },
-        {
-          "data": "2026-07-16",
-          "titolo": "NVIDIA guida l'espansione dei chip AI in Giappone e nel cloud gaming",
-          "n_articoli": 3,
-          "minuti_lettura": 2
-        },
-        {
-          "data": "2026-07-15",
-          "titolo": "NVIDIA spinge l'AI edge e robotica in Giappone con chip Jetson Thor e Nemotron",
-          "n_articoli": 3,
-          "minuti_lettura": 2
-        },
-        {
-          "data": "2026-07-14",
-          "titolo": "Verso un'AI più affidabile ed efficiente: modelli aperti e metriche di performance per watt",
-          "n_articoli": 2,
-          "minuti_lettura": 2
-        },
-        {
-          "data": "2026-07-09",
-          "titolo": "GeForce NOW accende i riflettori con il nuovo server a Toronto basato su GeForce RTX 5080",
-          "n_articoli": 1,
-          "minuti_lettura": 1
-        },
-        {
-          "data": "2026-07-08",
-          "titolo": "NVIDIA Nemotron raggiunge prestazioni leader nei benchmark con LangChain Deep Agents Harness",
-          "n_articoli": 1,
-          "minuti_lettura": 1
-        },
-        {
-          "data": "2026-07-07",
-          "titolo": "NVIDIA spinge l'AI agentica e robotica con CPU Vera e modelli open",
-          "n_articoli": 2,
-          "minuti_lettura": 2
-        }
-      ]
+      "recenti": []
     },
     {
       "id": "data_center",
       "nome": "Data center",
       "file": "tema-data_center.json",
-      "recenti": [
-        {
-          "data": "2026-07-15",
-          "titolo": "Data center e ottimizzazione: avanzamenti nel fine-tuning riducono il volume di addestramento AI",
-          "n_articoli": 2,
-          "minuti_lettura": 2
-        },
-        {
-          "data": "2026-07-13",
-          "titolo": "Modernizzazione del servizio pubblicitario di Meta con un kernel scheduler open source",
-          "n_articoli": 1,
-          "minuti_lettura": 1
-        }
-      ]
+      "recenti": []
     },
     {
       "id": "energia",
       "nome": "Energia",
       "file": "tema-energia.json",
-      "recenti": [
-        {
-          "data": "2026-07-15",
-          "titolo": "Efficienza energetica e impatto ambientale dell'infrastruttura AI",
-          "n_articoli": 2,
-          "minuti_lettura": 2
-        },
-        {
-          "data": "2026-07-09",
-          "titolo": "Chi ha bisogno di DRAM? Possiamo utilizzare fibre ottiche",
-          "n_articoli": 1,
-          "minuti_lettura": 1
-        },
-        {
-          "data": "2026-07-08",
-          "titolo": "Valutazione della resilienza della rete elettrica nell'era dei data center sempre più grandi",
-          "n_articoli": 1,
-          "minuti_lettura": 1
-        },
-        {
-          "data": "2026-07-07",
-          "titolo": "Bit2Watt: una vulnerabilità cyber-fisica che sfrutta i carichi GPU per destabilizzare l'infrastruttura di potenza e i servizi di calcolo",
-          "n_articoli": 1,
-          "minuti_lettura": 1
-        },
-        {
-          "data": "2026-07-06",
-          "titolo": "La domanda di carico di grandi dimensioni come archiviazione virtuale",
-          "n_articoli": 1,
-          "minuti_lettura": 1
-        }
-      ]
+      "recenti": []
     },
     {
       "id": "supply_chain",
@@ -121,43 +28,7 @@
       "recenti": [
         {
           "data": "2026-07-19",
-          "titolo": "TSMC accelera investimenti per soddisfare domanda di chip AI",
-          "n_articoli": 2,
-          "minuti_lettura": 1
-        },
-        {
-          "data": "2026-07-17",
-          "titolo": "Aumento domanda chip AI: investimenti e sfide geopolitiche",
-          "n_articoli": 3,
-          "minuti_lettura": 2
-        },
-        {
-          "data": "2026-07-16",
-          "titolo": "TSMC investe 100 miliardi di dollari per espandere la capacità di produzione di chip negli Stati Uniti",
-          "n_articoli": 12,
-          "minuti_lettura": 6
-        },
-        {
-          "data": "2026-07-15",
-          "titolo": "Domanda di chip AI cresce, impattando sulla catena di approvvigionamento",
-          "n_articoli": 8,
-          "minuti_lettura": 4
-        },
-        {
-          "data": "2026-07-14",
-          "titolo": "Crescita della domanda di chip avanzati e sfide nella produzione",
-          "n_articoli": 3,
-          "minuti_lettura": 2
-        },
-        {
-          "data": "2026-07-13",
-          "titolo": "TSMC supera le previsioni di ricavi con un aumento delle vendite nel settore dell'hardware AI",
-          "n_articoli": 3,
-          "minuti_lettura": 1
-        },
-        {
-          "data": "2026-07-07",
-          "titolo": "Richiesta di commenti pubblici sull'indagine sulla sicurezza nazionale del carbone anthracite",
+          "titolo": "ASML concede bonus di €20.000 ai dipendenti e nuove azioni",
           "n_articoli": 1,
           "minuti_lettura": 1
         }
@@ -167,62 +38,7 @@
       "id": "cloud_capacity",
       "nome": "Cloud capacity",
       "file": "tema-cloud_capacity.json",
-      "recenti": [
-        {
-          "data": "2026-07-17",
-          "titolo": "Google Cloud annuncia novità e aggiornamenti per la scalabilità e la sicurezza",
-          "n_articoli": 4,
-          "minuti_lettura": 3
-        },
-        {
-          "data": "2026-07-16",
-          "titolo": "Google rafforza la propria leadership nel settore dell'intelligenza artificiale e della sicurezza",
-          "n_articoli": 7,
-          "minuti_lettura": 4
-        },
-        {
-          "data": "2026-07-15",
-          "titolo": "Cloud capacity e sicurezza: sfide e soluzioni per l'intelligenza artificiale",
-          "n_articoli": 5,
-          "minuti_lettura": 3
-        },
-        {
-          "data": "2026-07-14",
-          "titolo": "Cloud capacity e infrastruttura gestita per l'AI avanzata",
-          "n_articoli": 2,
-          "minuti_lettura": 2
-        },
-        {
-          "data": "2026-07-13",
-          "titolo": "Cloud capacity e gestione dei servizi a grande scala",
-          "n_articoli": 5,
-          "minuti_lettura": 3
-        },
-        {
-          "data": "2026-07-09",
-          "titolo": "Modello frontiera e agenti di produzione: avanzamento di Microsoft Foundry per l'era agente",
-          "n_articoli": 1,
-          "minuti_lettura": 1
-        },
-        {
-          "data": "2026-07-08",
-          "titolo": "Come è evoluta la resilienza di Azure",
-          "n_articoli": 1,
-          "minuti_lettura": 1
-        },
-        {
-          "data": "2026-07-07",
-          "titolo": "Gestione chiavi esterna per Azure Managed HSM ora in anteprima pubblica",
-          "n_articoli": 1,
-          "minuti_lettura": 1
-        },
-        {
-          "data": "2026-07-06",
-          "titolo": "AWS Weekly Roundup: aggiornamenti su AWS, WorkSpaces e più",
-          "n_articoli": 1,
-          "minuti_lettura": 1
-        }
-      ]
+      "recenti": []
     }
   ],
   "invio_email_url": "https://dra-mail.matteo-abis.workers.dev"
