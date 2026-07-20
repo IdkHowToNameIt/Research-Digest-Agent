@@ -1,0 +1,352 @@
+{
+  "anno": "2026",
+  "gruppi": [
+    {
+      "data": "2026-07-19",
+      "titolo": "Prestazioni, costi e nuove applicazioni dei chip dominano le notizie del giorno",
+      "articoli": [
+        {
+          "titolo": "Stampante 3D Creality K2 SE scontata del 17%, ora sotto $250",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/pc-components/creality-k2-se-3d-printer-price-slashed-by-17-percent-now-under-usd250-grab-a-competitive-entry-level-high-speed-multicolor-device-at-a-bargain-price"
+            }
+          ],
+          "data": "2026-07-19",
+          "sintesi": "Il prezzo della Creality K2 SE scende a $248.99 in un’offerta a tempo limitato. Questo la rende una valida scelta per chi vuole avvicinarsi alla stampa 3D mantenendo alcune funzionalità avanzate. Il dispositivo è multicolore e ad alta velocità, posizionandosi come opzione competitiva per il segmento entry‑level.",
+          "perche_conta": "Abbassa la barriera d’ingresso alla produzione di componenti hardware personalizzati, accelerando i cicli di sviluppo e potenzialmente incrementando la domanda di capacità di calcolo per simulazioni e rendering nei data center.",
+          "note": null
+        },
+        {
+          "titolo": "L'APU a 10 core 'Medusa Point' di AMD batte tutti i chip x86 mobile nel test single‑core su Geekbench",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/pc-components/cpus/amds-next-gen-10-core-medusa-point-apu-shows-up-on-geekbench-again-with-its-best-score-yet-leaked-sku-outpaces-every-other-x86-mobile-chip-in-the-single-core-test"
+            }
+          ],
+          "data": "2026-07-19",
+          "sintesi": "AMD ha presentato la nuova APU mobile a 10 core della famiglia Medusa Point, che supera le precedenti versioni Gorgon Point e Strix Point. I primi test su Geekbench mostrano un miglioramento significativo rispetto ai modelli precedenti. Le ultime indiscrezioni indicano che il chip ha raggiunto il suo punteggio più alto finora, confermando una tendenza di crescita delle prestazioni.",
+          "perche_conta": "Il record di prestazioni single‑core di un chip x86 mobile a 10 core influenza la competitività delle soluzioni AI edge e i piani di investimento in capacità di calcolo ad alta efficienza.",
+          "note": null
+        },
+        {
+          "titolo": "Zilog Z80 compie 50 anni: sostituzione open-source DIP40, 1976‑2024",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/tech-industry/zilog-z80-turns-50-as-open-source-replacement-heads-for-drop-in-dip40-silicon"
+            }
+          ],
+          "data": "2026-07-19",
+          "sintesi": "Il microprocessore Zilog Z80, lanciato a luglio 1976, celebra il suo 50° anniversario. L'originale Z80 contava 8.500 transistor su un processo da 4 µm e operava tipicamente a 2,5 MHz. È in fase di rilascio una versione open‑source progettata per essere inserita direttamente in package DIP40, offrendo una soluzione drop‑in per sistemi legacy. La chiusura della produzione nel 2024 ha spinto la comunità a creare questa alternativa.",
+          "perche_conta": "La disponibilità di un clone open‑source in formato DIP40 permette di prolungare la vita dei sistemi embedded esistenti, riducendo i costi di redesign hardware e garantendo continuità operativa per infrastrutture legacy basate su Z80.",
+          "note": null
+        },
+        {
+          "titolo": "Capo chip memoria ammette prezzi RAM 'anomali' — SK Group valuta impianto USA",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/tech-industry/policy/memory-chip-boss-admits-ram-prices-are-abnormally-high-sk-group-chairman-considering-building-a-semiconductor-plant-in-the-us-to-expand-supply-calm-chipflation"
+            }
+          ],
+          "data": "2026-07-19",
+          "sintesi": "Il presidente di SK Group, Chey Tae-won, ha dichiarato che i prezzi dei chip di memoria RAM sono \"anomali\". Ha sottolineato la necessità per il settore di aumentare la produzione e ridurre i prezzi. Avverte che, se non si interviene, nuovi entranti potrebbero sfidare i leader attuali, rendendo il mercato più competitivo, soprattutto quando la domanda tornerà a livelli più gestibili.",
+          "perche_conta": "Il rialzo dei costi della RAM influisce direttamente sui margini dei data center e sui piani di espansione hardware, rendendo cruciale per gli investitori valutare la capacità di SK Group di aumentare l'offerta tramite un nuovo impianto negli USA.",
+          "note": null
+        },
+        {
+          "titolo": "Drone ‘Phantom Twist’ ruota così veloce da diventare quasi invisibile",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/tech-industry/drones/phantom-twist-drone-spins-so-fast-that-it-is-nearly-invisible-flying-device-adds-motion-blur-to-the-real-world"
+            }
+          ],
+          "data": "2026-07-19",
+          "sintesi": "Ricercatori della Northwestern University hanno realizzato un drone chiamato ‘Phantom Twist’. Il dispositivo ruota a una velocità tale da generare un motion blur che lo rende quasi invisibile all’occhio umano. Questa dimostrazione evidenzia come l’attuazione meccanica estrema possa alterare la percezione visiva, aprendo scenari per piattaforme a bassa osservabilità e nuove integrazioni di sensori. Il prototipo solleva questioni di alimentazione, design dei motori e controlli in tempo reale, temi centrali per l’hardware AI ad alte prestazioni.",
+          "perche_conta": "Per gli investitori e i CTO, la tecnologia dimostra che l’innovazione hardware può creare nuovi mercati di droni stealth, richiedendo investimenti in catene di fornitura di motori ad alta velocità, sistemi di potenza e algoritmi di controllo AI‑driven.",
+          "note": null
+        },
+        {
+          "titolo": "Samsung taglia posti negli USA — 739 ruoli colpiti nel New Jersey, profitto record chip",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/tech-industry/samsung-cuts-hundreds-of-us-consumer-electronics-jobs-ahead-of-texas-hq-move"
+            }
+          ],
+          "data": "2026-07-19",
+          "sintesi": "Samsung ha annunciato il taglio di centinaia di posti di lavoro negli Stati Uniti nel settore consumer electronics, in vista del trasferimento della sede centrale in Texas. Nel New Jersey sono stati interessati 739 ruoli; la maggior parte dei dipendenti ha ricevuto offerte di ricollocazione, mentre altri sono stati licenziati. Contestualmente, la divisione chip dell'azienda registra un profitto record.",
+          "perche_conta": "Il ridimensionamento del personale e il profitto record della divisione chip evidenziano una riorganizzazione della supply chain e della capacità produttiva, fattori chiave per gli investimenti in infrastrutture AI e per la disponibilità di talenti tecnici.",
+          "note": null
+        },
+        {
+          "titolo": "Droni russi con bussole magnetiche avvitate: la telecamera verifica la rotta senza GPS",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/tech-industry/drones/russian-drones-spotted-using-screwed-on-magnetic-compasses-as-navigation-aids-the-on-board-camera-can-occasionally-tilt-down-to-check-bearings-if-satellite-comms-are-lost"
+            }
+          ],
+          "data": "2026-07-19",
+          "sintesi": "Le forze di droni russe stanno aggiungendo bussole magnetiche economiche avvitate per mantenere la rotta. L’accessorio grezzo consente di orientarsi e localizzare i bersagli anche in assenza di GPS. La telecamera di bordo può inclinarsi verso il basso per controllare la direzione quando le comunicazioni satellitari sono perse.",
+          "perche_conta": "Dimostra come le soluzioni hardware a basso costo possano mitigare le vulnerabilità di dipendenza dal GPS, influenzando la resilienza delle piattaforme AI‑driven e le esigenze di infrastrutture di comunicazione e sensoristica.",
+          "note": null
+        },
+        {
+          "titolo": "Il ronzio delle bobine può diventare musicale, rumore odiato che fa felici",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/pc-components/coil-whine-can-be-musical-demonstrates-engineering-student-this-usually-hated-noise-can-make-some-people-happy"
+            }
+          ],
+          "data": "2026-07-19",
+          "sintesi": "Un video dimostra che il ronzio delle bobine, tipico in elettronica, può essere trasformato in musica. Lo studente di ingegneria ha realizzato una dimostrazione pratica di questa conversione. L'esperimento evidenzia come un rumore elettronico tradizionalmente indesiderato possa essere reinterpretato artisticamente.",
+          "perche_conta": "Rendere utile o gradevole il coil whine apre nuove opportunità di design hardware e di gestione del rumore, influenzando costi di mitigazione e potenziali differenziazioni di prodotto per gli investitori del settore.",
+          "note": null
+        },
+        {
+          "titolo": "Hacker inserisce 537.000 domini in dongle ESP32 da $5: 50 KB RAM, risposta 10 ms",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/networking/clever-hacker-fits-537-000-domains-in-a-tiny-usd5-esp32-ad-blocking-dongle-firmware-uses-only-around-50kb-of-ram-and-can-answer-blocked-lookups-in-10-milliseconds"
+            }
+          ],
+          "data": "2026-07-19",
+          "sintesi": "Un hacker ha realizzato un dongle ESP32 da circa $5 per il blocco di pubblicità. Il firmware sfrutta un trucco di hashing per memorizzare più di 537.000 domini in 4 MB di flash memory. Richiede solo circa 50 KB di RAM e risponde alle richieste di blocco in circa 10 ms. L'approccio dimostra come hardware a basso costo possa gestire filtri di rete su larga scala.",
+          "perche_conta": "Mostra che soluzioni di rete edge a costi minimi possono offrire filtri DNS ad alta capacità, riducendo la dipendenza da infrastrutture centralizzate e aprendo opportunità di investimento in dispositivi IoT per la sicurezza.",
+          "note": null
+        },
+        {
+          "titolo": "Appassionato fa funzionare PC con 192 batterie AA, avvia Hannah Montana Linux",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/desktops/pc-building/crazed-enthusiast-runs-pc-on-192-aa-batteries-successfully-boots-into-hannah-montana-linux-system-is-stable-during-stress-testing-and-even-plays-freedoom"
+            }
+          ],
+          "data": "2026-07-19",
+          "sintesi": "Un creatore, “Uwoslab”, ha collegato tre bank di batterie da 64 celle AA ciascuna, creando un array da 192 batterie alcaline capace di alimentare un sistema AM4. Il PC è riuscito ad avviarsi con Hannah Montana Linux, è risultato stabile durante i test di stress e ha persino eseguito FreeDoom.",
+          "perche_conta": "Il progetto evidenzia le sfide di alimentazione e gestione termica quando si tenta di far funzionare carichi di calcolo su fonti di energia non convenzionali, un aspetto cruciale per la progettazione di data center resilienti e per valutare soluzioni di backup energetico in scenari AI.",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2026-07-17",
+      "titolo": "NVIDIA Vera Rubin massimizza l'intelligenza per dollaro per carichi di lavoro post-addestramento",
+      "articoli": [
+        {
+          "titolo": "NVIDIA Vera Rubin massimizza l'intelligenza per dollaro per carichi di lavoro post-addestramento",
+          "fonti": [
+            {
+              "nome": "NVIDIA Newsroom",
+              "link": "https://blogs.nvidia.com/blog/nvidia-vera-rubin-post-training-intelligence-per-dollar/"
+            }
+          ],
+          "data": "2026-07-17",
+          "sintesi": "La tecnologia NVIDIA Vera Rubin offre il minor costo per token grazie a un'estrema progettazione congiunta, massimizzando l'intelligenza per dollaro per carichi di lavoro post-addestramento nell'era dell'AI agente. Ciò rappresenta un importante vantaggio per le applicazioni di intelligenza artificiale.",
+          "perche_conta": "Questo sviluppo è rilevante per gli investitori e i CTO poiché può influenzare notevolmente i costi operativi e l'efficienza delle implementazioni di AI, specialmente in ambienti in cui il rapporto costo-prestazione è cruciale.",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2026-07-16",
+      "titolo": "NVIDIA guida l'espansione di GPU per AI, cloud gaming e robotica in Giappone",
+      "articoli": [
+        {
+          "titolo": "Onimusha: Way of the Sword arriva su GeForce NOW",
+          "fonti": [
+            {
+              "nome": "NVIDIA Newsroom",
+              "link": "https://blogs.nvidia.com/blog/geforce-now-thursday-onimusha-coming/"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "Il gioco Onimusha: Way of the Sword sarà disponibile su GeForce NOW al lancio, con una demo giocabile già questa settimana. Inoltre, GeForce NOW lancia ufficialmente in India, passando dalla versione beta alla disponibilità pubblica. Ciò significa che gli utenti possono iscriversi senza attendere. Sono inoltre arrivati cinque nuovi giochi su GeForce NOW con Denshattack!",
+          "perche_conta": "Questo annuncio è rilevante per gli investitori e gli appassionati di tecnologia perché mostra l'espansione di GeForce NOW e la sua capacità di offrire contenuti di qualità ai giocatori, evidenziando la crescita del mercato del cloud gaming e le strategie di NVIDIA per competere in questo settore.",
+          "note": null
+        },
+        {
+          "titolo": "Giappone, leader industriali e NVIDIA lanciano la prima infrastruttura nazionale AI",
+          "fonti": [
+            {
+              "nome": "NVIDIA Newsroom",
+              "link": "https://nvidianews.nvidia.com/news/japan-government-industrial-leaders-and-nvidia-launch-the-worlds-first-national-ai-infrastructure"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "Il governo giapponese, leader industriali e NVIDIA hanno lanciato la prima infrastruttura nazionale AI. NVIDIA sta lavorando con Noetra Corp. per lanciare una fabbrica di intelligenza artificiale NVIDIA Vera Rubin con 13,750 CPU e 27,500 GPU NVIDIA Rubin per l'AI fisica nazionale.",
+          "perche_conta": "E' rilevante per il beat degli investitori infrastrutturali poiché rappresenta un importante passo avanti nell'adozione dell'AI a livello nazionale e potrebbe influenzare le strategie di investimento nel settore dell'infrastruttura AI.",
+          "note": null
+        },
+        {
+          "titolo": "Leader giapponesi della robotica e della produzione adottano NVIDIA Cosmos per avanzare l'AI fisica",
+          "fonti": [
+            {
+              "nome": "NVIDIA Newsroom",
+              "link": "https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "Le aziende leader giapponesi nel settore della robotica e della produzione stanno utilizzando le piattaforme NVIDIA Cosmos, NVIDIA Isaac, NVIDIA Metropolis e NVIDIA Jetson per accelerare il dispiegamento di macchine intelligenti in vari settori. Ciò include la produzione, la mobilità, le infrastrutture e la robotica. L'obiettivo è quello di avanzare l'AI fisica.",
+          "perche_conta": "Questo sviluppo è rilevante per il settore dell'infrastruttura e dell'hardware AI poiché mostra come le aziende leader stiano adottando tecnologie avanzate per migliorare l'efficienza e l'intelligenza nelle loro operazioni.",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2026-07-15",
+      "titolo": "NVIDIA amplia hardware AI in Giappone con Jetson Thor e Nemotron per robotica",
+      "articoli": [
+        {
+          "titolo": "NVIDIA Introduce Nuovi Computer Jetson Thor per Avanzare la Robotica e l'AI Edge di Massa",
+          "fonti": [
+            {
+              "nome": "NVIDIA Newsroom",
+              "link": "https://blogs.nvidia.com/blog/jetson-thor-robotics-edge-ai-agent/"
+            }
+          ],
+          "data": "2026-07-15",
+          "sintesi": "NVIDIA ha introdotto i nuovi moduli T3000 e T2000 basati sull'architettura Thor, progettati per supportare la robotica e l'AI edge di massa. Questi moduli sono stati sviluppati per soddisfare la crescente domanda di supercomputer AI compatti ed efficienti in termini di potenza, in grado di eseguire modelli di base ai bordi della rete. Sono destinati a supportare la diffusione di robot e macchine autonome dal laboratorio alla produzione di massa.",
+          "perche_conta": "Questo annuncio è rilevante per il settore dell'infrastruttura e dell'hardware AI, poiché rappresenta un passo avanti significativo nella democratizzazione dell'accesso alla tecnologia AI avanzata per applicazioni di robotica e edge computing, con potenziali implicazioni per gli investitori e i CTO interessati allo sviluppo di soluzioni AI efficienti e scalabili.",
+          "note": null
+        },
+        {
+          "titolo": "Le imprese e startup giapponesi costruiscono AI specializzate con NVIDIA Nemotron",
+          "fonti": [
+            {
+              "nome": "NVIDIA Newsroom",
+              "link": "https://nvidianews.nvidia.com/news/japans-enterprises-and-startups-build-industry-specialized-ai-with-nvidia-nemotron-open-models"
+            }
+          ],
+          "data": "2026-07-15",
+          "sintesi": "Le principali imprese, startup e istituti di ricerca giapponesi stanno utilizzando NVIDIA Nemotron per costruire modelli e applicazioni AI specializzate per le industrie, accelerando lo sviluppo di AI adattate al linguaggio, alle industrie e alla forza lavoro del Giappone. Ciò avviene grazie all'utilizzo di modelli, dati e librerie aperti di NVIDIA Nemotron.",
+          "perche_conta": "Questo sviluppo è rilevante per il settore dell'infrastruttura e dell'hardware AI poiché mostra come le aziende giapponesi stiano adottando tecnologie AI specializzate per migliorare le loro operazioni e competitività.",
+          "note": null
+        },
+        {
+          "titolo": "NVIDIA e Giappone portano AI e robotica full-stack in ogni industria",
+          "fonti": [
+            {
+              "nome": "NVIDIA Newsroom",
+              "link": "https://blogs.nvidia.com/blog/japan-ecosystem-2026/"
+            }
+          ],
+          "data": "2026-07-15",
+          "sintesi": "Il Giappone, leader nella produzione e nell'innovazione robotica, sta adottando tecnologie NVIDIA per costruire un ecosistema AI completo. NVIDIA e i suoi partner in Giappone stanno presentando le ultime novità dell'ecosistema AI.",
+          "perche_conta": "Questo partenariato è rilevante per il beat 'Infrastruttura & Hardware AI' perché mostra come le tecnologie NVIDIA stiano essere utilizzate per costruire un ecosistema AI completo in un paese leader nell'innovazione tecnologica",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2026-07-14",
+      "titolo": "Efficienza energetica e affidabilità: chip e modelli aperti per AI su misura",
+      "articoli": [
+        {
+          "titolo": "Nemotron Labs: Come i modelli aperti offrono alle imprese e alle nazioni un'intelligenza artificiale affidabile, controllabile e personalizzabile",
+          "fonti": [
+            {
+              "nome": "NVIDIA Newsroom",
+              "link": "https://blogs.nvidia.com/blog/nemotron-open-models-ai-trust-control-customize/"
+            }
+          ],
+          "data": "2026-07-14",
+          "sintesi": "Le imprese hanno a disposizione numerosi modelli potenti, ma il vero test è se l'AI che costruiscono risponde unicamente alle esigenze dell'azienda, migliorando i flussi di lavoro, sfruttando la conoscenza del dominio e superando gli standard di accuratezza e fiducia. Nemotron Labs si concentra su questo aspetto.",
+          "perche_conta": "Questo tema è rilevante per il beat 'Infrastruttura & Hardware AI' perché evidenzia l'importanza della personalizzazione e del controllo dell'AI per le imprese e le nazioni, che cercano di sfruttare al meglio le tecnologie di intelligenza artificiale per migliorare i propri processi e risultati.",
+          "note": null
+        },
+        {
+          "titolo": "Perché la performance per watt è la metrica definitiva per l'efficienza dell'infrastruttura AI",
+          "fonti": [
+            {
+              "nome": "NVIDIA Newsroom",
+              "link": "https://blogs.nvidia.com/blog/performance-per-watt-ai-infrastructure-efficiency/"
+            }
+          ],
+          "data": "2026-07-14",
+          "sintesi": "L'energia è un vincolo inevitabile per le infrastrutture AI. Il numero di token che una fabbrica AI può produrre entro un budget energetico fisso determina il suo fatturato e la sua redditività. Per questo motivo la performance per watt, una misura che non può essere manipolata ma solo dimostrata con risultati reali, è il fondamento delle AI factory. Con la crescita della domanda di token da parte dell'AI agentica, questo indicatore diventa ancora più critico.",
+          "perche_conta": "Gli investitori e i CTO devono monitorare la performance per watt perché il consumo energetico è il principale driver di costi operativi e di margini di profitto nelle strutture AI di nuova generazione.",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2026-07-09",
+      "titolo": "GeForce NOW accende i riflettori con il nuovo server a Toronto basato su GeForce RTX 5080",
+      "articoli": [
+        {
+          "titolo": "GeForce NOW accende i riflettori con il nuovo server a Toronto basato su GeForce RTX 5080",
+          "fonti": [
+            {
+              "nome": "NVIDIA Newsroom",
+              "link": "https://blogs.nvidia.com/blog/geforce-now-thursday-toronto-expansion/"
+            }
+          ],
+          "data": "2026-07-09",
+          "sintesi": "GeForce NOW annuncia l’espansione del servizio con un nuovo server a Toronto equipaggiato con la GPU GeForce RTX 5080. La mossa porta più giochi, più potenza e nuove modalità di fruizione, avvicinando le capacità di calcolo ad alte prestazioni ai membri della regione. Inoltre, il titolo “Neverness to Everness” riceve un aggiornamento nella cloud.",
+          "perche_conta": "L’introduzione di server RTX 5080 evidenzia la crescente domanda di GPU di fascia alta nei data center cloud, con implicazioni per gli investimenti in capacità di calcolo, consumo energetico e infrastrutture di rete nella regione.",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2026-07-08",
+      "titolo": "NVIDIA Nemotron Raggiunge Prestazioni Leader nei Benchmark con LangChain Deep Agents Harness",
+      "articoli": [
+        {
+          "titolo": "NVIDIA Nemotron Raggiunge Prestazioni Leader nei Benchmark con LangChain Deep Agents Harness",
+          "fonti": [
+            {
+              "nome": "NVIDIA Blog",
+              "link": "https://blogs.nvidia.com/blog/nemotron-langchain-agents-open-stack/"
+            }
+          ],
+          "data": "2026-07-08",
+          "sintesi": "Il modello NVIDIA Nemotron 3 Ultra offre prestazioni di riferimento superiori rispetto ai principali modelli chiusi, mantenendo costi inferiori. È stato valutato sulla più ampia e più adottata piattaforma di orchestrazione di agenti AI. LangChain ha ottimizzato il suo Deep Agents harness per Nemotron 3 Ultra, ottenendo la massima accuratezza tra i modelli open‑source. Il sistema completa più attività con una maggiore velocità di elaborazione, operando a una velocità di 10 volte superiore.",
+          "perche_conta": "Per i CTO e gli investitori infrastrutturali, una soluzione che combina benchmark‑leading performance, costi ridotti e alta accuratezza su una piattaforma di orchestrazione consolidata può tradursi in risparmi operativi e in un vantaggio competitivo nella costruzione di data center AI.",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2026-07-07",
+      "titolo": "Nuove architetture hardware per potenziare AI agentica e robotica",
+      "articoli": [
+        {
+          "titolo": "AI Innovators Adopt NVIDIA Vera — Why Max Single-Threaded CPU at Scale Matters",
+          "fonti": [
+            {
+              "nome": "NVIDIA Blog",
+              "link": "https://blogs.nvidia.com/blog/nvidia-vera-max-single-threaded-cpu-at-scale/"
+            }
+          ],
+          "data": "2026-07-07",
+          "sintesi": "NVIDIA Vera introduce le \"max single-threaded CPUs at scale\", una nuova categoria di CPU pensata per l'era dell'AI agentica. Secondo il blog NVIDIA, la CPU è sul percorso critico per il ragionamento, i tempi di risposta e l'apprendimento durante la creazione e il deployment di sistemi agentici. Le CPU eseguono il lavoro comandato dal modello AI, inclusi il tool calling e l'esecuzione di codice. Questa architettura punta a ottimizzare la latenza e l'efficienza operativa delle applicazioni AI più complesse.",
+          "perche_conta": "Ridurre il collo di bottiglia della CPU è fondamentale per scalare sistemi AI agentici, influenzando costi di infrastruttura, capacità di risposta in tempo reale e competitività degli investimenti in data center.",
+          "note": null
+        },
+        {
+          "titolo": "NVIDIA e Hugging Face introducono nuovi modelli e framework su LeRobot per la comunità di robotica open",
+          "fonti": [
+            {
+              "nome": "NVIDIA Blog",
+              "link": "https://blogs.nvidia.com/blog/hugging-face-lerobot-models-frameworks-open-robotics/"
+            }
+          ],
+          "data": "2026-07-07",
+          "sintesi": "L'open source AI dimostra come la condivisione di modelli, dati e strumenti possa accelerare l'innovazione. Nel settore della robotica, lo sviluppo di AI fisica resta ostacolato da risorse costose e frammentate, tra cui grandi dataset, robot foundation model, simulazione, capacità di calcolo e strumenti di validazione. NVIDIA e Hugging Face collaborano per mettere a disposizione nuovi modelli e framework su LeRobot, mirando a ridurre queste barriere per la comunità di robotica open.",
+          "perche_conta": "Abbassare i costi e semplificare l'accesso a modelli e infrastrutture di calcolo rende più veloce lo sviluppo di soluzioni robotiche, creando opportunità di investimento in hardware, data center e piattaforme cloud dedicate all'AI industriale.",
+          "note": null
+        }
+      ]
+    }
+  ]
+}

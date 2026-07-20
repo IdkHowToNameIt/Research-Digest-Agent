@@ -1,5 +1,86 @@
 {
   "id": "chip",
   "nome": "Chip",
-  "gruppi": []
+  "gruppi": [
+    {
+      "data": "2026-07-19",
+      "titolo": "Prestazioni, costi e nuove applicazioni dei chip dominano le notizie del giorno",
+      "n_articoli": 10,
+      "minuti_lettura": 6,
+      "anteprima_titoli": [
+        "Stampante 3D Creality K2 SE scontata del 17%, ora sotto $250",
+        "L'APU a 10 core 'Medusa Point' di AMD batte tutti i chip x86 mobile nel test single‑core su Geekbench",
+        "Zilog Z80 compie 50 anni: sostituzione open-source DIP40, 1976‑2024"
+      ]
+    },
+    {
+      "data": "2026-07-17",
+      "titolo": "NVIDIA Vera Rubin massimizza l'intelligenza per dollaro per carichi di lavoro post-addestramento",
+      "n_articoli": 1,
+      "minuti_lettura": 1,
+      "anteprima_titoli": [
+        "NVIDIA Vera Rubin massimizza l'intelligenza per dollaro per carichi di lavoro post-addestramento"
+      ]
+    },
+    {
+      "data": "2026-07-16",
+      "titolo": "NVIDIA guida l'espansione di GPU per AI, cloud gaming e robotica in Giappone",
+      "n_articoli": 3,
+      "minuti_lettura": 2,
+      "anteprima_titoli": [
+        "Onimusha: Way of the Sword arriva su GeForce NOW",
+        "Giappone, leader industriali e NVIDIA lanciano la prima infrastruttura nazionale AI",
+        "Leader giapponesi della robotica e della produzione adottano NVIDIA Cosmos per avanzare l'AI fisica"
+      ]
+    },
+    {
+      "data": "2026-07-15",
+      "titolo": "NVIDIA amplia hardware AI in Giappone con Jetson Thor e Nemotron per robotica",
+      "n_articoli": 3,
+      "minuti_lettura": 2,
+      "anteprima_titoli": [
+        "NVIDIA Introduce Nuovi Computer Jetson Thor per Avanzare la Robotica e l'AI Edge di Massa",
+        "Le imprese e startup giapponesi costruiscono AI specializzate con NVIDIA Nemotron",
+        "NVIDIA e Giappone portano AI e robotica full-stack in ogni industria"
+      ]
+    },
+    {
+      "data": "2026-07-14",
+      "titolo": "Efficienza energetica e affidabilità: chip e modelli aperti per AI su misura",
+      "n_articoli": 2,
+      "minuti_lettura": 2,
+      "anteprima_titoli": [
+        "Nemotron Labs: Come i modelli aperti offrono alle imprese e alle nazioni un'intelligenza artificiale affidabile, controllabile e personalizzabile",
+        "Perché la performance per watt è la metrica definitiva per l'efficienza dell'infrastruttura AI"
+      ]
+    },
+    {
+      "data": "2026-07-09",
+      "titolo": "GeForce NOW accende i riflettori con il nuovo server a Toronto basato su GeForce RTX 5080",
+      "n_articoli": 1,
+      "minuti_lettura": 1,
+      "anteprima_titoli": [
+        "GeForce NOW accende i riflettori con il nuovo server a Toronto basato su GeForce RTX 5080"
+      ]
+    },
+    {
+      "data": "2026-07-08",
+      "titolo": "NVIDIA Nemotron Raggiunge Prestazioni Leader nei Benchmark con LangChain Deep Agents Harness",
+      "n_articoli": 1,
+      "minuti_lettura": 1,
+      "anteprima_titoli": [
+        "NVIDIA Nemotron Raggiunge Prestazioni Leader nei Benchmark con LangChain Deep Agents Harness"
+      ]
+    },
+    {
+      "data": "2026-07-07",
+      "titolo": "Nuove architetture hardware per potenziare AI agentica e robotica",
+      "n_articoli": 2,
+      "minuti_lettura": 2,
+      "anteprima_titoli": [
+        "AI Innovators Adopt NVIDIA Vera — Why Max Single-Threaded CPU at Scale Matters",
+        "NVIDIA e Hugging Face introducono nuovi modelli e framework su LeRobot per la comunità di robotica open"
+      ]
+    }
+  ]
 }
