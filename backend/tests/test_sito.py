@@ -175,14 +175,14 @@ def test_genera_sito_scrive_indice_temi_e_copia_frontend(tmp_path):
     # Frontend suddiviso in più file: index.html + stile.css + app.js.
     front = tmp_path / "front"
     front.mkdir()
+    # finta build del frontend: nomi generici, il punto del test è che TUTTO
+    # quello che c'è nella cartella arrivi nella publish-dir, qualunque sia
     (front / "index.html").write_text(
         '<html><link rel="stylesheet" href="stile.css"><script src="app.js"></script>'
-        '<script src="jspdf.umd.min.js"></script><script src="pdf.js"></script>'
+        '<script src="pdf.js"></script>'
         "CONCEPT-TEMPLATE fetch('data.json')</html>", encoding="utf-8")
     (front / "stile.css").write_text("body{color:pink}", encoding="utf-8")
     (front / "app.js").write_text("caricaDati();", encoding="utf-8")
-    # asset di export PDF: la libreria vendorizzata + la logica
-    (front / "jspdf.umd.min.js").write_text("/*jspdf*/", encoding="utf-8")
     (front / "pdf.js").write_text("/*export pdf*/", encoding="utf-8")
     d = _digest(chip=[_art("A", "https://x/1")])
     scritti = genera_sito(d, [d.contenuto_pubblico()], str(tmp_path / "out"),
