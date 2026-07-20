@@ -96,7 +96,9 @@ def fase_genera(cfg: dict) -> Digest:
     file_sito = genera_sito(
         digest, archivio, sito_cfg.get("out_dir", "sito"),
         badge_giorni=int(sito_cfg.get("badge_giorni", 2)),
-        template_path=sito_cfg.get("template", "../frontend/concept/index.html"),
+        # build React+Vite, prodotta da `npm run build` in frontend/ (uno step del
+        # workflow); il percorso e' relativo a backend/, da cui gira main.py
+        template_path=sito_cfg.get("template", "../frontend/dist/index.html"),
         settimana_giorni=int(sito_cfg.get("settimana_giorni", 7)),
         invio_email_url=invio_email_url.strip(),
     )

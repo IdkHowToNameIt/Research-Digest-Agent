@@ -31,7 +31,7 @@ from src.consegna.sito import (
     ETICHETTE,
     NOME_FILE_TEMA,
     NOME_FILE_TEMA_ANNO,
-    _cache_bust,
+    _copia_albero,
     _minuti_lettura,
     carica_archivio,
     costruisci_dati,
@@ -206,20 +206,16 @@ def test_genera_sito_scrive_indice_temi_e_copia_frontend(tmp_path):
         (out / NOME_FILE_TEMA_ANNO.format(id="chip", anno="2026")).read_text(encoding="utf-8"))
     assert bucket["anno"] == "2026"
     assert bucket["gruppi"][0]["articoli"][0]["titolo"] == "A"
-    # tutti i file del frontend sono copiati mantenendo il nome
+    # tutti i file della build sono copiati mantenendo il nome
     assert (out / "stile.css").read_text(encoding="utf-8") == "body{color:pink}"
     assert (out / "app.js").read_text(encoding="utf-8") == "caricaDati();"
-    # gli asset di export PDF sono copiati (la libreria vendorizzata invariata)
-    assert (out / "jspdf.umd.min.js").read_text(encoding="utf-8") == "/*jspdf*/"
     assert (out / "pdf.js").read_text(encoding="utf-8") == "/*export pdf*/"
-    # cache-busting: i riferimenti in index.html hanno ?v=<generato>
+    # l'index viene copiato tale e quale: dopo il passaggio a Vite il
+    # cache-busting non si fa piu' riscrivendo l'HTML, perche' i nomi dei file
+    # generati contengono gia' l'hash del contenuto.
     html = (out / "index.html").read_text(encoding="utf-8")
     assert "CONCEPT-TEMPLATE" in html
-    assert f'app.js?v={d.data_generazione}' in html
-    assert f'stile.css?v={d.data_generazione}' in html
-    # pdf.js è versionato; la libreria vendorizzata jspdf resta senza ?v (stabile)
-    assert f'pdf.js?v={d.data_generazione}' in html
-    assert 'jspdf.umd.min.js"' in html and 'jspdf.umd.min.js?v=' not in html
+    assert "?v=" not in html
     assert any("data.json" in s for s in scritti)
     assert any(s.endswith(NOME_FILE_TEMA_ANNO.format(id="chip", anno="2026")) for s in scritti)
 
@@ -277,15 +273,25 @@ def test_invio_email_url_feature_flag(tmp_path):
     assert "invio_email_url" not in senza
 
 
-def test_cache_bust_solo_asset_versionabili():
-    html = '<link href="stile.css"><script src="app.js"></script>' \
-           "<script src='sfondo.js'></script>fetch('data.json')"
-    out = _cache_bust(html, "2026-07-09")
-    assert 'stile.css?v=2026-07-09' in out
-    assert 'app.js?v=2026-07-09' in out
-    assert "sfondo.js?v=2026-07-09" in out
-    assert "data.json?v=" not in out          # i dati non vanno versionati nell'HTML
-    assert _cache_bust(html, "") == html        # token vuoto: nessuna modifica
+def test_copia_albero_include_le_sottocartelle(tmp_path):
+    # LA REGRESSIONE DELLA MIGRAZIONE A REACT: la copia guardava solo i file
+    # diretti, perche' il frontend era piatto. La build Vite mette JS e CSS in
+    # assets/, quindi si sarebbe pubblicato l'index senza il suo bundle: pagina
+    # bianca, e nessun errore a segnalarlo.
+    sorgente = tmp_path / "dist"
+    (sorgente / "assets").mkdir(parents=True)
+    (sorgente / "index.html").write_text("<html>", encoding="utf-8")
+    (sorgente / "assets" / "index-abc123.js").write_text("app", encoding="utf-8")
+    (sorgente / "assets" / "index-def456.css").write_text("stile", encoding="utf-8")
+
+    destinazione = tmp_path / "sito"
+    destinazione.mkdir()
+    scritti = _copia_albero(sorgente, destinazione)
+
+    assert (destinazione / "index.html").exists()
+    assert (destinazione / "assets" / "index-abc123.js").read_text(encoding="utf-8") == "app"
+    assert (destinazione / "assets" / "index-def456.css").exists()
+    assert len(scritti) == 3
 
 
 def test_genera_sito_svuota_publish_dir(tmp_path):
