@@ -1,5 +1,5 @@
 """Robustezza dell'adattatore LLM (src/modello/llm.py): parsing JSON, retry sui
-transitori e cascata sticky di modelli (Groq).
+transitori e cascata di modelli (Groq), sticky solo sulle cause persistenti.
 
 I modelli spesso avvolgono il JSON in un blocco markdown o aggiungono testo:
 `_estrai_json` recupera comunque il primo oggetto JSON (fix "Extra data").
@@ -12,6 +12,7 @@ from src.modello.llm import (
     _codice_errore,
     _esegui_con_retry,
     _estrai_json,
+    _motivo,
     crea_cascata,
 )
 
@@ -253,3 +254,78 @@ def test_cascata_cambia_modello_su_risposta_non_json():
     genera = crea_cascata(["chiacchierone", "serio"], esegui)
     assert genera("p") == {"sintesi": "ok"}
     assert usati == ["chiacchierone", "serio"]
+
+
+# --- sticky solo sulle cause persistenti (regressione 2026-07-20) -----------
+
+def test_risposta_non_json_ritentata_sullo_stesso_modello():
+    # Un JSON malformato e' un campionamento sfortunato, non un modello rotto:
+    # prima di ripiegare si ri-chiede allo stesso modello.
+    tentativi = []
+
+    def chiamata():
+        tentativi.append(1)
+        if len(tentativi) == 1:
+            raise RispostaNonJSON("testo libero")
+        return {"sintesi": "ok al secondo tentativo"}
+
+    assert _esegui_con_retry(chiamata) == {"sintesi": "ok al secondo tentativo"}
+    assert len(tentativi) == 2
+
+
+def test_risposta_non_json_non_declassa_per_tutta_la_run():
+    # IL BUG DEL 2026-07-20: una risposta malformata del primario lo escludeva
+    # per l'intero run (9 chiamate sul 70b, 60 sull'8b). Ora il ripiego vale
+    # solo per la chiamata in corso e la successiva riparte dal primario.
+    usati = []
+
+    def esegui(modello, _prompt):
+        usati.append(modello)
+        if modello == "primario":
+            raise RispostaNonJSON("testo libero")
+        return {"sintesi": "ok"}
+
+    genera = crea_cascata(["primario", "ripiego"], esegui)
+    genera("articolo-1")
+    genera("articolo-2")
+    # il primario viene ri-provato ogni volta, non abbandonato
+    assert usati == ["primario", "ripiego", "primario", "ripiego"]
+
+
+def test_errore_di_rete_non_declassa_per_tutta_la_run():
+    usati = []
+
+    def esegui(modello, _prompt):
+        usati.append(modello)
+        if modello == "primario":
+            raise ConnectionError("connessione interrotta")
+        return {"sintesi": "ok"}
+
+    genera = crea_cascata(["primario", "ripiego"], esegui)
+    genera("articolo-1")
+    genera("articolo-2")
+    assert usati == ["primario", "ripiego", "primario", "ripiego"]
+
+
+def test_quota_resta_sticky():
+    # La quota esaurita NON e' transitoria: qui il declassamento deve restare
+    # permanente, altrimenti si spreca una chiamata a vuoto per ogni articolo.
+    usati = []
+
+    def esegui(modello, _prompt):
+        usati.append(modello)
+        if modello == "primario":
+            raise _ErroreHTTP(429)
+        return {"sintesi": "ok"}
+
+    genera = crea_cascata(["primario", "ripiego"], esegui)
+    genera("articolo-1")
+    genera("articolo-2")
+    assert usati == ["primario", "ripiego", "ripiego"]
+
+
+def test_motivo_distingue_le_cause():
+    # Prima finivano tutte in un indistinguibile "HTTP None".
+    assert _motivo(RispostaNonJSON("x")) == "risposta non JSON"
+    assert _motivo(_ErroreHTTP(429)) == "HTTP 429"
+    assert "errore di rete" in _motivo(ConnectionError("giu'"))

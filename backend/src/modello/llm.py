@@ -15,9 +15,11 @@ Resilienza a due livelli (una singola chiamata KO non deve fermare la run, che
 sintetizza gli articoli uno alla volta):
 - `_esegui_con_retry`: retry con backoff sui transitori (5xx/timeout) dello STESSO
   modello (assorbe i picchi momentanei);
-- `crea_cascata`: fallback STICKY sul modello successivo per quota/modello-assente
-  (l'indice avanza in modo persistente: un modello esaurito non viene ri-provato
-  per ogni articolo).
+- `crea_cascata`: fallback sul modello successivo. STICKY solo per le cause
+  PERSISTENTI (quota, modello assente: `CODICI_STICKY`), cosi' un modello esaurito
+  non viene ri-provato per ogni articolo. Per le cause transitorie (rete, 5xx,
+  risposta non JSON) il ripiego vale solo per la chiamata in corso: il modello
+  migliore non va perso per tutta la run a causa di un singolo inciampo.
 
 Il formato JSON dell'output ({"sintesi","perche_conta","note"}) e' istruito dal
 prompt (prompts.py) e letto in modo tollerante da `_estrai_json`: non serve lo
@@ -59,6 +61,23 @@ CODICI_CAMBIA_MODELLO = frozenset({400, 404, 408, 409, 413, 429, 500, 502, 503, 
 CODICI_RETRY = frozenset({408, 500, 502, 503, 504})
 RETRY_TENTATIVI = 3
 RETRY_ATTESA_BASE = 2.0  # secondi (backoff esponenziale: 2, 4, 8, ...)
+
+# Cause per cui il declassamento e' PERSISTENTE (sticky) per il resto della run:
+# descrivono uno stato del modello che non cambia a breve — quota esaurita (429),
+# ID inesistente o non valido (400/404), richiesta oltre il tetto TPM di QUEL
+# modello (413), conflitto (409). Qui ri-provare a ogni articolo e' solo spreco.
+#
+# Tutto il resto (5xx, timeout, errori di rete, RispostaNonJSON) e' TRANSITORIO:
+# il modello e' sano, ha solo inciampato su una risposta. Si ripiega per la
+# singola chiamata e la successiva riparte dal modello migliore. Prima non era
+# cosi' e una sola risposta malformata declassava il primario per l'intera run:
+# il 2026-07-20 il 70b ha fatto 9 chiamate su 111, con 60 finite sull'8b (sez. 17).
+CODICI_STICKY = frozenset({400, 404, 409, 413, 429})
+
+# Una risposta non-JSON si ritenta sullo STESSO modello prima di ripiegare:
+# l'output di un LLM e' stocastico, e ri-chiedere spesso basta. Nessuna attesa tra
+# i tentativi — non e' un problema di rate, e' un campionamento sfortunato.
+RETRY_TENTATIVI_JSON = 2
 
 Generatore = Callable[[str], dict]
 
@@ -131,11 +150,30 @@ def _e_errore_rete(e: Exception) -> bool:
     return "Timeout" in nome or "Connection" in nome
 
 
+def _motivo(e: Exception) -> str:
+    """Descrizione leggibile della causa, per i log.
+
+    Serve a distinguere casi che prima finivano tutti in un indistinguibile
+    "HTTP None": una risposta malformata e un timeout di rete hanno rimedi
+    diversi, e il log era l'unico modo per accorgersene a run finita.
+    """
+    if isinstance(e, RispostaNonJSON):
+        return "risposta non JSON"
+    codice = _codice_errore(e)
+    if codice is not None:
+        return f"HTTP {codice}"
+    if _e_errore_rete(e):
+        return f"errore di rete ({e.__class__.__name__})"
+    return e.__class__.__name__
+
+
 def _esegui_con_retry(chiamata: Callable[[], dict]) -> dict:
     """Esegue `chiamata` ritentando sui transitori dello stesso modello.
 
-    Backoff esponenziale con jitter su 5xx/timeout; gli altri errori e l'ultimo
-    tentativo fallito vengono ri-sollevati subito.
+    Backoff esponenziale con jitter su 5xx/timeout. Una `RispostaNonJSON` si
+    ritenta anch'essa (l'output del modello e' stocastico: ri-chiedere spesso
+    basta) ma SENZA attesa e con meno tentativi, perche' non e' un problema di
+    rate. Gli altri errori e l'ultimo tentativo fallito si ri-sollevano.
     """
     ultimo: Exception | None = None
     for tentativo in range(RETRY_TENTATIVI):
@@ -143,11 +181,13 @@ def _esegui_con_retry(chiamata: Callable[[], dict]) -> dict:
             return chiamata()
         except Exception as e:  # noqa: BLE001 - si ri-solleva se non ritentabile
             ultimo = e
-            ritentabile = _codice_errore(e) in CODICI_RETRY or _e_errore_rete(e)
-            if not ritentabile or tentativo == RETRY_TENTATIVI - 1:
+            non_json = isinstance(e, RispostaNonJSON)
+            limite = RETRY_TENTATIVI_JSON if non_json else RETRY_TENTATIVI
+            ritentabile = non_json or _codice_errore(e) in CODICI_RETRY or _e_errore_rete(e)
+            if not ritentabile or tentativo >= limite - 1:
                 raise
-            attesa = RETRY_ATTESA_BASE * (2 ** tentativo) + random.uniform(0, 1)
-            time.sleep(attesa)
+            if not non_json:
+                time.sleep(RETRY_ATTESA_BASE * (2 ** tentativo) + random.uniform(0, 1))
     raise ultimo  # pragma: no cover - il loop ritorna o solleva prima
 
 
@@ -183,14 +223,20 @@ def crea_cascata(
                 )
                 if not cambiabile or i == len(modelli) - 1:
                     raise
+                # Sticky SOLO se la causa descrive uno stato persistente del
+                # modello (quota, ID morto): un inciampo transitorio non deve
+                # costare l'uso del modello migliore per tutto il resto della run.
+                persistente = _codice_errore(e) in CODICI_STICKY
+                coda = ("passo stabilmente a" if persistente
+                        else "ripiego solo per questa chiamata su")
                 print(
-                    f"[attenzione] modello '{modelli[i]}' non disponibile "
-                    f"(HTTP {_codice_errore(e)}): passo stabilmente a "
-                    f"'{modelli[i + 1]}' per il resto della run",
+                    f"[attenzione] modello '{modelli[i]}' ha fallito "
+                    f"({_motivo(e)}): {coda} '{modelli[i + 1]}'",
                     file=sys.stderr,
                 )
                 i += 1
-                stato["idx"] = i  # sticky: non si torna piu' indietro
+                if persistente:
+                    stato["idx"] = i  # sticky: non si torna piu' indietro
         raise ultimo  # pragma: no cover - il loop ritorna o solleva prima
 
     return esegui_cascata
