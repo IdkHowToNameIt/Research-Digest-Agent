@@ -164,6 +164,11 @@ Tutto in `config.yaml`:
 - `fonti`: elenco con `nome`, `url`, `tema`, `max`, `troncamento` (int o `null`),
   `filtro_rilevanza` (solo Google Cloud Blog).
 - `soglia_overlap_dedup` (0.7) e `finestra_dedup_settimane` (6) — calibrabili.
+- `finestra_articoli_giorni` (14): scarta in raccolta le voci pubblicate da più di
+  N giorni, **prima** del dedup e delle chiamate al modello. Il dedup risponde a
+  "l'ho già pubblicato?", non a "è ancora attuale?" — senza questo filtro il primo
+  run dopo un azzeramento dello stato pesca tutto il backlog dei feed. Le voci
+  senza data leggibile vengono tenute (fail-open). Assente o `null` = nessun filtro.
 - `sito`: `homepage_url` (URL pubblico del sito — è il link che l'email di notifica
   manda ai lettori. Nel repo è un placeholder: impostalo con la variabile d'ambiente
   **`HOMEPAGE_URL`**, che ha la precedenza su questo campo, oppure sostituiscilo qui.
@@ -462,7 +467,7 @@ docker compose up web              # sito generato con i dati → http://localho
 ## Stato
 
 Tutte le 8 fasi sono implementate, più la **dashboard di osservabilità**
-(metriche operative per run); la suite conta **166 test verdi**. Le scelte di
+(metriche operative per run); la suite conta **171 test verdi**. Le scelte di
 progetto e il perché sono in [`DECISIONI.md`](DECISIONI.md).
 
 Punti noti, non bloccanti, che chi adotta il repo farà bene a tenere d'occhio:

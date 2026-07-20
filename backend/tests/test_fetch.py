@@ -8,6 +8,7 @@ articolo nuovo" (parte fetch; il conteggio 3 run consecutivi e' in Fase 5).
 
 Il parser dei feed e' iniettato (`parse=`): nessuna dipendenza dalla rete.
 """
+from datetime import date
 from pathlib import Path
 
 from src.raccolta.fetch import (
@@ -172,6 +173,67 @@ def test_max_limita_il_numero_di_voci_lette():
     fonte = {"nome": "F", "url": "u", "tema": "chip", "max": 3}
     esito = fetch_fonte(fonte, parse=parser_da_mappa({"u": feed}))
     assert len(esito.candidati) == 3
+
+
+# --- Finestra di attualita': scarta le voci troppo vecchie in raccolta -------
+
+def test_finestra_scarta_le_voci_oltre_il_limite():
+    feed = FakeFeed([
+        _entry(link="https://x/recente", published="2026-07-18"),
+        _entry(link="https://x/limite", published="2026-07-06"),   # esattamente 14 giorni
+        _entry(link="https://x/vecchio", published="2026-06-01"),
+        _entry(link="https://x/antico", published="2025-08-14"),
+    ])
+    esito = fetch_fonte({"nome": "F", "url": "u", "tema": "chip"},
+                        parse=parser_da_mappa({"u": feed}),
+                        finestra_giorni=14, oggi=date(2026, 7, 20))
+    tenuti = [c.url for c in esito.candidati]
+    assert tenuti == ["https://x/recente", "https://x/limite"]
+
+
+def test_finestra_assente_non_filtra_nulla():
+    # default storico: senza finestra la raccolta resta quella di prima
+    feed = FakeFeed([_entry(published="2020-01-01")])
+    esito = fetch_fonte({"nome": "F", "url": "u", "tema": "chip"},
+                        parse=parser_da_mappa({"u": feed}))
+    assert len(esito.candidati) == 1
+
+
+def test_finestra_tiene_le_voci_senza_data_leggibile():
+    # fail-open: un campo data malformato non deve far sparire l'articolo
+    feed = FakeFeed([
+        _entry(link="https://x/senza-data", published=""),
+        _entry(link="https://x/data-rotta", published="non una data"),
+    ])
+    esito = fetch_fonte({"nome": "F", "url": "u", "tema": "chip"},
+                        parse=parser_da_mappa({"u": feed}),
+                        finestra_giorni=14, oggi=date(2026, 7, 20))
+    assert len(esito.candidati) == 2
+    assert all(c.data == "" for c in esito.candidati)
+
+
+def test_finestra_letta_dal_config_in_fetch_tutte():
+    feed = FakeFeed([
+        _entry(link="https://x/nuovo", published="2026-07-19"),
+        _entry(link="https://x/vecchio", published="2026-05-01"),
+    ])
+    cfg = {"finestra_articoli_giorni": 14,
+           "fonti": [{"nome": "F", "url": "u", "tema": "chip"}]}
+    cands = fetch_candidates(cfg, parse=parser_da_mappa({"u": feed}), oggi=date(2026, 7, 20))
+    assert [c.url for c in cands] == ["https://x/nuovo"]
+
+
+def test_finestra_applicata_dopo_max():
+    # `max` e' il tetto di voci LETTE; la finestra decide quali di quelle tenere.
+    feed = FakeFeed([
+        _entry(link="https://x/1", published="2026-07-19"),
+        _entry(link="https://x/2", published="2026-01-01"),
+        _entry(link="https://x/3", published="2026-07-18"),   # oltre max: mai letto
+    ])
+    esito = fetch_fonte({"nome": "F", "url": "u", "tema": "chip", "max": 2},
+                        parse=parser_da_mappa({"u": feed}),
+                        finestra_giorni=14, oggi=date(2026, 7, 20))
+    assert [c.url for c in esito.candidati] == ["https://x/1"]
 
 
 # --- regressione: parsing reale del feed di esempio locale -------------------

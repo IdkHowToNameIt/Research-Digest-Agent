@@ -118,6 +118,27 @@ def _data_iso(e) -> str:
         return ""
 
 
+def _entro_finestra(data_iso: str, oggi: date, giorni: int) -> bool:
+    """True se la voce e' abbastanza recente da entrare nel digest.
+
+    Il dedup risponde a "l'ho gia' pubblicato?", non a "e' ancora attuale?": sono
+    due domande diverse, e senza questo filtro il primo run dopo un azzeramento
+    dello stato si beve l'intero backlog dei feed (run del 2026-07-20: 59 articoli
+    su 158 avevano piu' di un mese, uno risaliva ad agosto 2025).
+
+    Fail-open sulle date mancanti o illeggibili (`_data_iso` -> ""): scartarle
+    significherebbe perdere silenziosamente contenuto buono per un campo
+    malformato del feed, che e' un danno peggiore di una voce vecchia di troppo.
+    """
+    if not data_iso:
+        return True
+    try:
+        pubblicata = date.fromisoformat(data_iso)
+    except ValueError:
+        return True
+    return (oggi - pubblicata).days <= giorni
+
+
 def _parse_feed(url: str, parse):
     """Esegue il parsing; solleva se il feed e' irrecuperabile (bozo senza voci)."""
     feed = parse(url)
@@ -126,8 +147,14 @@ def _parse_feed(url: str, parse):
     return feed
 
 
-def fetch_fonte(fonte: dict, parse=feedparser.parse) -> EsitoFonte:
-    """Legge una singola fonte e ne restituisce l'esito (fail-soft: non solleva)."""
+def fetch_fonte(fonte: dict, parse=feedparser.parse,
+                finestra_giorni: int | None = None, oggi: date | None = None) -> EsitoFonte:
+    """Legge una singola fonte e ne restituisce l'esito (fail-soft: non solleva).
+
+    `finestra_giorni` scarta le voci piu' vecchie di N giorni (None = nessun
+    filtro, comportamento storico). Si applica DOPO `max`: `max` e' il tetto di
+    voci *lette* dal feed, la finestra decide quali di quelle tenere.
+    """
     nome = fonte.get("nome") or fonte.get("url", "?")
     try:
         feed = _parse_feed(fonte["url"], parse)
@@ -141,8 +168,14 @@ def fetch_fonte(fonte: dict, parse=feedparser.parse) -> EsitoFonte:
     voci = feed.entries if mx is None else feed.entries[: int(mx)]
 
     filtro_rilevanza = bool(fonte.get("filtro_rilevanza", False))
+    riferimento = oggi or date.today()
     candidati: list[Candidato] = []
+    scartate_vecchie = 0
     for e in voci:
+        data_voce = _data_iso(e)
+        if finestra_giorni is not None and not _entro_finestra(data_voce, riferimento, finestra_giorni):
+            scartate_vecchie += 1
+            continue
         estratto = tronca_su_parola(_pulisci(e.get("summary", "")), limite)
         candidati.append(
             Candidato(
@@ -150,22 +183,32 @@ def fetch_fonte(fonte: dict, parse=feedparser.parse) -> EsitoFonte:
                 url=e.get("link", "").strip(),
                 fonte=nome,
                 tema=tema,
-                data=_data_iso(e),
+                data=data_voce,
                 estratto=estratto,
                 filtro_rilevanza=filtro_rilevanza,
             )
         )
+    if scartate_vecchie:
+        print(f"[info] {nome}: {scartate_vecchie} voci scartate perche' oltre "
+              f"i {finestra_giorni} giorni", file=sys.stderr)
     return EsitoFonte(nome=nome, stato=STATO_OK, candidati=candidati)
 
 
-def fetch_tutte(cfg: dict, parse=feedparser.parse) -> list[EsitoFonte]:
-    """Legge tutte le fonti del config (fail-soft: una fonte KO non blocca le altre)."""
-    return [fetch_fonte(fonte, parse=parse) for fonte in cfg.get("fonti", [])]
+def fetch_tutte(cfg: dict, parse=feedparser.parse, oggi: date | None = None) -> list[EsitoFonte]:
+    """Legge tutte le fonti del config (fail-soft: una fonte KO non blocca le altre).
+
+    La finestra temporale viene da `finestra_articoli_giorni` nel config: assente
+    = nessun filtro (comportamento storico, usato dai test con feed di fixture).
+    """
+    finestra = cfg.get("finestra_articoli_giorni")
+    finestra = int(finestra) if finestra is not None else None
+    return [fetch_fonte(fonte, parse=parse, finestra_giorni=finestra, oggi=oggi)
+            for fonte in cfg.get("fonti", [])]
 
 
-def fetch_candidates(cfg: dict, parse=feedparser.parse) -> list[Candidato]:
+def fetch_candidates(cfg: dict, parse=feedparser.parse, oggi: date | None = None) -> list[Candidato]:
     """Compatibilita': lista piatta dei soli candidati raccolti (fonti OK)."""
     out: list[Candidato] = []
-    for esito in fetch_tutte(cfg, parse=parse):
+    for esito in fetch_tutte(cfg, parse=parse, oggi=oggi):
         out.extend(esito.candidati)
     return out
