@@ -94,7 +94,10 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          # Vite 8 vuole ^20.19 || >=22.12: con "20" si dipenderebbe da quale minor
+          # risolve il runner, e Node 20 e' ormai a fine vita. La 22 (LTS) soddisfa
+          # sia Vite sia Vitest senza margini di dubbio.
+          node-version: "22"
           cache: npm
           cache-dependency-path: frontend/package-lock.json
 
@@ -141,7 +144,15 @@ jobs:
             echo "Nessuna modifica da committare."
           else
             git commit -m "chore(run): digest settimanale $(date -u +%F)"
-            git push
+            # Un push secco fallisce se main si e' mosso durante il run: e' successo
+            # il 2026-07-20, con un commit di documentazione spinto mentre il job
+            # girava. Il digest era gia' generato e si e' perso solo perche' non
+            # riusciva a salvarlo. Ci si riallinea e si riprova una volta.
+            git push || {
+              echo "Push rifiutato: main si e' mosso, riallineo e riprovo."
+              git pull --rebase origin main
+              git push
+            }
           fi
 
       # Fase 2: solo email, subito dopo che il sito è stato pubblicato e committato.
