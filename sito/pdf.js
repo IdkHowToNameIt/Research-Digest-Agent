@@ -16,6 +16,65 @@
   const MUTED   = [122, 128, 137];
   const RIGA    = [225, 227, 230];   // separatori sottili
 
+  // --- Caratteri renderizzabili dai font standard di jsPDF -------------------
+  // I font standard del PDF (Helvetica & co.) sono a BYTE SINGOLO, codifica
+  // WinAnsi/cp1252. Se una stringa contiene anche un solo carattere fuori da quel
+  // set, jsPDF scrive l'INTERA riga in UTF-16 — ma il font resta a byte singolo,
+  // quindi il lettore mostra un byte 0x00 tra una lettera e l'altra: "s o n o
+  // s c r i t t e   c o s i", con la riga larga il doppio che sfonda il margine
+  // destro e viene TAGLIATA (testo perso, non solo brutto).
+  // Nel PDF di esempio del 2026-07-19: 14 righe su 136 (10%), per due soli
+  // caratteri prodotti dal modello — U+2011 (trattino unificatore) e U+202F
+  // (spazio stretto unificatore). Vedi DECISIONI sez. 16.
+  //
+  // Scritti come escape \uXXXX di proposito: molti sono invisibili o si
+  // confondono con l'ASCII, e come caratteri letterali nel sorgente sarebbero
+  // impossibili da rivedere. Questi sono i cp1252 di 0x80-0x9F: non sono Latin-1,
+  // ma i font standard del PDF li rendono comunque.
+  const EXTRA_CP1252 =
+    '\u20AC\u201A\u0192\u201E\u2026\u2020\u2021\u02C6\u2030\u0160' +
+    '\u2039\u0152\u017D\u2018\u2019\u201C\u201D\u2022\u2013\u2014' +
+    '\u02DC\u2122\u0161\u203A\u0153\u017E\u0178';
+
+  function renderizzabile(ch){
+    const c = ch.codePointAt(0);
+    return (c <= 0x7F) || (c >= 0xA0 && c <= 0xFF) || EXTRA_CP1252.indexOf(ch) >= 0;
+  }
+
+  // Equivalenti sicuri per i caratteri tipografici che il modello usa piu' spesso.
+  // Meglio un trattino normale che una riga illeggibile: il senso si conserva.
+  const SOSTITUZIONI = {
+    '\u2011': '-',  '\u2010': '-', '\u2012': '-', '\u2212': '-',  // trattini
+    '\u202F': ' ',  '\u2002': ' ', '\u2003': ' ', '\u2004': ' ',  // spazi tipografici
+    '\u2005': ' ',  '\u2007': ' ', '\u2008': ' ', '\u2009': ' ', '\u200A': ' ',
+    '\u200B': '',   '\u200C': '',  '\u200D': '',  '\uFEFF': '',   // larghezza zero
+    '\u00AD': '',                                                 // soft hyphen
+    '\u2044': '/',  '\u2215': '/',
+    '\u03BC': '\u00B5',                                 // mu greca -> segno micro
+    '\u2248': '~',  '\u2260': '!=', '\u2264': '<=', '\u2265': '>=',
+    '\u2192': '->', '\u2190': '<-', '\u21D2': '=>',
+    '\u2032': "'",  '\u2033': '"'                       // primo, doppio primo
+  };
+
+  // Rende una stringa sicura per i font standard del PDF.
+  function sanifica(testo){
+    const s = String(testo == null ? '' : testo);
+    let out = '';
+    for(const ch of s){
+      if(renderizzabile(ch)){ out += ch; continue; }
+      const sost = SOSTITUZIONI[ch];
+      if(sost !== undefined){ out += sost; continue; }
+      // Ripiego generico: scompone il carattere e tiene ci\u00f2 che \u00e8 renderizzabile
+      // (es. una lettera accentata esotica -> lettera base). Se non resta nulla il
+      // carattere sparisce: perdere un simbolo raro \u00e8 meno grave che perdere
+      // l'intera riga fuori pagina.
+      let acc = '';
+      for(const c2 of ch.normalize('NFKD')){ if(renderizzabile(c2)) acc += c2; }
+      out += acc;
+    }
+    return out;
+  }
+
   const LOGO_SRC = 'kva-logo.webp';
   const MM = 0.3528;                  // punti tipografici -> mm (per l'interlinea)
 
@@ -66,7 +125,9 @@
       doc.setFontSize(size);
       doc.setTextColor(colore[0], colore[1], colore[2]);
       const lh = nl(size);
-      const linee = doc.splitTextToSize(String(testo || ''), larghezza);
+      // sanifica PRIMA di dividere: le larghezze devono essere misurate sul
+      // testo che verrà davvero scritto, altrimenti l'a-capo sbaglia i conti.
+      const linee = doc.splitTextToSize(sanifica(testo), larghezza);
       for(let i = 0; i < linee.length; i++){
         spazio(lh);
         doc.text(linee[i], x, y);
@@ -96,8 +157,8 @@
     const tema = (typeof nomeTema === 'function') ? nomeTema(t.id) : (t.nome || t.id);
     const data = (typeof fmtData === 'function') ? fmtData(g.data) : (g.data || '');
     const lett = (typeof fmtLettura === 'function') ? fmtLettura(g.minuti) : '';
-    let sub = tema + ' · ' + data;
-    if(lett) sub += ' · ' + lett;
+    let sub = sanifica(tema) + ' · ' + sanifica(data);
+    if(lett) sub += ' · ' + sanifica(lett);
     paragrafo(sub, ML, CW, 9.5, MUTED, 'normal');
 
     // filetto accento sotto la testata
@@ -120,7 +181,7 @@
       const numX = ML, titX = ML + 8;
       doc.setFont('helvetica', 'bold'); doc.setFontSize(12.5);
       const lhT = nl(12.5);
-      const linee = doc.splitTextToSize(String(a.titolo || ''), CW - 8);
+      const linee = doc.splitTextToSize(sanifica(a.titolo), CW - 8);
       for(let k = 0; k < linee.length; k++){
         spazio(lhT);
         if(k === 0){
@@ -184,7 +245,7 @@
     const lbl = 'Fonti: '; doc.text(lbl, cx, y); cx += doc.getTextWidth(lbl);
     doc.setFont('helvetica', 'normal');
     (fonti.length ? fonti : [{nome: '—'}]).forEach(function(f, idx){
-      const nome = f.nome || '';
+      const nome = sanifica(f.nome);
       const sep = idx > 0 ? ' · ' : '';
       const wSep = doc.getTextWidth(sep), wNome = doc.getTextWidth(nome);
       if(cx + wSep + wNome > x + larghezza) acapo();
