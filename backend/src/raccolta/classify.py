@@ -1,16 +1,18 @@
 """Classificazione degli articoli nei 5 sotto-temi + filtro di rilevanza.
 
 Riferimento: Notion sez. 16.3 (classificazione) e sez. 13/16.2 (filtro di
-rilevanza tematica a monte per Google Cloud Blog).
+rilevanza tematica a monte per le fonti generaliste); DECISIONI.md §18.
 
 Regole (tutto script, nessun giudizio del modello — coerente con ~80% script):
 - Ogni articolo viene assegnato a ESATTAMENTE uno dei 5 temi, oppure a None
   ("null") per revisione manuale — mai a piu' di uno, mai a zero (16.3).
 - L'assegnazione del tema segue la fonte di provenienza (mappa fonte->tema in
   config.yaml): e' una regola deterministica, non una valutazione del modello.
-- Le fonti con `filtro_rilevanza` (Google Cloud Blog) aggregano anche contenuti
-  fuori beat (database, sicurezza, strategia generica): questi vengono scartati
-  a monte (-> None) se il testo non contiene alcuna parola chiave del beat
+- Le fonti con `filtro_rilevanza` sono generaliste e aggregano anche contenuti
+  fuori beat: Google Cloud Blog (database, sicurezza, strategia generica) e
+  Tom's Hardware (offerte, gadget, gaming — usa il feed di sito perche' i feed
+  per-tag sono stati dismessi). Questi vengono scartati a monte (-> None) se il
+  testo non contiene alcuna parola chiave del beat
   (hardware/infrastruttura/capacita'), PRIMA della sintesi (16.2).
 """
 from __future__ import annotations
