@@ -37,6 +37,7 @@ from __future__ import annotations
 import json
 import math
 import shutil
+import sys
 from datetime import date
 from pathlib import Path
 
@@ -403,14 +404,90 @@ def carica_archivio(dir_archivio: str) -> list[dict]:
     return [json.loads(f.read_text(encoding="utf-8")) for f in sorted(p.glob("*.json"))]
 
 
+def _link_articolo(a: dict) -> set[str]:
+    """Identita' di un articolo: i link delle sue fonti (il titolo come ripiego).
+
+    L'identita' NON e' il titolo: la sintesi e il titolo sono riscritti dal
+    modello a ogni run, quindi lo stesso articolo tornerebbe con un testo diverso
+    e verrebbe archiviato due volte. I link invece sono stabili. Si usa un
+    insieme perche' un articolo puo' avere piu' fonti (Google News multi-testata):
+    basta un link in comune perche' sia lo stesso articolo.
+    """
+    link = {(f.get("link") or "").strip().lower()
+            for f in (a.get("fonti") or []) if (f.get("link") or "").strip()}
+    return link or {(a.get("titolo") or "").strip().lower()}
+
+
+def _fondi_sezioni(esistenti: list[dict], nuove: list[dict]) -> list[dict]:
+    """Unisce le sezioni di due digest della stessa data, senza perdere articoli.
+
+    Gli articoli gia' archiviati vincono sui nuovi a parita' di chiave: sono il
+    testo che il lettore ha gia' visto (email inviata, PDF scaricati), riscriverlo
+    con una sintesi diversa lo renderebbe incoerente. Si aggiungono in coda solo
+    le voci davvero nuove. Lo `stato` viene ricalcolato: una sezione che si
+    riempie non puo' restare 'nessun_aggiornamento' (lo schema lo rifiuterebbe).
+    """
+    per_tema = {s.get("tema"): s for s in esistenti}
+    fuse: list[dict] = []
+    for nuova in nuove:
+        vecchia = per_tema.get(nuova.get("tema"))
+        if vecchia is None:
+            fuse.append(nuova)
+            continue
+        articoli = list(vecchia.get("articoli") or [])
+        viste: set[str] = set()
+        for a in articoli:
+            viste |= _link_articolo(a)
+        for a in nuova.get("articoli") or []:
+            link = _link_articolo(a)
+            if link & viste:      # gia' archiviato: vince la versione pubblicata
+                continue
+            articoli.append(a)
+            viste |= link
+        gruppi = list(vecchia.get("gruppi") or [])
+        date_viste = {g.get("data") for g in gruppi}
+        for g in nuova.get("gruppi") or []:
+            if g.get("data") not in date_viste:
+                gruppi.append(g)
+                date_viste.add(g.get("data"))
+        fusa = dict(nuova)
+        fusa["articoli"] = articoli
+        fusa["gruppi"] = gruppi
+        fusa["stato"] = "con_aggiornamenti" if articoli else "nessun_aggiornamento"
+        fuse.append(fusa)
+    return fuse
+
+
 def salva_digest_pubblico(digest: Digest, dir_archivio: str) -> str:
-    """Salva il contenuto pubblico del digest (senza note_interne) come JSON."""
+    """Salva il contenuto pubblico del digest (senza note_interne) come JSON.
+
+    NON distruttivo: se esiste gia' un archivio per la stessa data, i due digest
+    vengono FUSI invece che sovrascritti. Serve perche' il nome del file e' la
+    data di generazione, quindi due run nello stesso giorno scrivono lo stesso
+    file — e il secondo run e' quasi sempre vuoto, perche' il dedup ha gia'
+    marcato come visti gli articoli del primo. Il 2026-07-20 questo ha ridotto un
+    digest da 158 articoli a 1, svuotando il sito pubblicato (DECISIONI sez. 15).
+    """
     p = Path(dir_archivio)
     p.mkdir(parents=True, exist_ok=True)
     nome = f"{digest.data_generazione}.json"
     percorso = p / nome
+    contenuto = digest.contenuto_pubblico()
+
+    if percorso.exists():
+        try:
+            precedente = json.loads(percorso.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            # Archivio illeggibile: si riparte da quello nuovo, ma lo si dice.
+            print(f"[attenzione] archivio {percorso} illeggibile ({exc}): "
+                  f"viene sostituito invece che fuso", file=sys.stderr)
+        else:
+            contenuto["sezioni"] = _fondi_sezioni(
+                precedente.get("sezioni") or [], contenuto.get("sezioni") or []
+            )
+
     percorso.write_text(
-        json.dumps(digest.contenuto_pubblico(), ensure_ascii=False, indent=2),
+        json.dumps(contenuto, ensure_ascii=False, indent=2),
         encoding="utf-8",
     )
     return str(percorso)

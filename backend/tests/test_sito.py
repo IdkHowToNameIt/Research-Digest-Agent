@@ -340,3 +340,80 @@ def test_salva_e_carica_archivio_esclude_note(tmp_path):
     assert len(archivio) == 1
     assert "note_interne" not in archivio[0]
     assert "SEGRETO" not in str(archivio[0])
+
+
+# --- archivio non distruttivo: due run nello stesso giorno (DECISIONI sez. 15) ---
+
+def _articoli_archiviati(arch_dir, tema="chip"):
+    dati = json.loads((Path(arch_dir) / "2026-07-09.json").read_text(encoding="utf-8"))
+    sez = next(s for s in dati["sezioni"] if s["tema"] == tema)
+    return sez
+
+
+def test_secondo_run_stesso_giorno_non_cancella_il_primo(tmp_path):
+    # Riproduce l'incidente del 2026-07-20: il secondo run trova quasi tutto gia'
+    # visto dal dedup e produrrebbe un digest quasi vuoto sullo stesso file.
+    arch = str(tmp_path / "arch")
+    primo = _digest(chip=[_art(f"Art {i}", f"https://x/{i}") for i in range(10)])
+    salva_digest_pubblico(primo, arch)
+
+    secondo = _digest(chip=[_art("Unico nuovo", "https://x/nuovo")])
+    salva_digest_pubblico(secondo, arch)
+
+    sez = _articoli_archiviati(arch)
+    urls = [f["link"] for a in sez["articoli"] for f in a["fonti"]]
+    assert len(sez["articoli"]) == 11          # 10 del primo run + 1 nuovo
+    assert "https://x/0" in urls               # i vecchi NON sono spariti
+    assert "https://x/nuovo" in urls           # il nuovo e' stato aggiunto
+    assert sez["stato"] == "con_aggiornamenti"
+
+
+def test_run_ripetuto_senza_novita_lascia_l_archivio_intatto(tmp_path):
+    # Caso limite del dedup: il secondo run non porta NIENTE di nuovo.
+    arch = str(tmp_path / "arch")
+    d = _digest(chip=[_art("A", "https://x/1"), _art("B", "https://x/2")])
+    salva_digest_pubblico(d, arch)
+    prima = (Path(arch) / "2026-07-09.json").read_text(encoding="utf-8")
+
+    salva_digest_pubblico(_digest(), arch)     # digest tutto vuoto
+    dopo = (Path(arch) / "2026-07-09.json").read_text(encoding="utf-8")
+    assert prima == dopo
+
+
+def test_articolo_gia_archiviato_non_viene_riscritto(tmp_path):
+    # Stesso URL = stesso articolo: vince il testo gia' pubblicato, non il nuovo.
+    arch = str(tmp_path / "arch")
+    salva_digest_pubblico(_digest(chip=[_art("Titolo originale", "https://x/1")]), arch)
+
+    riscritto = Articolo(titolo="Titolo riscritto", fonti=[Fonte(nome="NVIDIA", link="https://x/1")],
+                         data="2026-07-09", sintesi="Sintesi diversa.",
+                         perche_conta="Motivo diverso.")
+    salva_digest_pubblico(_digest(chip=[riscritto]), arch)
+
+    sez = _articoli_archiviati(arch)
+    assert len(sez["articoli"]) == 1
+    assert sez["articoli"][0]["titolo"] == "Titolo originale"
+
+
+def test_sezione_vuota_che_si_riempie_cambia_stato(tmp_path):
+    # Una sezione archiviata come vuota che poi riceve articoli deve passare a
+    # 'con_aggiornamenti', altrimenti lo schema rifiuterebbe il digest ricaricato.
+    arch = str(tmp_path / "arch")
+    salva_digest_pubblico(_digest(), arch)                       # tutte vuote
+    salva_digest_pubblico(_digest(chip=[_art("A", "https://x/1")]), arch)
+
+    sez = _articoli_archiviati(arch)
+    assert sez["stato"] == "con_aggiornamenti"
+    assert len(sez["articoli"]) == 1
+    # ricaricabile dallo schema senza errori di validazione
+    dati = json.loads((Path(arch) / "2026-07-09.json").read_text(encoding="utf-8"))
+    Digest.model_validate({**dati, "note_interne": []})
+
+
+def test_archivio_illeggibile_viene_sostituito_non_fa_esplodere(tmp_path):
+    arch = Path(tmp_path / "arch")
+    arch.mkdir(parents=True)
+    (arch / "2026-07-09.json").write_text("{ json rotto", encoding="utf-8")
+    salva_digest_pubblico(_digest(chip=[_art("A", "https://x/1")]), str(arch))
+    sez = _articoli_archiviati(str(arch))
+    assert len(sez["articoli"]) == 1
