@@ -127,8 +127,11 @@ docker-compose.yml    backend (generator) + frontend (nginx)
    (numerico, temporale, entità): almeno uno → aggiornamento legittimo; nessuno →
    duplicato scartato.
 3. **Classificazione** (`raccolta/classify.py`): ogni articolo a esattamente 1 dei 5 temi o
-   a `null` (revisione manuale). Filtro di rilevanza a monte per Google Cloud Blog
-   (scarta database/sicurezza/off-beat prima della sintesi).
+   a `null` (revisione manuale). Filtro di rilevanza a monte per le fonti
+   generaliste — Google Cloud Blog e Tom's Hardware — che scarta l'off-beat
+   (database, sicurezza, offerte, gadget) prima della sintesi. Il confronto con
+   `PAROLE_BEAT` è per prefisso ancorato a inizio parola, così i plurali passano
+   ma nessuna chiave scatta a metà parola (`mw` in "firmware").
 4. **Note interne** (`consegna/note_interne.py`): contatori di run consecutivi; `fetch_failed`
    ×3 o energia a 0 ×3 → nota per l'IT. Mai un blocco automatico.
 5. **Sintesi** (`modello/sintesi.py` + `modello/llm.py`): per ogni articolo il modello scrive
@@ -162,7 +165,7 @@ Articolo    = { titolo, fonti:[{nome,link}], data, sintesi, perche_conta, note? 
 Tutto in `config.yaml`:
 
 - `fonti`: elenco con `nome`, `url`, `tema`, `max`, `troncamento` (int o `null`),
-  `filtro_rilevanza` (solo Google Cloud Blog).
+  `filtro_rilevanza` (fonti generaliste: Google Cloud Blog, Tom's Hardware).
 - `soglia_overlap_dedup` (0.7) e `finestra_dedup_settimane` (6) — calibrabili.
 - `finestra_articoli_giorni` (14): scarta in raccolta le voci pubblicate da più di
   N giorni, **prima** del dedup e delle chiamate al modello. Il dedup risponde a
@@ -474,7 +477,7 @@ docker compose up web              # sito generato con i dati → http://localho
 ## Stato
 
 Tutte le 8 fasi sono implementate, più la **dashboard di osservabilità**
-(metriche operative per run); la suite conta **181 test verdi**. Le scelte di
+(metriche operative per run); la suite conta **185 test verdi**. Le scelte di
 progetto e il perché sono in [`DECISIONI.md`](DECISIONI.md).
 
 Punti noti, non bloccanti, che chi adotta il repo farà bene a tenere d'occhio:

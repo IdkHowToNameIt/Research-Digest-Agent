@@ -117,6 +117,11 @@ fonti:
     tema: chip
     max: 10
     troncamento: 500
+    # Filtro attivato il 2026-07-20: e' un feed di SITO, non di tag, quindi porta
+    # anche stampanti 3D scontate, droni e PC a batterie AA. Sul run del 2026-07-20
+    # erano 7 voci su 10 fuori beat. Il filtro tiene le sole voci che nominano
+    # hardware/infrastruttura/energia (vedi PAROLE_BEAT in classify.py).
+    filtro_rilevanza: true
 
   # -- Data center --
   - nome: "Meta Engineering"

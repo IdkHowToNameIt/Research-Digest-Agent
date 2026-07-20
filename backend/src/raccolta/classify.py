@@ -15,26 +15,51 @@ Regole (tutto script, nessun giudizio del modello — coerente con ~80% script):
 """
 from __future__ import annotations
 
+import re
+
 from ..schemas import Tema
 from .fetch import Candidato
 
 # Parole chiave che qualificano un contenuto come "in beat" (Infrastruttura &
 # Hardware AI). Usate solo per il filtro di rilevanza delle fonti aggregatrici.
 # Parametro di partenza, calibrabile.
+#
+# Il confronto e' per PREFISSO ANCORATO A INIZIO PAROLA (vedi `_compila`), non per
+# sottostringa: cosi' "server" prende anche "servers" e "region" anche "regions",
+# ma "chip" non scatta dentro "microchipped" a meta' parola.
 PAROLE_BEAT: frozenset[str] = frozenset({
     # chip / silicio
     "gpu", "tpu", "chip", "silicon", "silicio", "semiconductor", "semicondutt",
-    "accelerator", "acceleratore", "hbm", "nvlink", "wafer", "nm ", "cuda",
+    "accelerator", "acceleratore", "hbm", "nvlink", "wafer", "cuda",
     # data center / infrastruttura fisica
     "data center", "datacenter", "server", "rack", "cluster", "cooling",
     "raffreddamento", "infrastructure", "infrastruttura", "submarine cable",
     "cavo sottomarino", "region", "regione cloud", "availability zone",
     "interconnect", "fabric", "networking", "bandwidth", "banda", "tbps", "gbps",
     # capacita' / calcolo
-    "compute", "capacity", "capacita", "capex", "supercomputer",
+    "capacity", "capacita", "capex", "supercomputer",
     # energia
-    "power", "energy", "energia", "megawatt", "gigawatt", "mw", "gw", "grid",
+    "power", "energy", "energia", "megawatt", "gigawatt", "grid",
 })
+
+# Parole che richiedono la corrispondenza ESATTA (parola intera), perche' sono
+# prefisso o sottostringa di termini fuori beat molto comuni:
+#   compute -> "computer"      mw -> "firmware"
+#   nm      -> "nmap"          gw -> "gwei"
+# Misurato sul feed Tom's Hardware: erano queste tre a far passare l'hack ESP32
+# ("firmware"), il PC a batterie AA ("power") e Jurassic Park ("computer").
+PAROLE_BEAT_ESATTE: frozenset[str] = frozenset({"compute", "mw", "gw", "nm"})
+
+# Un'alternanza sola invece di N `in`: le parole normali ancorate a inizio parola
+# (\b prima, nessun \b dopo -> i plurali passano), quelle esatte con \b da entrambi
+# i lati. Ordinate per lunghezza decrescente cosi' l'alternanza preferisce il match
+# piu' lungo. Compilata una volta all'import: `is_rilevante` gira su ogni candidato.
+_RE_BEAT = re.compile(
+    "|".join(
+        [rf"\b{re.escape(k)}\b" for k in sorted(PAROLE_BEAT_ESATTE, key=len, reverse=True)]
+        + [rf"\b{re.escape(k)}" for k in sorted(PAROLE_BEAT, key=len, reverse=True)]
+    )
+)
 
 
 def _testo(candidato: Candidato) -> str:
@@ -50,8 +75,7 @@ def is_rilevante(candidato: Candidato) -> bool:
     """
     if not candidato.filtro_rilevanza:
         return True
-    testo = _testo(candidato)
-    return any(kw in testo for kw in PAROLE_BEAT)
+    return _RE_BEAT.search(_testo(candidato)) is not None
 
 
 def classifica(candidato: Candidato) -> Tema | None:
