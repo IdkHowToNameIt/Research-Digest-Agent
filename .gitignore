@@ -12,3 +12,6 @@ sito/
 .claude/settings.local.json
 frontend/_artifact_*.html
 claude-progress.txt
+
+# PDF di esempio usati per analisi manuale, non materiale di progetto
+ex pdf/
