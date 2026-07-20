@@ -42,16 +42,17 @@ services:
       generator:
         condition: service_completed_successfully
 
-  # Concept (interfaccia web definitiva): servito live per la revisione del design.
-  # NB: legge data.json, che qui non c'è (mockup senza dati) -> mostra la sola shell.
-  # Per vedere il sito con i dati reali usare il servizio `web` (sito/ generato).
-  #   docker compose up concept  ->  http://localhost:8082
-  concept:
+  # Anteprima dell'interfaccia senza rigenerare il digest: serve la build del
+  # frontend da sola. NB: legge data.json, che qui non c'è (nessun dato) -> mostra
+  # la sola shell. Per il sito con i dati reali usare il servizio `web`.
+  #   cd frontend && npm run build      (la build NON è nel repo: è gitignored)
+  #   docker compose up anteprima  ->  http://localhost:8082
+  anteprima:
     image: nginx:alpine
     ports:
       - "8082:80"
     volumes:
-      - ./frontend/concept:/usr/share/nginx/html:ro
+      - ./frontend/dist:/usr/share/nginx/html:ro
 
 volumes:
   sito:

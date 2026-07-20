@@ -460,21 +460,27 @@ Dalla home si apre anche **Sotto il cofano**, una dashboard di osservabilità ch
 e mostra — con un filtro per periodo (ultimo run / 30-90 giorni / 12 mesi / intervallo
 personalizzato, lo stesso pattern del calendario della cronologia) — stato delle fonti
 (ok/fallito e run consecutivi falliti), costi (token e € stimati), statistiche di
-deduplica e copertura dei 5 sotto-temi. Se `metriche.json` non c'è ancora (es. nel
-concept senza dati) mostra lo stato vuoto.
+deduplica e copertura dei 5 sotto-temi. Se `metriche.json` non c'è ancora (es. servendo
+la sola build senza dati) mostra lo stato vuoto.
 
 Stile "KVAdra": tema quasi-nero, accento rosa/rosso, card glass, **sfondo ripreso da
 kakashi.ventures** (gli 8 simboli reali del sito, incorporati e disposti sparsi su
 canvas, che si accendono di rosso vicino al cursore), homepage compatta in una sola
 schermata, logo placeholder KVA.
 
-Per vederla con i dati reali serve `data.json` accanto a `index.html`: generarlo con
-`python main.py` e servire `sito/` (vedi *Avvio — in locale*), oppure via Docker:
+L'interfaccia va **costruita** prima di poterla servire (`cd frontend && npm run build`:
+la build finisce in `frontend/dist/`, che non è nel repo). Per vederla con i dati reali
+serve `data.json` accanto a `index.html`: generarlo con `python main.py` e servire
+`sito/` (vedi *Avvio — in locale*), oppure via Docker:
 
 ```bash
-docker compose up concept          # shell del concept senza dati → http://localhost:8082
+cd frontend && npm run build       # necessario per il servizio 'anteprima'
+docker compose up anteprima        # sola interfaccia, senza dati → http://localhost:8082
 docker compose up web              # sito generato con i dati → http://localhost:8080
 ```
+
+Il servizio `generator` costruisce il frontend **da solo** (Dockerfile multi-stage):
+il `npm run build` qui sopra serve unicamente all'anteprima.
 
 ---
 

@@ -1,7 +1,7 @@
 """Generazione dei dati del sito web interno (sez. 18).
 
 Separazione netta backend/frontend: il backend NON genera HTML. Produce dei file
-JSON (contratto dati) che il frontend statico (`frontend/concept/index.html`)
+JSON (contratto dati) che il frontend React (build in `frontend/dist/`)
 legge via fetch e con cui genera da solo, lato client, le pagine: homepage (un box
 per tema con aggiornamenti nella settimana), lista dei gruppi-giorno di un tema
 (ognuno col titolo riassuntivo) e dettaglio del gruppo con le notizie di quel
