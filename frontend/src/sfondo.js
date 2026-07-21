@@ -11,7 +11,10 @@ export function avviaSfondo(cv) {
   var ctx = cv.getContext('2d');
   var vivo = true;
 
-  var GLOW = '255,120,140';        // colore dei glifi accesi (dal sito)
+  // VERSIONE SOBRIA (2026-07-21): rosa quasi tolto. I simboli vicini al cursore
+  // si ILLUMINANO invece di colorarsi, come sul riferimento, dove l'effetto e'
+  // cosi' tenue da non essere rilevabile dal campionamento del canvas.
+  var GLOW = '242,226,230';        // bianco appena caldo, non piu' rosa acceso
   var HALO = '154,3,30';           // alone rosso attorno al cursore (#9A031E)
   // ZOOM DELLO SFONDO (2026-07-20): il passo della griglia era 46px, glifi molto
   // piccoli e fitti. Portato a 72 per avvicinarsi alla scala di kakashi.ventures,
@@ -131,8 +134,8 @@ export function avviaSfondo(cv) {
 
     if (mouse.on) {
       var halo = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, range);
-      halo.addColorStop(0, 'rgba(' + HALO + ',0.10)');
-      halo.addColorStop(0.6, 'rgba(' + HALO + ',0.035)');
+      halo.addColorStop(0, 'rgba(' + HALO + ',0.045)');
+      halo.addColorStop(0.6, 'rgba(' + HALO + ',0.015)');
       halo.addColorStop(1, 'rgba(' + HALO + ',0)');
       ctx.fillStyle = halo;
       ctx.fillRect(mouse.x - range, mouse.y - range, range * 2, range * 2);
@@ -151,13 +154,13 @@ export function avviaSfondo(cv) {
 
       var rr = CELL * (0.7 + 1.3 * s.ig);
       var g = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, rr);
-      g.addColorStop(0, 'rgba(' + GLOW + ',' + (0.30 * s.ig).toFixed(3) + ')');
+      g.addColorStop(0, 'rgba(' + GLOW + ',' + (0.12 * s.ig).toFixed(3) + ')');
       g.addColorStop(1, 'rgba(' + GLOW + ',0)');
       ctx.fillStyle = g;
       ctx.beginPath(); ctx.arc(s.x, s.y, rr, 0, 6.2832); ctx.fill();
 
       ctx.save(); ctx.translate(s.x, s.y); ctx.rotate(s.rot);
-      ctx.globalAlpha = Math.min(1, 0.25 + s.ig);
+      ctx.globalAlpha = Math.min(1, 0.18 + 0.55 * s.ig);
       ctx.drawImage(red[s.g], -d / 2, -d / 2, d, d);
       ctx.restore();
     }
