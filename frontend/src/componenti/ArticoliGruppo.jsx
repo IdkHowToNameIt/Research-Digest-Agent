@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { LINEA, indiceAttivo } from '../lettura.js'
+import { useEffetti } from '../effetti.js'
 import { fmtData, fmtLettura, pad2, plurale } from '../dati.js'
 import { IconaTema } from './Icone.jsx'
 import ScaricaDigest from './ScaricaDigest.jsx'
@@ -22,7 +23,7 @@ function Voce({ tema, articolo, n }) {
     : articolo.fonte
 
   return (
-    <article className="art" id={'art-' + n}>
+    <article className="art reveal" id={'art-' + n}>
       <div className="art-head">
         <span className="art-n">{pad2(n)}</span>
         <h4>{articolo.titolo}</h4>
@@ -147,6 +148,10 @@ export default function ArticoliGruppo({
   )
 
   const [attivo, fissaAttivo] = useIndiceAttivo(visibili)
+  // La comparsa allo scroll mancava proprio nella vista con piu' contenuto.
+  // La chiave include il filtro fonte: cambiandolo l'elenco si rigenera e i
+  // nuovi articoli resterebbero invisibili (opacity 0) senza rimontare.
+  useEffetti('gruppo:' + tema.id + ':' + data + ':' + fonte + ':' + visibili.length)
 
   const nuovo = gruppo && gruppo.giorni <= indice.sogliaNuovo
   const lettura = gruppo ? fmtLettura(gruppo.minuti) : ''
