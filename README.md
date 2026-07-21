@@ -525,7 +525,13 @@ Punti noti, non bloccanti, che chi adotta il repo farà bene a tenere d'occhio:
 - la soglia di dedup (`soglia_overlap_dedup`, 0.7) e l'elenco di entità note sono
   calibrati sul nostro flusso: su un beat diverso vanno ritarati;
 - le fonti in `config.yaml` sono scelte per il beat *"Infrastruttura & Hardware AI"*;
-  cambiando tema vanno sostituite.
+  cambiando tema vanno sostituite;
+- **la quota del free tier è il vincolo dominante**, non il costo in euro: in un run
+  pieno (~113 chiamate) il modello primario si esaurisce dopo pochi minuti e la
+  cascata scende ai modelli di ripiego, con sintesi di qualità inferiore. Le righe
+  `[attenzione]` nel log lo dicono; un run leggero (~13 chiamate) resta invece
+  interamente sul primario. È il motivo per cui `MAX_ESTRATTO_CHARS` è tenuto basso
+  ([`DECISIONI.md`](DECISIONI.md) §21).
 
 ## Test
 
