@@ -1,46 +1,63 @@
-import { LINEA, indiceAttivo } from './lettura.js'
+import { LINEA, indiceAttivo, lineaLettura } from './lettura.js'
 
-const LINEA_PX = 200   // finestra da 800px con LINEA = 0.25
+const H = 800          // altezza finestra
+const LONTANO = 5000   // scroll rimanente: siamo lontani dal fondo
 
 it('la linea di lettura e un quarto della finestra', () => {
   expect(LINEA).toBe(0.25)
 })
 
-it('segue la voce piu recente che ha superato la linea', () => {
-  //            0     1     2
-  const cime = [-500, -120, 350]
-  expect(indiceAttivo(cime, LINEA_PX, false)).toBe(1)
+describe('lineaLettura', () => {
+  it('lontano dal fondo sta al 25%', () => {
+    expect(lineaLettura(H, LONTANO)).toBe(200)
+  })
+
+  it('sul fondo esatto coincide col bordo inferiore', () => {
+    // Cosi' l'ultima voce e' raggiungibile: e' il caso che prima si bloccava.
+    expect(lineaLettura(H, 0)).toBe(H)
+  })
+
+  it('scivola in proporzione nell ultimo tratto', () => {
+    expect(lineaLettura(H, H / 2)).toBe(200 + 400 * 0.75)
+  })
 })
 
-it('in cima alla pagina resta sulla prima voce', () => {
-  // Nessuna voce ha ancora superato la linea: prima il segnaposto restava
-  // bloccato sull'ultimo valore e "non tornava su".
-  expect(indiceAttivo([320, 900, 1500], LINEA_PX, false)).toBe(0)
-})
+describe('indiceAttivo', () => {
+  it('segue la voce piu recente che ha superato la linea', () => {
+    expect(indiceAttivo([-500, -120, 350], H, LONTANO)).toBe(1)
+  })
 
-it('in fondo alla pagina arriva sempre allultima voce', () => {
-  // Il caso che si bloccava: scorrendo in fondo le ultime voci non superano
-  // mai la linea, perche' la pagina non puo' scorrere oltre.
-  expect(indiceAttivo([-2000, -1500, 400, 600], LINEA_PX, true)).toBe(3)
-})
+  it('in cima alla pagina resta sulla prima voce', () => {
+    // Prima il segnaposto restava bloccato sull'ultimo valore e non risaliva.
+    expect(indiceAttivo([320, 900, 1500], H, LONTANO)).toBe(0)
+  })
 
-it('una voce esattamente sulla linea e gia quella in lettura', () => {
-  expect(indiceAttivo([-100, LINEA_PX, 900], LINEA_PX, false)).toBe(1)
-})
+  it('nell ultimo tratto accende le ultime voci UNA A UNA', () => {
+    // Il difetto segnalato: da 1 a 5 andava, poi saltava dritto all'8.
+    // Otto voci, le ultime tre visibili insieme nella schermata finale.
+    const cime = [-2400, -2000, -1600, -1200, -800, 100, 400, 700]
+    expect(indiceAttivo(cime, H, 600)).toBe(5)   // ancora scroll disponibile
+    expect(indiceAttivo(cime, H, 300)).toBe(6)   // piu' vicino al fondo
+    expect(indiceAttivo(cime, H, 0)).toBe(7)     // fondo esatto
+  })
 
-it('segue la lettura scorrendo, e torna indietro risalendo', () => {
-  // Le cime crescono sempre in ordine di documento: si simula lo scroll
-  // sottraendo la stessa quantita' a tutte.
-  const iniziali = [300, 900, 1600]
-  const dopoScroll = (px) => iniziali.map((c) => c - px)
-  expect(indiceAttivo(dopoScroll(0), LINEA_PX, false)).toBe(0)      // in cima
-  expect(indiceAttivo(dopoScroll(800), LINEA_PX, false)).toBe(1)    // seconda
-  expect(indiceAttivo(dopoScroll(1500), LINEA_PX, false)).toBe(2)   // terza
-  expect(indiceAttivo(dopoScroll(800), LINEA_PX, false)).toBe(1)    // risalendo
-  expect(indiceAttivo(dopoScroll(0), LINEA_PX, false)).toBe(0)      // di nuovo in cima
-})
+  it('sul fondo non salta all ultima se le voci sono ancora lontane', () => {
+    // Voce fuori schermo in basso: nemmeno col fondo raggiunto va scelta.
+    expect(indiceAttivo([-200, 400, 2000], H, 0)).toBe(1)
+  })
 
-it('regge la lista vuota', () => {
-  expect(indiceAttivo([], LINEA_PX, false)).toBe(-1)
-  expect(indiceAttivo([], LINEA_PX, true)).toBe(-1)
+  it('segue la lettura scorrendo, e torna indietro risalendo', () => {
+    const iniziali = [300, 900, 1600]
+    const dopo = (px) => iniziali.map((c) => c - px)
+    expect(indiceAttivo(dopo(0), H, LONTANO)).toBe(0)
+    expect(indiceAttivo(dopo(800), H, LONTANO)).toBe(1)
+    expect(indiceAttivo(dopo(1500), H, LONTANO)).toBe(2)
+    expect(indiceAttivo(dopo(800), H, LONTANO)).toBe(1)
+    expect(indiceAttivo(dopo(0), H, LONTANO)).toBe(0)
+  })
+
+  it('regge la lista vuota', () => {
+    expect(indiceAttivo([], H, LONTANO)).toBe(-1)
+    expect(indiceAttivo([], H, 0)).toBe(-1)
+  })
 })
