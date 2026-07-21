@@ -289,19 +289,6 @@
       "stato": "con_aggiornamenti",
       "articoli": [
         {
-          "titolo": "Esplorazione della rappresentazione gerarchica degli interessi per l'ottimizzazione dei annunci Meta",
-          "fonti": [
-            {
-              "nome": "Meta Engineering",
-              "link": "https://engineering.fb.com/2026/07/15/ai-research/exploring-hierarchical-interest-representation-for-meta-ads-deep-funnel-optimization/"
-            }
-          ],
-          "data": "2026-07-15",
-          "sintesi": "Meta sta esplorando la rappresentazione gerarchica degli interessi per ottimizzare i annunci deep funnel. Questa tecnica prevede l'apprendimento di rappresentazioni unificate che collegano gli interessi degli utenti con l'offerta degli inserzionisti. La ricerca si concentra su una rappresentazione a livello superiore che copre l'universo degli enti di Ads, tra cui utenti, inserzionisti, prodotti e servizi.",
-          "perche_conta": "Questa ricerca è rilevante per il settore dell'intelligenza artificiale e dell'infrastruttura di pubblicità online, poiché potrebbe migliorare l'efficacia degli annunci e aumentare la soddisfazione degli utenti.",
-          "note": null
-        },
-        {
           "titolo": "Modernizzazione del servizio Ads di Meta con un scheduler di kernel open-source",
           "fonti": [
             {
@@ -313,26 +300,9 @@
           "sintesi": "Meta ha utilizzato il framework di scheduling estensibile basato su BPF, chiamato sched_ext, per personalizzare la politica di scheduling per la consegna degli annunci. Ciò è stato fatto per evitare una regressione della latenza a seguito di un aggiornamento del kernel Linux. La latenza è un fattore critico per le prestazioni degli annunci, poiché pochi millisecondi di degrado possono avere un impatto negativo significativo.",
           "perche_conta": "Questo è rilevante per il beat 'Infrastruttura & Hardware AI' perché mostra come le aziende come Meta debbano ottimizzare le loro infrastrutture per garantire prestazioni ottimali, anche a livello di millisecondi, per supportare i carichi di lavoro di intelligenza artificiale e apprendimento automatico.",
           "note": null
-        },
-        {
-          "titolo": "Progressi nel fine-tuning riducono il volume totale di addestramento AI",
-          "fonti": [
-            {
-              "nome": "Uptime Institute Journal",
-              "link": "https://journal.uptimeinstitute.com/advances-in-fine-tuning-reduce-total-volume-of-ai-training/"
-            }
-          ],
-          "data": "2026-07-15",
-          "sintesi": "Le organizzazioni stanno cercando di adattare i modelli di linguaggio esistenti alle loro esigenze specifiche, anziché addestrare nuovi modelli da zero. Ciò evita la necessità di reperire dati di addestramento e assumere esperti di apprendimento automatico. I progressi nel fine-tuning riducono il volume totale di addestramento AI.",
-          "perche_conta": "Questo sviluppo è rilevante per il settore dell'infrastruttura e dell'hardware AI, poiché potrebbe ridurre la domanda di potenza di calcolo e di dati per l'addestramento di modelli di intelligenza artificiale.",
-          "note": null
         }
       ],
       "gruppi": [
-        {
-          "data": "2026-07-15",
-          "titolo": "Nessuna notizia disponibile su data center"
-        },
         {
           "data": "2026-07-13",
           "titolo": "Modernizzazione del servizio Ads di Meta con un scheduler di kernel open-source"
