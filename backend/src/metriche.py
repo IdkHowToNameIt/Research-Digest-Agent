@@ -70,6 +70,7 @@ class StatoFonte(BaseModel):
 class Dedup(BaseModel):
     """Statistiche del filtro anti-duplicati + scarto in classificazione."""
     raccolti: int = 0               # candidati totali dalle fonti (pre-dedup)
+    accorpati_aggregatore: int = 0  # varianti della stessa notizia su feed aggregati (sez. 24)
     nuovi: int = 0                  # nessun simile sopra soglia
     aggiornamenti: int = 0          # alto overlap ma novità legittima (inclusi)
     duplicati_esatti: int = 0       # hash già visto (scartati)
@@ -153,6 +154,7 @@ class RaccoltaMetriche:
         pubblicati: int,
         digest: Digest,
         store: SeenStore,
+        accorpati_aggregatore: int = 0,
     ) -> None:
         """Registra stato fonti, statistiche dedup e copertura del run."""
         self._fonti = [
@@ -174,6 +176,7 @@ class RaccoltaMetriche:
             conteggio[esito.decisione] = conteggio.get(esito.decisione, 0) + 1
         self._dedup = Dedup(
             raccolti=len(candidati),
+            accorpati_aggregatore=accorpati_aggregatore,
             nuovi=conteggio.get("nuovo", 0),
             aggiornamenti=conteggio.get("aggiornamento", 0),
             duplicati_esatti=conteggio.get("duplicato_esatto", 0),

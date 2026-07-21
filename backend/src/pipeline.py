@@ -19,7 +19,7 @@ from .consegna.note_interne import aggiorna_e_genera_note
 from .schemas import Digest, Tema
 from .modello.sintesi import Generatore, assembla_digest
 from .state import SeenStore
-from .raccolta.dedup import deduplica, registra_pubblicati
+from .raccolta.dedup import collassa_storie, deduplica, registra_pubblicati
 from .raccolta.fetch import fetch_tutte
 
 
@@ -45,8 +45,21 @@ def costruisci_digest(
         esiti = fetch_tutte(cfg, parse=parse)
         candidati = [c for e in esiti for c in e.candidati]
 
+        # Prima del dedup, e quindi prima di spendere chiamate al modello: sulle
+        # fonti aggregate (piu' testate, una notizia) il dedup fuzzy non funziona
+        # per costruzione, vedi sez. 24. Qui si tiene una voce per storia.
+        aggregatori = {
+            f["nome"] for f in cfg.get("fonti", []) if f.get("aggregatore")
+        }
+        # `candidati` resta la lista GREZZA: le metriche documentano `raccolti`
+        # come "candidati totali dalle fonti", e riassegnarla falserebbe il dato.
+        utili = candidati
+        if aggregatori:
+            utili, _varianti = collassa_storie(candidati, aggregatori)
+        accorpati = len(candidati) - len(utili)
+
         tenuti, esiti_dedup = deduplica(
-            candidati, store,
+            utili, store,
             soglia=cfg.get("soglia_overlap_dedup", 0.7),
             finestra_settimane=cfg.get("finestra_dedup_settimane", 6),
             ora=ora,
@@ -77,6 +90,7 @@ def costruisci_digest(
                 pubblicati=len(pubblicati),
                 digest=digest,
                 store=store,
+                accorpati_aggregatore=accorpati,
             )
         return digest
     finally:

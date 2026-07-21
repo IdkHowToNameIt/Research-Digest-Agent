@@ -55,12 +55,27 @@ def _con_nota_arxiv(c: Candidato, note: str | None) -> str | None:
     return NOTA_PREPRINT
 
 
+def _con_nota_testate(c: Candidato, note: str | None) -> str | None:
+    """Aggiunge "ripreso da N testate" alle notizie accorpate da un aggregatore.
+
+    Convenzione 14.7, prevista in `schemas.py` e rimasta senza codice che la
+    producesse finche' non e' esistito il raggruppamento per storia (sez. 24).
+    Il numero e' un'informazione editoriale vera: dice al lettore che la notizia
+    ha avuto eco, cosa che il solo conteggio degli articoli nascondeva.
+    """
+    if c.n_testate <= 1:
+        return note or None
+    nota = f"(ripreso da {c.n_testate} testate)"
+    return f"{note} {nota}" if note else nota
+
+
 def sintetizza_candidato(c: Candidato, genera: Generatore | None) -> Articolo:
     """Sintetizza un singolo candidato in un Articolo (metadati reali del candidato)."""
     dati = _sintesi_fallback(c) if genera is None else genera(prompt_sintesi(c))
     sintesi = str(dati.get("sintesi", "")).strip() or c.titolo.strip()
     perche = str(dati.get("perche_conta", "")).strip()
     note = _con_nota_arxiv(c, (dati.get("note") or "").strip() or None)
+    note = _con_nota_testate(c, note)
     # titolo mostrato = riscrittura italiana del modello, con fallback al titolo reale
     # (grounding: il LINK resta sempre quello reale del candidato, mai del modello).
     titolo = str(dati.get("titolo", "")).strip() or c.titolo.strip()

@@ -305,3 +305,128 @@ def filtra_nuove(candidati: list[Candidato], store: SeenStore) -> list[Candidato
         visti_in_run.add(c.url)
         nuove.append(c)
     return nuove
+
+
+# --- aggregatori: N testate, una notizia sola (sez. 24) ---------------------
+#
+# Il dedup fuzzy qui sopra presuppone UNA fonte per notizia: Jaccard piu' segnali
+# di novita' distingue bene "stessa notizia" da "sviluppo nuovo". Su un feed
+# aggregato (Google News) quel disegno non puo' funzionare — misurato il
+# 2026-07-21: su 435 coppie una sola superava la soglia, e veniva pure salvata
+# dal segnale `entita` perche' le testate citano entita' incidentali diverse.
+#
+# Qui si usa un segnale piu' robusto delle parole: due riscritture della stessa
+# notizia condividono l'ATTORE e la CIFRA ("TSMC" + "100 miliardi"), anche quando
+# non condividono nulla del resto. La cifra e' obbligatoria: senza, la chiave
+# accorpa notizie diverse sulla stessa azienda (provato: 10 storie ASML distinte
+# collassate in una).
+
+_NUMERO = re.compile(r"\d[\d.,]*")
+_ANNO = re.compile(r"^(?:19|20)\d\d$")
+
+# Le testate coprono la stessa notizia a cavallo di uno-due giorni: pretendere la
+# data identica spezzava la coppia sul bonus ASML (19 e 20 luglio, stessa
+# notizia). Una tolleranza stretta tiene insieme la copertura di una storia senza
+# accomunare la stessa cifra che ritorna settimane dopo per un fatto diverso.
+TOLLERANZA_GIORNI_STORIA = 2
+
+
+def _giorni_tra(a: str, b: str) -> int:
+    """Distanza in giorni fra due date ISO; enorme se una non e' leggibile."""
+    try:
+        da = datetime.strptime(a, "%Y-%m-%d")
+        db = datetime.strptime(b, "%Y-%m-%d")
+    except (ValueError, TypeError):
+        return 10**6
+    return abs((da - db).days)
+
+
+def cifre_salienti(testo: str) -> set[str]:
+    """Cifre che identificano una notizia, normalizzate per forma di scrittura.
+
+    "$100 billion", "US$100 bn" e "100bn" devono dare la stessa chiave, quindi si
+    tengono le sole prime 3 cifre significative. Si scartano i numeri di una
+    cifra (troppo comuni: "Q2", "5 anni") e gli anni, che compaiono ovunque e
+    accorperebbero notizie senza rapporto.
+    """
+    cifre: set[str] = set()
+    for grezzo in _NUMERO.findall(testo):
+        solo = re.sub(r"[^\d]", "", grezzo)
+        if len(solo) < 2 or _ANNO.fullmatch(solo):
+            continue
+        cifre.add(solo[:3])
+    return cifre
+
+
+# Solo AZIENDE, non l'intero ENTITA_NOTE (che contiene anche paesi e prodotti).
+# Due motivi, entrambi emersi misurando sul feed vero:
+#   - un paese piu' una cifra e' una prova debole: "Paesi Bassi" + "5" puo'
+#     accomunare notizie senza rapporto, e accorpare per sbaglio costa piu' che
+#     pubblicare un duplicato;
+#   - scegliendo fra tutte le entita' presenti, la notizia dei "$100 miliardi
+#     TSMC" si spezzava in due gruppi ('taiwan', '100') e ('tsmc', '100') a
+#     seconda di quale entita' vincesse nel titolo. Con le sole aziende la
+#     chiave e' stabile.
+AZIENDE_NOTE: frozenset[str] = frozenset({
+    "nvidia", "amd", "intel", "tsmc", "asml", "samsung", "sk hynix", "micron",
+    "broadcom", "arm", "qualcomm", "apple", "google", "alphabet", "microsoft",
+    "azure", "aws", "amazon", "meta", "openai", "anthropic", "oracle", "supermicro",
+})
+
+
+def chiave_storia(
+    candidato: Candidato, aziende: frozenset[str] = AZIENDE_NOTE
+) -> tuple[str, str] | None:
+    """(azienda, cifra) di una notizia, o None se non e' raggruppabile.
+
+    None significa "lasciala stare": senza un'azienda nota o senza una cifra non
+    si hanno prove sufficienti che due voci siano la stessa notizia, e accorpare
+    per sbaglio costa piu' che pubblicare un duplicato.
+    """
+    testo = candidato.titolo.lower()
+    presenti = [a for a in aziende if a in testo]
+    if not presenti:
+        return None
+    cifre = cifre_salienti(testo)
+    if not cifre:
+        return None
+    # entrambe le componenti scelte in modo deterministico: due riscritture della
+    # stessa notizia devono produrre la STESSA chiave anche se una nomina
+    # un'azienda in piu'.
+    return (min(presenti), min(cifre))
+
+
+def collassa_storie(
+    candidati: list[Candidato], aggregatori: set[str]
+) -> tuple[list[Candidato], dict[str, int]]:
+    """Tiene una sola voce per storia, per le sole fonti marcate `aggregatore`.
+
+    Si conserva la PRIMA occorrenza nell'ordine del feed: Google News ordina per
+    rilevanza, quindi la prima e' in genere la testata piu' autorevole sul pezzo.
+    Ritorna anche quante varianti sono state accorpate per ciascun URL tenuto,
+    cosi' il digest puo' dire "ripreso da N testate" (convenzione 14.7, prevista
+    in `schemas.py` e finora mai prodotta).
+    """
+    tenuti: list[Candidato] = []
+    # (fonte, azienda, cifra) -> [(data, candidato tenuto)]
+    aperti: dict[tuple[str, str, str], list[tuple[str, Candidato]]] = {}
+    varianti: dict[str, int] = {}
+    for c in candidati:
+        chiave = chiave_storia(c) if c.fonte in aggregatori else None
+        if chiave is None:
+            tenuti.append(c)
+            continue
+        piena = (c.fonte, *chiave)
+        primo = next(
+            (cand for data, cand in aperti.get(piena, [])
+             if _giorni_tra(data, c.data) <= TOLLERANZA_GIORNI_STORIA),
+            None,
+        )
+        if primo is None:
+            aperti.setdefault(piena, []).append((c.data, c))
+            tenuti.append(c)
+            varianti[c.url] = 1
+        else:
+            varianti[primo.url] += 1
+            primo.n_testate = varianti[primo.url]
+    return tenuti, {u: n for u, n in varianti.items() if n > 1}

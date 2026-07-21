@@ -38,6 +38,10 @@ class Candidato:
     data: str
     estratto: str
     filtro_rilevanza: bool = False  # la fonte richiede filtro tematico a monte? (sez. 13/16.2)
+    # Quante testate hanno coperto questa stessa notizia su un feed aggregato:
+    # valorizzato da `collassa_storie` (sez. 24), alimenta la nota "ripreso da N
+    # testate" prevista dalla convenzione 14.7.
+    n_testate: int = 1
 
     def to_dict(self) -> dict:
         return {
@@ -48,6 +52,7 @@ class Candidato:
             "data": self.data,
             "estratto": self.estratto,
             "filtro_rilevanza": self.filtro_rilevanza,
+            "n_testate": self.n_testate,
         }
 
 
