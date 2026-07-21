@@ -2,6 +2,38 @@
   "anno": "2026",
   "gruppi": [
     {
+      "data": "2026-07-21",
+      "titolo": "Innovazioni nei chip e dissipazione del calore",
+      "articoli": [
+        {
+          "titolo": "Google sviluppa chip 'Frozen v2' con architettura Gemini",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/tech-industry/google-reportedly-developing-frozen-v2-chip-with-geminis-architecture-etched-into-the-silicon"
+            }
+          ],
+          "data": "2026-07-21",
+          "sintesi": "Google sta sviluppando un chip server chiamato 'Frozen v2' che integra parte dell'architettura del modello Gemini direttamente nel silicio. Ciò potrebbe portare a una maggiore efficienza energetica.",
+          "perche_conta": "Questo sviluppo è rilevante per il settore dell'AI poiché potrebbe migliorare notevolmente l'efficienza energetica dei data center e aumentare la capacità di elaborazione dei token.",
+          "note": null
+        },
+        {
+          "titolo": "Un modder di PC utilizza un dissipatore di calore in alluminio da 5.5 libbre per la RTX 4060",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/pc-components/cooling/pc-modder-straps-5-5-pound-aluminum-heatsink-to-rtx-4060-convection-only-cooling-seems-to-work-fine-in-a-testbench-style-installation"
+            }
+          ],
+          "data": "2026-07-21",
+          "sintesi": "Un appassionato di PC ha realizzato un sistema con una scheda grafica Nvidia GeForce RTX 4060 senza ventilatori, utilizzando un grande dissipatore di calore in alluminio da 5.5 libbre. Il sistema sembra funzionare correttamente in un'installazione di tipo testbench.",
+          "perche_conta": "Questo esperimento è rilevante per il settore dell'hardware AI poiché mostra le possibilità di raffreddamento passivo per le schede grafiche, potenzialmente riducendo i costi e i consumi energetici.",
+          "note": null
+        }
+      ]
+    },
+    {
       "data": "2026-07-20",
       "titolo": "Sviluppi e innovazioni nel settore dei chip e hardware AI",
       "articoli": [

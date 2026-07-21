@@ -9,6 +9,12 @@
       "file": "tema-chip.json",
       "recenti": [
         {
+          "data": "2026-07-21",
+          "titolo": "Innovazioni nei chip e dissipazione del calore",
+          "n_articoli": 2,
+          "minuti_lettura": 1
+        },
+        {
           "data": "2026-07-20",
           "titolo": "Sviluppi e innovazioni nel settore dei chip e hardware AI",
           "n_articoli": 8,
@@ -59,7 +65,7 @@
       "recenti": [
         {
           "data": "2026-07-15",
-          "titolo": "Nessuna notizia disponibile su data center",
+          "titolo": "Ottimizzazione annunci Meta; progressi nel fine-tuning",
           "n_articoli": 2,
           "minuti_lettura": 1
         },
@@ -122,8 +128,8 @@
         {
           "data": "2026-07-20",
           "titolo": "ASML incentiva talenti, Taiwan difende segreti: sicurezza della catena di approvvigionamento",
-          "n_articoli": 2,
-          "minuti_lettura": 1
+          "n_articoli": 3,
+          "minuti_lettura": 2
         },
         {
           "data": "2026-07-19",
@@ -140,13 +146,13 @@
         {
           "data": "2026-07-16",
           "titolo": "TSMC record profit spinge investimento di 100 miliardi di dollari negli USA",
-          "n_articoli": 13,
-          "minuti_lettura": 6
+          "n_articoli": 14,
+          "minuti_lettura": 7
         },
         {
           "data": "2026-07-15",
           "titolo": "ASML aumenta prezzi e previsioni, impatti sulla catena di fornitura AI",
-          "n_articoli": 8,
+          "n_articoli": 9,
           "minuti_lettura": 4
         },
         {

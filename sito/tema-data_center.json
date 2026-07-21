@@ -4,11 +4,11 @@
   "gruppi": [
     {
       "data": "2026-07-15",
-      "titolo": "Nessuna notizia disponibile su data center",
+      "titolo": "Ottimizzazione annunci Meta; progressi nel fine-tuning",
       "n_articoli": 2,
       "minuti_lettura": 1,
       "anteprima_titoli": [
-        "Esplorazione della rappresentazione gerarchica degli interessi per l'ottimizzazione dei annunci Meta",
+        "Esplorazione della Rappresentazione Gerarchica degli Interessi per l'Ottimizzazione dei Meta Ads",
         "Progressi nel fine-tuning riducono il volume totale di addestramento AI"
       ]
     },
@@ -19,6 +19,33 @@
       "minuti_lettura": 1,
       "anteprima_titoli": [
         "Modernizzazione del servizio Ads di Meta con un scheduler di kernel open-source"
+      ]
+    },
+    {
+      "data": "2026-07-01",
+      "titolo": "Gli investimenti sostengono il raffreddamento a due fasi come successore delle piastre fredde ad acqua",
+      "n_articoli": 1,
+      "minuti_lettura": 1,
+      "anteprima_titoli": [
+        "Gli investimenti sostengono il raffreddamento a due fasi come successore delle piastre fredde ad acqua"
+      ]
+    },
+    {
+      "data": "2026-06-17",
+      "titolo": "Critici dei data center negli USA passano dalle moratorie alle regolamentazioni",
+      "n_articoli": 1,
+      "minuti_lettura": 1,
+      "anteprima_titoli": [
+        "Critici dei data center negli USA passano dalle moratorie alle regolamentazioni"
+      ]
+    },
+    {
+      "data": "2026-06-16",
+      "titolo": "Presentazione di Brazos: portando il raffreddamento a liquido nei data center ad aria",
+      "n_articoli": 1,
+      "minuti_lettura": 1,
+      "anteprima_titoli": [
+        "Presentazione di Brazos: portando il raffreddamento a liquido nei data center ad aria"
       ]
     }
   ]

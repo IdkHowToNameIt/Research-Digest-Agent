@@ -3,10 +3,10 @@
   "gruppi": [
     {
       "data": "2026-07-15",
-      "titolo": "Nessuna notizia disponibile su data center",
+      "titolo": "Ottimizzazione annunci Meta; progressi nel fine-tuning",
       "articoli": [
         {
-          "titolo": "Esplorazione della rappresentazione gerarchica degli interessi per l'ottimizzazione dei annunci Meta",
+          "titolo": "Esplorazione della Rappresentazione Gerarchica degli Interessi per l'Ottimizzazione dei Meta Ads",
           "fonti": [
             {
               "nome": "Meta Engineering",
@@ -14,8 +14,8 @@
             }
           ],
           "data": "2026-07-15",
-          "sintesi": "Meta sta esplorando la rappresentazione gerarchica degli interessi per ottimizzare i annunci deep funnel. Questa tecnica prevede l'apprendimento di rappresentazioni unificate che collegano gli interessi degli utenti con l'offerta degli inserzionisti. La ricerca si concentra su una rappresentazione a livello superiore che copre l'universo degli enti di Ads, tra cui utenti, inserzionisti, prodotti e servizi.",
-          "perche_conta": "Questa ricerca è rilevante per il settore dell'intelligenza artificiale e dell'infrastruttura di pubblicità online, poiché potrebbe migliorare l'efficacia degli annunci e aumentare la soddisfazione degli utenti.",
+          "sintesi": "Meta sta esplorando la rappresentazione gerarchica degli interessi per ottimizzare i Meta Ads. Questo approccio prevede l'apprendimento di rappresentazioni unificate che collegano gli interessi degli utenti con le offerte degli inserzionisti. L'obiettivo è migliorare l'efficacia dei deep funnel ads.",
+          "perche_conta": "Questo sviluppo è rilevante per gli investitori e i CTO poiché potrebbe influenzare l'efficacia e la personalizzazione della pubblicità online, con potenziali impatti sulla strategia di investimento e sull'infrastruttura tecnologica.",
           "note": null
         },
         {
@@ -27,8 +27,8 @@
             }
           ],
           "data": "2026-07-15",
-          "sintesi": "Le organizzazioni stanno cercando di adattare i modelli di linguaggio esistenti alle loro esigenze specifiche, anziché addestrare nuovi modelli da zero. Ciò evita la necessità di reperire dati di addestramento e assumere esperti di apprendimento automatico. I progressi nel fine-tuning riducono il volume totale di addestramento AI.",
-          "perche_conta": "Questo sviluppo è rilevante per il settore dell'infrastruttura e dell'hardware AI, poiché potrebbe ridurre la domanda di potenza di calcolo e di dati per l'addestramento di modelli di intelligenza artificiale.",
+          "sintesi": "Le organizzazioni stanno cercando di adattare modelli di linguaggio esistenti alle loro esigenze specifiche, anziché addestrare nuovi modelli da zero. Ciò evita la necessità di reperire dati di addestramento e di assumere esperti di apprendimento automatico. I progressi nel fine-tuning riducono il volume totale di addestramento AI.",
+          "perche_conta": "Questo sviluppo è rilevante per gli investitori e i CTO poiché può ridurre i costi e i tempi di addestramento dei modelli di intelligenza artificiale, rendendo più accessibile l'utilizzo dell'AI per le organizzazioni.",
           "note": null
         }
       ]
@@ -48,6 +48,63 @@
           "data": "2026-07-13",
           "sintesi": "Meta ha utilizzato il framework di scheduling estensibile basato su BPF, chiamato sched_ext, per personalizzare la politica di scheduling per la consegna degli annunci. Ciò è stato fatto per evitare una regressione della latenza a seguito di un aggiornamento del kernel Linux. La latenza è un fattore critico per le prestazioni degli annunci, poiché pochi millisecondi di degrado possono avere un impatto negativo significativo.",
           "perche_conta": "Questo è rilevante per il beat 'Infrastruttura & Hardware AI' perché mostra come le aziende come Meta debbano ottimizzare le loro infrastrutture per garantire prestazioni ottimali, anche a livello di millisecondi, per supportare i carichi di lavoro di intelligenza artificiale e apprendimento automatico.",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2026-07-01",
+      "titolo": "Gli investimenti sostengono il raffreddamento a due fasi come successore delle piastre fredde ad acqua",
+      "articoli": [
+        {
+          "titolo": "Gli investimenti sostengono il raffreddamento a due fasi come successore delle piastre fredde ad acqua",
+          "fonti": [
+            {
+              "nome": "Uptime Institute Journal",
+              "link": "https://journal.uptimeinstitute.com/investments-back-two-phase-cooling-as-water-cold-plate-successor/"
+            }
+          ],
+          "data": "2026-07-01",
+          "sintesi": "Il raffreddamento a liquido diretto (DLC) ha ricevuto notevoli investimenti negli ultimi due anni, trainato in larga misura dalla costruzione di cluster di addestramento AI ad alta densità. I principali produttori di hardware AI stanno pianificando una densità di calcolo sempre più alta, con un aumento corrispondente della potenza dei rack, che presto supererà i 200 kW.",
+          "perche_conta": "Questo sviluppo è rilevante per il settore dell'infrastruttura AI poiché potrebbe influenzare la progettazione e la costruzione dei data center e la gestione della potenza e del calore all'interno di essi.",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2026-06-17",
+      "titolo": "Critici dei data center negli USA passano dalle moratorie alle regolamentazioni",
+      "articoli": [
+        {
+          "titolo": "Critici dei data center negli USA passano dalle moratorie alle regolamentazioni",
+          "fonti": [
+            {
+              "nome": "Uptime Institute Journal",
+              "link": "https://journal.uptimeinstitute.com/us-data-center-critics-pivot-from-moratoria-to-regulations/"
+            }
+          ],
+          "data": "2026-06-17",
+          "sintesi": "Il governatore del Maine ha vetato una proposta di legge per una moratoria sui data center a livello statale. Le moratorie hanno lo scopo di fermare la costruzione di data center per permettere ai governi locali di stabilire regolamentazioni o imporre un divieto totale, ma la maggior parte di esse è fallita. I critici dei data center stanno ora puntando sulla regolamentazione.",
+          "perche_conta": "La questione delle regolamentazioni per i data center è rilevante per gli investitori infrastrutturali e i CTO, poiché può influenzare la capacità di costruire e gestire questi centri di dati negli Stati Uniti.",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2026-06-16",
+      "titolo": "Presentazione di Brazos: portando il raffreddamento a liquido nei data center ad aria",
+      "articoli": [
+        {
+          "titolo": "Presentazione di Brazos: portando il raffreddamento a liquido nei data center ad aria",
+          "fonti": [
+            {
+              "nome": "Google Cloud — Infrastructure",
+              "link": "https://cloud.google.com/blog/topics/systems/brazos-liquid-cooling-system-for-air-cooled-data-centers/"
+            }
+          ],
+          "data": "2026-06-16",
+          "sintesi": "Google ha sviluppato Brazos, un sistema di raffreddamento a liquido a circuito chiuso che consente di utilizzare attrezzature ad alta densità in ambienti di data center raffreddati ad aria esistenti. Il sistema è progettato per essere facilmente installabile e gestibile, con una capacità termica di 60 kW per rack e una compatibilità con acqua deionizzata o una miscela di glicole propilenico al 25%. Brazos è ora disponibile e le specifiche tecniche saranno aperte al pubblico nei prossimi mesi.",
+          "perche_conta": "Brazos è rilevante per il settore dell'infrastruttura e dell'hardware AI perché offre una soluzione efficiente e scalabile per il raffreddamento di sistemi ad alta potenza, consentendo di ottimizzare l'infrastruttura dei data center esistenti per le esigenze di calcolo ad alta prestazione dell'AI e dell'HPC.",
           "note": null
         }
       ]

@@ -3,6 +3,16 @@
   "nome": "Chip",
   "gruppi": [
     {
+      "data": "2026-07-21",
+      "titolo": "Innovazioni nei chip e dissipazione del calore",
+      "n_articoli": 2,
+      "minuti_lettura": 1,
+      "anteprima_titoli": [
+        "Google sviluppa chip 'Frozen v2' con architettura Gemini",
+        "Un modder di PC utilizza un dissipatore di calore in alluminio da 5.5 libbre per la RTX 4060"
+      ]
+    },
+    {
       "data": "2026-07-20",
       "titolo": "Sviluppi e innovazioni nel settore dei chip e hardware AI",
       "n_articoli": 8,
