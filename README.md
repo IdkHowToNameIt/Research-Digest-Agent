@@ -333,6 +333,13 @@ Nell'ordine:
    (notifica se ci sono aggiornamenti, altrimenti reminder — sempre una, mai zero).
    Senza SMTP, la trovi stampata nel log del run: è il modo più rapido per provare
    tutto il resto senza configurare la posta.
+6. **Le righe `[attenzione]`** nello stesso log (`gh run view --log --job=<id> |
+   grep -F "[attenzione]"`). Un run **verde** può comunque aver fatto il grosso del
+   lavoro con un modello di ripiego: la cascata è progettata per non fermarsi, e
+   quindi degrada in silenzio. Queste righe dicono *quale* modello ha ceduto e
+   *perché* (quota, formato, rete). Se la qualità delle sintesi sembra bassa,
+   guarda qui **prima** di ipotizzare la causa: due diagnosi sbagliate sono nate
+   dall'aver indovinato invece di leggere (DECISIONI §19 e §21).
 
 Vuoi provare prima di toccare GitHub? *[Avvio — in locale](#avvio--in-locale)* fa
 girare la stessa pipeline sulla tua macchina; ti bastano `GROQ_API_KEY` e
@@ -487,7 +494,7 @@ il `npm run build` qui sopra serve unicamente all'anteprima.
 ## Stato
 
 Tutte le 8 fasi sono implementate, più la **dashboard di osservabilità**
-(metriche operative per run); la suite conta **190 test Python verdi** (`cd backend && pytest`) piu' **42 test
+(metriche operative per run); la suite conta **194 test Python verdi** (`cd backend && pytest`) piu' **42 test
 del frontend** (`cd frontend && npm test`), che coprono livello dati, export PDF e
 popover di download. Le scelte di
 progetto e il perché sono in [`DECISIONI.md`](DECISIONI.md).
@@ -504,9 +511,13 @@ Punti noti, non bloccanti, che chi adotta il repo farà bene a tenere d'occhio:
 ## Test
 
 ```bash
-cd backend
-python -m pytest -q
+cd backend && python -m pytest -q     # 194 test
+cd frontend && npm test               # 42 test (Vitest)
 ```
 
 Ogni fase è coperta da test basati sugli scenari Given/When/Then del documento di
 progettazione (sez. 16–18). Un commit avviene solo a test verdi.
+
+Il workflow settimanale esegue **entrambe** le suite prima di generare il digest: i
+test del frontend girano subito dopo `npm run build`, così una regressione
+nell'interfaccia ferma il run invece di finire pubblicata sul sito.
