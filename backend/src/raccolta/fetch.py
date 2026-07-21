@@ -199,11 +199,23 @@ def fetch_tutte(cfg: dict, parse=feedparser.parse, oggi: date | None = None) -> 
 
     La finestra temporale viene da `finestra_articoli_giorni` nel config: assente
     = nessun filtro (comportamento storico, usato dai test con feed di fixture).
+
+    Ogni fonte puo' sovrascriverla con `finestra_giorni`. Serve alle fonti a bassa
+    frequenza: `Google Cloud — Infrastructure` pubblica a raffiche distanti (il
+    2026-07-21 l'ultimo post aveva 35 giorni) e con la finestra globale di 14 non
+    entrava MAI, lasciando il tema data_center in mano a un blog generalista. Non
+    si allarga la finestra globale perche' le fonti quotidiane (Google News, Tom's
+    Hardware, NVIDIA: gap mediano 0-1 giorni) riverserebbero notizie vecchie nel
+    settimanale.
     """
-    finestra = cfg.get("finestra_articoli_giorni")
-    finestra = int(finestra) if finestra is not None else None
-    return [fetch_fonte(fonte, parse=parse, finestra_giorni=finestra, oggi=oggi)
-            for fonte in cfg.get("fonti", [])]
+    globale = cfg.get("finestra_articoli_giorni")
+    globale = int(globale) if globale is not None else None
+    esiti = []
+    for fonte in cfg.get("fonti", []):
+        propria = fonte.get("finestra_giorni")
+        finestra = int(propria) if propria is not None else globale
+        esiti.append(fetch_fonte(fonte, parse=parse, finestra_giorni=finestra, oggi=oggi))
+    return esiti
 
 
 def fetch_candidates(cfg: dict, parse=feedparser.parse, oggi: date | None = None) -> list[Candidato]:
