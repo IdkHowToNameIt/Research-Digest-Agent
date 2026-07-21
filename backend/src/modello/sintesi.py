@@ -10,6 +10,7 @@ deterministica dal titolo/estratto senza modello (usato solo dai test).
 """
 from __future__ import annotations
 
+import re
 from typing import Callable
 
 from .prompts import NOTA_PREPRINT, e_arxiv, prompt_sintesi, prompt_titolo_gruppo
@@ -76,6 +77,31 @@ def _raggruppa_per_giorno(articoli: list[Articolo]) -> list[tuple[str, list[Arti
     return list(per_giorno.items())
 
 
+# Il prompt del titolo-gruppo chiede di non forzare un legame che non c'e'. Se le
+# notizie del giorno sono fuori tema il modello obbedisce alla lettera e risponde
+# "Nessuna notizia disponibile su data center" — che finiva pubblicato come titolo
+# del gruppo (run del 2026-07-21, tema data_center del 15/07, gruppo con 2 voci).
+# Il ripiego esisteva gia' ma scattava solo sul titolo VUOTO: una frase di rifiuto
+# e' non-vuota e passava indisturbata.
+_NON_TITOLI = re.compile(
+    r"nessun[ao]\b|non (?:è|e'|e) (?:possibile|disponibile)|non ci sono\b"
+    r"|non sono (?:presenti|disponibili)|non risulta|mi dispiace|come assistente"
+    r"|non posso\b|impossibile (?:determinare|trovare)",
+    re.IGNORECASE,
+)
+
+
+def _e_non_titolo(titolo: str) -> bool:
+    """True se il modello ha risposto con un rifiuto invece che con un titolo.
+
+    Deliberatamente conservativa: cerca formule di rifiuto, non giudica la
+    qualita' del titolo. Un falso positivo costa poco (si ripiega sul titolo del
+    primo articolo, che e' sempre un titolo reale e in tema), un falso negativo
+    pubblica una frase di scuse in cima al digest.
+    """
+    return _NON_TITOLI.search(titolo) is not None
+
+
 def sintetizza_titolo_gruppo(
     tema: Tema, articoli: list[Articolo], genera: Generatore | None
 ) -> str:
@@ -94,7 +120,10 @@ def sintetizza_titolo_gruppo(
         dati = genera(prompt_titolo_gruppo(label, voci))
     except Exception:  # noqa: BLE001 - un titolo mancante non deve fermare la run
         return articoli[0].titolo
-    return str(dati.get("titolo", "")).strip() or articoli[0].titolo
+    titolo = str(dati.get("titolo", "")).strip()
+    if not titolo or _e_non_titolo(titolo):
+        return articoli[0].titolo
+    return titolo
 
 
 def assembla_digest(

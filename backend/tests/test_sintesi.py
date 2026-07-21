@@ -12,8 +12,12 @@ from src.modello.prompts import (
     NOTA_PREPRINT,
     prompt_sintesi,
 )
-from src.schemas import Stato, Tema
-from src.modello.sintesi import assembla_digest, sintetizza_candidato
+from src.schemas import Articolo, Stato, Tema
+from src.modello.sintesi import (
+    assembla_digest,
+    sintetizza_candidato,
+    sintetizza_titolo_gruppo,
+)
 from src.raccolta.fetch import Candidato
 
 
@@ -168,3 +172,48 @@ def test_gruppi_distinti_per_giorni_diversi():
     assert {g.data for g in sez.gruppi} == {"2026-07-09", "2026-07-08"}
     # ogni gruppo ha 1 articolo -> nessuna chiamata extra per i titoli
     assert len(genera.prompts) == 2
+
+
+# --- titolo del gruppo: rifiuti del modello (regressione del 2026-07-21) -----
+
+def _art(titolo="Titolo reale in tema"):
+    return Articolo(titolo=titolo, data="2026-07-15", sintesi="s", perche_conta="p")
+
+
+def test_titolo_gruppo_scarta_il_rifiuto_del_modello():
+    # Caso osservato in produzione: il tema data_center del 15/07 mostrava
+    # "Nessuna notizia disponibile su data center" come titolo di un gruppo che
+    # conteneva 2 articoli. Il ripiego c'era ma copriva solo il titolo vuoto.
+    genera = _mock_genera({"titolo": "Nessuna notizia disponibile su data center"})
+    titolo = sintetizza_titolo_gruppo(
+        Tema.data_center, [_art("Primo articolo vero"), _art("Secondo")], genera
+    )
+    assert titolo == "Primo articolo vero"
+
+
+def test_titolo_gruppo_scarta_altre_formule_di_rifiuto():
+    for rifiuto in (
+        "Non ci sono notizie rilevanti per questo tema",
+        "Mi dispiace, non posso generare un titolo",
+        "Non e' possibile identificare un filo conduttore",
+        "Impossibile determinare un tema comune",
+    ):
+        genera = _mock_genera({"titolo": rifiuto})
+        titolo = sintetizza_titolo_gruppo(
+            Tema.chip, [_art("Articolo A"), _art("Articolo B")], genera
+        )
+        assert titolo == "Articolo A", rifiuto
+
+
+def test_titolo_gruppo_valido_resta_intatto():
+    # Il guardiano non deve diventare un censore: un titolo buono passa,
+    # anche se contiene parole che compaiono nelle formule di rifiuto.
+    for buono in (
+        "NVIDIA avanza nell'AI con nuove infrastrutture",
+        "Nessun rallentamento per la domanda di chip AI",
+    ):
+        genera = _mock_genera({"titolo": buono})
+        titolo = sintetizza_titolo_gruppo(
+            Tema.chip, [_art("Articolo A"), _art("Articolo B")], genera
+        )
+        assert titolo == buono
