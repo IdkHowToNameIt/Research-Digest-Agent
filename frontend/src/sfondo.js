@@ -128,10 +128,13 @@ export function avviaSfondo(cv) {
   // e si distende, invece di saltare di colpo da un punto all'altro. Senza, la
   // texture si accende e si spegne e basta, e sembra ferma.
   var luce = { x: -9999, y: -9999 };
-  // Ritardo misurato sul video: interpolando la posizione dell'alone verso quella
-  // del puntatore, il coefficiente che minimizza l'errore quadratico su 90
-  // fotogrammi a 60 fps e' 0,13 (minimo poco marcato, 0,10-0,20 sono equivalenti).
-  var INSEGUIMENTO = 0.13;    // piu' basso = piu' morbido
+  // (2026-07-22, 3ª taratura) L'effetto "acqua spostata" NON viene da onde ne' da
+  // un ritardo morbido: viene da una pozza STRETTA sul cursore che risponde subito
+  // e da glifi che si spengono in fretta dietro. Misurato sul confronto video:
+  // da loro l'alone sta a 61 px dal cursore, da noi con 0,13 restava a 189 (tre
+  // volte piu' indietro) e sembrava strascicato. Alzato a 0,30: la luce sta sotto
+  // il puntatore come da loro, la scia la fanno i glifi che svaniscono.
+  var INSEGUIMENTO = 0.30;    // piu' alto = luce piu' incollata al cursore
 
   // NIENTE ONDE (2026-07-22). Le avevo aggiunte perche' il loro sfondo sembra
   // "ad acqua", ma il video le smentisce: in tutti i 90 fotogrammi analizzati il
@@ -205,7 +208,10 @@ export function avviaSfondo(cv) {
         // e' la sola accensione per vicinanza a doverli portare fin li'.
         if (dist < range) target = Math.pow(1 - dist / range, 1.7);
       }
-      s.ig += (target - s.ig) * (target > s.ig ? 0.35 : 0.10);
+      // Salita rapida, discesa piu' rapida di prima: la dissolvenza del glifo era
+      // 267 ms contro i 100 ms misurati da loro — la scia restava "impastata".
+      // A 0,20 in discesa il glifo si spegne in ~130 ms e la scia diventa netta.
+      s.ig += (target - s.ig) * (target > s.ig ? 0.40 : 0.20);
       if (s.ig < 0.02) continue;
 
       var rr = CELL * (0.7 + 1.3 * s.ig);
