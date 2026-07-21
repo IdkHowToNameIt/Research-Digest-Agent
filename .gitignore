@@ -20,3 +20,6 @@ frontend/dist/
 
 # PDF di esempio usati per analisi manuale, non materiale di progetto
 ex pdf/
+
+# video di riferimento: 65 MB, i binari non si comprimono in delta
+video/
