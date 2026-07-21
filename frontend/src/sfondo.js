@@ -19,10 +19,13 @@ export function avviaSfondo(cv) {
   // da qui: la dimensione del glifo e' DRAW*CELL e il raggio del cursore
   // RANGE_CELLS*CELL, quindi per ingrandire o rimpicciolire basta questa riga.
   var CELL = 72;                   // passo della griglia (px)
-  // La densita' scende insieme all'ingrandimento: con celle piu' grandi, tenere
-  // 0.30 avrebbe riempito lo schermo di simboli grandi e reso lo sfondo invadente.
-  var DENSITY = 0.24;              // frazione di celle con un glifo -> sparsi
-  var DRAW = 0.60;                 // dimensione del glifo rispetto alla cella
+  // REPLICA DI KAKASHI (2026-07-21), non piu' una stima: misurato sul loro canvas
+  // il 58% delle celle contiene un glifo. Il nostro 0.24 era meno della meta', ed
+  // e' il motivo per cui la texture appariva rada e slegata invece che uniforme.
+  // (Il passo di griglia era gia' giusto: loro 58px canvas / dpr 0.8 = 72.5 CSS,
+  // noi CELL = 72.)
+  var DENSITY = 0.58;              // frazione di celle con un glifo
+  var DRAW = 0.64;                 // dimensione del glifo rispetto alla cella
   var RANGE_CELLS = 3.0;           // raggio d'influenza del cursore (in celle)
 
   var SRC = [
