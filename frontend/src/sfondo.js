@@ -90,7 +90,12 @@ export function avviaSfondo(cv) {
           x: c * CELL + CELL / 2, y: r * CELL + CELL / 2,
           g: (rnd() * grey.length) | 0,
           rot: ((rnd() * 4) | 0) * Math.PI / 2,
-          a: 0.13 + rnd() * 0.07, ig: 0
+          // Opacita' COSTANTE, non piu' casuale fra 0.13 e 0.20. Misurato sul
+          // riferimento: il 76% dei loro pixel opachi sta su un solo valore
+          // (alpha 48 = 0.19), mentre da noi si spalmava fra 32 e 48. E' la
+          // variazione casuale a far sembrare i simboli slavati invece che
+          // netti: con un valore unico la texture torna "lucida".
+          a: 0.19, ig: 0
         });
       } else {
         cells.push(null);
