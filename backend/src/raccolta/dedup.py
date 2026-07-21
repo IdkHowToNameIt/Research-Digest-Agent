@@ -293,20 +293,6 @@ def registra_pubblicati(candidati: list[Candidato], store: SeenStore) -> None:
         )
 
 
-# --- compatibilita' con lo starter (dedup esatto per URL nello stesso run) --
-def filtra_nuove(candidati: list[Candidato], store: SeenStore) -> list[Candidato]:
-    visti_in_run: set[str] = set()
-    nuove: list[Candidato] = []
-    for c in candidati:
-        if not c.url or c.url in visti_in_run:
-            continue
-        if store.is_seen(c.url):
-            continue
-        visti_in_run.add(c.url)
-        nuove.append(c)
-    return nuove
-
-
 # --- aggregatori: N testate, una notizia sola (sez. 24) ---------------------
 #
 # Il dedup fuzzy qui sopra presuppone UNA fonte per notizia: Jaccard piu' segnali
