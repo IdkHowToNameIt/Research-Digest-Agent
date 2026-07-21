@@ -8,7 +8,7 @@ articolo nuovo" (parte fetch; il conteggio 3 run consecutivi e' in Fase 5).
 
 Il parser dei feed e' iniettato (`parse=`): nessuna dipendenza dalla rete.
 """
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 
 from src.raccolta.fetch import (
@@ -244,3 +244,56 @@ def test_fetch_da_feed_locale_reale():
     assert len(cands) == 4
     assert all(c.url.startswith("http") for c in cands)
     assert all(c.tema == "chip" for c in cands)
+
+
+# --- finestra per-fonte (sez. 23.3) -----------------------------------------
+
+def _feed_con_date(*giorni_fa, oggi=date(2026, 7, 21)):
+    """Feed finto con una voce per ciascuna eta' in giorni."""
+    voci = []
+    for n in giorni_fa:
+        d = oggi - timedelta(days=n)
+        voci.append({
+            "title": f"Voce di {n} giorni fa",
+            "link": f"https://esempio/{n}",
+            "summary": "estratto",
+            "published_parsed": (d.year, d.month, d.day, 0, 0, 0, 0, 0, 0),
+        })
+    return lambda url: type("F", (), {"entries": voci, "bozo": False, "status": 200})()
+
+
+def test_finestra_per_fonte_sovrascrive_quella_globale():
+    # La fonte a bassa frequenza tiene la voce di 35 giorni che la finestra
+    # globale (14) scarterebbe: e' il caso di Google Cloud - Infrastructure.
+    cfg = {
+        "finestra_articoli_giorni": 14,
+        "fonti": [{"nome": "Lenta", "url": "u", "tema": "data_center",
+                   "finestra_giorni": 45}],
+    }
+    esiti = fetch_tutte(cfg, parse=_feed_con_date(5, 35), oggi=date(2026, 7, 21))
+    titoli = [c.titolo for c in esiti[0].candidati]
+    assert "Voce di 35 giorni fa" in titoli
+
+
+def test_senza_override_vale_la_finestra_globale():
+    # Regressione: le fonti quotidiane NON devono ereditare la finestra larga,
+    # altrimenti riversano notizie vecchie nel settimanale.
+    cfg = {
+        "finestra_articoli_giorni": 14,
+        "fonti": [{"nome": "Quotidiana", "url": "u", "tema": "chip"}],
+    }
+    esiti = fetch_tutte(cfg, parse=_feed_con_date(5, 35), oggi=date(2026, 7, 21))
+    titoli = [c.titolo for c in esiti[0].candidati]
+    assert titoli == ["Voce di 5 giorni fa"]
+
+
+def test_finestra_per_fonte_puo_anche_restringere():
+    # Il campo sovrascrive, non allarga soltanto: utile se una fonte diventasse
+    # troppo rumorosa senza dover toccare le altre.
+    cfg = {
+        "finestra_articoli_giorni": 90,
+        "fonti": [{"nome": "Stretta", "url": "u", "tema": "chip",
+                   "finestra_giorni": 7}],
+    }
+    esiti = fetch_tutte(cfg, parse=_feed_con_date(5, 35), oggi=date(2026, 7, 21))
+    assert [c.titolo for c in esiti[0].candidati] == ["Voce di 5 giorni fa"]

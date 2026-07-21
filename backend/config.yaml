@@ -97,6 +97,8 @@ soglia_overlap_dedup: 0.7
 #   max          numero massimo di voci lette per run (null = nessun limite)
 #   troncamento  limite caratteri estratto: intero (500) oppure null (nessun limite, sez. 13)
 #   filtro_rilevanza  true se serve un filtro tematico a monte (solo Google Cloud Blog, sez. 13/16.2)
+#   finestra_giorni   sovrascrive finestra_articoli_giorni per questa fonte (sez. 23.3):
+#                     serve alle fonti a bassa frequenza, che la finestra globale escluderebbe
 #
 # NB URL: confermati come fonti corrette. Possibile blocco anti-bot da IP cloud
 # su alcuni feed (nota gia' presente nel doc, sez. 11) — da monitorare in produzione.
@@ -134,11 +136,19 @@ fonti:
     tema: data_center
     max: 10
     troncamento: 500
+    # Gap mediano fra i post: 14 giorni. Con la finestra globale (14) ne entra a
+    # malapena uno, e solo se il run cade al momento giusto. Misurato 2026-07-21.
+    finestra_giorni: 45
   - nome: "Google Cloud — Infrastructure"
     url: "https://cloudblog.withgoogle.com/products/infrastructure/rss/"
     tema: data_center
     max: null            # nessun limite lettura (feed a bassa frequenza)
     troncamento: null    # nessun troncamento (sez. 13, test 9 luglio)
+    # Pubblica a raffiche distanti: il 2026-07-21 l'ultimo post aveva 35 giorni,
+    # quindi con la finestra globale di 14 questa fonte non entrava MAI e il tema
+    # data_center restava in mano a Meta Engineering (blog generalista). E' la
+    # fonte piu' in tema che abbiamo: liquid cooling, reti dei data center.
+    finestra_giorni: 45
 
   # -- Energia (fonte unica: gap noto e accettato, sez. 11) --
   - nome: "arXiv (energia x AI)"
