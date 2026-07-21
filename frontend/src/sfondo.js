@@ -116,7 +116,23 @@ export function avviaSfondo(cv) {
   // Handler NOMINATI e non anonimi: servono a removeEventListener nella pulizia
   // in fondo. Senza, ogni rimontaggio del componente lascerebbe attivi un ciclo di
   // disegno e tre listener in piu'.
-  function onMove(e) { mouse.x = e.clientX; mouse.y = e.clientY; mouse.on = true; }
+  // Sopra i contenuti l'effetto si SPEGNE. Senza, passando su un chip o su una
+  // card i glifi dietro si accendono di rosso e invadono l'elemento che stai
+  // usando (e il testo accanto): rumore visivo proprio nel punto in cui serve
+  // chiarezza. L'effetto e' pensato per lo sfondo vuoto, non per l'interfaccia.
+  // Lo spegnimento non e' brusco: `s.ig` interpola gia', quindi si dissolve.
+  var INTERATTIVI = 'a,button,input,label,select,textarea,header,'
+    + '.box,.gruppo-card,.pill,.pill-f,.chip-f,.art,.voce,'
+    + '.digest-lettura,.digest-indice,.dash-card,.scarica-pop,.cal-pop';
+
+  function suContenuto(el) {
+    return !!(el && el.closest && el.closest(INTERATTIVI));
+  }
+
+  function onMove(e) {
+    mouse.x = e.clientX; mouse.y = e.clientY;
+    mouse.on = !suContenuto(e.target);
+  }
   function onOut(e) { if (!e.relatedTarget) mouse.on = false; }
   if (EFFETTO_CURSORE) {
     window.addEventListener('mousemove', onMove, { passive: true });
