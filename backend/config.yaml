@@ -99,6 +99,8 @@ soglia_overlap_dedup: 0.7
 #   filtro_rilevanza  true se serve un filtro tematico a monte (solo Google Cloud Blog, sez. 13/16.2)
 #   finestra_giorni   sovrascrive finestra_articoli_giorni per questa fonte (sez. 23.3):
 #                     serve alle fonti a bassa frequenza, che la finestra globale escluderebbe
+#   aggregatore       true se il feed raccoglie PIU' testate sulla stessa notizia (sez. 24):
+#                     attiva il raggruppamento per storia, che il dedup normale non puo' fare
 #
 # NB URL: confermati come fonti corrette. Possibile blocco anti-bot da IP cloud
 # su alcuni feed (nota gia' presente nel doc, sez. 11) — da monitorare in produzione.
@@ -163,6 +165,11 @@ fonti:
     tema: supply_chain
     max: 30              # feed molto prolifico (>=100/sett.): si legge un tetto ampio
     troncamento: 500
+    # Il feed aggrega decine di testate sulla stessa notizia: il 2026-07-21 sette
+    # voci diverse coprivano l'investimento TSMC da $100 mld. Il dedup fuzzy non
+    # puo' vederle (misurato: 1 coppia su 435 sopra soglia, e pure salvata dal
+    # segnale entita'), quindi serve il raggruppamento per storia.
+    aggregatore: true
   - nome: "Federal Register — BIS"
     url: "https://www.federalregister.gov/api/v1/documents.rss?conditions%5Bagencies%5D%5B%5D=industry-and-security-bureau"
     tema: supply_chain

@@ -12,6 +12,8 @@ from datetime import datetime, timedelta, timezone
 
 from src.state import SeenStore
 from src.raccolta.dedup import (
+    cifre_salienti,
+    collassa_storie,
     deduplica,
     estrai_numeri,
     hash_esatto,
@@ -187,3 +189,76 @@ def test_filtra_nuove_persistente(tmp_path):
     for c in nuove:
         store.mark_seen(c.url)
     assert filtra_nuove(cands, store) == []
+
+
+# --- raggruppamento per storia sui feed aggregati (sez. 24) -----------------
+
+def _cand_agg(titolo, data="2026-07-16", url=None, fonte="Google News"):
+    return Candidato(titolo=titolo, url=url or f"https://x/{abs(hash(titolo))}",
+                     fonte=fonte, tema="supply_chain", data=data, estratto="")
+
+
+AGG = {"Google News"}
+
+
+def test_collassa_le_varianti_della_stessa_notizia():
+    # Caso reale del 2026-07-21: 7 testate sull'investimento TSMC da $100 mld.
+    # Le riscritture non condividono le parole ma condividono azienda + cifra.
+    voci = [
+        _cand_agg("TSMC Adds $100 Billion to Its U.S. Spending Plan - The New York Times"),
+        _cand_agg("Chipmaker TSMC to invest another $100bn in US production - Financial Times"),
+        _cand_agg("Taiwan chipmaker TSMC to invest another US$100 bn in Arizona fabs - Yahoo"),
+    ]
+    tenuti, varianti = collassa_storie(voci, AGG)
+    assert len(tenuti) == 1
+    assert varianti[tenuti[0].url] == 3
+    assert tenuti[0].n_testate == 3
+
+
+def test_senza_cifra_non_si_accorpa_nulla():
+    # Senza numero la chiave accomunerebbe notizie diverse sulla stessa azienda:
+    # provato in laboratorio, collassava 10 storie ASML distinte in una.
+    voci = [
+        _cand_agg("ASML has room to raise prices, CFO says"),
+        _cand_agg("ASML financial guidance includes Terafab plans, CFO says"),
+        _cand_agg("Intel turns to next-generation ASML tool for its laptop chips"),
+    ]
+    tenuti, varianti = collassa_storie(voci, AGG)
+    assert len(tenuti) == 3
+    assert varianti == {}
+
+
+def test_la_stessa_cifra_a_distanza_di_settimane_resta_distinta():
+    # "100" puo' tornare per un fatto diverso: la tolleranza e' di pochi giorni.
+    voci = [
+        _cand_agg("TSMC to invest $100 billion in the US", data="2026-07-16"),
+        _cand_agg("TSMC announces a new $100 billion plan", data="2026-09-30"),
+    ]
+    assert len(collassa_storie(voci, AGG)[0]) == 2
+
+
+def test_la_copertura_a_cavallo_di_un_giorno_resta_unita():
+    # Le testate coprono la stessa notizia su piu' giorni: pretendere la data
+    # identica spezzava la coppia sul bonus ASML (19 e 20 luglio).
+    voci = [
+        _cand_agg("ASML to offer employees EUR 20,000 retention bonus", data="2026-07-19"),
+        _cand_agg("ASML just gave workers a EUR 20,000 bonus and new shares", data="2026-07-20"),
+    ]
+    assert len(collassa_storie(voci, AGG)[0]) == 1
+
+
+def test_le_fonti_non_aggregate_non_vengono_toccate():
+    # Il raggruppamento e' opt-in: su una fonte diretta due articoli con la
+    # stessa azienda e la stessa cifra sono notizie distinte, non varianti.
+    voci = [
+        _cand_agg("NVIDIA annuncia 100 nuovi data center", fonte="NVIDIA Blog"),
+        _cand_agg("NVIDIA amplia a 100 le regioni cloud", fonte="NVIDIA Blog"),
+    ]
+    assert len(collassa_storie(voci, AGG)[0]) == 2
+
+
+def test_anni_e_numeri_banali_non_fanno_chiave():
+    # "2026" e le cifre singole compaiono ovunque: userebbero notizie senza
+    # rapporto come se fossero la stessa.
+    assert cifre_salienti("tsmc guidance for 2026 in q2") == set()
+    assert "100" in cifre_salienti("tsmc invests $100 billion")

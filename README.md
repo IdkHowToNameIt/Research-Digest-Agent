@@ -124,7 +124,15 @@ docker-compose.yml    backend (generator) + frontend (nginx)
    blocca le altre). Distingue `fetch_ok` da `fetch_failed`. Tronca gli estratti a
    500 caratteri su confine di parola, tranne arXiv / Google Cloud Blog / Google
    Cloud Infrastructure (nessun limite).
-2. **Deduplicazione** (`raccolta/dedup.py`): hash esatto (titolo+URL) su tutto lo
+2. **Deduplicazione** (`raccolta/dedup.py`): per le fonti marcate `aggregatore:
+   true` (oggi solo Google News) si tiene **una voce per storia** prima di tutto
+   il resto, quindi anche prima delle chiamate al modello: N testate che
+   riscrivono lo stesso fatto condividono azienda e cifra («TSMC» + «100
+   miliardi») anche quando non condividono le parole, e il confronto fuzzy qui
+   sotto non può vederle (è pensato per *una fonte per notizia*). Le voci
+   accorpate diventano la nota «ripreso da N testate». Dettagli e misure in
+   [`DECISIONI.md`](DECISIONI.md) §23.1 e §24.
+   Poi, per tutte le fonti: hash esatto (titolo+URL) su tutto lo
    storico, poi confronto *fuzzy* nella finestra di 4–6 settimane. Se l'overlap di
    parole/entità (Jaccard) supera la soglia (0,7) si valutano 3 segnali di novità
    (numerico, temporale, entità): almeno uno → aggiornamento legittimo; nessuno →
@@ -168,8 +176,8 @@ Articolo    = { titolo, fonti:[{nome,link}], data, sintesi, perche_conta, note? 
 Tutto in `config.yaml`:
 
 - `fonti`: elenco con `nome`, `url`, `tema`, `max`, `troncamento` (int o `null`),
-  `filtro_rilevanza` (fonti generaliste: Google Cloud Blog, Tom's Hardware) e
-  `finestra_giorni` (vedi sotto).
+  `filtro_rilevanza` (fonti generaliste: Google Cloud Blog, Tom's Hardware),
+  `finestra_giorni` e `aggregatore` (vedi sotto).
 - `soglia_overlap_dedup` (0.7) e `finestra_dedup_settimane` (6) — calibrabili.
 - `finestra_articoli_giorni` (14): scarta in raccolta le voci pubblicate da più di
   N giorni, **prima** del dedup e delle chiamate al modello. Il dedup risponde a
@@ -505,7 +513,7 @@ il `npm run build` qui sopra serve unicamente all'anteprima.
 ## Stato
 
 Tutte le 8 fasi sono implementate, più la **dashboard di osservabilità**
-(metriche operative per run); la suite conta **206 test Python verdi** (`cd backend && pytest`) piu' **42 test
+(metriche operative per run); la suite conta **212 test Python verdi** (`cd backend && pytest`) piu' **42 test
 del frontend** (`cd frontend && npm test`), che coprono livello dati, export PDF e
 popover di download. Le scelte di
 progetto e il perché sono in [`DECISIONI.md`](DECISIONI.md).
@@ -522,7 +530,7 @@ Punti noti, non bloccanti, che chi adotta il repo farà bene a tenere d'occhio:
 ## Test
 
 ```bash
-cd backend && python -m pytest -q     # 206 test
+cd backend && python -m pytest -q     # 212 test
 cd frontend && npm test               # 42 test (Vitest)
 ```
 
