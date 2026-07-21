@@ -303,6 +303,32 @@
           "sintesi": "Il MacBook Pro da 14 pollici con chip M5 da 16 core, 48GB di RAM e SSD da 1TB è disponibile con uno sconto di 400 dollari a 2.699 dollari. Questo modello utilizza il chip M5 più recente di Apple.",
           "perche_conta": "Questo articolo è rilevante per gli investitori e gli appassionati di tecnologia poiché mostra come le offerte speciali possano influenzare il mercato dei dispositivi di fascia alta come i MacBook Pro",
           "note": null
+        },
+        {
+          "titolo": "Z.ai attiva un data center AI da 1 gigawatt con chip cinesi",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/tech-industry/artificial-intelligence/z-ai-powers-up-1gw-ai-data-center-built-entirely-on-chinese-chips"
+            }
+          ],
+          "data": "2026-07-21",
+          "sintesi": "Z.ai, sviluppatore cinese di intelligenza artificiale, ha completato la costruzione di un data center da 1GW alimentato esclusivamente con chip prodotti in Cina. Il data center è ora parzialmente operativo e ospita più cluster di 10.000 chip senza l'utilizzo di silicio Nvidia.",
+          "perche_conta": "Questo progetto è rilevante per il settore dell'infrastruttura e dell'hardware AI poiché dimostra la capacità della Cina di sviluppare e utilizzare chip nazionali per applicazioni di intelligenza artificiale su larga scala.",
+          "note": null
+        },
+        {
+          "titolo": "TSMC prevede aumenti dei prezzi fino al 25% per i servizi di produzione di chip nel 2027",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/tech-industry/semiconductors/tsmc-eyes-price-hikes-of-up-to-25-percent-on-chip-production-services-in-2027-report-claims-plans-to-raise-baseline-prices-by-5-percent-to-10-percent-on-advanced-nodes"
+            }
+          ],
+          "data": "2026-07-21",
+          "sintesi": "TSMC intende aumentare i prezzi dei wafer che elabora a causa della domanda, dei costi crescenti e degli investimenti aumentati nella nuova capacità. L'aumento dei prezzi di base potrebbe essere del 5% al 10% per i nodi avanzati.",
+          "perche_conta": "Questo aumento dei prezzi potrebbe avere un impatto significativo sugli investitori e sulle aziende che dipendono dalla produzione di chip, in quanto potrebbe influenzare i costi di produzione e la competitività nel mercato dell'AI e dell'hardware.",
+          "note": null
         }
       ],
       "gruppi": [
