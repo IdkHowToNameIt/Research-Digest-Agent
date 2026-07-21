@@ -446,6 +446,19 @@
           "sintesi": "Il data center Amazon a Bahrain è stato colpito e distrutto da missili iraniani, secondo quanto affermato dai media statali. L'attacco sarebbe stato lanciato in risposta ai presunti attacchi statunitensi a una centrale nucleare in costruzione. Il sito è stato colpito più volte dall'inizio della campagna di bombardamenti statunitensi in Iran. La società ha spostato le operazioni fuori dalla struttura a partire da inizio aprile.",
           "perche_conta": "Questo evento è rilevante per il beat 'Infrastruttura & Hardware AI' perché evidenzia i rischi di instabilità geopolitica per le infrastrutture cloud e i data center, che sono fondamentali per il funzionamento delle tecnologie AI.",
           "note": null
+        },
+        {
+          "titolo": "Wistron apre stabilimento di produzione avanzata a Fort Worth per sistemi AI NVIDIA",
+          "fonti": [
+            {
+              "nome": "NVIDIA Newsroom",
+              "link": "https://blogs.nvidia.com/blog/wistron-manufacturing-texas/"
+            }
+          ],
+          "data": "2026-07-21",
+          "sintesi": "Wistron ha aperto il suo primo stabilimento di produzione negli Stati Uniti a Fort Worth, un impianto di 324.000 piedi quadrati che produrrà superchip per sistemi AI avanzati. L'impianto produrrà componenti chiave per alcuni dei sistemi AI più potenti del mondo. La fabbrica rappresenta un importante passo avanti nella produzione di infrastrutture AI negli Stati Uniti.",
+          "perche_conta": "Questo sviluppo è rilevante per il settore dell'infrastruttura AI poiché rappresenta un investimento significativo nella produzione di componenti chiave per i sistemi AI, potenzialmente influenzando la capacità di fornire soluzioni AI avanzate.",
+          "note": null
         }
       ],
       "gruppi": [
