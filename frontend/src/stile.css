@@ -111,6 +111,15 @@
   .sez-titolo{font-family:var(--serif);font-size:clamp(1.5rem,2.6vw,2.1rem);color:var(--verde-scuro);text-align:center;margin:1.8rem 0 .3rem}
   .sez-nota{text-align:center;color:var(--inchiostro-2);font-size:.92rem;margin-bottom:1.4rem}
 
+  /* Superfici cliccabili: niente selezione del testo.
+     Sono <div> pieni di testo con un onClick: cliccandoci sopra il browser
+     iniziava una selezione e mostrava il cursore di scrittura (segnalato in
+     home, ma vale ovunque ci sia una card cliccabile). La colonna di lettura
+     del digest e' DELIBERATAMENTE esclusa: li' il testo va potuto copiare. */
+  .box, .gruppo-card, .idx-lista a, .pill, .pill-f, .chip-f,
+  .cal-g, .cal-nav, .pag-btn, .btn-azzera, .scarica-voce, .fonte-pill{
+    -webkit-user-select:none; user-select:none}
+
   /* --- box "questa settimana": centrati come gruppo, wrap su più righe centrate --- */
   .boxes{display:flex;flex-wrap:wrap;justify-content:center;gap:1.3rem;margin-top:.8rem}
   .box{flex:1 1 360px;max-width:480px;background:var(--carta);border:1px solid var(--bordo);

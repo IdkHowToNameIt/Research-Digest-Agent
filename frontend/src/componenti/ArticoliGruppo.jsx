@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { LINEA, indiceAttivo } from '../lettura.js'
 import { fmtData, fmtLettura, pad2, plurale } from '../dati.js'
 import { IconaTema } from './Icone.jsx'
 import ScaricaDigest from './ScaricaDigest.jsx'
@@ -38,18 +39,47 @@ function Voce({ tema, articolo, n }) {
   )
 }
 
-/** Evidenzia nell'indice la voce correntemente in lettura, mentre si scorre. */
+/** Evidenzia nell'indice la voce correntemente in lettura, mentre si scorre.
+ *
+ * Prima si usava un IntersectionObserver con una fascia alta il 10% dello
+ * schermo (`rootMargin: -15%/-75%`), aggiornando SOLO all'ingresso di una voce
+ * nella fascia. Due difetti riportati dall'uso reale: in fondo alla pagina le
+ * ultime voci non raggiungono mai la fascia e il segnaposto si blocca a meta';
+ * e tornando su, se nessuna voce attraversa la fascia, resta il valore vecchio.
+ * Ora la voce attiva si CALCOLA dalla posizione a ogni scroll: e' sempre
+ * definita, senza dipendere dal fatto che sia scattato un evento.
+ */
 function useIndiceAttivo(articoli) {
   const [attivo, setAttivo] = useState(null)
 
   useEffect(() => {
     if (articoli.length < 2) return undefined
-    const io = new IntersectionObserver(
-      (voci) => voci.forEach((v) => { if (v.isIntersecting) setAttivo(v.target.id) }),
-      { rootMargin: '-15% 0px -75% 0px' },
-    )
-    document.querySelectorAll('.digest-lettura .art').forEach((a) => io.observe(a))
-    return () => io.disconnect()
+    let programmato = false
+
+    const calcola = () => {
+      programmato = false
+      const nodi = [...document.querySelectorAll('.digest-lettura .art')]
+      if (!nodi.length) return
+      const doc = document.documentElement
+      const inFondo = window.innerHeight + window.scrollY >= doc.scrollHeight - 2
+      const cime = nodi.map((n) => n.getBoundingClientRect().top)
+      const i = indiceAttivo(cime, window.innerHeight * LINEA, inFondo)
+      if (i >= 0) setAttivo(nodi[i].id)
+    }
+    // Lo scroll emette molti eventi: si accorpa il lavoro in un frame solo.
+    const suScroll = () => {
+      if (programmato) return
+      programmato = true
+      requestAnimationFrame(calcola)
+    }
+
+    calcola()
+    window.addEventListener('scroll', suScroll, { passive: true })
+    window.addEventListener('resize', suScroll)
+    return () => {
+      window.removeEventListener('scroll', suScroll)
+      window.removeEventListener('resize', suScroll)
+    }
   }, [articoli])
 
   return attivo
