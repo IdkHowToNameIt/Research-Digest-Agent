@@ -118,7 +118,20 @@ export function avviaSfondo(cv) {
   // e si distende, invece di saltare di colpo da un punto all'altro. Senza, la
   // texture si accende e si spegne e basta, e sembra ferma.
   var luce = { x: -9999, y: -9999 };
-  var INSEGUIMENTO = 0.085;   // piu' basso = piu' morbido, piu' "acqua"
+  var INSEGUIMENTO = 0.085;   // piu' basso = piu' morbido
+
+  // ONDE. Muovendo il mouse si emettono fronti circolari che si espandono nel
+  // tempo: un glifo si accende quando il fronte gli passa sopra, non per la sola
+  // vicinanza al cursore. E' questo a dare il movimento "ad acqua" — la luce
+  // attraversa la griglia invece di stare ferma attorno al puntatore.
+  // La durata (1100 ms) e' la stessa costante che compare nel loro codice.
+  var onde = [];
+  var ONDA_VITA = 1100;       // ms di vita di un fronte
+  var ONDA_VELOCITA = 0.55;   // px al ms di espansione
+  var ONDA_SPESSORE = 95;     // px: quanto e' "spesso" il fronte luminoso
+  var ONDA_PASSO = 26;        // px di movimento fra un'onda e la successiva
+  var ONDE_MAX = 14;          // tetto: oltre non si nota, e costa
+  var ultimaOnda = { x: -9999, y: -9999 };
   // Handler NOMINATI e non anonimi: servono a removeEventListener nella pulizia
   // in fondo. Senza, ogni rimontaggio del componente lascerebbe attivi un ciclo di
   // disegno e tre listener in piu'.
@@ -138,6 +151,13 @@ export function avviaSfondo(cv) {
   function onMove(e) {
     mouse.x = e.clientX; mouse.y = e.clientY;
     mouse.on = !suContenuto(e.target);
+    if (!mouse.on) return;
+    // Un'onda ogni ONDA_PASSO pixel percorsi, non a ogni evento: il mousemove
+    // scatta decine di volte al secondo e ne uscirebbe una macchia uniforme.
+    if (Math.hypot(e.clientX - ultimaOnda.x, e.clientY - ultimaOnda.y) < ONDA_PASSO) return;
+    ultimaOnda.x = e.clientX; ultimaOnda.y = e.clientY;
+    onde.push({ x: e.clientX, y: e.clientY, t: performance.now() });
+    if (onde.length > ONDE_MAX) onde.shift();
   }
   function onOut(e) { if (!e.relatedTarget) mouse.on = false; }
   if (EFFETTO_CURSORE) {
@@ -154,6 +174,10 @@ export function avviaSfondo(cv) {
     ctx.drawImage(base, 0, 0, base.width, base.height, 0, 0, W, H);
     // Texture statica come il riferimento: disegnata una volta, nessun ciclo.
     if (!EFFETTO_CURSORE) return;
+    var ora = performance.now();
+    for (var k = onde.length - 1; k >= 0; k--) {
+      if (ora - onde[k].t > ONDA_VITA) onde.splice(k, 1);
+    }
     if (luce.x < -9000) { luce.x = mouse.x; luce.y = mouse.y; }
     luce.x += (mouse.x - luce.x) * INSEGUIMENTO;
     luce.y += (mouse.y - luce.y) * INSEGUIMENTO;
@@ -174,7 +198,18 @@ export function avviaSfondo(cv) {
       var target = 0;
       if (mouse.on) {
         var dist = Math.hypot(s.x - luce.x, s.y - luce.y);
-        if (dist < range) target = Math.pow(1 - dist / range, 1.7);
+        // alone di base attorno alla luce, tenuto basso: il grosso lo fanno le onde
+        if (dist < range) target = Math.pow(1 - dist / range, 1.7) * 0.45;
+      }
+      for (var w = 0; w < onde.length; w++) {
+        var o = onde[w];
+        var eta = ora - o.t;
+        // scarto fra la distanza del glifo e il raggio attuale del fronte:
+        // vicino a zero vuol dire che l'onda gli sta passando proprio sopra
+        var scarto = Math.abs(Math.hypot(s.x - o.x, s.y - o.y) - eta * ONDA_VELOCITA);
+        if (scarto > ONDA_SPESSORE) continue;
+        var f = (1 - scarto / ONDA_SPESSORE) * (1 - eta / ONDA_VITA);
+        if (f > target) target = f;
       }
       s.ig += (target - s.ig) * (target > s.ig ? 0.35 : 0.10);
       if (s.ig < 0.02) continue;
