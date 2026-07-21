@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { caricaAnno, caricaIndice, caricaTema } from './dati.js'
+import { HOME, aHash, daHash } from './rotta.js'
 import Sfondo from './componenti/Sfondo.jsx'
 import Intestazione from './componenti/Intestazione.jsx'
 import Home from './componenti/Home.jsx'
@@ -11,12 +12,12 @@ import Dashboard from './componenti/Dashboard.jsx'
    dettagli caricati on-demand. La navigazione è a 3 livelli (home -> lista di un
    tema -> digest di un giorno) più la dashboard, come nell'originale. */
 
-const HOME = { tipo: 'home' }
-
 export default function App() {
   const [indice, setIndice] = useState(null)
   const [errore, setErrore] = useState('')
-  const [vista, setVista] = useState(HOME)
+  // La vista vive nell'URL: al refresh si riparte da dove si era, e i tasti
+  // avanti/indietro del browser funzionano senza codice aggiuntivo.
+  const [vista, setVista] = useState(() => daHash(window.location.hash))
 
   // Cache di sessione: { [temaId]: {gruppi, dettaglio: {data: articoli}, anni:{}} }
   // in un ref e non in stato — riempirla non deve provocare un render da sola.
@@ -30,25 +31,31 @@ export default function App() {
     return () => { vivo = false }
   }, [])
 
-  const vaiHome = useCallback(() => {
-    setVista(HOME)
-    window.scrollTo(0, 0)
+  // L'hash e' l'unica fonte di verita': si naviga scrivendolo, e lo stato lo
+  // segue dall'evento. Cosi' un click e un "indietro" del browser passano
+  // esattamente per la stessa strada.
+  useEffect(() => {
+    const suHash = () => setVista(daHash(window.location.hash))
+    window.addEventListener('hashchange', suHash)
+    return () => window.removeEventListener('hashchange', suHash)
   }, [])
 
-  const vaiTema = useCallback((temaId) => {
-    setVista({ tipo: 'tema', temaId })
+  const vai = useCallback((prossima) => {
+    const hash = aHash(prossima)
     window.scrollTo(0, 0)
+    if (window.location.hash === hash) {
+      setVista(prossima)          // stesso hash: nessun evento, si aggiorna qui
+    } else {
+      window.location.hash = hash
+    }
   }, [])
 
-  const vaiGruppo = useCallback((temaId, data) => {
-    setVista({ tipo: 'gruppo', temaId, data })
-    window.scrollTo(0, 0)
-  }, [])
-
-  const vaiDashboard = useCallback(() => {
-    setVista({ tipo: 'dashboard' })
-    window.scrollTo(0, 0)
-  }, [])
+  const vaiHome = useCallback(() => vai(HOME), [vai])
+  const vaiTema = useCallback((temaId) => vai({ tipo: 'tema', temaId }), [vai])
+  const vaiGruppo = useCallback(
+    (temaId, data) => vai({ tipo: 'gruppo', temaId, data }), [vai],
+  )
+  const vaiDashboard = useCallback(() => vai({ tipo: 'dashboard' }), [vai])
 
   /** Gruppi di un tema (lista leggera), una volta sola per sessione. */
   const gruppiDelTema = useCallback(async (tema) => {
@@ -104,17 +111,20 @@ export default function App() {
     )
   }
 
+  // L'hash e' modificabile a mano e l'archivio cambia a ogni run: un tema che
+  // non esiste piu' non deve lasciare la pagina bianca.
   const tema = vista.temaId ? indice.temi.find((t) => t.id === vista.temaId) : null
+  const vistaEffettiva = vista.temaId && !tema ? HOME : vista
 
   return (
     <>
       <Sfondo />
       <Intestazione onHome={vaiHome} onDashboard={vaiDashboard} />
       <div id="app">
-        {vista.tipo === 'home' && (
+        {vistaEffettiva.tipo === 'home' && (
           <Home indice={indice} onTema={vaiTema} />
         )}
-        {vista.tipo === 'tema' && tema && (
+        {vistaEffettiva.tipo === 'tema' && (
           <ListaGruppi
             tema={tema}
             indice={indice}
@@ -123,10 +133,10 @@ export default function App() {
             onGruppo={vaiGruppo}
           />
         )}
-        {vista.tipo === 'gruppo' && tema && (
+        {vistaEffettiva.tipo === 'gruppo' && (
           <ArticoliGruppo
             tema={tema}
-            data={vista.data}
+            data={vistaEffettiva.data}
             indice={indice}
             caricaGruppi={gruppiDelTema}
             caricaArticoli={articoliDelGiorno}
@@ -134,7 +144,7 @@ export default function App() {
             onTema={vaiTema}
           />
         )}
-        {vista.tipo === 'dashboard' && (
+        {vistaEffettiva.tipo === 'dashboard' && (
           <Dashboard indice={indice} onHome={vaiHome} />
         )}
       </div>
