@@ -4,14 +4,7 @@ _Generato il 2026-07-21_
 
 ## Chip
 
-### Wistron apre stabilimento di produzione avanzata a Fort Worth per sistemi AI NVIDIA
-
-- **Fonti:** [NVIDIA Newsroom](https://blogs.nvidia.com/blog/wistron-manufacturing-texas/)
-- **Data:** 2026-07-21
-
-Wistron ha aperto il suo primo stabilimento di produzione negli Stati Uniti a Fort Worth, un impianto di 324.000 piedi quadrati che produrrà superchip per sistemi AI avanzati. L'impianto produrrà componenti chiave per alcuni dei sistemi AI più potenti del mondo. La fabbrica rappresenta un importante passo avanti nella produzione di infrastrutture AI negli Stati Uniti.
-
-**Perché conta:** Questo sviluppo è rilevante per il settore dell'infrastruttura AI poiché rappresenta un investimento significativo nella produzione di componenti chiave per i sistemi AI, potenzialmente influenzando la capacità di fornire soluzioni AI avanzate.
+_Nessun aggiornamento rilevante questa settimana._
 
 ## Data center
 
@@ -27,4 +20,11 @@ _Nessun aggiornamento rilevante questa settimana._
 
 ## Cloud capacity
 
-_Nessun aggiornamento rilevante questa settimana._
+### Perché le app AI falliscono in produzione (E come Google lo ha risolto)
+
+- **Fonti:** [Google Cloud Blog](https://cloud.google.com/blog/topics/developers-practitioners/why-ai-apps-fail-in-production/)
+- **Data:** 2026-07-21
+
+Il 95% delle app AI non raggiunge la produzione a causa della complessità delle infrastrutture aziendali e della difficoltà di validare le idee. Google ha sviluppato un prototipo di stack che decoppia la sperimentazione rapida dai server di produzione, consentendo ai developer di testare le idee in un ambiente sicuro e isolato. Ciò ha permesso a YouTube di lanciare diversi prototipi di successo in poche settimane.
+
+**Perché conta:** Questo approccio è rilevante per gli investitori e i CTO perché mostra come le aziende possono superare le sfide della sviluppo di app AI e raggiungere la produzione più velocemente, riducendo il rischio di fallimento e aumentando la velocità di innovazione.

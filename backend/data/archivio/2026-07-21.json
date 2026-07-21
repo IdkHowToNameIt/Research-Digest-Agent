@@ -1639,6 +1639,19 @@
           "sintesi": "Google Cloud consente di gestire gli accessi ai propri resource e operazioni tramite Identity and Access Management (IAM). La gestione degli accessi può essere hardenata utilizzando il Principle of Least Privilege (PoLP) e le condizioni IAM. Ciò consente di limitare l'accesso agli utenti e ai servizi solo alle risorse e alle operazioni necessarie. Le condizioni IAM possono essere utilizzate per limitare l'accesso a specifici servizi, come ad esempio il BigQuery, o a specifici strumenti, come ad esempio gli MCP Servers.",
           "perche_conta": "La gestione degli accessi è fondamentale per la sicurezza dei dati e delle applicazioni in cloud, e le condizioni IAM offrono un modo flessibile e preciso per controllare l'accesso alle risorse di Google Cloud.",
           "note": null
+        },
+        {
+          "titolo": "Perché le app AI falliscono in produzione (E come Google lo ha risolto)",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/topics/developers-practitioners/why-ai-apps-fail-in-production/"
+            }
+          ],
+          "data": "2026-07-21",
+          "sintesi": "Il 95% delle app AI non raggiunge la produzione a causa della complessità delle infrastrutture aziendali e della difficoltà di validare le idee. Google ha sviluppato un prototipo di stack che decoppia la sperimentazione rapida dai server di produzione, consentendo ai developer di testare le idee in un ambiente sicuro e isolato. Ciò ha permesso a YouTube di lanciare diversi prototipi di successo in poche settimane.",
+          "perche_conta": "Questo approccio è rilevante per gli investitori e i CTO perché mostra come le aziende possono superare le sfide della sviluppo di app AI e raggiungere la produzione più velocemente, riducendo il rischio di fallimento e aumentando la velocità di innovazione.",
+          "note": null
         }
       ],
       "gruppi": [
