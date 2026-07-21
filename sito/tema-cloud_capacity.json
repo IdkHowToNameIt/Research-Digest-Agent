@@ -59,8 +59,8 @@
     {
       "data": "2026-07-13",
       "titolo": "Cloud capacity e sicurezza: innovazioni per la scalabilità e la visibilità",
-      "n_articoli": 3,
-      "minuti_lettura": 2,
+      "n_articoli": 4,
+      "minuti_lettura": 3,
       "anteprima_titoli": [
         "Sicurezza della catena di approvvigionamento AI su GKE: introduzione di k8s-aibom per BOM AI automatizzati",
         "Amazon SQS compie 20 anni: due decadi di messaggistica affidabile a scala",

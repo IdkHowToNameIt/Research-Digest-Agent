@@ -329,6 +329,19 @@
           "sintesi": "TSMC intende aumentare i prezzi dei wafer che elabora a causa della domanda, dei costi crescenti e degli investimenti aumentati nella nuova capacità. L'aumento dei prezzi di base potrebbe essere del 5% al 10% per i nodi avanzati.",
           "perche_conta": "Questo aumento dei prezzi potrebbe avere un impatto significativo sugli investitori e sulle aziende che dipendono dalla produzione di chip, in quanto potrebbe influenzare i costi di produzione e la competitività nel mercato dell'AI e dell'hardware.",
           "note": null
+        },
+        {
+          "titolo": "Intel svilupperà e produrrà il prossimo firewall ASIC di Fortinet su Intel 4",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/tech-industry/semiconductors/intel-to-co-develop-and-manufacture-fortinets-next-gen-firewall-asic"
+            }
+          ],
+          "data": "2026-07-21",
+          "sintesi": "Intel collaborerà con Fortinet per sviluppare e produrre il prossimo firewall ASIC di Fortinet utilizzando la tecnologia Intel 4. Il progetto si avvarrà dell'esperienza di Intel nella progettazione di semiconduttori disaggregati e nell'impacchettamento avanzato.",
+          "perche_conta": "Questa partnership è rilevante per il settore dell'infrastruttura e dell'hardware AI poiché dimostra l'interesse di Intel nel mercato dei chip di rete e la sua volontà di collaborare con altre aziende per sviluppare tecnologie avanzate.",
+          "note": null
         }
       ],
       "gruppi": [
@@ -1456,6 +1469,19 @@
           "data": "2026-07-13",
           "sintesi": "AWS Builder Center è stato lanciato un anno fa come piattaforma di comunità e si è evoluto in un ecosistema completo con sandbox, workshop e biblioteca per gli sviluppatori. Per celebrare il suo anniversario, AWS ha pubblicato una timeline dettagliata dei suoi progressi.",
           "perche_conta": "Il successo di AWS Builder Center è rilevante per gli investitori e i CTO poiché dimostra l'impegno di AWS nel supportare la comunità di sviluppatori e nel fornire strumenti per la creazione di applicazioni innovative.",
+          "note": null
+        },
+        {
+          "titolo": "Rapporto 2026 sulle minacce nel settore pubblico: M-Trends e oltre",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/topics/public-sector/key-findings-from-the-2026-public-sector-m-trends-report-and-beyond/"
+            }
+          ],
+          "data": "2026-07-13",
+          "sintesi": "Il settore pubblico deve difendere una rete complessa di relazioni di fiducia contro avversari che operano a velocità di macchina. Il rapporto 2026 Public Sector Threat Landscape: M-Trends e Beyond rivela che il tempo medio tra l'accesso iniziale e il passaggio a un operatore di ransomware è di 22 secondi. Gli attacchi stanno aumentando e gli enti pubblici devono adottare una difesa a velocità di macchina per contrastarli.",
+          "perche_conta": "Questo rapporto è rilevante per il settore dell'infrastruttura e dell'hardware AI perché sottolinea l'importanza di una difesa a velocità di macchina e di una verifica continua per proteggere le reti e i dati del settore pubblico.",
           "note": null
         }
       ],

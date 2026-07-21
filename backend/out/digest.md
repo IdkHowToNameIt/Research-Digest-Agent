@@ -4,23 +4,14 @@ _Generato il 2026-07-21_
 
 ## Chip
 
-### Z.ai attiva un data center AI da 1 gigawatt con chip cinesi
+### Intel svilupperà e produrrà il prossimo firewall ASIC di Fortinet su Intel 4
 
-- **Fonti:** [Tom's Hardware](https://www.tomshardware.com/tech-industry/artificial-intelligence/z-ai-powers-up-1gw-ai-data-center-built-entirely-on-chinese-chips)
+- **Fonti:** [Tom's Hardware](https://www.tomshardware.com/tech-industry/semiconductors/intel-to-co-develop-and-manufacture-fortinets-next-gen-firewall-asic)
 - **Data:** 2026-07-21
 
-Z.ai, sviluppatore cinese di intelligenza artificiale, ha completato la costruzione di un data center da 1GW alimentato esclusivamente con chip prodotti in Cina. Il data center è ora parzialmente operativo e ospita più cluster di 10.000 chip senza l'utilizzo di silicio Nvidia.
+Intel collaborerà con Fortinet per sviluppare e produrre il prossimo firewall ASIC di Fortinet utilizzando la tecnologia Intel 4. Il progetto si avvarrà dell'esperienza di Intel nella progettazione di semiconduttori disaggregati e nell'impacchettamento avanzato.
 
-**Perché conta:** Questo progetto è rilevante per il settore dell'infrastruttura e dell'hardware AI poiché dimostra la capacità della Cina di sviluppare e utilizzare chip nazionali per applicazioni di intelligenza artificiale su larga scala.
-
-### TSMC prevede aumenti dei prezzi fino al 25% per i servizi di produzione di chip nel 2027
-
-- **Fonti:** [Tom's Hardware](https://www.tomshardware.com/tech-industry/semiconductors/tsmc-eyes-price-hikes-of-up-to-25-percent-on-chip-production-services-in-2027-report-claims-plans-to-raise-baseline-prices-by-5-percent-to-10-percent-on-advanced-nodes)
-- **Data:** 2026-07-21
-
-TSMC intende aumentare i prezzi dei wafer che elabora a causa della domanda, dei costi crescenti e degli investimenti aumentati nella nuova capacità. L'aumento dei prezzi di base potrebbe essere del 5% al 10% per i nodi avanzati.
-
-**Perché conta:** Questo aumento dei prezzi potrebbe avere un impatto significativo sugli investitori e sulle aziende che dipendono dalla produzione di chip, in quanto potrebbe influenzare i costi di produzione e la competitività nel mercato dell'AI e dell'hardware.
+**Perché conta:** Questa partnership è rilevante per il settore dell'infrastruttura e dell'hardware AI poiché dimostra l'interesse di Intel nel mercato dei chip di rete e la sua volontà di collaborare con altre aziende per sviluppare tecnologie avanzate.
 
 ## Data center
 
@@ -36,4 +27,11 @@ _Nessun aggiornamento rilevante questa settimana._
 
 ## Cloud capacity
 
-_Nessun aggiornamento rilevante questa settimana._
+### Rapporto 2026 sulle minacce nel settore pubblico: M-Trends e oltre
+
+- **Fonti:** [Google Cloud Blog](https://cloud.google.com/blog/topics/public-sector/key-findings-from-the-2026-public-sector-m-trends-report-and-beyond/)
+- **Data:** 2026-07-13
+
+Il settore pubblico deve difendere una rete complessa di relazioni di fiducia contro avversari che operano a velocità di macchina. Il rapporto 2026 Public Sector Threat Landscape: M-Trends e Beyond rivela che il tempo medio tra l'accesso iniziale e il passaggio a un operatore di ransomware è di 22 secondi. Gli attacchi stanno aumentando e gli enti pubblici devono adottare una difesa a velocità di macchina per contrastarli.
+
+**Perché conta:** Questo rapporto è rilevante per il settore dell'infrastruttura e dell'hardware AI perché sottolinea l'importanza di una difesa a velocità di macchina e di una verifica continua per proteggere le reti e i dati del settore pubblico.

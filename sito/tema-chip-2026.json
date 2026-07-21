@@ -82,6 +82,19 @@
           "sintesi": "TSMC intende aumentare i prezzi dei wafer che elabora a causa della domanda, dei costi crescenti e degli investimenti aumentati nella nuova capacità. L'aumento dei prezzi di base potrebbe essere del 5% al 10% per i nodi avanzati.",
           "perche_conta": "Questo aumento dei prezzi potrebbe avere un impatto significativo sugli investitori e sulle aziende che dipendono dalla produzione di chip, in quanto potrebbe influenzare i costi di produzione e la competitività nel mercato dell'AI e dell'hardware.",
           "note": null
+        },
+        {
+          "titolo": "Intel svilupperà e produrrà il prossimo firewall ASIC di Fortinet su Intel 4",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/tech-industry/semiconductors/intel-to-co-develop-and-manufacture-fortinets-next-gen-firewall-asic"
+            }
+          ],
+          "data": "2026-07-21",
+          "sintesi": "Intel collaborerà con Fortinet per sviluppare e produrre il prossimo firewall ASIC di Fortinet utilizzando la tecnologia Intel 4. Il progetto si avvarrà dell'esperienza di Intel nella progettazione di semiconduttori disaggregati e nell'impacchettamento avanzato.",
+          "perche_conta": "Questa partnership è rilevante per il settore dell'infrastruttura e dell'hardware AI poiché dimostra l'interesse di Intel nel mercato dei chip di rete e la sua volontà di collaborare con altre aziende per sviluppare tecnologie avanzate.",
+          "note": null
         }
       ]
     },

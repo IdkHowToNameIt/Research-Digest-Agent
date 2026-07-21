@@ -320,6 +320,19 @@
           "sintesi": "AWS Builder Center è stato lanciato un anno fa come piattaforma di comunità e si è evoluto in un ecosistema completo con sandbox, workshop e biblioteca per gli sviluppatori. Per celebrare il suo anniversario, AWS ha pubblicato una timeline dettagliata dei suoi progressi.",
           "perche_conta": "Il successo di AWS Builder Center è rilevante per gli investitori e i CTO poiché dimostra l'impegno di AWS nel supportare la comunità di sviluppatori e nel fornire strumenti per la creazione di applicazioni innovative.",
           "note": null
+        },
+        {
+          "titolo": "Rapporto 2026 sulle minacce nel settore pubblico: M-Trends e oltre",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/topics/public-sector/key-findings-from-the-2026-public-sector-m-trends-report-and-beyond/"
+            }
+          ],
+          "data": "2026-07-13",
+          "sintesi": "Il settore pubblico deve difendere una rete complessa di relazioni di fiducia contro avversari che operano a velocità di macchina. Il rapporto 2026 Public Sector Threat Landscape: M-Trends e Beyond rivela che il tempo medio tra l'accesso iniziale e il passaggio a un operatore di ransomware è di 22 secondi. Gli attacchi stanno aumentando e gli enti pubblici devono adottare una difesa a velocità di macchina per contrastarli.",
+          "perche_conta": "Questo rapporto è rilevante per il settore dell'infrastruttura e dell'hardware AI perché sottolinea l'importanza di una difesa a velocità di macchina e di una verifica continua per proteggere le reti e i dati del settore pubblico.",
+          "note": null
         }
       ]
     },
