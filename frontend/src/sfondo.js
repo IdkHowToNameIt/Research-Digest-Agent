@@ -32,6 +32,12 @@ export function avviaSfondo(cv) {
   // grafica (le VM della scuola) lo sfondo smette di costare.
   var EFFETTO_CURSORE = true;
 
+  // INTENSITA' DELL'ALONE (2026-07-22): misurata sul video del loro sito.
+  // Il riempimento rosso al centro arriva a ~+65 sul rosso rispetto al fondo,
+  // cioe' alpha ~0.45 sul colore HALO: quattro volte lo 0.10 che avevamo. Era
+  // QUESTA la differenza fra il loro sfondo "vivo" e il nostro spento, non un
+  // movimento in piu': la luce era semplicemente troppo debole per vedersi.
+  var HALO_ALPHA = 0.42;
   var CELL = 72;                   // passo della griglia (px) — loro: 72.5 CSS
   // REPLICA DI KAKASHI (2026-07-21), non piu' una stima: misurato sul loro canvas
   // il 58% delle celle contiene un glifo. Il nostro 0.24 era meno della meta', ed
@@ -40,7 +46,9 @@ export function avviaSfondo(cv) {
   // noi CELL = 72.)
   var DENSITY = 0.58;              // frazione di celle con un glifo
   var DRAW = 0.64;                 // dimensione del glifo rispetto alla cella
-  var RANGE_CELLS = 3.0;           // raggio d'influenza del cursore (in celle)
+  // Raggio misurato sul video: l'alone muore a ~180 px con un passo di griglia
+  // di ~55 px, cioe' 3,3 celle. Il nostro 3,0 era gia' quasi giusto.
+  var RANGE_CELLS = 3.3;           // raggio d'influenza del cursore (in celle)
 
   var SRC = [
     "data:image/png;base64,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",
@@ -118,20 +126,18 @@ export function avviaSfondo(cv) {
   // e si distende, invece di saltare di colpo da un punto all'altro. Senza, la
   // texture si accende e si spegne e basta, e sembra ferma.
   var luce = { x: -9999, y: -9999 };
-  var INSEGUIMENTO = 0.085;   // piu' basso = piu' morbido
+  // Ritardo misurato sul video: interpolando la posizione dell'alone verso quella
+  // del puntatore, il coefficiente che minimizza l'errore quadratico su 90
+  // fotogrammi a 60 fps e' 0,13 (minimo poco marcato, 0,10-0,20 sono equivalenti).
+  var INSEGUIMENTO = 0.13;    // piu' basso = piu' morbido
 
-  // ONDE. Muovendo il mouse si emettono fronti circolari che si espandono nel
-  // tempo: un glifo si accende quando il fronte gli passa sopra, non per la sola
-  // vicinanza al cursore. E' questo a dare il movimento "ad acqua" — la luce
-  // attraversa la griglia invece di stare ferma attorno al puntatore.
-  // La durata (1100 ms) e' la stessa costante che compare nel loro codice.
-  var onde = [];
-  var ONDA_VITA = 1100;       // ms di vita di un fronte
-  var ONDA_VELOCITA = 0.55;   // px al ms di espansione
-  var ONDA_SPESSORE = 95;     // px: quanto e' "spesso" il fronte luminoso
-  var ONDA_PASSO = 26;        // px di movimento fra un'onda e la successiva
-  var ONDE_MAX = 14;          // tetto: oltre non si nota, e costa
-  var ultimaOnda = { x: -9999, y: -9999 };
+  // NIENTE ONDE (2026-07-22). Le avevo aggiunte perche' il loro sfondo sembra
+  // "ad acqua", ma il video le smentisce: in tutti i 90 fotogrammi analizzati il
+  // profilo radiale del rosso CALA in modo monotono dal centro verso il bordo, e
+  // non compare mai un massimo a distanza — che e' esattamente la firma che un
+  // fronte circolare che si espande lascerebbe. Nessun anello, nessuna scia.
+  // Il movimento che si percepisce viene solo da un alone forte che insegue il
+  // cursore con ritardo e accende i glifi mentre li attraversa.
   // Handler NOMINATI e non anonimi: servono a removeEventListener nella pulizia
   // in fondo. Senza, ogni rimontaggio del componente lascerebbe attivi un ciclo di
   // disegno e tre listener in piu'.
@@ -151,13 +157,6 @@ export function avviaSfondo(cv) {
   function onMove(e) {
     mouse.x = e.clientX; mouse.y = e.clientY;
     mouse.on = !suContenuto(e.target);
-    if (!mouse.on) return;
-    // Un'onda ogni ONDA_PASSO pixel percorsi, non a ogni evento: il mousemove
-    // scatta decine di volte al secondo e ne uscirebbe una macchia uniforme.
-    if (Math.hypot(e.clientX - ultimaOnda.x, e.clientY - ultimaOnda.y) < ONDA_PASSO) return;
-    ultimaOnda.x = e.clientX; ultimaOnda.y = e.clientY;
-    onde.push({ x: e.clientX, y: e.clientY, t: performance.now() });
-    if (onde.length > ONDE_MAX) onde.shift();
   }
   function onOut(e) { if (!e.relatedTarget) mouse.on = false; }
   if (EFFETTO_CURSORE) {
@@ -174,20 +173,21 @@ export function avviaSfondo(cv) {
     ctx.drawImage(base, 0, 0, base.width, base.height, 0, 0, W, H);
     // Texture statica come il riferimento: disegnata una volta, nessun ciclo.
     if (!EFFETTO_CURSORE) return;
-    var ora = performance.now();
-    for (var k = onde.length - 1; k >= 0; k--) {
-      if (ora - onde[k].t > ONDA_VITA) onde.splice(k, 1);
-    }
     if (luce.x < -9000) { luce.x = mouse.x; luce.y = mouse.y; }
     luce.x += (mouse.x - luce.x) * INSEGUIMENTO;
     luce.y += (mouse.y - luce.y) * INSEGUIMENTO;
     var range = CELL * RANGE_CELLS, d = DRAW * CELL;
 
     if (mouse.on) {
+      // Stop ricalcati sulla curva misurata nel video (valori normalizzati sul
+      // centro, a raggio 0 / 0,22 / 0,44 / 0,67 / 0,89 / 1 del raggio totale).
       var halo = ctx.createRadialGradient(luce.x, luce.y, 0, luce.x, luce.y, range);
-      halo.addColorStop(0, 'rgba(' + HALO + ',0.10)');
-      halo.addColorStop(0.6, 'rgba(' + HALO + ',0.035)');
-      halo.addColorStop(1, 'rgba(' + HALO + ',0)');
+      halo.addColorStop(0.00, 'rgba(' + HALO + ',' + (HALO_ALPHA * 1.00).toFixed(3) + ')');
+      halo.addColorStop(0.22, 'rgba(' + HALO + ',' + (HALO_ALPHA * 0.77).toFixed(3) + ')');
+      halo.addColorStop(0.44, 'rgba(' + HALO + ',' + (HALO_ALPHA * 0.43).toFixed(3) + ')');
+      halo.addColorStop(0.67, 'rgba(' + HALO + ',' + (HALO_ALPHA * 0.18).toFixed(3) + ')');
+      halo.addColorStop(0.89, 'rgba(' + HALO + ',' + (HALO_ALPHA * 0.04).toFixed(3) + ')');
+      halo.addColorStop(1.00, 'rgba(' + HALO + ',0)');
       ctx.fillStyle = halo;
       ctx.fillRect(luce.x - range, luce.y - range, range * 2, range * 2);
     }
@@ -198,25 +198,17 @@ export function avviaSfondo(cv) {
       var target = 0;
       if (mouse.on) {
         var dist = Math.hypot(s.x - luce.x, s.y - luce.y);
-        // alone di base attorno alla luce, tenuto basso: il grosso lo fanno le onde
-        if (dist < range) target = Math.pow(1 - dist / range, 1.7) * 0.45;
-      }
-      for (var w = 0; w < onde.length; w++) {
-        var o = onde[w];
-        var eta = ora - o.t;
-        // scarto fra la distanza del glifo e il raggio attuale del fronte:
-        // vicino a zero vuol dire che l'onda gli sta passando proprio sopra
-        var scarto = Math.abs(Math.hypot(s.x - o.x, s.y - o.y) - eta * ONDA_VELOCITA);
-        if (scarto > ONDA_SPESSORE) continue;
-        var f = (1 - scarto / ONDA_SPESSORE) * (1 - eta / ONDA_VITA);
-        if (f > target) target = f;
+        // Accensione piena al centro (era *0.45, quando il grosso lo facevano le
+        // onde). Nel video i glifi sotto il cursore arrivano a saturare in bianco:
+        // e' la sola accensione per vicinanza a doverli portare fin li'.
+        if (dist < range) target = Math.pow(1 - dist / range, 1.7);
       }
       s.ig += (target - s.ig) * (target > s.ig ? 0.35 : 0.10);
       if (s.ig < 0.02) continue;
 
       var rr = CELL * (0.7 + 1.3 * s.ig);
       var g = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, rr);
-      g.addColorStop(0, 'rgba(' + GLOW + ',' + (0.30 * s.ig).toFixed(3) + ')');
+      g.addColorStop(0, 'rgba(' + GLOW + ',' + (0.45 * s.ig).toFixed(3) + ')');
       g.addColorStop(1, 'rgba(' + GLOW + ',0)');
       ctx.fillStyle = g;
       ctx.beginPath(); ctx.arc(s.x, s.y, rr, 0, 6.2832); ctx.fill();
@@ -224,7 +216,10 @@ export function avviaSfondo(cv) {
       // Le immagini NON si muovono: orientamento fisso, come a riposo. A muoversi
       // e' solo la luce (vedi `luce`, che insegue il cursore con ritardo).
       ctx.save(); ctx.translate(s.x, s.y); ctx.rotate(s.rot);
-      ctx.globalAlpha = Math.min(1, 0.25 + s.ig);
+      // Si parte dall'opacita' a riposo del glifo e si sale fino a 1: cosi' non
+      // c'e' scalino quando l'alone arriva (con 0.25 fisso il glifo "scattava"
+      // da 0.19 a 0.25 appena il cursore entrava nel raggio).
+      ctx.globalAlpha = s.a + (1 - s.a) * s.ig;
       ctx.drawImage(red[s.g], -d / 2, -d / 2, d, d);
       ctx.restore();
     }
