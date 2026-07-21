@@ -82,9 +82,16 @@ jobs:
   digest:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      # Tutte alla major piu' recente (2026-07-21): le versioni precedenti giravano
+      # su Node 20, deprecato, e il runner le forzava su Node 24 con un avviso a
+      # ogni run. Nota non ovvia su upload-artifact: la v5 NON basta, aveva solo
+      # un supporto preliminare a Node 24 e di default restava sulla 20 (lo dicono
+      # le note di rilascio della v6). Verificato prima di aggiornare che
+      # checkout@v7 mantenga `persist-credentials: true` come default: lo step
+      # "Persisti stato e sito nel repo" fa `git push` con quelle credenziali.
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
           cache: pip
@@ -92,7 +99,7 @@ jobs:
       - name: Installa le dipendenze
         run: pip install -r backend/requirements.txt
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           # Vite 8 vuole ^20.19 || >=22.12: con "20" si dipenderebbe da quale minor
           # risolve il runner, e Node 20 e' ormai a fine vita. La 22 (LTS) soddisfa
@@ -130,7 +137,7 @@ jobs:
         run: python main.py --config config.yaml --fase genera
 
       - name: Salva il sito come artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: sito
           path: sito/
