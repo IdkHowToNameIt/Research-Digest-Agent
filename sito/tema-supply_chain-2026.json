@@ -2,6 +2,25 @@
   "anno": "2026",
   "gruppi": [
     {
+      "data": "2026-07-21",
+      "titolo": "TSMC aumenterà i prezzi di produzione dei chip fino al 10% nel 2027",
+      "articoli": [
+        {
+          "titolo": "TSMC aumenterà i prezzi di produzione dei chip fino al 10% nel 2027",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQWmRTTi1QTnBNYzRYemRaZEUxdTFHa2NnZmhHLWUxbEh1UHVsRDJzMFpjV2d5NTYtRVNKM3g5ZHk3TnNTejlOZ0tLVmtobW5wZ0RqV0x2MTE0cFZTXzB5SHRfdGlySHVNT21LcVJLbHQ0eE52SDBjZmhrMERpVXhoWjU2MUNDWUg0SlpvVWxNYmFKMW9pQnJ0X2p3aTAzM1ljWHdWQUliT0RMUGZoLVRRM0VBTTZEU1RP?oc=5"
+            }
+          ],
+          "data": "2026-07-21",
+          "sintesi": "TSMC prevede di aumentare i prezzi di produzione dei chip fino al 10% nel 2027, secondo quanto riportato da Nikkei Asia. L'aumento dei prezzi potrebbe avere un impatto sulla catena di approvvigionamento dell'industria dei semiconduttori.",
+          "perche_conta": "L'aumento dei prezzi dei chip potrebbe influenzare i costi di produzione e gli investimenti nelle infrastrutture di calcolo, rendendolo un tema rilevante per gli investitori e i CTO",
+          "note": null
+        }
+      ]
+    },
+    {
       "data": "2026-07-20",
       "titolo": "ASML incentiva talenti, Taiwan difende segreti: sicurezza della catena di approvvigionamento",
       "articoli": [

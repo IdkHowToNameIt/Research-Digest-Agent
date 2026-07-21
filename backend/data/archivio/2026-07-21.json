@@ -277,6 +277,32 @@
           "sintesi": "Un appassionato di PC ha realizzato un sistema con una scheda grafica Nvidia GeForce RTX 4060 senza ventilatori, utilizzando un grande dissipatore di calore in alluminio da 5.5 libbre. Il sistema sembra funzionare correttamente in un'installazione di tipo testbench.",
           "perche_conta": "Questo esperimento è rilevante per il settore dell'hardware AI poiché mostra le possibilità di raffreddamento passivo per le schede grafiche, potenzialmente riducendo i costi e i consumi energetici.",
           "note": null
+        },
+        {
+          "titolo": "Intel: riduzione del personale nel gruppo Data Center",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/tech-industry/policy/intel-layoffs-to-hit-data-center-group-division-focused-on-server-cpus-ai-chips-and-data-center-architecture-to-be-hit-by-an-unknown-number-of-cuts"
+            }
+          ],
+          "data": "2026-07-21",
+          "sintesi": "Intel annuncia tagli nel numero di dipendenti del suo gruppo Data Center, che si occupa di CPU per server, chip AI e architettura dei data center. Ciò avviene mesi dopo l'annuncio di una crescita record, nonostante un annuncio disastroso nel 2024.",
+          "perche_conta": "Questo evento è rilevante per il settore dell'infrastruttura e dell'hardware AI, poiché Intel è un importante player nel mercato dei chip e dei data center, e i tagli potrebbero influenzare la capacità dell'azienda di competere con altri produttori di chip come NVIDIA e TSMC.",
+          "note": null
+        },
+        {
+          "titolo": "Risparmia 400 dollari su un nuovo MacBook Pro da 14 pollici M5",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/laptops/macbooks/save-usd400-on-a-new-14-inch-macbook-pro-m5-48gb-of-ram-a-1tb-ssd-and-a-16-core-processor-for-usd2-699"
+            }
+          ],
+          "data": "2026-07-21",
+          "sintesi": "Il MacBook Pro da 14 pollici con chip M5 da 16 core, 48GB di RAM e SSD da 1TB è disponibile con uno sconto di 400 dollari a 2.699 dollari. Questo modello utilizza il chip M5 più recente di Apple.",
+          "perche_conta": "Questo articolo è rilevante per gli investitori e gli appassionati di tecnologia poiché mostra come le offerte speciali possano influenzare il mercato dei dispositivi di fascia alta come i MacBook Pro",
+          "note": null
         }
       ],
       "gruppi": [
@@ -1027,6 +1053,19 @@
           "sintesi": "L'articolo si chiede se l'aumento della domanda di chip AI possa portare ASML a diventare la prima azienda europea con un valore di un trilione di dollari. L'articolo non fornisce ulteriori dettagli.",
           "perche_conta": "E' rilevante per il settore dell'infrastruttura e dell'hardware AI, poiché potrebbe influenzare la crescita e lo sviluppo delle aziende leader nel settore.",
           "note": null
+        },
+        {
+          "titolo": "TSMC aumenterà i prezzi di produzione dei chip fino al 10% nel 2027",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQWmRTTi1QTnBNYzRYemRaZEUxdTFHa2NnZmhHLWUxbEh1UHVsRDJzMFpjV2d5NTYtRVNKM3g5ZHk3TnNTejlOZ0tLVmtobW5wZ0RqV0x2MTE0cFZTXzB5SHRfdGlySHVNT21LcVJLbHQ0eE52SDBjZmhrMERpVXhoWjU2MUNDWUg0SlpvVWxNYmFKMW9pQnJ0X2p3aTAzM1ljWHdWQUliT0RMUGZoLVRRM0VBTTZEU1RP?oc=5"
+            }
+          ],
+          "data": "2026-07-21",
+          "sintesi": "TSMC prevede di aumentare i prezzi di produzione dei chip fino al 10% nel 2027, secondo quanto riportato da Nikkei Asia. L'aumento dei prezzi potrebbe avere un impatto sulla catena di approvvigionamento dell'industria dei semiconduttori.",
+          "perche_conta": "L'aumento dei prezzi dei chip potrebbe influenzare i costi di produzione e gli investimenti nelle infrastrutture di calcolo, rendendolo un tema rilevante per gli investitori e i CTO",
+          "note": null
         }
       ],
       "gruppi": [
@@ -1057,6 +1096,10 @@
         {
           "data": "2026-07-07",
           "titolo": "Richiesta di commenti pubblici sulla indagine di sicurezza nazionale ai sensi della Sezione 232 sul carbone antracite"
+        },
+        {
+          "data": "2026-07-21",
+          "titolo": "TSMC aumenterà i prezzi di produzione dei chip fino al 10% nel 2027"
         }
       ]
     },

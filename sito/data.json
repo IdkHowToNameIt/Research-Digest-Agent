@@ -11,8 +11,8 @@
         {
           "data": "2026-07-21",
           "titolo": "Innovazioni nei chip e dissipazione del calore",
-          "n_articoli": 2,
-          "minuti_lettura": 1
+          "n_articoli": 4,
+          "minuti_lettura": 2
         },
         {
           "data": "2026-07-20",
@@ -125,6 +125,12 @@
       "nome": "Supply chain",
       "file": "tema-supply_chain.json",
       "recenti": [
+        {
+          "data": "2026-07-21",
+          "titolo": "TSMC aumenterà i prezzi di produzione dei chip fino al 10% nel 2027",
+          "n_articoli": 1,
+          "minuti_lettura": 1
+        },
         {
           "data": "2026-07-20",
           "titolo": "ASML incentiva talenti, Taiwan difende segreti: sicurezza della catena di approvvigionamento",
