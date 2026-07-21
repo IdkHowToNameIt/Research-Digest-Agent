@@ -168,13 +168,24 @@ Articolo    = { titolo, fonti:[{nome,link}], data, sintesi, perche_conta, note? 
 Tutto in `config.yaml`:
 
 - `fonti`: elenco con `nome`, `url`, `tema`, `max`, `troncamento` (int o `null`),
-  `filtro_rilevanza` (fonti generaliste: Google Cloud Blog, Tom's Hardware).
+  `filtro_rilevanza` (fonti generaliste: Google Cloud Blog, Tom's Hardware) e
+  `finestra_giorni` (vedi sotto).
 - `soglia_overlap_dedup` (0.7) e `finestra_dedup_settimane` (6) — calibrabili.
 - `finestra_articoli_giorni` (14): scarta in raccolta le voci pubblicate da più di
   N giorni, **prima** del dedup e delle chiamate al modello. Il dedup risponde a
   "l'ho già pubblicato?", non a "è ancora attuale?" — senza questo filtro il primo
   run dopo un azzeramento dello stato pesca tutto il backlog dei feed. Le voci
   senza data leggibile vengono tenute (fail-open). Assente o `null` = nessun filtro.
+- `finestra_giorni` **per singola fonte**: sovrascrive la finestra globale solo per
+  quella fonte. Serve a chi pubblica di rado: `Google Cloud — Infrastructure` esce a
+  raffiche distanti (il 2026-07-21 l'ultimo post aveva 35 giorni) e con i 14 giorni
+  globali non entrava **mai**, lasciando il tema `data_center` a un blog generalista.
+  Oggi quelle due fonti a bassa frequenza stanno a 45. **Non alzare invece la
+  finestra globale**: le fonti quotidiane (Google News, Tom's Hardware, NVIDIA)
+  riverserebbero notizie vecchie nel settimanale. Prima di applicarlo a una fonte,
+  guardane la frequenza reale: Meta Engineering *sembrava* un caso simile ma
+  pubblica ogni ~4 giorni, e il suo problema è la pertinenza, non la data.
+  Motivazioni e misure in [`DECISIONI.md`](DECISIONI.md) §23.3.
 - `sito`: `homepage_url` (URL pubblico del sito — è il link che l'email di notifica
   manda ai lettori. Nel repo è un placeholder: impostalo con la variabile d'ambiente
   **`HOMEPAGE_URL`**, che ha la precedenza su questo campo, oppure sostituiscilo qui.
@@ -494,7 +505,7 @@ il `npm run build` qui sopra serve unicamente all'anteprima.
 ## Stato
 
 Tutte le 8 fasi sono implementate, più la **dashboard di osservabilità**
-(metriche operative per run); la suite conta **194 test Python verdi** (`cd backend && pytest`) piu' **42 test
+(metriche operative per run); la suite conta **200 test Python verdi** (`cd backend && pytest`) piu' **42 test
 del frontend** (`cd frontend && npm test`), che coprono livello dati, export PDF e
 popover di download. Le scelte di
 progetto e il perché sono in [`DECISIONI.md`](DECISIONI.md).
@@ -511,7 +522,7 @@ Punti noti, non bloccanti, che chi adotta il repo farà bene a tenere d'occhio:
 ## Test
 
 ```bash
-cd backend && python -m pytest -q     # 194 test
+cd backend && python -m pytest -q     # 200 test
 cd frontend && npm test               # 42 test (Vitest)
 ```
 
