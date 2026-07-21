@@ -67,7 +67,7 @@ export function avviaSfondo(cv) {
           x: c * CELL + CELL / 2, y: r * CELL + CELL / 2,
           g: (rnd() * grey.length) | 0,
           rot: ((rnd() * 4) | 0) * Math.PI / 2,
-          a: 0.05 + rnd() * 0.05, ig: 0
+          a: 0.13 + rnd() * 0.07, ig: 0
         });
       } else {
         cells.push(null);
