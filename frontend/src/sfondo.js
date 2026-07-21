@@ -92,7 +92,10 @@ export function avviaSfondo(cv) {
           // (alpha 48 = 0.19), mentre da noi si spalmava fra 32 e 48. E' la
           // variazione casuale a far sembrare i simboli slavati invece che
           // netti: con un valore unico la texture torna "lucida".
-          a: 0.19, ig: 0
+          a: 0.19, ig: 0,
+          // rot = orientamento a riposo (multipli di 90 gradi);
+          // rotOra = orientamento corrente, che insegue il cursore.
+          rotOra: 0
         });
       } else {
         cells.push(null);
@@ -168,7 +171,7 @@ export function avviaSfondo(cv) {
         if (dist < range) target = Math.pow(1 - dist / range, 1.7);
       }
       s.ig += (target - s.ig) * (target > s.ig ? 0.35 : 0.10);
-      if (s.ig < 0.02) continue;
+      if (s.ig < 0.02) { s.rotOra = s.rot; continue; }
 
       var rr = CELL * (0.7 + 1.3 * s.ig);
       var g = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, rr);
@@ -177,7 +180,25 @@ export function avviaSfondo(cv) {
       ctx.fillStyle = g;
       ctx.beginPath(); ctx.arc(s.x, s.y, rr, 0, 6.2832); ctx.fill();
 
-      ctx.save(); ctx.translate(s.x, s.y); ctx.rotate(s.rot);
+      // I GLIFI SI ORIENTANO VERSO IL CURSORE.
+      // Era questo a mancare: i simboli si accendevano ma restavano fermi, e la
+      // texture risultava statica mentre il riferimento "si muove". Nel loro
+      // codice c'e' Math.atan2 (angolo verso il cursore) e nessun sin/cos:
+      // l'angolo non serve a spostare i glifi, serve a RUOTARLI.
+      var verso = Math.atan2(mouse.y - s.y, mouse.x - s.x);
+      // Differenza riportata in [-PI, PI]: senza, passando da +PI a -PI il glifo
+      // farebbe un giro completo invece di correggere di poco.
+      var delta = verso - s.rot;
+      while (delta > Math.PI) delta -= Math.PI * 2;
+      while (delta < -Math.PI) delta += Math.PI * 2;
+      var bersaglio = s.rot + delta * s.ig;
+      // inseguimento morbido: la rotazione non salta, scivola
+      var d2 = bersaglio - s.rotOra;
+      while (d2 > Math.PI) d2 -= Math.PI * 2;
+      while (d2 < -Math.PI) d2 += Math.PI * 2;
+      s.rotOra += d2 * 0.18;
+
+      ctx.save(); ctx.translate(s.x, s.y); ctx.rotate(s.rotOra);
       ctx.globalAlpha = Math.min(1, 0.25 + s.ig);
       ctx.drawImage(red[s.g], -d / 2, -d / 2, d, d);
       ctx.restore();
