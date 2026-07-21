@@ -165,6 +165,19 @@
           "sintesi": "Il mercato azionario dei chip in Asia continua a declinare, con TSMC che non riesce a impressionare gli investitori. Il selloff si è intensificato, riflettendo la mancanza di fiducia nei risultati di TSMC. Gli investitori in Asia hanno ridotto le posizioni nei titoli dei produttori di semiconduttori. La performance di TSMC non ha soddisfatto le aspettative di crescita, influenzando le decisioni di investimento nelle infrastrutture AI.",
           "perche_conta": "Rilevante per gli investitori infrastrutturali e CTO perché indica la volatilità del mercato dei semiconduttori, che può impattare la disponibilità e i costi dei chip per le infrastrutture AI.",
           "note": null
+        },
+        {
+          "titolo": "ASML aumenta i prezzi delle macchine EUV Low-NA, TSMC frustrata",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMi9wJBVV95cUxPb1M1U0VDcXlLTjB6d25sTHdSQm9pTkx4bDZqbTExRl9yU2pmZHJxcmlxdHBkVk10VWoyUXNjbDVfVlljTmx5MGhSZGdwVXBGN3RnMUtxdW5TdEg4NlI5SWtXOUtOeHVrem1QWUtabzE3YWo4SkxaTVFoMEc0NkhuZHh3UFBlaTRqQURCY0xNWU1mYVRSQ0VPMEJrOHNyVXk4dWJiR2FUbDgtVDVzWTB6YWg2a3VDTTU0bmwzOS1VY3NyUFE5dUNnTzdQUWd3WXdfUWdwd2ExVXNQSzBOTWZDV0Z2Y3IxM0xqaVBQUG52bGF5S1RPbEVaSFNRaER5Q24yRnhjRjdnNlJZRmE2THpUbjJVc01LUE9xODUtbkRBcTB0Z3ptZ0RWenIwQ2tvS05DMkNuZUI3aEN6ZlBDaVRhbHdISXk4WkhMa1pZMTJObnRTcWdlcXI1aHpIVEFadTVCQW40UEY3YnBNZk9DdGR3aEFzTjFpOFk?oc=5"
+            }
+          ],
+          "data": "2026-07-17",
+          "sintesi": "ASML sta pianificando di aumentare i prezzi delle macchine EUV Low-NA, cosa che sta frustrando TSMC. L'aumento dei prezzi potrebbe costare alla società di chip taiwanese miliardi. ASML cerca di trarre profitto dalle fabbriche redditizie di TSMC.",
+          "perche_conta": "L'aumento dei prezzi delle macchine EUV Low-NA di ASML potrebbe avere un impatto significativo sui costi di produzione di TSMC e sulla sua capacità di competere nel mercato dei chip.",
+          "note": null
         }
       ]
     },
