@@ -3,75 +3,86 @@
   "nome": "Cloud capacity",
   "gruppi": [
     {
+      "data": "2026-07-20",
+      "titolo": "Cloud capacity: innovazioni per la scalabilità e la disponibilità",
+      "n_articoli": 3,
+      "minuti_lettura": 2,
+      "anteprima_titoli": [
+        "Accelerazione dell'innovazione automobilistica con C4A-metal e vSkipGen di Panasonic Automotive",
+        "Rendere più semplice la disponibilità elevata e multi-regionale dei servizi Cloud Run",
+        "AWS Weekly Roundup: setup Lambda, modelli OpenAI su Bedrock e altro (20 luglio 2026)"
+      ]
+    },
+    {
       "data": "2026-07-17",
-      "titolo": "Google Cloud annuncia novità per la gestione della capacità e della sicurezza",
-      "n_articoli": 4,
+      "titolo": "Google Cloud espande capacità e sicurezza per infrastrutture AI",
+      "n_articoli": 3,
       "minuti_lettura": 3,
       "anteprima_titoli": [
-        "Google Cloud: novità e aggiornamenti",
-        "Livella la sicurezza dei tuoi dati: utilizza le etichette di governance dei dati IAM in BigQuery",
-        "13 demo pratiche per costruire la piattaforma di agenti Gemini Enterprise"
+        "Novità di Google Cloud",
+        "Migliora la sicurezza a livello di colonna con tag di governance IAM in BigQuery",
+        "13 demo pratiche per costruire su Gemini Enterprise Agent Platform"
       ]
     },
     {
       "data": "2026-07-16",
-      "titolo": "Google si conferma leader nella piattaforma di AI conversazionale e nella gestione di capacità",
-      "n_articoli": 7,
-      "minuti_lettura": 4,
+      "titolo": "Google rafforza la propria leadership nella gestione della capacità e della sicurezza delle infrastrutture AI",
+      "n_articoli": 6,
+      "minuti_lettura": 6,
       "anteprima_titoli": [
-        "Google è un leader e si colloca più a destra nella Visione e più in alto nell'Esecuzione nel Magic Quadrant 2026 di Gartner per piattaforme di AI conversazionale",
-        "L'AI come vantaggio per i difensori: come la profondità del contesto aiuta a contrastare le minacce",
-        "10 squadre autonome di produzione hanno insegnato a noi come gli agenti collaborano"
+        "Google è Leader e posizionato più in avanti nella Vision e più alto nell'Esecuzione nel 2026 Gartner® Magic Quadrant per Piattaforme di AI Conversazionale",
+        "Perspectives Cloud CISO: Come l'IA sfrutta il contesto profondo come vantaggio del difensore",
+        "Colmare il divario tra SQL e Python con BigQuery e la magia %%bqsql"
       ]
     },
     {
       "data": "2026-07-15",
-      "titolo": "Gestione e sicurezza delle risorse cloud per l'AI e l'applicazione agente",
+      "titolo": "Governo, sicurezza e scalabilità sfide chiave per la capacità cloud",
       "n_articoli": 5,
-      "minuti_lettura": 3,
+      "minuti_lettura": 4,
       "anteprima_titoli": [
-        "Come analizzare e governare l'utilizzo di Gemini Enterprise App a livello di scala con BigQuery",
-        "IDC: Perché un approccio di rete adeguato è fondamentale per l'AI agente",
-        "Come risolvere le limitazioni della ricerca full-text multilingue di PostgreSQL con AlloyDB AI"
+        "Come analizzare e governare l'uso dell'app Gemini Enterprise su larga scala con BigQuery",
+        "IDC: Perché l'approccio di networking giusto è fondamentale per l'AI agentica",
+        "Come risolvere le limitazioni della ricerca full‑text multilingue in PostgreSQL con AlloyDB AI"
       ]
     },
     {
       "data": "2026-07-14",
-      "titolo": "Google Cloud espande la sua capacità di infrastruttura per l'IA avanzata",
+      "titolo": "Google rafforza la sua posizione dominante nel settore AI enterprise con nuove infrastrutture",
       "n_articoli": 2,
       "minuti_lettura": 2,
       "anteprima_titoli": [
-        "Google nominata Leader nel MarketScape IDC per il Software di Modelli Fondamentali a livello mondiale 2026",
-        "Claude a scala su Google Cloud: IA di frontiera, costruita per la produzione aziendale"
+        "Google nominato Leader nel IDC MarketScape 2026 per il Software di Modelli di Fondamento Mondiale",
+        "Claude a grande scala su Google Cloud: Frontier AI, costruito per la produzione aziendale"
       ]
     },
     {
       "data": "2026-07-13",
-      "titolo": "Cloud capacity e sicurezza: innovazioni e tendenze nel settore AI e infrastrutture",
-      "n_articoli": 5,
-      "minuti_lettura": 3,
+      "titolo": "Cloud capacity e sicurezza: innovazioni per la scalabilità e la visibilità",
+      "n_articoli": 3,
+      "minuti_lettura": 2,
       "anteprima_titoli": [
-        "La sicurezza della catena di approvvigionamento AI su GKE: presentato k8s-aibom per BOM automatizzati AI",
-        "La creazione del veicolo definito dall'AI con Android, Google Cloud e Nexus SDV",
-        "Tendenze chiave dal rapporto M-Trends 2026 per il settore pubblico e oltre"
+        "Sicurezza della catena di approvvigionamento AI su GKE: introduzione di k8s-aibom per BOM AI automatizzati",
+        "Amazon SQS compie 20 anni: due decadi di messaggistica affidabile a scala",
+        "AWS Builder Center compie un anno, Network Scanning in Security Hub e altro"
       ]
     },
     {
       "data": "2026-07-09",
-      "titolo": "Modelli frontiera e agenti di produzione: Microsoft Foundry per l'era agente",
+      "titolo": "Modelli frontiera e agenti di produzione: avanzamento di Microsoft Foundry per l'era agente",
       "n_articoli": 1,
       "minuti_lettura": 1,
       "anteprima_titoli": [
-        "Modelli frontiera e agenti di produzione: Microsoft Foundry per l'era agente"
+        "Modelli frontiera e agenti di produzione: avanzamento di Microsoft Foundry per l'era agente"
       ]
     },
     {
       "data": "2026-07-08",
-      "titolo": "Come Azure ha evoluto la resilienza dei sistemi",
+      "titolo": "Come è evoluta la resilienza di Azure",
       "n_articoli": 1,
       "minuti_lettura": 1,
       "anteprima_titoli": [
-        "Come Azure ha evoluto la resilienza dei sistemi"
+        "Come è evoluta la resilienza di Azure"
       ]
     },
     {
@@ -81,15 +92,6 @@
       "minuti_lettura": 1,
       "anteprima_titoli": [
         "Gestione chiavi esterna per Azure Managed HSM ora in anteprima pubblica"
-      ]
-    },
-    {
-      "data": "2026-07-06",
-      "titolo": "AWS Weekly Roundup: aggiornamenti su AWS, WorkSpaces e servizi disponibili",
-      "n_articoli": 1,
-      "minuti_lettura": 1,
-      "anteprima_titoli": [
-        "AWS Weekly Roundup: aggiornamenti su AWS, WorkSpaces e servizi disponibili"
       ]
     }
   ]

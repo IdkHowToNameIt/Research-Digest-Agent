@@ -3,49 +3,60 @@
   "nome": "Energia",
   "gruppi": [
     {
-      "data": "2026-07-15",
-      "titolo": "Efficienza energetica e sostenibilità nei data center AI: innovazioni e sfide globali",
+      "data": "2026-07-20",
+      "titolo": "Un framework Predict-then-Schedule per reti di distribuzione di energia con data center AI",
+      "n_articoli": 1,
+      "minuti_lettura": 1,
+      "anteprima_titoli": [
+        "Un framework Predict-then-Schedule per reti di distribuzione di energia con data center AI"
+      ]
+    },
+    {
+      "data": "2026-07-19",
+      "titolo": "Strategie energetiche per data center AI: modularità, solare e integrazione rete",
       "n_articoli": 2,
       "minuti_lettura": 2,
       "anteprima_titoli": [
-        "CIMERA: Compute-in-Interconnect e Memoria con Precisione Riconfigurabile per l'Inference di LLM",
-        "Costo ambientale della sovranità digitale: acqua, energia ed emissioni dell'AI sovrana nel Global South"
+        "Un framework di sviluppo per data center AI sostenibili",
+        "Operazione interattiva della rete di data center integrati con solare per decarbonizzazione locale e di sistema"
+      ]
+    },
+    {
+      "data": "2026-07-15",
+      "titolo": "AI hardware punta a maggiore efficienza energetica mentre la sovranità digitale evidenzia costi ambientali",
+      "n_articoli": 2,
+      "minuti_lettura": 2,
+      "anteprima_titoli": [
+        "CIMERA: Calcolo in Interconnessione e Memoria con Precisione Reconfigurabile per Inferenza LLM",
+        "Il costo ambientale della sovranità digitale"
       ]
     },
     {
       "data": "2026-07-09",
-      "titolo": "Chi ha bisogno di DRAM? Abbiamo la fibra",
+      "titolo": "Chi ha bisogno della DRAM? Abbiamo la fibra",
       "n_articoli": 1,
       "minuti_lettura": 1,
       "anteprima_titoli": [
-        "Chi ha bisogno di DRAM? Abbiamo la fibra"
+        "Chi ha bisogno della DRAM? Abbiamo la fibra"
       ]
     },
     {
       "data": "2026-07-08",
-      "titolo": "Valutare la resilienza della rete nell'era dei data center in costante crescita",
+      "titolo": "Valutare la resilienza della rete nell'era dei data center in rapida crescita",
       "n_articoli": 1,
       "minuti_lettura": 2,
       "anteprima_titoli": [
-        "Valutare la resilienza della rete nell'era dei data center in costante crescita"
+        "Valutare la resilienza della rete nell'era dei data center in rapida crescita"
       ]
     },
     {
       "data": "2026-07-07",
-      "titolo": "Bit2Watt: vulnerabilità cyber‑fisica che sfrutta i carichi GPU tra potenza e calcolo",
-      "n_articoli": 1,
-      "minuti_lettura": 2,
+      "titolo": "Energia AI: verso calcolo ultra‑efficiente e nuove minacce alla stabilità elettrica",
+      "n_articoli": 2,
+      "minuti_lettura": 3,
       "anteprima_titoli": [
-        "Bit2Watt: vulnerabilità cyber‑fisica che sfrutta i carichi GPU tra potenza e calcolo"
-      ]
-    },
-    {
-      "data": "2026-07-06",
-      "titolo": "Flessibilità della domanda a carico elevato come stoccaggio virtuale",
-      "n_articoli": 1,
-      "minuti_lettura": 2,
-      "anteprima_titoli": [
-        "Flessibilità della domanda a carico elevato come stoccaggio virtuale"
+        "Calcolo reversibile classico mediante coerenza quantistica",
+        "Bit2Watt: vulnerabilità cyber‑fisica che sfrutta i carichi GPU su infrastrutture energetiche e di calcolo"
       ]
     }
   ]

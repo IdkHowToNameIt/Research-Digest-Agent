@@ -1,0 +1,162 @@
+{
+  "timestamp": "2026-07-21T07:25:31Z",
+  "data_generazione": "2026-07-21",
+  "fonti": [
+    {
+      "nome": "NVIDIA Newsroom",
+      "stato": "ok",
+      "errore": null,
+      "n_candidati": 10,
+      "consecutivi_falliti": 0
+    },
+    {
+      "nome": "NVIDIA Blog",
+      "stato": "ok",
+      "errore": null,
+      "n_candidati": 10,
+      "consecutivi_falliti": 0
+    },
+    {
+      "nome": "Tom's Hardware",
+      "stato": "ok",
+      "errore": null,
+      "n_candidati": 10,
+      "consecutivi_falliti": 0
+    },
+    {
+      "nome": "Meta Engineering",
+      "stato": "ok",
+      "errore": null,
+      "n_candidati": 2,
+      "consecutivi_falliti": 0
+    },
+    {
+      "nome": "Uptime Institute Journal",
+      "stato": "ok",
+      "errore": null,
+      "n_candidati": 1,
+      "consecutivi_falliti": 0
+    },
+    {
+      "nome": "Google Cloud — Infrastructure",
+      "stato": "ok",
+      "errore": null,
+      "n_candidati": 0,
+      "consecutivi_falliti": 0
+    },
+    {
+      "nome": "arXiv (energia x AI)",
+      "stato": "ok",
+      "errore": null,
+      "n_candidati": 9,
+      "consecutivi_falliti": 0
+    },
+    {
+      "nome": "Google News (TSMC/ASML)",
+      "stato": "ok",
+      "errore": null,
+      "n_candidati": 30,
+      "consecutivi_falliti": 0
+    },
+    {
+      "nome": "Federal Register — BIS",
+      "stato": "ok",
+      "errore": null,
+      "n_candidati": 2,
+      "consecutivi_falliti": 0
+    },
+    {
+      "nome": "Google Cloud Blog",
+      "stato": "ok",
+      "errore": null,
+      "n_candidati": 20,
+      "consecutivi_falliti": 0
+    },
+    {
+      "nome": "Azure Blog",
+      "stato": "ok",
+      "errore": null,
+      "n_candidati": 4,
+      "consecutivi_falliti": 0
+    },
+    {
+      "nome": "AWS News Blog",
+      "stato": "ok",
+      "errore": null,
+      "n_candidati": 3,
+      "consecutivi_falliti": 0
+    }
+  ],
+  "dedup": {
+    "raccolti": 101,
+    "nuovi": 95,
+    "aggiornamenti": 0,
+    "duplicati_esatti": 6,
+    "duplicati_fuzzy": 0,
+    "scartati_classificazione": 7,
+    "pubblicati": 88
+  },
+  "copertura": [
+    {
+      "tema": "chip",
+      "stato": "con_aggiornamenti",
+      "n_articoli": 19
+    },
+    {
+      "tema": "data_center",
+      "stato": "con_aggiornamenti",
+      "n_articoli": 3
+    },
+    {
+      "tema": "energia",
+      "stato": "con_aggiornamenti",
+      "n_articoli": 9
+    },
+    {
+      "tema": "supply_chain",
+      "stato": "con_aggiornamenti",
+      "n_articoli": 32
+    },
+    {
+      "tema": "cloud_capacity",
+      "stato": "con_aggiornamenti",
+      "n_articoli": 25
+    }
+  ],
+  "energia_zero_consecutivi": 0,
+  "costo": {
+    "modelli": [
+      {
+        "modello": "llama-3.1-8b-instant",
+        "chiamate": 12,
+        "prompt_tokens": 10929,
+        "completion_tokens": 1075,
+        "costo_stimato": 0.000553
+      },
+      {
+        "modello": "llama-3.3-70b-versatile",
+        "chiamate": 35,
+        "prompt_tokens": 27157,
+        "completion_tokens": 6666,
+        "costo_stimato": 0.018606
+      },
+      {
+        "modello": "openai/gpt-oss-120b",
+        "chiamate": 12,
+        "prompt_tokens": 9717,
+        "completion_tokens": 7751,
+        "costo_stimato": 0.005339
+      },
+      {
+        "modello": "openai/gpt-oss-20b",
+        "chiamate": 54,
+        "prompt_tokens": 63246,
+        "completion_tokens": 36224,
+        "costo_stimato": 0.013644
+      }
+    ],
+    "prompt_tokens": 111049,
+    "completion_tokens": 51716,
+    "costo_stimato": 0.038142
+  }
+}

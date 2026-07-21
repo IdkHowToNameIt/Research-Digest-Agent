@@ -4,21 +4,21 @@
   "gruppi": [
     {
       "data": "2026-07-15",
-      "titolo": "Efficienza AI: ottimizzazione del matching pubblicitario e riduzione del training",
+      "titolo": "Nessuna notizia disponibile su data center",
       "n_articoli": 2,
-      "minuti_lettura": 2,
+      "minuti_lettura": 1,
       "anteprima_titoli": [
-        "Esplorare la Rappresentazione Gerarchica degli Interessi per l'Ottimizzazione del Funnel Profondo di Meta Ads",
-        "I progressi nel fine-tuning riducono il volume totale di addestramento dell'IA"
+        "Esplorazione della rappresentazione gerarchica degli interessi per l'ottimizzazione dei annunci Meta",
+        "Progressi nel fine-tuning riducono il volume totale di addestramento AI"
       ]
     },
     {
       "data": "2026-07-13",
-      "titolo": "Modernizzare il servizio pubblicitario di Meta con un kernel scheduler open source",
+      "titolo": "Modernizzazione del servizio Ads di Meta con un scheduler di kernel open-source",
       "n_articoli": 1,
       "minuti_lettura": 1,
       "anteprima_titoli": [
-        "Modernizzare il servizio pubblicitario di Meta con un kernel scheduler open source"
+        "Modernizzazione del servizio Ads di Meta con un scheduler di kernel open-source"
       ]
     }
   ]
