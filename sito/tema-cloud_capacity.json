@@ -3,6 +3,16 @@
   "nome": "Cloud capacity",
   "gruppi": [
     {
+      "data": "2026-07-21",
+      "titolo": "Miglioramenti nella capacità di calcolo cloud",
+      "n_articoli": 2,
+      "minuti_lettura": 2,
+      "anteprima_titoli": [
+        "Potenziamento di pgvector: ricerca vettoriale HNSW 4 volte più veloce con AlloyDB",
+        "Gestione degli accessi a Google Cloud: hardening della sicurezza"
+      ]
+    },
+    {
       "data": "2026-07-20",
       "titolo": "Cloud capacity: innovazioni per la scalabilità e la disponibilità",
       "n_articoli": 3,

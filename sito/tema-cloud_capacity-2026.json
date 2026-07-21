@@ -2,6 +2,38 @@
   "anno": "2026",
   "gruppi": [
     {
+      "data": "2026-07-21",
+      "titolo": "Miglioramenti nella capacità di calcolo cloud",
+      "articoli": [
+        {
+          "titolo": "Potenziamento di pgvector: ricerca vettoriale HNSW 4 volte più veloce con AlloyDB",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/products/databases/supercharge-pgvector-4x-faster-hnsw-with-alloydb/"
+            }
+          ],
+          "data": "2026-07-21",
+          "sintesi": "AlloyDB, un servizio di database gestito e compatibile con PostgreSQL, offre una ricerca vettoriale più veloce grazie al motore columnare. La combinazione di pgvector e HNSW consente di raggiungere una velocità di query fino a 4 volte superiore rispetto a PostgreSQL standard. Ciò permette di gestire carichi di lavoro aziendali più impegnativi e di migliorare la precisione delle applicazioni AI.",
+          "perche_conta": "La ricerca vettoriale è fondamentale per le applicazioni AI moderne e la capacità di eseguire ricerche veloci e precise è cruciale per il successo di queste applicazioni, quindi la tecnologia di AlloyDB è rilevante per gli investitori e i CTO che cercano di migliorare le prestazioni delle loro applicazioni AI.",
+          "note": null
+        },
+        {
+          "titolo": "Gestione degli accessi a Google Cloud: hardening della sicurezza",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/topics/developers-practitioners/generosity-under-conditions-hardening-google-cloud-access-management/"
+            }
+          ],
+          "data": "2026-07-21",
+          "sintesi": "Google Cloud consente di gestire gli accessi ai propri resource e operazioni tramite Identity and Access Management (IAM). La gestione degli accessi può essere hardenata utilizzando il Principle of Least Privilege (PoLP) e le condizioni IAM. Ciò consente di limitare l'accesso agli utenti e ai servizi solo alle risorse e alle operazioni necessarie. Le condizioni IAM possono essere utilizzate per limitare l'accesso a specifici servizi, come ad esempio il BigQuery, o a specifici strumenti, come ad esempio gli MCP Servers.",
+          "perche_conta": "La gestione degli accessi è fondamentale per la sicurezza dei dati e delle applicazioni in cloud, e le condizioni IAM offrono un modo flessibile e preciso per controllare l'accesso alle risorse di Google Cloud.",
+          "note": null
+        }
+      ]
+    },
+    {
       "data": "2026-07-20",
       "titolo": "Cloud capacity: innovazioni per la scalabilità e la disponibilità",
       "articoli": [

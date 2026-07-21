@@ -407,6 +407,45 @@
           "sintesi": "Dell propone il Pro Max GB10 per clustering AI locale, abbinando due Nvidia Grace Blackwell per scalare il calcolo AI a livello domestico. Il prezzo di ogni unità è di 6332 dollari, rendendolo un'opzione meno costosa rispetto a un server full di GPU e hardware di alta gamma.",
           "perche_conta": "Questo prodotto è rilevante per gli investitori e i CTO poiché offre una soluzione più accessibile e facile da gestire per il calcolo AI a livello domestico, potenzialmente democratizzando l'accesso a questa tecnologia.",
           "note": null
+        },
+        {
+          "titolo": "NVIDIA Vera Rubin: prestazioni elevate e costo token ridotto",
+          "fonti": [
+            {
+              "nome": "NVIDIA Newsroom",
+              "link": "https://blogs.nvidia.com/blog/vera-rubin/"
+            }
+          ],
+          "data": "2026-07-21",
+          "sintesi": "NVIDIA Vera Rubin è stata annunciata e sta raggiungendo la scala gigascale. La produzione di NVL72 è in aumento con rack in esecuzione presso i partner CoreWeave, Google Cloud, Microsoft Azure e Oracle Cloud Infrastructure. La catena di approvvigionamento di Vera Rubin copre oltre 350 siti di produzione in 30 paesi.",
+          "perche_conta": "La scalabilità e l'efficienza di Vera Rubin sono cruciali per gli investitori e i CTO che cercano di ottimizzare le prestazioni e ridurre i costi nella gestione dei carichi di lavoro di intelligenza artificiale",
+          "note": null
+        },
+        {
+          "titolo": "La Cina valuta controlli sulle esportazioni di tecnologie AI",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/tech-industry/artificial-intelligence/china-is-considering-export-controls-on-ai-technologies-including-banning-local-companies-from-using-tsmc-report-claims-restrictions-would-also-advanced-ai-models-training-data-and-overseas-acquisitions"
+            }
+          ],
+          "data": "2026-07-21",
+          "sintesi": "La Cina sta considerando di imporre controlli sulle esportazioni di tecnologie AI, compreso il divieto per le aziende locali di utilizzare TSMC. Le restrizioni coprirebbero anche modelli AI avanzati, dati di allenamento e acquisizioni all'estero. Il Ministero del Commercio cinese (MofCom) valuta inoltre di proibire l'uso di servizi di produzione di semiconduttori stranieri.",
+          "perche_conta": "Questo provvedimento potrebbe avere un impatto significativo sul settore dell'AI e sulla catena di approvvigionamento globale, influenzando gli investimenti e le strategie delle aziende tecnologiche.",
+          "note": null
+        },
+        {
+          "titolo": "Data center Amazon a Bahrain colpito e distrutto da missili iraniani",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/tech-industry/data-centers/amazon-data-center-in-bahrain-struck-and-destroyed-by-iranian-cruise-missiles-state-media-claims-attacks-launched-against-aws-site-in-response-to-alleged-us-strikes-on-an-under-construction-nuclear-plant"
+            }
+          ],
+          "data": "2026-07-21",
+          "sintesi": "Il data center Amazon a Bahrain è stato colpito e distrutto da missili iraniani, secondo quanto affermato dai media statali. L'attacco sarebbe stato lanciato in risposta ai presunti attacchi statunitensi a una centrale nucleare in costruzione. Il sito è stato colpito più volte dall'inizio della campagna di bombardamenti statunitensi in Iran. La società ha spostato le operazioni fuori dalla struttura a partire da inizio aprile.",
+          "perche_conta": "Questo evento è rilevante per il beat 'Infrastruttura & Hardware AI' perché evidenzia i rischi di instabilità geopolitica per le infrastrutture cloud e i data center, che sono fondamentali per il funzionamento delle tecnologie AI.",
+          "note": null
         }
       ],
       "gruppi": [
@@ -1561,6 +1600,32 @@
           "sintesi": "Il settore pubblico deve difendere una rete complessa di relazioni di fiducia contro avversari che operano a velocità di macchina. Il rapporto 2026 Public Sector Threat Landscape: M-Trends e Beyond rivela che il tempo medio tra l'accesso iniziale e il passaggio a un operatore di ransomware è di 22 secondi. Gli attacchi stanno aumentando e gli enti pubblici devono adottare una difesa a velocità di macchina per contrastarli.",
           "perche_conta": "Questo rapporto è rilevante per il settore dell'infrastruttura e dell'hardware AI perché sottolinea l'importanza di una difesa a velocità di macchina e di una verifica continua per proteggere le reti e i dati del settore pubblico.",
           "note": null
+        },
+        {
+          "titolo": "Potenziamento di pgvector: ricerca vettoriale HNSW 4 volte più veloce con AlloyDB",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/products/databases/supercharge-pgvector-4x-faster-hnsw-with-alloydb/"
+            }
+          ],
+          "data": "2026-07-21",
+          "sintesi": "AlloyDB, un servizio di database gestito e compatibile con PostgreSQL, offre una ricerca vettoriale più veloce grazie al motore columnare. La combinazione di pgvector e HNSW consente di raggiungere una velocità di query fino a 4 volte superiore rispetto a PostgreSQL standard. Ciò permette di gestire carichi di lavoro aziendali più impegnativi e di migliorare la precisione delle applicazioni AI.",
+          "perche_conta": "La ricerca vettoriale è fondamentale per le applicazioni AI moderne e la capacità di eseguire ricerche veloci e precise è cruciale per il successo di queste applicazioni, quindi la tecnologia di AlloyDB è rilevante per gli investitori e i CTO che cercano di migliorare le prestazioni delle loro applicazioni AI.",
+          "note": null
+        },
+        {
+          "titolo": "Gestione degli accessi a Google Cloud: hardening della sicurezza",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/topics/developers-practitioners/generosity-under-conditions-hardening-google-cloud-access-management/"
+            }
+          ],
+          "data": "2026-07-21",
+          "sintesi": "Google Cloud consente di gestire gli accessi ai propri resource e operazioni tramite Identity and Access Management (IAM). La gestione degli accessi può essere hardenata utilizzando il Principle of Least Privilege (PoLP) e le condizioni IAM. Ciò consente di limitare l'accesso agli utenti e ai servizi solo alle risorse e alle operazioni necessarie. Le condizioni IAM possono essere utilizzate per limitare l'accesso a specifici servizi, come ad esempio il BigQuery, o a specifici strumenti, come ad esempio gli MCP Servers.",
+          "perche_conta": "La gestione degli accessi è fondamentale per la sicurezza dei dati e delle applicazioni in cloud, e le condizioni IAM offrono un modo flessibile e preciso per controllare l'accesso alle risorse di Google Cloud.",
+          "note": null
         }
       ],
       "gruppi": [
@@ -1599,6 +1664,10 @@
         {
           "data": "2026-07-07",
           "titolo": "Gestione chiavi esterna per Azure Managed HSM ora in anteprima pubblica"
+        },
+        {
+          "data": "2026-07-21",
+          "titolo": "Miglioramenti nella capacità di calcolo cloud"
         }
       ]
     }
