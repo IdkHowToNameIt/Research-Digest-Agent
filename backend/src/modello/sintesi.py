@@ -13,7 +13,13 @@ from __future__ import annotations
 import re
 from typing import Callable
 
-from .prompts import NOTA_PREPRINT, e_arxiv, prompt_sintesi, prompt_titolo_gruppo
+from .prompts import (
+    NOTA_PREPRINT,
+    e_arxiv,
+    prompt_etichette_gruppo,
+    prompt_sintesi,
+    prompt_titolo_gruppo,
+)
 from ..schemas import (
     TEMI_ORDINE,
     Articolo,
@@ -102,6 +108,113 @@ def _e_non_titolo(titolo: str) -> bool:
     return _NON_TITOLI.search(titolo) is not None
 
 
+# Quante etichette si accostano al massimo: oltre due la card diventa una riga
+# lunghissima e illeggibile, quindi il resto si riassume in "e altro".
+MAX_FRAMMENTI = 2
+SEPARATORE = "; "
+CODA_ALTRO = " e altro"
+
+# Parole di servizio su cui vale la pena troncare un titolo reale: introducono una
+# subordinata o un complemento accessorio, e quello che segue di solito non serve a
+# capire l'argomento. NON ci sono le preposizioni articolate del genitivo
+# (della/dei/nel...): quelle legano il gruppo nominale, e tagliarci sopra
+# spezzerebbe "Esplorazione della rappresentazione" in "Esplorazione".
+_TAGLIO = re.compile(
+    r"\s+(?:per|con|che|dopo|mentre|come|dove|quando|se|sulla|sul|sui|sulle|"
+    r"grazie|verso|contro|senza|entro|oltre)\s+",
+    re.IGNORECASE,
+)
+_MIN_PAROLE_TAGLIO = 3
+
+# Parole che non possono chiudere un frammento: articoli, preposizioni, congiunzioni.
+_CODA_SOSPESA = re.compile(
+    r"(?:il|lo|la|i|gli|le|un|uno|una|l|dell|della|dello|degli|delle|dei|del|"
+    r"di|da|in|su|tra|fra|e|ed|a|ad|al|allo|alla|ai|agli|alle|nel|nella|nei|"
+    r"negli|nelle|con|per|come|che)['’]?",
+    re.IGNORECASE,
+)
+
+
+def _frammento_da_titolo(titolo: str, max_parole: int = 5) -> str:
+    """Ripiego deterministico: accorcia un titolo reale a un frammento breve.
+
+    Si taglia sulla prima parola di servizio che lasci dietro di se' almeno
+    `_MIN_PAROLE_TAGLIO` parole — non sulla prima in assoluto, altrimenti un
+    titolo che comincia con "X per ..." si ridurrebbe alla sola "X" — e comunque
+    a `max_parole`. Grezzo rispetto a un'etichetta scritta dal modello, ma non
+    inventa nulla e non costa quota.
+    """
+    testo = titolo.strip().rstrip(".")
+    for taglio in _TAGLIO.finditer(testo):
+        if len(testo[: taglio.start()].split()) >= _MIN_PAROLE_TAGLIO:
+            testo = testo[: taglio.start()]
+            break
+    parole = testo.split()[:max_parole]
+    # Il taglio a max_parole cade spesso su un articolo o una preposizione
+    # ("...costruisce la", "...gerarchica degli"): lasciarlo li' fa sembrare la
+    # riga troncata a meta'. Si arretra finche' l'ultima parola non regge da sola.
+    while len(parole) > 1 and _CODA_SOSPESA.fullmatch(parole[-1]):
+        parole.pop()
+    return " ".join(parole).rstrip(",;:")
+
+
+def _minuscola_iniziale(frammento: str) -> str:
+    """Abbassa l'iniziale, ma NON di sigle e nomi propri.
+
+    "Progressi" -> "progressi", mentre "TSMC" e "GeForce" restano intatti: si
+    riconoscono dal fatto che hanno altre maiuscole dopo la prima ("tSMC" era il
+    risultato della versione ingenua, preso da un test).
+    """
+    prima = frammento.split(" ", 1)[0]
+    if prima[1:] != prima[1:].lower():
+        return frammento
+    return frammento[0].lower() + frammento[1:]
+
+
+def _componi(frammenti: list[str], totale: int) -> str:
+    """Accosta i frammenti: al massimo MAX_FRAMMENTI, poi "e altro".
+
+    Il primo frammento tiene la maiuscola, gli altri vanno in minuscolo perche'
+    il risultato si legga come una riga sola e non come titoli incollati.
+    """
+    scelti = [f for f in frammenti if f][:MAX_FRAMMENTI]
+    if not scelti:
+        return ""
+    testa = scelti[0][0].upper() + scelti[0][1:]
+    coda = [_minuscola_iniziale(f) for f in scelti[1:]]
+    riga = SEPARATORE.join([testa, *coda])
+    return riga + CODA_ALTRO if totale > len(scelti) else riga
+
+
+def _titolo_composto(
+    tema: Tema, articoli: list[Articolo], genera: Generatore
+) -> str:
+    """Titolo per un gruppo SENZA filo conduttore: etichette brevi accostate.
+
+    Chiedere un riassunto unico a notizie scollegate e' una domanda mal posta e
+    il modello risponde con un rifiuto. Qui gli si chiede invece un'etichetta per
+    ciascuna notizia; se anche questo fallisce si ripiega sui titoli reali
+    accorciati dal codice, cosi' il caso non resta mai scoperto.
+    """
+    voci = [(a.titolo, a.sintesi) for a in articoli]
+    label = tema.value.replace("_", " ")
+    etichette: list[str] = []
+    try:
+        dati = genera(prompt_etichette_gruppo(label, voci))
+        grezze = dati.get("etichette") or []
+        if isinstance(grezze, list):
+            etichette = [
+                str(e).strip().rstrip(".")
+                for e in grezze
+                if str(e).strip() and not _e_non_titolo(str(e))
+            ]
+    except Exception:  # noqa: BLE001 - il ripiego deterministico copre comunque
+        etichette = []
+    if len(etichette) < min(len(articoli), MAX_FRAMMENTI):
+        etichette = [_frammento_da_titolo(a.titolo) for a in articoli]
+    return _componi(etichette, len(articoli))
+
+
 def sintetizza_titolo_gruppo(
     tema: Tema, articoli: list[Articolo], genera: Generatore | None
 ) -> str:
@@ -109,8 +222,12 @@ def sintetizza_titolo_gruppo(
 
     Con un solo articolo il titolo del gruppo È quello dell'articolo (nessuna
     chiamata al modello). Con più articoli si chiede al modello una riga di
-    sommario; in mancanza di modello (test/demo) o di risposta utile si ripiega
-    sul titolo del primo articolo.
+    sommario.
+
+    Se il modello si rifiuta — perché le notizie non hanno davvero un filo
+    conduttore — non si ripiega sul titolo del PRIMO articolo, che nasconderebbe
+    gli altri: si compone un titolo accostando un'etichetta breve per notizia
+    (§23.4). Senza modello (test/demo) resta il titolo del primo articolo.
     """
     if len(articoli) == 1 or genera is None:
         return articoli[0].titolo
@@ -122,7 +239,7 @@ def sintetizza_titolo_gruppo(
         return articoli[0].titolo
     titolo = str(dati.get("titolo", "")).strip()
     if not titolo or _e_non_titolo(titolo):
-        return articoli[0].titolo
+        return _titolo_composto(tema, articoli, genera) or articoli[0].titolo
     return titolo
 
 

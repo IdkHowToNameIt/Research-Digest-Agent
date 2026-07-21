@@ -88,6 +88,38 @@ NOTIZIE:
 {elenco}"""
 
 
+def prompt_etichette_gruppo(tema_label: str, voci: list[tuple[str, str]]) -> str:
+    """Prompt di ripiego: un'etichetta breve PER OGNI notizia, non un riassunto.
+
+    Serve quando le notizie del giorno non hanno un filo comune e chiedere un
+    unico titolo-sommario e' una domanda mal posta: il modello risponde con un
+    rifiuto ("Nessuna notizia disponibile su...") che non e' un titolo. Qui non
+    gli si chiede di trovare un legame che non c'e', ma di etichettare ogni voce
+    per conto suo; le etichette vengono poi accostate dal codice.
+    """
+    elenco = "\n".join(f"{i}. {t}: {s}" for i, (t, s) in enumerate(voci, 1))
+    return f"""Sei l'editor di un digest di ricerca su "Infrastruttura & Hardware AI".
+Di seguito le notizie del tema "{tema_label}" pubblicate nello STESSO giorno.
+NON hanno un filo conduttore comune, e va bene cosi': NON cercare di trovarne uno.
+
+Per OGNI notizia scrivi un'etichetta brevissima in italiano (2-5 parole) che dica
+di cosa parla: deve leggersi come un gruppo nominale corretto e scorrevole
+("Ottimizzazione annunci Meta", "Progressi nel fine-tuning"), non come un elenco
+di parole staccate ne' come una frase con il verbo coniugato.
+
+REGOLE (grounding):
+- Usa SOLO le informazioni presenti nella notizia corrispondente. NON inventare.
+- Conserva sigle e nomi propri (NVIDIA, TSMC, GW, nm...).
+- Niente linguaggio promozionale, niente virgolette, niente punto finale.
+- Restituisci ESATTAMENTE {len(voci)} etichette, nello stesso ordine delle notizie.
+
+OUTPUT: un oggetto JSON con esattamente questa chiave:
+  {{"etichette": [{", ".join('"..."' for _ in voci)}]}}
+
+NOTIZIE:
+{elenco}"""
+
+
 def prompt_sintesi(c: Candidato) -> str:
     """Costruisce il prompt per la sintesi di un singolo candidato."""
     estratto = c.estratto or ""
