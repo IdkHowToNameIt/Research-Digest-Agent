@@ -293,3 +293,20 @@ def test_le_sigle_non_vengono_minuscolizzate():
     assert sintetizza_titolo_gruppo(
         Tema.chip, [_art("A"), _art("B")], genera
     ) == "Domanda di chip; TSMC investe in Arizona"
+
+
+def test_etichette_troppo_lunghe_vengono_accorciate():
+    # Il prompt chiede 2-5 parole ma non puo' imporlo. Se il modello rimanda i
+    # titoli interi (successo in una riprova sui gruppi reali del run) la riga
+    # composta diventerebbe illeggibile sulla card.
+    lunga = ("Esplorazione della rappresentazione gerarchica degli interessi "
+             "per l'ottimizzazione degli annunci Meta")
+    genera = _mock_sequenza(
+        {"titolo": "Nessuna notizia disponibile"},
+        {"etichette": [lunga, "Progressi nel fine-tuning riducono il volume totale"]},
+    )
+    titolo = sintetizza_titolo_gruppo(Tema.data_center, [_art("A"), _art("B")], genera)
+    # Senza il tetto la riga sarebbe di 168 caratteri: 82 misurati con il cap.
+    assert len(titolo) <= 90, titolo
+    assert titolo.startswith("Esplorazione della rappresentazione gerarchica")
+    assert "annunci Meta" not in titolo          # la coda lunga e' stata tagliata

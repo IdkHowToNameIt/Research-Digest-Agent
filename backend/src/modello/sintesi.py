@@ -111,6 +111,9 @@ def _e_non_titolo(titolo: str) -> bool:
 # Quante etichette si accostano al massimo: oltre due la card diventa una riga
 # lunghissima e illeggibile, quindi il resto si riassume in "e altro".
 MAX_FRAMMENTI = 2
+# Tetto di sicurezza sulle etichette del modello: il prompt ne chiede 2-5 parole,
+# questo lo rende vero anche quando non obbedisce.
+MAX_PAROLE_ETICHETTA = 5
 SEPARATORE = "; "
 CODA_ALTRO = " e altro"
 
@@ -204,7 +207,11 @@ def _titolo_composto(
         grezze = dati.get("etichette") or []
         if isinstance(grezze, list):
             etichette = [
-                str(e).strip().rstrip(".")
+                # Il prompt chiede 2-5 parole ma non puo' imporlo: se il modello
+                # restituisce una frase intera (o rimanda il titolo cosi' com'e')
+                # la riga composta diventa illeggibile sulla card. Si accorcia con
+                # lo stesso taglio del ripiego deterministico.
+                _frammento_da_titolo(str(e).strip(), max_parole=MAX_PAROLE_ETICHETTA)
                 for e in grezze
                 if str(e).strip() and not _e_non_titolo(str(e))
             ]
