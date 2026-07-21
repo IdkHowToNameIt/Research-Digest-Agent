@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { caricaAnno, caricaIndice, caricaTema } from './dati.js'
 import { HOME, aHash, daHash } from './rotta.js'
+import { avviaScorrimento } from './scorrimento.js'
 import Sfondo from './componenti/Sfondo.jsx'
 import Intestazione from './componenti/Intestazione.jsx'
 import Home from './componenti/Home.jsx'
@@ -34,6 +35,9 @@ export default function App() {
   // L'hash e' l'unica fonte di verita': si naviga scrivendolo, e lo stato lo
   // segue dall'evento. Cosi' un click e un "indietro" del browser passano
   // esattamente per la stessa strada.
+  // Scorrimento morbido per tutta l'app, fermato allo smontaggio.
+  useEffect(() => avviaScorrimento(), [])
+
   useEffect(() => {
     const suHash = () => setVista(daHash(window.location.hash))
     window.addEventListener('hashchange', suHash)
