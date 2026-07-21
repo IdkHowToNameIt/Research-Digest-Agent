@@ -18,7 +18,17 @@ export function avviaSfondo(cv) {
   // dove i simboli si leggono come segni e non come texture. Tutto il resto scala
   // da qui: la dimensione del glifo e' DRAW*CELL e il raggio del cursore
   // RANGE_CELLS*CELL, quindi per ingrandire o rimpicciolire basta questa riga.
-  var CELL = 72;                   // passo della griglia (px)
+  // EFFETTO AL CURSORE (2026-07-21). MISURATO sul sito di kakashi: il loro sfondo
+  // NON reagisce al cursore. Con mouse sopra e mouse lontano l'alpha della stessa
+  // zona e' identica (3.77 in entrambi i casi) e i pixel colorati sono gli stessi
+  // (21 contro 26, differenza da rumore). L'alone rosso e i simboli che si
+  // accendono erano una NOSTRA aggiunta, non una replica. Messo dietro a una
+  // costante e non cancellato: si riaccende con una riga.
+  // Effetto collaterale utile: da spento non gira alcun ciclo di animazione,
+  // quindi lo sfondo non costa nulla su macchine senza accelerazione (VM).
+  var EFFETTO_CURSORE = false;
+
+  var CELL = 96;                   // passo della griglia (px)
   // REPLICA DI KAKASHI (2026-07-21), non piu' una stima: misurato sul loro canvas
   // il 58% delle celle contiene un glifo. Il nostro 0.24 era meno della meta', ed
   // e' il motivo per cui la texture appariva rada e slegata invece che uniforme.
@@ -53,6 +63,9 @@ export function avviaSfondo(cv) {
     return t;
   }
 
+  // `ridisegna` serve perche' da EFFETTO_CURSORE spento non c'e' un ciclo che
+  // ripassa: dopo un resize (o al primo caricamento) qualcuno deve richiamare il
+  // disegno, altrimenti il canvas resta vuoto.
   function build() {
     if (!ready) return;
     DPR = Math.min(2, window.devicePixelRatio || 1);
@@ -96,15 +109,20 @@ export function avviaSfondo(cv) {
   // disegno e tre listener in piu'.
   function onMove(e) { mouse.x = e.clientX; mouse.y = e.clientY; mouse.on = true; }
   function onOut(e) { if (!e.relatedTarget) mouse.on = false; }
-  window.addEventListener('mousemove', onMove, { passive: true });
-  window.addEventListener('mouseout', onOut);
-  window.addEventListener('resize', build);
+  if (EFFETTO_CURSORE) {
+    window.addEventListener('mousemove', onMove, { passive: true });
+    window.addEventListener('mouseout', onOut);
+  }
+  function ridisegna() { build(); if (!EFFETTO_CURSORE) requestAnimationFrame(frame); }
+  window.addEventListener('resize', ridisegna);
 
   function frame() {
     if (!vivo) return;
     if (!ready) { requestAnimationFrame(frame); return; }
     ctx.clearRect(0, 0, W, H);
     ctx.drawImage(base, 0, 0, base.width, base.height, 0, 0, W, H);
+    // Texture statica come il riferimento: disegnata una volta, nessun ciclo.
+    if (!EFFETTO_CURSORE) return;
     var range = CELL * RANGE_CELLS, d = DRAW * CELL;
 
     if (mouse.on) {
@@ -147,9 +165,9 @@ export function avviaSfondo(cv) {
     im.onload = function () {
       grey[i] = tint(im, '150,156,164');
       red[i] = tint(im, GLOW);
-      if (++loaded === SRC.length) { ready = true; build(); }
+      if (++loaded === SRC.length) { ready = true; ridisegna(); }
     };
-    im.onerror = function () { if (++loaded === SRC.length) { ready = true; build(); } };
+    im.onerror = function () { if (++loaded === SRC.length) { ready = true; ridisegna(); } };
     im.src = src;
   });
   requestAnimationFrame(frame);
@@ -159,6 +177,6 @@ export function avviaSfondo(cv) {
     vivo = false;
     window.removeEventListener('mousemove', onMove);
     window.removeEventListener('mouseout', onOut);
-    window.removeEventListener('resize', build);
+    window.removeEventListener('resize', ridisegna);
   };
 }
