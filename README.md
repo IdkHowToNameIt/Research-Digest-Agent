@@ -505,7 +505,7 @@ il `npm run build` qui sopra serve unicamente all'anteprima.
 ## Stato
 
 Tutte le 8 fasi sono implementate, più la **dashboard di osservabilità**
-(metriche operative per run); la suite conta **200 test Python verdi** (`cd backend && pytest`) piu' **42 test
+(metriche operative per run); la suite conta **205 test Python verdi** (`cd backend && pytest`) piu' **42 test
 del frontend** (`cd frontend && npm test`), che coprono livello dati, export PDF e
 popover di download. Le scelte di
 progetto e il perché sono in [`DECISIONI.md`](DECISIONI.md).
@@ -522,7 +522,7 @@ Punti noti, non bloccanti, che chi adotta il repo farà bene a tenere d'occhio:
 ## Test
 
 ```bash
-cd backend && python -m pytest -q     # 200 test
+cd backend && python -m pytest -q     # 205 test
 cd frontend && npm test               # 42 test (Vitest)
 ```
 
