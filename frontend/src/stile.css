@@ -6,7 +6,7 @@
     /* Schiarito il 2026-07-20 (#17161A -> #201F25): lo sfondo restava troppo vicino
        al nero e schiacciava i glifi; questo tono lascia respirare il campo di
        simboli senza toccare il contrasto del testo (--inchiostro resta invariato). */
-    --crema:        #2A2933;                 /* sfondo scuro, schiarito ancora (2026-07-21) */
+    --crema:        #0F0E13;                 /* quasi-nero come kakashi.ventures (misurato rgb(11,10,10)) */
     --crema-2:      rgba(255,255,255,.05);   /* superfici hover / box "Perché conta" */
     --carta:        rgba(18,18,20,.86);      /* superfici delle card (glass) */
     --inchiostro:   #e7e9ec;                 /* testo */
@@ -37,9 +37,12 @@
     mask-image:linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);}
   /* vignetta alleggerita insieme allo sfondo (2026-07-20): con --crema più chiara,
      un bordo a .35 di nero rimetteva il buio che stavamo togliendo. */
+  /* Vignetta esterna RIMOSSA (2026-07-21). Era lei a rendere lo sfondo "cupo":
+     spegneva i simboli ai bordi e la texture non si leggeva piu' come un motivo
+     uniforme. Su kakashi.ventures non c'e': il fondo e' piatto e i simboli sono
+     ugualmente visibili ovunque. Resta il solo alone rosso in alto. */
   .grad{position:fixed;inset:0;z-index:-1;pointer-events:none;
-    background:radial-gradient(120% 90% at 50% -8%, rgba(154,3,30,.10) 0%, rgba(11,10,10,0) 42%),
-      radial-gradient(130% 95% at 50% 40%, rgba(11,10,10,0) 54%, rgba(0,0,0,.14) 100%);}
+    background:radial-gradient(120% 90% at 50% -8%, rgba(154,3,30,.10) 0%, rgba(11,10,10,0) 42%);}
 
   /* --- header: logo a SINISTRA, nav di sistema a DESTRA --- */
   header{display:flex;justify-content:space-between;align-items:center;
@@ -47,7 +50,7 @@
   .topnav{display:flex;align-items:center;gap:.5rem}
   .topnav-link{display:inline-flex;align-items:center;gap:.45rem;text-decoration:none;
     font-family:var(--sans);font-weight:500;font-size:.9rem;color:var(--inchiostro-2);
-    background:rgba(13,13,15,.6);border:1px solid var(--bordo);border-radius:999px;
+    background:#17161C;border:1px solid var(--bordo);border-radius:999px;
     padding:.45rem .9rem;transition:color .18s,border-color .18s,background .18s}
   .topnav-link svg{color:var(--verde-vivo)}
   .topnav-link:hover{color:#fff;border-color:rgba(224,80,110,.5);background:rgba(224,80,110,.12)}
@@ -101,10 +104,14 @@
   /* --- navigazione 5 temi: sempre centrata come gruppo --- */
   .temi-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:.7rem;margin:2rem auto;max-width:min(1100px,94vw);padding:0 1rem}
   .pill{font:inherit;font-size:.95rem;cursor:pointer;border:1px solid var(--bordo);
-    background:rgba(13,13,15,.8);color:var(--inchiostro);border-radius:999px;padding:.55rem 1.15rem;
+    background:#17161C;color:var(--inchiostro);border-radius:999px;padding:.55rem 1.15rem;
     display:inline-flex;align-items:center;gap:.5rem;transition:transform .18s,box-shadow .18s,background .18s,color .18s,border-color .18s;position:relative}
   .pill .tema-svg{color:var(--verde-vivo);flex-shrink:0}
-  .pill:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,.55);border-color:rgba(224,80,110,.5);color:#fff}
+  .pill:hover{transform:translateY(-3px);
+    /* Ombra piu' STRETTA e un anello sottile: quella larga si spandeva sullo
+       sfondo e il bordo del bottone spariva dentro la sfumatura. */
+    box-shadow:0 6px 14px rgba(0,0,0,.6), 0 0 0 1px rgba(224,80,110,.45);
+    border-color:rgba(224,80,110,.5);color:#fff}
   .pill:hover .tema-svg{color:#fff}
 
   main{max-width:min(1400px,94vw);margin:0 auto;padding:0 clamp(1rem,4vw,2.5rem) 4rem}
