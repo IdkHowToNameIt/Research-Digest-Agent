@@ -177,20 +177,6 @@ def test_overlap_basso_incluso_come_nuovo():
     assert esiti[0].decisione == "nuovo"
 
 
-# --- compatibilita': filtra_nuove (dedup esatto per URL) --------------------
-
-def test_filtra_nuove_persistente(tmp_path):
-    from src.raccolta.dedup import filtra_nuove
-    store = SeenStore(str(tmp_path / "seen.sqlite3"))
-    cands = [_cand("t", url="https://a.com/1"), _cand("t", url="https://a.com/2"),
-             _cand("t", url="https://a.com/1")]
-    nuove = filtra_nuove(cands, store)
-    assert len(nuove) == 2
-    for c in nuove:
-        store.mark_seen(c.url)
-    assert filtra_nuove(cands, store) == []
-
-
 # --- raggruppamento per storia sui feed aggregati (sez. 24) -----------------
 
 def _cand_agg(titolo, data="2026-07-16", url=None, fonte="Google News"):
