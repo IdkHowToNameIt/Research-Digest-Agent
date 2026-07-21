@@ -18,15 +18,19 @@ export function avviaSfondo(cv) {
   // dove i simboli si leggono come segni e non come texture. Tutto il resto scala
   // da qui: la dimensione del glifo e' DRAW*CELL e il raggio del cursore
   // RANGE_CELLS*CELL, quindi per ingrandire o rimpicciolire basta questa riga.
-  // EFFETTO AL CURSORE (2026-07-21). MISURATO sul sito di kakashi: il loro sfondo
-  // NON reagisce al cursore. Con mouse sopra e mouse lontano l'alpha della stessa
-  // zona e' identica (3.77 in entrambi i casi) e i pixel colorati sono gli stessi
-  // (21 contro 26, differenza da rumore). L'alone rosso e i simboli che si
-  // accendono erano una NOSTRA aggiunta, non una replica. Messo dietro a una
-  // costante e non cancellato: si riaccende con una riga.
-  // Effetto collaterale utile: da spento non gira alcun ciclo di animazione,
-  // quindi lo sfondo non costa nulla su macchine senza accelerazione (VM).
-  var EFFETTO_CURSORE = false;
+  // EFFETTO AL CURSORE. Spento e poi RIACCESO il 2026-07-21.
+  //
+  // Le mie misure sul sito di kakashi non rilevavano alcuna reazione al cursore
+  // (alpha identica con mouse sopra e lontano, nessun pixel colorato, nessun
+  // gradiente o maschera CSS che segua il puntatore), ne' con mouse reale ne'
+  // con eventi sintetici. L'utente pero' lo vede: l'effetto c'e' e sono i miei
+  // strumenti a non coglierlo. Fra un'osservazione diretta e una sonda che non
+  // vede nulla, vince l'osservazione.
+  //
+  // Resta una costante perche' e' l'unico interruttore utile che abbiamo: da
+  // spento non gira alcun ciclo di animazione, e su macchine senza accelerazione
+  // grafica (le VM della scuola) lo sfondo smette di costare.
+  var EFFETTO_CURSORE = true;
 
   var CELL = 96;                   // passo della griglia (px)
   // REPLICA DI KAKASHI (2026-07-21), non piu' una stima: misurato sul loro canvas
