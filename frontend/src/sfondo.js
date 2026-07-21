@@ -92,10 +92,7 @@ export function avviaSfondo(cv) {
           // (alpha 48 = 0.19), mentre da noi si spalmava fra 32 e 48. E' la
           // variazione casuale a far sembrare i simboli slavati invece che
           // netti: con un valore unico la texture torna "lucida".
-          a: 0.19, ig: 0,
-          // rot = orientamento a riposo (multipli di 90 gradi);
-          // rotOra = orientamento corrente, che insegue il cursore.
-          rotOra: 0
+          a: 0.19, ig: 0
         });
       } else {
         cells.push(null);
@@ -116,6 +113,12 @@ export function avviaSfondo(cv) {
   }
 
   var mouse = { x: -9999, y: -9999, on: false };
+  // La luce non sta sul cursore: lo INSEGUE, con un ritardo. E' questo a dare il
+  // movimento continuo — spostando il puntatore l'illuminazione scivola dietro
+  // e si distende, invece di saltare di colpo da un punto all'altro. Senza, la
+  // texture si accende e si spegne e basta, e sembra ferma.
+  var luce = { x: -9999, y: -9999 };
+  var INSEGUIMENTO = 0.085;   // piu' basso = piu' morbido, piu' "acqua"
   // Handler NOMINATI e non anonimi: servono a removeEventListener nella pulizia
   // in fondo. Senza, ogni rimontaggio del componente lascerebbe attivi un ciclo di
   // disegno e tre listener in piu'.
@@ -151,15 +154,18 @@ export function avviaSfondo(cv) {
     ctx.drawImage(base, 0, 0, base.width, base.height, 0, 0, W, H);
     // Texture statica come il riferimento: disegnata una volta, nessun ciclo.
     if (!EFFETTO_CURSORE) return;
+    if (luce.x < -9000) { luce.x = mouse.x; luce.y = mouse.y; }
+    luce.x += (mouse.x - luce.x) * INSEGUIMENTO;
+    luce.y += (mouse.y - luce.y) * INSEGUIMENTO;
     var range = CELL * RANGE_CELLS, d = DRAW * CELL;
 
     if (mouse.on) {
-      var halo = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, range);
+      var halo = ctx.createRadialGradient(luce.x, luce.y, 0, luce.x, luce.y, range);
       halo.addColorStop(0, 'rgba(' + HALO + ',0.10)');
       halo.addColorStop(0.6, 'rgba(' + HALO + ',0.035)');
       halo.addColorStop(1, 'rgba(' + HALO + ',0)');
       ctx.fillStyle = halo;
-      ctx.fillRect(mouse.x - range, mouse.y - range, range * 2, range * 2);
+      ctx.fillRect(luce.x - range, luce.y - range, range * 2, range * 2);
     }
 
     for (var i = 0; i < cells.length; i++) {
@@ -167,11 +173,11 @@ export function avviaSfondo(cv) {
       if (!s) continue;
       var target = 0;
       if (mouse.on) {
-        var dist = Math.hypot(s.x - mouse.x, s.y - mouse.y);
+        var dist = Math.hypot(s.x - luce.x, s.y - luce.y);
         if (dist < range) target = Math.pow(1 - dist / range, 1.7);
       }
       s.ig += (target - s.ig) * (target > s.ig ? 0.35 : 0.10);
-      if (s.ig < 0.02) { s.rotOra = s.rot; continue; }
+      if (s.ig < 0.02) continue;
 
       var rr = CELL * (0.7 + 1.3 * s.ig);
       var g = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, rr);
@@ -180,25 +186,9 @@ export function avviaSfondo(cv) {
       ctx.fillStyle = g;
       ctx.beginPath(); ctx.arc(s.x, s.y, rr, 0, 6.2832); ctx.fill();
 
-      // I GLIFI SI ORIENTANO VERSO IL CURSORE.
-      // Era questo a mancare: i simboli si accendevano ma restavano fermi, e la
-      // texture risultava statica mentre il riferimento "si muove". Nel loro
-      // codice c'e' Math.atan2 (angolo verso il cursore) e nessun sin/cos:
-      // l'angolo non serve a spostare i glifi, serve a RUOTARLI.
-      var verso = Math.atan2(mouse.y - s.y, mouse.x - s.x);
-      // Differenza riportata in [-PI, PI]: senza, passando da +PI a -PI il glifo
-      // farebbe un giro completo invece di correggere di poco.
-      var delta = verso - s.rot;
-      while (delta > Math.PI) delta -= Math.PI * 2;
-      while (delta < -Math.PI) delta += Math.PI * 2;
-      var bersaglio = s.rot + delta * s.ig;
-      // inseguimento morbido: la rotazione non salta, scivola
-      var d2 = bersaglio - s.rotOra;
-      while (d2 > Math.PI) d2 -= Math.PI * 2;
-      while (d2 < -Math.PI) d2 += Math.PI * 2;
-      s.rotOra += d2 * 0.18;
-
-      ctx.save(); ctx.translate(s.x, s.y); ctx.rotate(s.rotOra);
+      // Le immagini NON si muovono: orientamento fisso, come a riposo. A muoversi
+      // e' solo la luce (vedi `luce`, che insegue il cursore con ritardo).
+      ctx.save(); ctx.translate(s.x, s.y); ctx.rotate(s.rot);
       ctx.globalAlpha = Math.min(1, 0.25 + s.ig);
       ctx.drawImage(red[s.g], -d / 2, -d / 2, d, d);
       ctx.restore();
