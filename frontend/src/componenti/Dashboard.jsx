@@ -133,14 +133,17 @@ function PannelloCosti({ runs }) {
   )
 }
 
-function PannelloDedup({ runs }) {
+export function PannelloDedup({ runs }) {
   const tot = runs.reduce((a, r) => ({
     racc: a.racc + r.dedup.raccolti,
     pub: a.pub + r.dedup.pubblicati,
     dup: a.dup + r.dedup.duplicati_esatti + r.dedup.duplicati_fuzzy,
     agg: a.agg + r.dedup.aggiornamenti,
     scl: a.scl + r.dedup.scartati_classificazione,
-  }), { racc: 0, pub: 0, dup: 0, agg: 0, scl: 0 })
+    // I run anteriori al raggruppamento per storia non hanno il campo: senza
+    // il "|| 0" il totale diventerebbe NaN e il pannello mostrerebbe "-".
+    acc: a.acc + (r.dedup.accorpati_aggregatore || 0),
+  }), { racc: 0, pub: 0, dup: 0, agg: 0, scl: 0, acc: 0 })
   const pct = tot.racc ? Math.round((tot.pub / tot.racc) * 100) : 0
 
   return (
@@ -152,6 +155,9 @@ function PannelloDedup({ runs }) {
       <div className="dash-bar bar-pub"><span style={{ width: pct + '%' }} /></div>
       <div className="dash-stats">
         <Stat valore={fmtNum(tot.dup)} etichetta="duplicati scartati" />
+        {tot.acc > 0 && (
+          <Stat valore={fmtNum(tot.acc)} etichetta="varianti accorpate" />
+        )}
         <Stat valore={fmtNum(tot.agg)} etichetta="inclusi come agg." />
         <Stat valore={fmtNum(tot.scl)} etichetta="fuori tema" />
       </div>
