@@ -366,6 +366,81 @@ def _generatore_finto(monkeypatch, contenuto, finish_reason):
     return llm.crea_generatore(api_key="finta", model="primario", modelli_fallback=[])
 
 
+def _generatore_spia(monkeypatch, gestore, modelli_fallback=()):
+    """Come _generatore_finto, ma il gestore vede i kwargs e puo' sollevare.
+
+    Ritorna (genera, chiamate) dove `chiamate` accumula i kwargs di ogni create:
+    serve a verificare COSA e' stato mandato al server, non solo l'esito.
+    """
+    import openai
+
+    chiamate = []
+
+    def create(**kwargs):
+        chiamate.append(kwargs)
+        return gestore(kwargs)
+
+    completions = type("Co", (), {"create": staticmethod(create)})()
+    chat = type("Ch", (), {"completions": completions})()
+    monkeypatch.setattr(
+        openai, "OpenAI", lambda **kw: type("Cl", (), {"chat": chat})()
+    )
+    genera = llm.crea_generatore(
+        api_key="finta", model="primario", modelli_fallback=list(modelli_fallback)
+    )
+    return genera, chiamate
+
+
+def test_chiede_json_nativo_al_server(monkeypatch):
+    # Il vincolo da prompt non basta: il 70b emetteva escape illegali. Il formato
+    # va imposto lato server, altrimenti la regressione torna silenziosa.
+    genera, chiamate = _generatore_spia(
+        monkeypatch, lambda kw: _RispostaFinta('{"sintesi": "ok"}', "stop")
+    )
+    assert genera("p") == {"sintesi": "ok"}
+    assert chiamate[0]["response_format"] == {"type": "json_object"}
+
+
+def test_modello_che_rifiuta_json_nativo_viene_riprovato_senza(monkeypatch):
+    # Un 400 e' STICKY: senza questo degrado, un modello che non supporta la
+    # modalita' JSON verrebbe abbandonato per tutta la run.
+    def gestore(kw):
+        if "response_format" in kw:
+            raise _ErroreHTTP(400)
+        return _RispostaFinta('{"sintesi": "ok"}', "stop")
+
+    genera, chiamate = _generatore_spia(monkeypatch, gestore)
+    assert genera("p") == {"sintesi": "ok"}
+    assert len(chiamate) == 2
+    assert chiamate[1]["model"] == "primario"  # stesso modello, non un ripiego
+    assert "response_format" not in chiamate[1]
+
+
+def test_il_rifiuto_del_json_nativo_si_ricorda(monkeypatch):
+    # Scoprirlo a ogni articolo raddoppierebbe le chiamate (e la quota).
+    def gestore(kw):
+        if "response_format" in kw:
+            raise _ErroreHTTP(400)
+        return _RispostaFinta('{"sintesi": "ok"}', "stop")
+
+    genera, chiamate = _generatore_spia(monkeypatch, gestore)
+    genera("p")
+    genera("p")
+    assert len(chiamate) == 3  # 2 al primo giro (scoperta), 1 al secondo
+    assert "response_format" not in chiamate[2]
+
+
+def test_400_senza_json_nativo_resta_un_errore(monkeypatch):
+    # Il degrado non deve trasformare un 400 legittimo in un ciclo infinito.
+    def gestore(kw):
+        raise _ErroreHTTP(400)
+
+    genera, chiamate = _generatore_spia(monkeypatch, gestore)
+    with pytest.raises(_ErroreHTTP):
+        genera("p")
+    assert len(chiamate) == 2  # tentativo con, tentativo senza, poi si arrende
+
+
 def test_diagnostica_riporta_troncamento_della_risposta(monkeypatch):
     # Risposta tagliata a meta': il JSON e' rotto ma la colpa e' dello spazio,
     # non del modello che ignora il formato. Il log deve dirlo.

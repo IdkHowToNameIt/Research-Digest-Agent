@@ -267,12 +267,40 @@ def crea_generatore(
 
     client = OpenAI(base_url=GROQ_BASE_URL, api_key=key)
 
-    def _chiama(modello: str, prompt: str) -> dict:
-        risposta = client.chat.completions.create(
+    # Modelli che hanno rifiutato la modalita' JSON nativa: si ricade sul solo
+    # vincolo da prompt. Non c'e' una lista affidabile di chi la supporta, quindi
+    # si scopre sul campo UNA volta per modello invece di indovinare.
+    senza_json_nativo: set[str] = set()
+
+    def _crea(modello: str, prompt: str, json_nativo: bool):
+        extra = {"response_format": {"type": "json_object"}} if json_nativo else {}
+        return client.chat.completions.create(
             model=modello,
             messages=[{"role": "user", "content": prompt}],
             temperature=0.3,
+            **extra,
         )
+
+    def _chiama(modello: str, prompt: str) -> dict:
+        # response_format vincola il server a emettere JSON valido: senza, il 70b
+        # produce quasi-JSON (escape '\\'' illegali, valori senza virgolette) che
+        # nessun parser puo' riparare senza indovinare. Entrambi i prompt
+        # contengono la parola "JSON", precondizione della modalita' su Groq.
+        json_nativo = modello not in senza_json_nativo
+        try:
+            risposta = _crea(modello, prompt, json_nativo)
+        except Exception as e:  # noqa: BLE001 - si distingue solo il 400 "non supportata"
+            # Un 400 sarebbe STICKY: brucerebbe il modello migliore per tutta la
+            # run per una funzionalita' opzionale. Meglio degradare e riprovare.
+            if not json_nativo or _codice_errore(e) != 400:
+                raise
+            senza_json_nativo.add(modello)
+            print(
+                f"[attenzione] modello '{modello}' rifiuta la modalita' JSON "
+                f"nativa: proseguo con il solo vincolo da prompt",
+                file=sys.stderr,
+            )
+            risposta = _crea(modello, prompt, False)
         uso = getattr(risposta, "usage", None)
         if on_uso is not None and uso is not None:
             on_uso(
@@ -287,8 +315,9 @@ def crea_generatore(
         except RispostaNonJSON as e:
             # Il perche' di un JSON illeggibile cambia il rimedio: 'length' vuol
             # dire risposta TRONCATA (serve piu' spazio o un prompt piu' corto),
-            # 'stop' vuol dire che il modello ha ignorato il formato (serve
-            # response_format). A log erano indistinguibili.
+            # 'stop' vuol dire che il modello ha ignorato il formato. Resta utile
+            # anche con response_format attivo: se qui ricompare un 'stop', vuol
+            # dire che il vincolo nativo non ha retto e non basta piu' insistere.
             motivo = getattr(scelta, "finish_reason", None)
             raise RispostaNonJSON(
                 f"{e} [finish_reason={motivo}, {len(contenuto)} caratteri]"
