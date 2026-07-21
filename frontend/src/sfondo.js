@@ -33,11 +33,13 @@ export function avviaSfondo(cv) {
   var EFFETTO_CURSORE = true;
 
   // INTENSITA' DELL'ALONE (2026-07-22): misurata sul video del loro sito.
-  // Il riempimento rosso al centro arriva a ~+65 sul rosso rispetto al fondo,
-  // cioe' alpha ~0.45 sul colore HALO: quattro volte lo 0.10 che avevamo. Era
-  // QUESTA la differenza fra il loro sfondo "vivo" e il nostro spento, non un
-  // movimento in piu': la luce era semplicemente troppo debole per vedersi.
-  var HALO_ALPHA = 0.42;
+  // (2026-07-22, 2ª taratura) Confronto diretto fra il loro video e uno NOSTRO:
+  // misurando il riempimento rosso FRA i glifi (non i glifi accesi), da loro
+  // l'alone al centro e' alpha ~1.0 e muore a ~3 celle; da noi con 0.42 restava
+  // alpha ~0.2 e moriva a mezza cella — cinque volte piu' debole e quattro piu'
+  // stretto. Per portare il rosso al centro a ~154 (fondo 11) su rgba(154,3,30)
+  // serve alpha ~0.9: e' l'unico modo di avere la loro "pozza" invece di un punto.
+  var HALO_ALPHA = 0.9;
   var CELL = 72;                   // passo della griglia (px) — loro: 72.5 CSS
   // REPLICA DI KAKASHI (2026-07-21), non piu' una stima: misurato sul loro canvas
   // il 58% delle celle contiene un glifo. Il nostro 0.24 era meno della meta', ed
@@ -61,7 +63,7 @@ export function avviaSfondo(cv) {
     "data:image/png;base64,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"
   ];
 
-  var grey = [], red = [], ready = false, loaded = 0;
+  var grey = [], red = [], bianco = [], ready = false, loaded = 0;
   var W = 0, H = 0, DPR = 1, cols = 0, rows = 0, cells = [], base = null;
 
   function tint(img, rgb) {
@@ -221,6 +223,14 @@ export function avviaSfondo(cv) {
       // da 0.19 a 0.25 appena il cursore entrava nel raggio).
       ctx.globalAlpha = s.a + (1 - s.a) * s.ig;
       ctx.drawImage(red[s.g], -d / 2, -d / 2, d, d);
+      // Nel core i loro glifi non restano rosa: virano al BIANCO (misurato
+      // ~254,250,254 sotto il cursore). Ci sovrapponiamo la versione bianca solo
+      // ai glifi molto accesi, con peso ig^2, cosi' i vuoti restano rossi e solo
+      // il cuore dell'alone diventa incandescente come da loro.
+      if (s.ig > 0.4) {
+        ctx.globalAlpha = Math.min(0.9, (s.ig - 0.4) / 0.5);
+        ctx.drawImage(bianco[s.g], -d / 2, -d / 2, d, d);
+      }
       ctx.restore();
     }
     requestAnimationFrame(frame);
@@ -231,6 +241,7 @@ export function avviaSfondo(cv) {
     im.onload = function () {
       grey[i] = tint(im, '232,232,238');   // colore loro, estratto dal bundle
       red[i] = tint(im, GLOW);
+      bianco[i] = tint(im, '255,250,254'); // core incandescente, misurato su KVA
       if (++loaded === SRC.length) { ready = true; ridisegna(); }
     };
     im.onerror = function () { if (++loaded === SRC.length) { ready = true; ridisegna(); } };
