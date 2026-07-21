@@ -32,7 +32,7 @@ export function avviaSfondo(cv) {
   // grafica (le VM della scuola) lo sfondo smette di costare.
   var EFFETTO_CURSORE = true;
 
-  var CELL = 96;                   // passo della griglia (px)
+  var CELL = 72;                   // passo della griglia (px) — loro: 72.5 CSS
   // REPLICA DI KAKASHI (2026-07-21), non piu' una stima: misurato sul loro canvas
   // il 58% delle celle contiene un glifo. Il nostro 0.24 era meno della meta', ed
   // e' il motivo per cui la texture appariva rada e slegata invece che uniforme.
@@ -40,10 +40,7 @@ export function avviaSfondo(cv) {
   // noi CELL = 72.)
   var DENSITY = 0.58;              // frazione di celle con un glifo
   var DRAW = 0.64;                 // dimensione del glifo rispetto alla cella
-  // Raggio d'influenza espresso IN CELLE: ingrandendo la cella da 72 a 96 il
-  // raggio era cresciuto da solo del 33% (216 -> 288px) e l'effetto risultava
-  // disperso. Sceso a 1.9 -> 182px, piu' concentrato di quanto fosse in origine.
-  var RANGE_CELLS = 1.9;           // raggio d'influenza del cursore (in celle)
+  var RANGE_CELLS = 3.0;           // raggio d'influenza del cursore (in celle)
 
   var SRC = [
     "data:image/png;base64,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",
@@ -152,12 +149,12 @@ export function avviaSfondo(cv) {
       var target = 0;
       if (mouse.on) {
         var dist = Math.hypot(s.x - mouse.x, s.y - mouse.y);
-        if (dist < range) target = Math.pow(1 - dist / range, 1.8);
+        if (dist < range) target = Math.pow(1 - dist / range, 1.7);
       }
       s.ig += (target - s.ig) * (target > s.ig ? 0.35 : 0.10);
       if (s.ig < 0.02) continue;
 
-      var rr = CELL * (0.42 + 0.75 * s.ig);   // alone del singolo glifo, piu' stretto
+      var rr = CELL * (0.7 + 1.3 * s.ig);
       var g = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, rr);
       g.addColorStop(0, 'rgba(' + GLOW + ',' + (0.30 * s.ig).toFixed(3) + ')');
       g.addColorStop(1, 'rgba(' + GLOW + ',0)');
@@ -175,7 +172,7 @@ export function avviaSfondo(cv) {
   SRC.forEach(function (src, i) {
     var im = new Image();
     im.onload = function () {
-      grey[i] = tint(im, '150,156,164');
+      grey[i] = tint(im, '232,232,238');   // colore loro, estratto dal bundle
       red[i] = tint(im, GLOW);
       if (++loaded === SRC.length) { ready = true; ridisegna(); }
     };

@@ -6,7 +6,7 @@
     /* Schiarito il 2026-07-20 (#17161A -> #201F25): lo sfondo restava troppo vicino
        al nero e schiacciava i glifi; questo tono lascia respirare il campo di
        simboli senza toccare il contrasto del testo (--inchiostro resta invariato). */
-    --crema:        #0F0E13;                 /* quasi-nero come kakashi.ventures (misurato rgb(11,10,10)) */
+    --crema:        #0B0A0A;                 /* identico a kakashi.ventures: rgb(11,10,10) */
     --crema-2:      rgba(255,255,255,.05);   /* superfici hover / box "Perché conta" */
     --carta:        rgba(18,18,20,.86);      /* superfici delle card (glass) */
     --inchiostro:   #e7e9ec;                 /* testo */
