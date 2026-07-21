@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { LINEA, indiceAttivo } from '../lettura.js'
 import { fmtData, fmtLettura, pad2, plurale } from '../dati.js'
 import { IconaTema } from './Icone.jsx'
@@ -51,6 +51,11 @@ function Voce({ tema, articolo, n }) {
  */
 function useIndiceAttivo(articoli) {
   const [attivo, setAttivo] = useState(null)
+  // Voce scelta col click sull'indice. Lo scroll morbido che segue farebbe
+  // ricalcolare la posizione e, in fondo alla pagina, riporterebbe subito
+  // sull'ultima voce: cliccando 6 o 7 si finiva sempre sull'8. Finche' e'
+  // valorizzato il calcolo da scroll non tocca la selezione.
+  const fissato = useRef(null)
 
   useEffect(() => {
     if (articoli.length < 2) return undefined
@@ -58,12 +63,13 @@ function useIndiceAttivo(articoli) {
 
     const calcola = () => {
       programmato = false
+      if (fissato.current) return
       const nodi = [...document.querySelectorAll('.digest-lettura .art')]
       if (!nodi.length) return
       const doc = document.documentElement
-      const inFondo = window.innerHeight + window.scrollY >= doc.scrollHeight - 2
+      const restante = doc.scrollHeight - window.innerHeight - window.scrollY
       const cime = nodi.map((n) => n.getBoundingClientRect().top)
-      const i = indiceAttivo(cime, window.innerHeight * LINEA, inFondo)
+      const i = indiceAttivo(cime, window.innerHeight, restante)
       if (i >= 0) setAttivo(nodi[i].id)
     }
     // Lo scroll emette molti eventi: si accorpa il lavoro in un frame solo.
@@ -72,17 +78,32 @@ function useIndiceAttivo(articoli) {
       programmato = true
       requestAnimationFrame(calcola)
     }
+    // Lo scroll dell'utente libera il fissaggio; quello programmatico no,
+    // perche' rotella, tasti e dito emettono questi eventi e scrollIntoView no.
+    const suGestoUtente = () => {
+      if (!fissato.current) return
+      fissato.current = null
+      suScroll()
+    }
 
     calcola()
     window.addEventListener('scroll', suScroll, { passive: true })
     window.addEventListener('resize', suScroll)
+    window.addEventListener('wheel', suGestoUtente, { passive: true })
+    window.addEventListener('touchstart', suGestoUtente, { passive: true })
+    window.addEventListener('keydown', suGestoUtente)
     return () => {
       window.removeEventListener('scroll', suScroll)
       window.removeEventListener('resize', suScroll)
+      window.removeEventListener('wheel', suGestoUtente)
+      window.removeEventListener('touchstart', suGestoUtente)
+      window.removeEventListener('keydown', suGestoUtente)
     }
   }, [articoli])
 
-  return attivo
+  const fissa = (id) => { fissato.current = id; setAttivo(id) }
+
+  return [attivo, fissa]
 }
 
 export default function ArticoliGruppo({
@@ -125,7 +146,7 @@ export default function ArticoliGruppo({
     [articoli, fonte],
   )
 
-  const attivo = useIndiceAttivo(visibili)
+  const [attivo, fissaAttivo] = useIndiceAttivo(visibili)
 
   const nuovo = gruppo && gruppo.giorni <= indice.sogliaNuovo
   const lettura = gruppo ? fmtLettura(gruppo.minuti) : ''
@@ -196,6 +217,7 @@ export default function ArticoliGruppo({
                             <a
                               className={attivo === id ? 'attivo' : ''}
                               onClick={() => {
+                                fissaAttivo(id)
                                 const el = document.getElementById(id)
                                 if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
                               }}
