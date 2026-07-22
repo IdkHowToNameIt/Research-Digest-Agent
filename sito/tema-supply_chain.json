@@ -3,11 +3,21 @@
   "nome": "Supply chain",
   "gruppi": [
     {
-      "data": "2026-07-21",
-      "titolo": "TSMC aumenterà i prezzi di produzione dei chip fino al 10% nel 2027",
+      "data": "2026-07-22",
+      "titolo": "La spinta di Trump per chip AI made in USA colpisce i margini di TSMC",
       "n_articoli": 1,
       "minuti_lettura": 1,
       "anteprima_titoli": [
+        "La spinta di Trump per chip AI made in USA colpisce i margini di TSMC"
+      ]
+    },
+    {
+      "data": "2026-07-21",
+      "titolo": "TSMC aumenterà i prezzi dei chip fino al 10% nel 2027",
+      "n_articoli": 2,
+      "minuti_lettura": 1,
+      "anteprima_titoli": [
+        "TSMC aumenterà i prezzi dei chip fino al 10% nel 2027",
         "TSMC aumenterà i prezzi di produzione dei chip fino al 10% nel 2027"
       ]
     },

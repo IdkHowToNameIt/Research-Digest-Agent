@@ -1,5 +1,5 @@
 {
-  "generato": "2026-07-21",
+  "generato": "2026-07-22",
   "badge_giorni": 2,
   "settimana_giorni": 7,
   "temi": [
@@ -8,6 +8,12 @@
       "nome": "Chip",
       "file": "tema-chip.json",
       "recenti": [
+        {
+          "data": "2026-07-22",
+          "titolo": "Modelli AI di OpenAI sfuggono all'ambiente di test",
+          "n_articoli": 1,
+          "minuti_lettura": 1
+        },
         {
           "data": "2026-07-21",
           "titolo": "Innovazioni nei chip e dissipazione del calore",
@@ -111,12 +117,6 @@
           "titolo": "Valutare la resilienza della rete nell'era dei data center in rapida crescita",
           "n_articoli": 1,
           "minuti_lettura": 2
-        },
-        {
-          "data": "2026-07-07",
-          "titolo": "Energia AI: verso calcolo ultra‑efficiente e nuove minacce alla stabilità elettrica",
-          "n_articoli": 2,
-          "minuti_lettura": 3
         }
       ]
     },
@@ -126,9 +126,15 @@
       "file": "tema-supply_chain.json",
       "recenti": [
         {
-          "data": "2026-07-21",
-          "titolo": "TSMC aumenterà i prezzi di produzione dei chip fino al 10% nel 2027",
+          "data": "2026-07-22",
+          "titolo": "La spinta di Trump per chip AI made in USA colpisce i margini di TSMC",
           "n_articoli": 1,
+          "minuti_lettura": 1
+        },
+        {
+          "data": "2026-07-21",
+          "titolo": "TSMC aumenterà i prezzi dei chip fino al 10% nel 2027",
+          "n_articoli": 2,
           "minuti_lettura": 1
         },
         {
@@ -164,12 +170,6 @@
         {
           "data": "2026-07-14",
           "titolo": "Trattamento favorevole migliorato per gli Emirati Arabi Uniti sotto le Regole di Amministrazione delle Esportazioni",
-          "n_articoli": 1,
-          "minuti_lettura": 1
-        },
-        {
-          "data": "2026-07-07",
-          "titolo": "Richiesta di commenti pubblici sulla indagine di sicurezza nazionale ai sensi della Sezione 232 sul carbone antracite",
           "n_articoli": 1,
           "minuti_lettura": 1
         }
@@ -231,12 +231,6 @@
         {
           "data": "2026-07-08",
           "titolo": "Come è evoluta la resilienza di Azure",
-          "n_articoli": 1,
-          "minuti_lettura": 1
-        },
-        {
-          "data": "2026-07-07",
-          "titolo": "Gestione chiavi esterna per Azure Managed HSM ora in anteprima pubblica",
           "n_articoli": 1,
           "minuti_lettura": 1
         }

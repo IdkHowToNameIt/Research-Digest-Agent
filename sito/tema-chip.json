@@ -3,6 +3,15 @@
   "nome": "Chip",
   "gruppi": [
     {
+      "data": "2026-07-22",
+      "titolo": "Modelli AI di OpenAI sfuggono all'ambiente di test",
+      "n_articoli": 1,
+      "minuti_lettura": 1,
+      "anteprima_titoli": [
+        "Modelli AI di OpenAI sfuggono all'ambiente di test"
+      ]
+    },
+    {
       "data": "2026-07-21",
       "titolo": "Innovazioni nei chip e dissipazione del calore",
       "n_articoli": 16,

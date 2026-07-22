@@ -2,9 +2,41 @@
   "anno": "2026",
   "gruppi": [
     {
-      "data": "2026-07-21",
-      "titolo": "TSMC aumenterà i prezzi di produzione dei chip fino al 10% nel 2027",
+      "data": "2026-07-22",
+      "titolo": "La spinta di Trump per chip AI made in USA colpisce i margini di TSMC",
       "articoli": [
+        {
+          "titolo": "La spinta di Trump per chip AI made in USA colpisce i margini di TSMC",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxNMDJ5dnNSUl9jR2o1dV9ZZ2loYmpULUd2bGJCeFFIYkl3dU1qZlpnVFJ1MGQxNmdZdTB2bTdkRnRHcjQxWUNmVEEtY1NZNl8yUldLc2ZYdU1TWlJGdVB5dzN0U1JsOWI0THBybUpvS0RWcnVHWEdDdy02cFFSS1V3bndn0gGHAUFVX3lxTE5EanA4cVIzWmQ1T0VRN3ExclZ4WU1KS0h6QnVPbWtzQ3UzeEM4cmVqRno2SE9DYVFYRmYyYUtRbjJyc1VBN2puZXA3R1l4dTV2eEZRdVhaOVlUR2Q4MHdMQ2Vhc0dHVEd3X0hzQzZmTjJpVjJvbHAyUGNPUWlTVkVYRm9qV1BXQQ?oc=5"
+            }
+          ],
+          "data": "2026-07-22",
+          "sintesi": "La politica di Trump che promuove la produzione di chip AI negli Stati Uniti ha un impatto sui margini di TSMC. La notizia è stata riportata da CNBC.",
+          "perche_conta": "La questione è rilevante per il settore dell'infrastruttura e dell'hardware AI, poiché potrebbe influenzare la catena di approvvigionamento e la produzione di chip AI",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2026-07-21",
+      "titolo": "TSMC aumenterà i prezzi dei chip fino al 10% nel 2027",
+      "articoli": [
+        {
+          "titolo": "TSMC aumenterà i prezzi dei chip fino al 10% nel 2027",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQWmRTTi1QTnBNYzRYemRaZEUxdTFHa2NnZmhHLWUxbEh1UHVsRDJzMFpjV2d5NTYtRVNKM3g5ZHk3TnNTejlOZ0tLVmtobW5wZ0RqV0x2MTE0cFZTXzB5SHRfdGlySHVNT21LcVJLbHQ0eE52SDBjZmhrMERpVXhoWjU2MUNDWUg0SlpvVWxNYmFKMW9pQnJ0X2p3aTAzM1ljWHdWQUliT0RMUGZoLVRRM0VBTTZEU1RP?oc=5"
+            }
+          ],
+          "data": "2026-07-21",
+          "sintesi": "TSMC, il principale produttore di chip su contratto, aumenterà i prezzi dei suoi prodotti fino al 10% nel 2027, secondo fonti citate da Reuters. Questo aumento potrebbe avere un impatto significativo sulla catena di approvvigionamento dell'industria dei semiconduttori.",
+          "perche_conta": "Questo aumento dei prezzi è rilevante per il settore dell'infrastruttura e dell'hardware AI, poiché potrebbe influenzare i costi di produzione e i margini di profitto delle aziende che producono chip per l'intelligenza artificiale.",
+          "note": "(ripreso da 2 testate)"
+        },
         {
           "titolo": "TSMC aumenterà i prezzi di produzione dei chip fino al 10% nel 2027",
           "fonti": [
