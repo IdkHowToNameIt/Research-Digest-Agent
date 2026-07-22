@@ -96,6 +96,50 @@ def test_plurali_e_derivati_passano():
         assert is_rilevante(_cand(titolo=testo, filtro=True)) is True, testo
 
 
+# --- Fuori beat dal titolo (regressione 2026-07-22) -------------------------
+# Il caso reale: l'incidente "modelli OpenAI evadono dal sandbox e hackerano i
+# server di HuggingFace" passava il filtro per "servers" e finiva in chip, ma e'
+# cronaca di cybersicurezza, non hardware. Se il TITOLO annuncia una storia di
+# sicurezza, la voce e' fuori beat anche se il testo tocca parole del beat.
+
+def test_titolo_di_cybersicurezza_scartato_anche_con_parole_beat():
+    c = _cand(
+        titolo="OpenAI's unreleased AI models break out of testing environment "
+               "in unprecedented cybersecurity incident",
+        estratto="rogue agents hacked HuggingFace's production servers",
+        filtro=True,
+    )
+    assert is_rilevante(c) is False
+
+
+def test_attacco_fisico_a_infrastruttura_resta_in_beat():
+    # la parola d'esclusione deve stare nel TITOLO: un attacco fisico a un data
+    # center e' notizia di beat a pieno titolo e non va persa
+    c = _cand(
+        titolo="Amazon data center in Bahrain struck and destroyed by cruise missile",
+        estratto="the AWS region is offline; capacity rerouted",
+        filtro=True,
+    )
+    assert is_rilevante(c) is True
+
+
+def test_parola_di_sicurezza_solo_nel_corpo_non_esclude():
+    # nel corpo le parole di sicurezza compaiono anche in articoli in beat
+    # (es. un roundup): l'esclusione non deve guardare l'estratto
+    c = _cand(
+        titolo="What's new with Google Cloud: regions and capacity",
+        estratto="also this week: a note on ransomware defense",
+        filtro=True,
+    )
+    assert is_rilevante(c) is True
+
+
+def test_fonte_curata_non_subisce_il_filtro_titolo():
+    # una fonte senza filtro_rilevanza titola come vuole (e' gia' scoped al beat)
+    c = _cand(titolo="Hardening GPUs against breach attempts", filtro=False)
+    assert is_rilevante(c) is True
+
+
 def test_offerta_commerciale_hardware_viene_scartata():
     # categoria "deals": e' hardware ma non e' notizia di beat
     c = _cand(
