@@ -5,25 +5,11 @@
    tenui e ruotati a 0/90/180/270 gradi; vicino al cursore si accendono in
    rosa-rosso rgb(255,120,140) con un alone rosso. Indipendente dall'app qui sopra.
 ========================================================================= */
-import { creaFluido } from './fluido.js';
-
 export function avviaSfondo(cv) {
   "use strict";
   if (!cv) return function () {};
   var ctx = cv.getContext('2d');
   var vivo = true;
-
-  // FLUIDO WebGL (2026-07-22). Sotto ai glifi gira una simulazione di fluido su
-  // GPU: il mouse ci inietta velocita', il campo `dye` vortica e si dissolve, e
-  // quel campo — non piu' la distanza dal cursore — decide dove i glifi si
-  // accendono e dove sta la pozza rossa. E' cio' che da' il movimento "ad acqua"
-  // che un alone a gradiente non puo' dare. Se WebGL non c'e' (VM senza GPU),
-  // `creaFluido` torna null e si ripiega sull'alone canvas 2D piu' sotto.
-  var fluido = null;
-  try { fluido = creaFluido(); } catch (e) { fluido = null; }
-  var campo = null;        // Uint8 RGBA letto dal fluido
-  var campoW = 0, campoH = 0;
-  var poolCv = null, poolCtx = null, poolImg = null;  // per ingrandire la pozza
 
   var GLOW = '255,120,140';        // colore dei glifi accesi (dal sito)
   var HALO = '154,3,30';           // alone rosso attorno al cursore (#9A031E)
@@ -47,13 +33,6 @@ export function avviaSfondo(cv) {
   var EFFETTO_CURSORE = true;
 
   // INTENSITA' DELL'ALONE (2026-07-22): misurata sul video del loro sito.
-  // (2026-07-22, 2ª taratura) Confronto diretto fra il loro video e uno NOSTRO:
-  // misurando il riempimento rosso FRA i glifi (non i glifi accesi), da loro
-  // l'alone al centro e' alpha ~1.0 e muore a ~3 celle; da noi con 0.42 restava
-  // alpha ~0.2 e moriva a mezza cella — cinque volte piu' debole e quattro piu'
-  // stretto. Per portare il rosso al centro a ~154 (fondo 11) su rgba(154,3,30)
-  // serve alpha ~0.9: e' l'unico modo di avere la loro "pozza" invece di un punto.
-  var HALO_ALPHA = 0.9;
   var CELL = 72;                   // passo della griglia (px) — loro: 72.5 CSS
   // REPLICA DI KAKASHI (2026-07-21), non piu' una stima: misurato sul loro canvas
   // il 58% delle celle contiene un glifo. Il nostro 0.24 era meno della meta', ed
@@ -77,7 +56,7 @@ export function avviaSfondo(cv) {
     "data:image/png;base64,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"
   ];
 
-  var grey = [], red = [], bianco = [], ready = false, loaded = 0;
+  var grey = [], ready = false, loaded = 0;
   var W = 0, H = 0, DPR = 1, cols = 0, rows = 0, cells = [], base = null;
 
   function tint(img, rgb) {
@@ -134,24 +113,6 @@ export function avviaSfondo(cv) {
       b.globalAlpha = s.a; b.drawImage(grey[s.g], -d / 2, -d / 2, d, d);
       b.restore();
     }
-
-    // Dimensiona il fluido sul viewport e prepara il canvasino per ingrandire la
-    // pozza. Se l'allocazione fallisce (framebuffer incompleto), disabilita il
-    // fluido e si torna all'alone 2D.
-    if (fluido) {
-      var ok = false;
-      try { ok = fluido.ridimensiona(W, H); } catch (e) { ok = false; }
-      if (ok) {
-        var dm = fluido.dim(); campoW = dm.w; campoH = dm.h;
-        campo = new Uint8Array(campoW * campoH * 4);
-        poolCv = document.createElement('canvas');
-        poolCv.width = campoW; poolCv.height = campoH;
-        poolCtx = poolCv.getContext('2d');
-        poolImg = poolCtx.createImageData(campoW, campoH);
-      } else {
-        fluido = null;
-      }
-    }
   }
 
   var mouse = { x: -9999, y: -9999, on: false };
@@ -191,22 +152,9 @@ export function avviaSfondo(cv) {
     return !!(el && el.closest && el.closest(INTERATTIVI));
   }
 
-  var ultimoMouse = { x: -9999, y: -9999 };
-  var FORZA_FLUIDO = 2.6;   // quanto il movimento del mouse spinge il fluido
-  var DYE_SPLAT = 0.9;      // colorante iniettato per movimento (satura ~1 al centro)
-
   function onMove(e) {
     mouse.x = e.clientX; mouse.y = e.clientY;
     mouse.on = !suContenuto(e.target);
-    if (fluido && mouse.on && W > 0) {
-      var px = e.clientX / W, py = 1 - e.clientY / H;   // origine in basso a sx
-      var dx = ultimoMouse.x < -9000 ? 0 : (e.clientX - ultimoMouse.x);
-      var dy = ultimoMouse.x < -9000 ? 0 : (e.clientY - ultimoMouse.y);
-      // velocita' in "celle di simulazione": scala col lato del campo e cambia
-      // segno su y perche' il fluido ha l'origine in basso
-      fluido.splat(px, py, dx * FORZA_FLUIDO, -dy * FORZA_FLUIDO, DYE_SPLAT);
-    }
-    ultimoMouse.x = e.clientX; ultimoMouse.y = e.clientY;
   }
   function onOut(e) { if (!e.relatedTarget) mouse.on = false; }
   if (EFFETTO_CURSORE) {
@@ -216,45 +164,6 @@ export function avviaSfondo(cv) {
   function ridisegna() { build(); if (!EFFETTO_CURSORE) requestAnimationFrame(frame); }
   window.addEventListener('resize', ridisegna);
 
-  var ultimoT = 0;
-  var hp = HALO.split(',').map(Number);   // [R,G,B] della pozza
-
-  // Campiona il campo dye (0..1) in coordinate schermo, con interpolazione
-  // bilineare. Il fluido ha l'origine in basso a sinistra: la y va ribaltata.
-  function campionaDye(sx, sy) {
-    var fx = (sx / W) * campoW - 0.5;
-    var fy = (1 - sy / H) * campoH - 0.5;
-    var x0 = Math.floor(fx), y0 = Math.floor(fy);
-    var tx = fx - x0, ty = fy - y0;
-    if (x0 < 0) { x0 = 0; tx = 0; } if (x0 >= campoW - 1) { x0 = campoW - 2; tx = 1; }
-    if (y0 < 0) { y0 = 0; ty = 0; } if (y0 >= campoH - 1) { y0 = campoH - 2; ty = 1; }
-    var i00 = (y0 * campoW + x0) * 4, i10 = i00 + 4;
-    var i01 = i00 + campoW * 4, i11 = i01 + 4;
-    var a = campo[i00] * (1 - tx) + campo[i10] * tx;
-    var b = campo[i01] * (1 - tx) + campo[i11] * tx;
-    return (a * (1 - ty) + b * ty) / 255;
-  }
-
-  // Disegna la pozza rossa ingrandendo il campo dye: costruisce un'immagine
-  // piccola (colore HALO, alpha = dye) e la stira a schermo con interpolazione.
-  // Ne esce una macchia morbida che vortica col fluido, non un cerchio.
-  function disegnaPozza() {
-    var dst = poolImg.data;
-    for (var y = 0; y < campoH; y++) {
-      var src = (campoH - 1 - y) * campoW * 4;    // ribalta la y
-      var row = y * campoW * 4;
-      for (var x = 0; x < campoW; x++) {
-        var v = campo[src + x * 4];               // dye 0..255
-        var o = row + x * 4;
-        dst[o] = hp[0]; dst[o + 1] = hp[1]; dst[o + 2] = hp[2];
-        dst[o + 3] = v * HALO_ALPHA;
-      }
-    }
-    poolCtx.putImageData(poolImg, 0, 0);
-    ctx.imageSmoothingEnabled = true;
-    ctx.drawImage(poolCv, 0, 0, campoW, campoH, 0, 0, W, H);
-  }
-
   function frame() {
     if (!vivo) return;
     if (!ready) { requestAnimationFrame(frame); return; }
@@ -262,48 +171,35 @@ export function avviaSfondo(cv) {
     ctx.drawImage(base, 0, 0, base.width, base.height, 0, 0, W, H);
     // Texture statica come il riferimento: disegnata una volta, nessun ciclo.
     if (!EFFETTO_CURSORE) return;
-    var d = DRAW * CELL, range = CELL * RANGE_CELLS;
-    var usaFluido = !!(fluido && campo);
+    if (luce.x < -9000) { luce.x = mouse.x; luce.y = mouse.y; }
+    luce.x += (mouse.x - luce.x) * INSEGUIMENTO;
+    luce.y += (mouse.y - luce.y) * INSEGUIMENTO;
+    var range = CELL * RANGE_CELLS, d = DRAW * CELL;
 
-    if (usaFluido) {
-      // Avanza la simulazione e leggi il campo, poi disegna la pozza dal fluido.
-      var ora = performance.now();
-      var dt = ultimoT ? (ora - ultimoT) / 1000 : 0.016;
-      ultimoT = ora;
-      fluido.passo(dt);
-      fluido.leggi(campo);
-      disegnaPozza();
-    } else {
-      // Fallback canvas 2D: alone a gradiente che insegue il cursore.
-      if (luce.x < -9000) { luce.x = mouse.x; luce.y = mouse.y; }
-      luce.x += (mouse.x - luce.x) * INSEGUIMENTO;
-      luce.y += (mouse.y - luce.y) * INSEGUIMENTO;
-      if (mouse.on) {
-        // Stop ricalcati sulla curva misurata nel video (valori normalizzati sul
-        // centro, a raggio 0 / 0,22 / 0,44 / 0,67 / 0,89 / 1 del raggio totale).
-        var halo = ctx.createRadialGradient(luce.x, luce.y, 0, luce.x, luce.y, range);
-        halo.addColorStop(0.00, 'rgba(' + HALO + ',' + (HALO_ALPHA * 1.00).toFixed(3) + ')');
-        halo.addColorStop(0.22, 'rgba(' + HALO + ',' + (HALO_ALPHA * 0.77).toFixed(3) + ')');
-        halo.addColorStop(0.44, 'rgba(' + HALO + ',' + (HALO_ALPHA * 0.43).toFixed(3) + ')');
-        halo.addColorStop(0.67, 'rgba(' + HALO + ',' + (HALO_ALPHA * 0.18).toFixed(3) + ')');
-        halo.addColorStop(0.89, 'rgba(' + HALO + ',' + (HALO_ALPHA * 0.04).toFixed(3) + ')');
-        halo.addColorStop(1.00, 'rgba(' + HALO + ',0)');
-        ctx.fillStyle = halo;
-        ctx.fillRect(luce.x - range, luce.y - range, range * 2, range * 2);
-      }
+    // BLENDING ADDITIVO (2026-07-22, dal codice reale di KVA: gco="lighter").
+    // Era QUESTO che ci sfuggiva: KVA disegna tutto il bagliore in additivo, cosi'
+    // le luci sovrapposte si SOMMANO e il centro brucia verso il bianco. In
+    // source-over (il default che usavamo) i glow si coprono e restano piatti,
+    // come vernice rossa invece che luce. Da qui fino a fine loop e' tutto additivo.
+    ctx.globalCompositeOperation = 'lighter';
+
+    if (mouse.on) {
+      // Alone del cursore ROSSO (i vuoti attorno al cursore, da loro, restano
+      // rossi — misurato: al centro il fondo fra i glifi e' ~154,3,30, non bianco):
+      // riempie di rosso lo spazio fra i glifi. Il bianco lo fanno solo i glifi.
+      var halo = ctx.createRadialGradient(luce.x, luce.y, 0, luce.x, luce.y, range);
+      halo.addColorStop(0.00, 'rgba(' + HALO + ',0.55)');
+      halo.addColorStop(0.45, 'rgba(' + HALO + ',0.22)');
+      halo.addColorStop(1.00, 'rgba(' + HALO + ',0)');
+      ctx.fillStyle = halo;
+      ctx.beginPath(); ctx.arc(luce.x, luce.y, range, 0, 6.2832); ctx.fill();
     }
 
     for (var i = 0; i < cells.length; i++) {
       var s = cells[i];
       if (!s) continue;
       var target = 0;
-      if (usaFluido) {
-        // L'accensione del glifo la decide il fluido: dove il colorante e' denso,
-        // il glifo si accende. E' la simulazione, non la distanza dal cursore, a
-        // muovere la luce — da qui il movimento "ad acqua".
-        target = campionaDye(s.x, s.y);
-        if (target > 1) target = 1;
-      } else if (mouse.on) {
+      if (mouse.on) {
         var dist = Math.hypot(s.x - luce.x, s.y - luce.y);
         // Accensione piena al centro (era *0.45, quando il grosso lo facevano le
         // onde). Nel video i glifi sotto il cursore arrivano a saturare in bianco:
@@ -316,31 +212,31 @@ export function avviaSfondo(cv) {
       s.ig += (target - s.ig) * (target > s.ig ? 0.40 : 0.20);
       if (s.ig < 0.02) continue;
 
+      // Glow per glifo con gli STOP ESATTI di KVA (letti dal loro chunk):
+      //   centro  rgba(255,120,140, 0.5*ig)   (GLOW rosa)
+      //   a 0.6   rgba(154,3,30,   0.18*ig)   (HALO rosso)
+      //   bordo   trasparente
+      // Additivo: dove piu' glow si sovrappongono, il rosa si somma e schiarisce.
       var rr = CELL * (0.7 + 1.3 * s.ig);
       var g = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, rr);
-      g.addColorStop(0, 'rgba(' + GLOW + ',' + (0.45 * s.ig).toFixed(3) + ')');
-      g.addColorStop(1, 'rgba(' + GLOW + ',0)');
+      g.addColorStop(0.0, 'rgba(' + GLOW + ',' + (0.5 * s.ig).toFixed(3) + ')');
+      g.addColorStop(0.6, 'rgba(' + HALO + ',' + (0.18 * s.ig).toFixed(3) + ')');
+      g.addColorStop(1.0, 'rgba(' + HALO + ',0)');
       ctx.fillStyle = g;
       ctx.beginPath(); ctx.arc(s.x, s.y, rr, 0, 6.2832); ctx.fill();
 
-      // Le immagini NON si muovono: orientamento fisso, come a riposo. A muoversi
-      // e' solo la luce (vedi `luce`, che insegue il cursore con ritardo).
+      // Glifo acceso: si AGGIUNGE (additivo) la versione grigia quasi-bianca,
+      // scalata con ig. Il grigio somma in parti uguali su R,G,B, quindi il glifo
+      // vira al BIANCO man mano che si accende, mentre i vuoti attorno restano
+      // rossi (li' c'e' solo il glow). E' cosi' che da loro i glifi sotto il
+      // cursore diventano bianchi in una pozza rossa. Le immagini NON si muovono:
+      // rotazione fissa come a riposo.
       ctx.save(); ctx.translate(s.x, s.y); ctx.rotate(s.rot);
-      // Si parte dall'opacita' a riposo del glifo e si sale fino a 1: cosi' non
-      // c'e' scalino quando l'alone arriva (con 0.25 fisso il glifo "scattava"
-      // da 0.19 a 0.25 appena il cursore entrava nel raggio).
-      ctx.globalAlpha = s.a + (1 - s.a) * s.ig;
-      ctx.drawImage(red[s.g], -d / 2, -d / 2, d, d);
-      // Nel core i loro glifi non restano rosa: virano al BIANCO (misurato
-      // ~254,250,254 sotto il cursore). Ci sovrapponiamo la versione bianca solo
-      // ai glifi molto accesi, con peso ig^2, cosi' i vuoti restano rossi e solo
-      // il cuore dell'alone diventa incandescente come da loro.
-      if (s.ig > 0.4) {
-        ctx.globalAlpha = Math.min(0.9, (s.ig - 0.4) / 0.5);
-        ctx.drawImage(bianco[s.g], -d / 2, -d / 2, d, d);
-      }
+      ctx.globalAlpha = 0.65 * s.ig;
+      ctx.drawImage(grey[s.g], -d / 2, -d / 2, d, d);
       ctx.restore();
     }
+    ctx.globalCompositeOperation = 'source-over';   // reset per il prossimo frame
     requestAnimationFrame(frame);
   }
 
@@ -348,8 +244,6 @@ export function avviaSfondo(cv) {
     var im = new Image();
     im.onload = function () {
       grey[i] = tint(im, '232,232,238');   // colore loro, estratto dal bundle
-      red[i] = tint(im, GLOW);
-      bianco[i] = tint(im, '255,250,254'); // core incandescente, misurato su KVA
       if (++loaded === SRC.length) { ready = true; ridisegna(); }
     };
     im.onerror = function () { if (++loaded === SRC.length) { ready = true; ridisegna(); } };
@@ -363,6 +257,5 @@ export function avviaSfondo(cv) {
     window.removeEventListener('mousemove', onMove);
     window.removeEventListener('mouseout', onOut);
     window.removeEventListener('resize', ridisegna);
-    if (fluido && fluido.distruggi) fluido.distruggi();
   };
 }
