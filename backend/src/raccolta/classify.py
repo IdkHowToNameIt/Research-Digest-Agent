@@ -63,6 +63,26 @@ _RE_BEAT = re.compile(
     )
 )
 
+# Parole che, NEL TITOLO, marcano una storia di cybersicurezza: fuori beat anche
+# se il testo contiene parole del beat. Caso reale (run 2026-07-22): l'incidente
+# "OpenAI models break out ... hacked HuggingFace's production servers" passava
+# per "servers" e finiva in chip, ma e' cronaca di sicurezza, non hardware.
+#
+# SOLO IL TITOLO, per scelta: e' la testata a dire di cosa parla la storia. Nel
+# corpo queste parole compaiono anche in articoli in beat (retro-test sui 42
+# articoli passati delle fonti filtrate: sull'intero testo l'esclusione ne
+# avrebbe scartati 6, tra cui il roundup "What's new with Google Cloud"; sul
+# solo titolo 1 — esattamente il falso positivo). Vale solo per le fonti con
+# `filtro_rilevanza`: una fonte curata resta libera di titolare come vuole.
+PAROLE_FUORI_BEAT_TITOLO: frozenset[str] = frozenset({
+    "hack", "hacked", "hacker", "cybersecurity", "breach", "malware",
+    "ransomware", "phishing",
+})
+
+_RE_FUORI_BEAT_TITOLO = re.compile(
+    "|".join(rf"\b{re.escape(k)}" for k in sorted(PAROLE_FUORI_BEAT_TITOLO, key=len, reverse=True))
+)
+
 
 def _testo(candidato: Candidato) -> str:
     return f"{candidato.titolo} {candidato.estratto}".lower()
@@ -77,6 +97,8 @@ def is_rilevante(candidato: Candidato) -> bool:
     """
     if not candidato.filtro_rilevanza:
         return True
+    if _RE_FUORI_BEAT_TITOLO.search(candidato.titolo.lower()):
+        return False
     return _RE_BEAT.search(_testo(candidato)) is not None
 
 
