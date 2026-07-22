@@ -1,9 +1,17 @@
 /* =========================================================================
-   SFONDO DEL CONCEPT — ripreso da kakashi.ventures (KVA "GlyphField").
-   Gli 8 simboli reali del sito (/glifi/glifoN.png, qui incorporati) sono disposti
-   SPARSI su una griglia (solo una frazione di celle, secondo la densita'), molto
-   tenui e ruotati a 0/90/180/270 gradi; vicino al cursore si accendono in
-   rosa-rosso rgb(255,120,140) con un alone rosso. Indipendente dall'app qui sopra.
+   SFONDO DEL CONCEPT — porting dell'algoritmo di kakashi.ventures (KVA),
+   decodificato dal loro chunk (4333db81…) il 2026-07-22.
+
+   L'"acqua" che l'utente vedeva e che tre round di misure sui video non
+   spiegavano e' una SIMULAZIONE A CAMPO D'ALTEZZA sulla griglia dei glifi:
+   - il mousemove inietta energia nella cella sotto il cursore (in quantita'
+     proporzionale alla velocita') e ogni tanto cade una "goccia" casuale;
+   - un'equazione d'onda a due buffer la propaga (damping 0.92);
+   - il GRADIENTE dell'acqua SPOSTA i glifi (fino a 0.14*cella), li scala
+     (±4%) e li schiarisce: e' questo il movimento liquido della pagina;
+   - le creste alte scintillano in additivo;
+   - il CLICK genera lo splash grande + 5 anelli concentrici in espansione.
+   Tutto canvas 2D + additivo ("lighter"), nessun WebGL. Indipendente dall'app.
 ========================================================================= */
 export function avviaSfondo(cv) {
   "use strict";
@@ -11,39 +19,18 @@ export function avviaSfondo(cv) {
   var ctx = cv.getContext('2d');
   var vivo = true;
 
-  var GLOW = '255,120,140';        // colore dei glifi accesi (dal sito)
-  var HALO = '154,3,30';           // alone rosso attorno al cursore (#9A031E)
-  // ZOOM DELLO SFONDO (2026-07-20): il passo della griglia era 46px, glifi molto
-  // piccoli e fitti. Portato a 72 per avvicinarsi alla scala di kakashi.ventures,
-  // dove i simboli si leggono come segni e non come texture. Tutto il resto scala
-  // da qui: la dimensione del glifo e' DRAW*CELL e il raggio del cursore
-  // RANGE_CELLS*CELL, quindi per ingrandire o rimpicciolire basta questa riga.
-  // EFFETTO AL CURSORE. Spento e poi RIACCESO il 2026-07-21.
-  //
-  // Le mie misure sul sito di kakashi non rilevavano alcuna reazione al cursore
-  // (alpha identica con mouse sopra e lontano, nessun pixel colorato, nessun
-  // gradiente o maschera CSS che segua il puntatore), ne' con mouse reale ne'
-  // con eventi sintetici. L'utente pero' lo vede: l'effetto c'e' e sono i miei
-  // strumenti a non coglierlo. Fra un'osservazione diretta e una sonda che non
-  // vede nulla, vince l'osservazione.
-  //
-  // Resta una costante perche' e' l'unico interruttore utile che abbiamo: da
-  // spento non gira alcun ciclo di animazione, e su macchine senza accelerazione
-  // grafica (le VM della scuola) lo sfondo smette di costare.
+  // COSTANTI — tutte lette dal chunk di KVA, non piu' stime.
+  var GLOW = '255,120,140';        // punto centrale del glifo acceso e splash
+  var ROSSO = '232,58,78';         // "n" nel loro chunk: glow, anelli, linee, scintille
+  var HALO = '154,3,30';           // rosso profondo del bordo del glow (#9A031E)
+  // EFFETTO AL CURSORE: interruttore per le VM senza accelerazione grafica.
+  // Da spento non gira alcun ciclo (niente acqua, niente pioggia): base statica.
   var EFFETTO_CURSORE = true;
-
-  // INTENSITA' DELL'ALONE (2026-07-22): misurata sul video del loro sito.
-  var CELL = 72;                   // passo della griglia (px) — loro: 72.5 CSS
-  // REPLICA DI KAKASHI (2026-07-21), non piu' una stima: misurato sul loro canvas
-  // il 58% delle celle contiene un glifo. Il nostro 0.24 era meno della meta', ed
-  // e' il motivo per cui la texture appariva rada e slegata invece che uniforme.
-  // (Il passo di griglia era gia' giusto: loro 58px canvas / dpr 0.8 = 72.5 CSS,
-  // noi CELL = 72.)
-  var DENSITY = 0.58;              // frazione di celle con un glifo
-  var DRAW = 0.64;                 // dimensione del glifo rispetto alla cella
-  // Raggio misurato sul video: l'alone muore a ~180 px con un passo di griglia
-  // di ~55 px, cioe' 3,3 celle. Il nostro 3,0 era gia' quasi giusto.
-  var RANGE_CELLS = 3.3;           // raggio d'influenza del cursore (in celle)
+  var CELL = 72;                   // passo griglia (px) — loro: 52/62/72 responsive
+  var DENSITY = 0.58;              // frazione di celle con un glifo (misurato)
+  var DRAW = 0.64;                 // dimensione glifo / cella (loro: .64*F)
+  var RAGGIO_CELLE = 3.6;          // accensione: m = smoothstep(1 - dist/3.6)*et
+  var ALPHA_BASE = 0.17;           // la loro C su desktop (+shade per glifo)
 
   var SRC = [
     "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASUAAAElCAMAAACVuQRFAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAGUExURRgWFwAAAGiMND0AAAACdFJOU/8A5bcwSgAAAAlwSFlzAAAOwwAADsMBx2+oZAAAABl0RVh0U29mdHdhcmUAUGFpbnQuTkVUIDUuMS4xMYoIFs4AAAC4ZVhJZklJKgAIAAAABQAaAQUAAQAAAEoAAAAbAQUAAQAAAFIAAAAoAQMAAQAAAAIAAAAxAQIAEQAAAFoAAABphwQAAQAAAGwAAAAAAAAAYAAAAAEAAABgAAAAAQAAAFBhaW50Lk5FVCA1LjEuMTEAAAMAAJAHAAQAAAAwMjMwAaADAAEAAAABAAAABaAEAAEAAACWAAAAAAAAAAIAAQACAAQAAABSOTgAAgAHAAQAAAAwMTAwAAAAAAY11HOyj3I7AAAGvElEQVR4Xu3RW3IjORQD0Z79b3qiZdkjpfWoIgDCnrjnU0Eii/afP2OMMcYYY4wxxhhjjDHGGGOMMcYYY4zxv/LPBX9N+ihuTS67fivwlBVjH3jqx+CH3uNpC0bu8XQfv/AR3hFx/hHeaeK3Pcebyzj8HG+W8LNe4+0lHH2Ntwv4Se9x4TQOvseFzfg5x3DlFI4dw5WN+CnHcekwDh3HpV34Hadw7BCOnMKxLfgRZ3HvAE6cxb08fsECTr7B6ws4Gcb8Gq6+xMtruJrE9iruvsCrq7ibw/I6Lj/Fi+u4nMKugttP8JqC2xmsijj/AK+IOJ/ApoyBb3hBxoAfizoWiOcNmHBjz4EN4HEHNrxY82DlDg97sOLElgs7N3jUhR0flnxY+sKDPizZMGTE1BWPGTHlwo4TW1c85sSWByterF3wkBdrFoyYMVcpythwY6+TFLHgx2IjqWIgoF6UcT+hn1RxPqJclHE9o51UcTykWpRxO6WbVHE6pliUcTmnmVRxOKeZVHE4qFaUcTepl1RxNqmXVHE2qlSUcTWrlVRxNKuVVHE0q5VUcTSsUpRxM62TVHEyrZNUcTKtk1RxMq2TVHEyrlDUcTKuUNRxMq5Q1HEyrlCUcTGvkVRxMK+RVHEwr5FUcTCvkVRxMK+RVHEwr5FUcTBvf5JvPo+LefuTfPN5XMzbn+Sbz+Ni3v4k33weF+MqSRUX4ypJFRfjKkkVF+MqSRUX4/Yn+eQFnIzbn+STF3AyrZNUcTKtk1RxMm1/ki9ewc2wUlLFzbBSUsXNsP1JPngJR7NaSRVHs1pJFUez9if53jVcjaolVVyN2p/kcxdxNqmXVHE2aX8Sj13G3aBiUsXdoP3J+6cKOJzTTKo4nLM/efdQCZdjqkkVl1O6SRWnU/Ynb4oyboeUkypuZ7STKo5H1JMqrkfsT94XZZxP2J9EUcb9gP1JFmUM+LHYSKoYsGOwklSx4MZePsmcAxtmzP3FM16sWTDixdoFD1kx5sGKE1tXPObElgkzRkx94jkjplzY8WHpCw/aMOTDkgs7N3jUhR0jpkyYucWzHqxYMWbByD2etmDEizUDJojnDZhwY0/GwHe8IWPAj0UR5x/hHRHnE9hUcPsJXlNwO4TZZRx+jjeXcTiH5TVcfYmXl3A0i/WzuHcAJ87i3vi1Cv/YQlJw/7U3eNCGoS88+EPwM7/hBR0LxPNt/L4neE3B7cd4q4df9grvLuLsK7xbwY96h/cXcPId3t+OH3QEN07i3BHc2IofcxR3TuDUUdzZh19yAqcO4swJnNqEn3EO1w7hyDlc24HfcBoH3+LAaRyM4wes4OYbvL6Cm1msr+HqS7y8hqtJbC/j8FO8uIzDOSwLOP0Erwk4ncKuhOMP8ZKE4xGMqrj/AK+ouO/Hoo6Fb3hBx4IdgwZMAI8bMOHGngUjd3jYghEv1kyYucGjJsw4seXCzg0edWHHhyUflr7woA9LLuw4sXXFY05smTBjxdgFD1kx5sGKF2sXPOTFmgMbbux1kiom7BgsFGUs+LHYSKoYCKgXZdxP6CdVnI8oF2Vcz2gnVRwPqRZl3E7pJlWcjikWZVzOaSZVHM7ZX/yNf6XPb+bPQXjrMu4m9ZIqzibtL/7Gv9LHN/PHKD53DVezWkkVR7NaSRVHwypFHUfDKkUZN9M6SRUn0zpJFSfTOkkVJ9M6SRUn4wpFHSfjCkUdJ+MKRR0n4wpFGRfzGkkVB/MaSRUH8xpJFQfzGkkVB/MaSRUH8xpJFQfz9if55vO4mLc/yTefx8W8/Um++Twu5u1P8s3ncTGuklRxMa6SVHExrpJUcTGuklRxMW5/kk9ewMm0TlLFybROUsXJtE5Sxcm0/Um+eAU3w0pJFTfDSkkVN8P2J/ngJRzNaiVVHM1qJVUczdqf5HvXcDWqllRxNWp/ks9dxNmkXlLF2aT9STx2GXeDikkVd4P2J++fKuBwTjOp4nBMNanicsz+5O0zRZxO6SZVnA4pJ1XcDtmfvC3KOJ7RTqo4HlFPqrie0E+qOB/wA5Iq7vux2EiqGPBjMZ9kUMeCHYP5JHsGTJgx9xfPmDHnwIYXaxc85MWaBSNWjH3gKSvGPFhxYuuKx5zYMmHGiKlPPOfDkg1DNgz9hydtGPJhyYWdGzxqwowTWx6s3OFhD1asGHNgA3jcgQ0z5nQsfMMLOhbsGFRx/wFeUXE/gEkN1x/iJQ3XIxgVcPoZ3hNwOoXdVdx9gVdXcTeI6RXcfIPXV3AzjPkzuHUQZ87g1hhjjDHGGGOMMcYYY4wxxhhjjDHGGGP8bv8CejupCVkO8rUAAAAASUVORK5CYII=",
@@ -58,6 +45,24 @@ export function avviaSfondo(cv) {
 
   var grey = [], ready = false, loaded = 0;
   var W = 0, H = 0, DPR = 1, cols = 0, rows = 0, cells = [], base = null;
+  // Campo dell'acqua e stato per cella (anche le celle vuote propagano l'onda):
+  // acqua/acqua2 = i due buffer dell'altezza (W/V da loro); velX/velY e offX/offY
+  // sono velocita' e spostamento dei glifi indotti dal gradiente dell'acqua.
+  var acqua = null, acqua2 = null, velX = null, velY = null, offX = null, offY = null;
+
+  function clamp(v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; }
+  function smooth01(v) { var t = v < 0 ? 0 : v > 1 ? 1 : v; return t * t * (3 - 2 * t); }
+
+  // Iniezione di energia nell'acqua: cella centrale piena + 4 vicine a 0.4x.
+  // (x,y) in coordinate di CELLA, non di pixel. Identica alla loro `ef`.
+  function inietta(x, y, q) {
+    var a = Math.round(x), l = Math.round(y);
+    if (a < 1 || l < 1 || a >= cols - 1 || l >= rows - 1) return;
+    var s = l * cols + a;
+    acqua[s] += q;
+    acqua[s - 1] += 0.4 * q; acqua[s + 1] += 0.4 * q;
+    acqua[s - cols] += 0.4 * q; acqua[s + cols] += 0.4 * q;
+  }
 
   function tint(img, rgb) {
     var t = document.createElement('canvas');
@@ -87,20 +92,21 @@ export function avviaSfondo(cv) {
     for (var r = 0; r < rows; r++) for (var c = 0; c < cols; c++) {
       if (rnd() < DENSITY) {
         cells.push({
-          x: c * CELL + CELL / 2, y: r * CELL + CELL / 2,
           g: (rnd() * grey.length) | 0,
           rot: ((rnd() * 4) | 0) * Math.PI / 2,
-          // Opacita' COSTANTE, non piu' casuale fra 0.13 e 0.20. Misurato sul
-          // riferimento: il 76% dei loro pixel opachi sta su un solo valore
-          // (alpha 48 = 0.19), mentre da noi si spalmava fra 32 e 48. E' la
-          // variazione casuale a far sembrare i simboli slavati invece che
-          // netti: con un valore unico la texture torna "lucida".
-          a: 0.19, ig: 0
+          // Alpha base ~0.19: la loro C (.17) + una "shade" per glifo .02-.06.
+          shade: 0.02 + rnd() * 0.04
         });
       } else {
         cells.push(null);
       }
     }
+    // Buffer dell'acqua: si azzerano a ogni resize (le dimensioni cambiano).
+    var n = cols * rows;
+    acqua = new Float32Array(n); acqua2 = new Float32Array(n);
+    velX = new Float32Array(n); velY = new Float32Array(n);
+    offX = new Float32Array(n); offY = new Float32Array(n);
+    // Base statica: usata solo con EFFETTO_CURSORE spento (nessun ciclo).
     base = document.createElement('canvas');
     base.width = W * DPR; base.height = H * DPR;
     var b = base.getContext('2d');
@@ -109,41 +115,30 @@ export function avviaSfondo(cv) {
     for (var i = 0; i < cells.length; i++) {
       var s = cells[i];
       if (!s) continue;
-      b.save(); b.translate(s.x, s.y); b.rotate(s.rot);
-      b.globalAlpha = s.a; b.drawImage(grey[s.g], -d / 2, -d / 2, d, d);
+      var px = (i % cols + 0.5) * CELL, py = ((i / cols | 0) + 0.5) * CELL;
+      b.save(); b.translate(px, py); b.rotate(s.rot);
+      b.globalAlpha = ALPHA_BASE + s.shade;
+      b.drawImage(grey[s.g], -d / 2, -d / 2, d, d);
       b.restore();
     }
   }
 
-  var mouse = { x: -9999, y: -9999, on: false };
-  // La luce non sta sul cursore: lo INSEGUE, con un ritardo. E' questo a dare il
-  // movimento continuo — spostando il puntatore l'illuminazione scivola dietro
-  // e si distende, invece di saltare di colpo da un punto all'altro. Senza, la
-  // texture si accende e si spegne e basta, e sembra ferma.
-  var luce = { x: -9999, y: -9999 };
-  // (2026-07-22, 3ª taratura) L'effetto "acqua spostata" NON viene da onde ne' da
-  // un ritardo morbido: viene da una pozza STRETTA sul cursore che risponde subito
-  // e da glifi che si spengono in fretta dietro. Misurato sul confronto video:
-  // da loro l'alone sta a 61 px dal cursore, da noi con 0,13 restava a 189 (tre
-  // volte piu' indietro) e sembrava strascicato. Alzato a 0,30: la luce sta sotto
-  // il puntatore come da loro, la scia la fanno i glifi che svaniscono.
-  var INSEGUIMENTO = 0.30;    // piu' alto = luce piu' incollata al cursore
+  // STATO DEL PUNTATORE, in coordinate di CELLA come da loro:
+  //   punt   = posizione grezza (la loro Y,K), aggiornata dal mousemove;
+  //   lisc   = posizione LISCIATA (Z,Q), insegue punt a 0.22/frame — e' lei a
+  //            iniettare l'acqua e ad accendere i glifi, da qui la scia morbida;
+  //   prima  = posizione del frame precedente (H,J), per la velocita';
+  //   et     = presenza del cursore, rampa 0..1 a 0.1/frame: entra e esce morbido.
+  var punt = { cx: 0, cy: 0, dentro: false, visto: false };
+  var lisc = { cx: -1000, cy: -1000 };
+  var prima = { cx: 0, cy: 0 };
+  var et = 0;
+  // Scia dei CLICK: gli anelli in espansione partono dal mousedown (dal loro
+  // codice: mousemove muove l'acqua, mousedown fa lo splash + gli anelli).
+  var scia = [];
 
-  // NIENTE ONDE (2026-07-22). Le avevo aggiunte perche' il loro sfondo sembra
-  // "ad acqua", ma il video le smentisce: in tutti i 90 fotogrammi analizzati il
-  // profilo radiale del rosso CALA in modo monotono dal centro verso il bordo, e
-  // non compare mai un massimo a distanza — che e' esattamente la firma che un
-  // fronte circolare che si espande lascerebbe. Nessun anello, nessuna scia.
-  // Il movimento che si percepisce viene solo da un alone forte che insegue il
-  // cursore con ritardo e accende i glifi mentre li attraversa.
-  // Handler NOMINATI e non anonimi: servono a removeEventListener nella pulizia
-  // in fondo. Senza, ogni rimontaggio del componente lascerebbe attivi un ciclo di
-  // disegno e tre listener in piu'.
-  // Sopra i contenuti l'effetto si SPEGNE. Senza, passando su un chip o su una
-  // card i glifi dietro si accendono di rosso e invadono l'elemento che stai
-  // usando (e il testo accanto): rumore visivo proprio nel punto in cui serve
-  // chiarezza. L'effetto e' pensato per lo sfondo vuoto, non per l'interfaccia.
-  // Lo spegnimento non e' brusco: `s.ig` interpola gia', quindi si dissolve.
+  // Sopra i contenuti l'effetto si SPEGNE (rumore visivo dove serve chiarezza):
+  // e' il nostro equivalente del loro flag ee, e la rampa `et` lo dissolve.
   var INTERATTIVI = 'a,button,input,label,select,textarea,header,'
     + '.box,.gruppo-card,.pill,.pill-f,.chip-f,.art,.voce,'
     + '.digest-lettura,.digest-indice,.dash-card,.scarica-pop,.cal-pop';
@@ -153,12 +148,26 @@ export function avviaSfondo(cv) {
   }
 
   function onMove(e) {
-    mouse.x = e.clientX; mouse.y = e.clientY;
-    mouse.on = !suContenuto(e.target);
+    if (!cols) return;               // prima del primo build() la griglia non c'e'
+    // Inversa esatta della posizione dei glifi (px = (cella+0.5)*CELL): cosi'
+    // l'accensione sta proprio sotto il puntatore, senza scarti verso destra.
+    punt.cx = e.clientX / CELL - 0.5;
+    punt.cy = e.clientY / CELL - 0.5;
+    punt.dentro = !suContenuto(e.target);
+    punt.visto = true;
   }
-  function onOut(e) { if (!e.relatedTarget) mouse.on = false; }
+  function onDown(e) {
+    if (suContenuto(e.target)) return;
+    onMove(e);
+    // Splash grande nell'acqua (la loro ef(Y,K,26)) + punto della scia anelli.
+    inietta(punt.cx, punt.cy, 26);
+    scia.push({ x: e.clientX, y: e.clientY, t0: performance.now() });
+    if (scia.length > 6) scia.shift();
+  }
+  function onOut(e) { if (!e.relatedTarget) punt.dentro = false; }
   if (EFFETTO_CURSORE) {
     window.addEventListener('mousemove', onMove, { passive: true });
+    window.addEventListener('mousedown', onDown, { passive: true });
     window.addEventListener('mouseout', onOut);
   }
   function ridisegna() { build(); if (!EFFETTO_CURSORE) requestAnimationFrame(frame); }
@@ -167,75 +176,162 @@ export function avviaSfondo(cv) {
   function frame() {
     if (!vivo) return;
     if (!ready) { requestAnimationFrame(frame); return; }
-    ctx.clearRect(0, 0, W, H);
-    ctx.drawImage(base, 0, 0, base.width, base.height, 0, 0, W, H);
-    // Texture statica come il riferimento: disegnata una volta, nessun ciclo.
-    if (!EFFETTO_CURSORE) return;
-    if (luce.x < -9000) { luce.x = mouse.x; luce.y = mouse.y; }
-    luce.x += (mouse.x - luce.x) * INSEGUIMENTO;
-    luce.y += (mouse.y - luce.y) * INSEGUIMENTO;
-    var range = CELL * RANGE_CELLS, d = DRAW * CELL;
-
-    // BLENDING ADDITIVO (2026-07-22, dal codice reale di KVA: gco="lighter").
-    // Era QUESTO che ci sfuggiva: KVA disegna tutto il bagliore in additivo, cosi'
-    // le luci sovrapposte si SOMMANO e il centro brucia verso il bianco. In
-    // source-over (il default che usavamo) i glow si coprono e restano piatti,
-    // come vernice rossa invece che luce. Da qui fino a fine loop e' tutto additivo.
-    ctx.globalCompositeOperation = 'lighter';
-
-    if (mouse.on) {
-      // Alone del cursore ROSSO (i vuoti attorno al cursore, da loro, restano
-      // rossi — misurato: al centro il fondo fra i glifi e' ~154,3,30, non bianco):
-      // riempie di rosso lo spazio fra i glifi. Il bianco lo fanno solo i glifi.
-      var halo = ctx.createRadialGradient(luce.x, luce.y, 0, luce.x, luce.y, range);
-      halo.addColorStop(0.00, 'rgba(' + HALO + ',0.55)');
-      halo.addColorStop(0.45, 'rgba(' + HALO + ',0.22)');
-      halo.addColorStop(1.00, 'rgba(' + HALO + ',0)');
-      ctx.fillStyle = halo;
-      ctx.beginPath(); ctx.arc(luce.x, luce.y, range, 0, 6.2832); ctx.fill();
+    if (!EFFETTO_CURSORE) {
+      // Texture statica come prima: disegnata una volta, nessun ciclo.
+      ctx.clearRect(0, 0, W, H);
+      ctx.drawImage(base, 0, 0, base.width, base.height, 0, 0, W, H);
+      return;
     }
+    var ora = performance.now();
 
-    for (var i = 0; i < cells.length; i++) {
-      var s = cells[i];
-      if (!s) continue;
-      var target = 0;
-      if (mouse.on) {
-        var dist = Math.hypot(s.x - luce.x, s.y - luce.y);
-        // Accensione piena al centro (era *0.45, quando il grosso lo facevano le
-        // onde). Nel video i glifi sotto il cursore arrivano a saturare in bianco:
-        // e' la sola accensione per vicinanza a doverli portare fin li'.
-        if (dist < range) target = Math.pow(1 - dist / range, 1.7);
+    /* ---- 1. AGGIORNA L'ACQUA (prima di disegnare) ---------------------- */
+    // Presenza del cursore: rampa morbida 0..1.
+    var presenza = (punt.dentro && punt.visto) ? 1 : 0;
+    et += (presenza - et) * 0.1;
+    // Cursore lisciato (Z,Q): il primo aggancio e' secco, poi insegue a 0.22.
+    if (lisc.cx < -100) { lisc.cx = punt.cx; lisc.cy = punt.cy; }
+    else { lisc.cx += (punt.cx - lisc.cx) * 0.22; lisc.cy += (punt.cy - lisc.cy) * 0.22; }
+    // Il MOVIMENTO inietta energia in proporzione alla velocita' (in celle/frame):
+    // fermo immette il minimo 0.15 (l'acqua "ribolle" appena), veloce fino a 3.4.
+    if (punt.dentro && punt.visto) {
+      inietta(lisc.cx, lisc.cy,
+        clamp(0.7 * Math.hypot(punt.cx - prima.cx, punt.cy - prima.cy), 0.15, 3.4));
+    }
+    // Pioggia: ogni tanto una goccia casuale tiene viva l'acqua anche senza mouse.
+    if (Math.random() < 0.006) {
+      inietta(1 + Math.random() * (cols - 2), 1 + Math.random() * (rows - 2), 0.28);
+    }
+    // Propagazione: equazione d'onda a due buffer, damping 0.92 (identica a loro).
+    for (var r = 1; r < rows - 1; r++) {
+      var riga = r * cols;
+      for (var c = 1; c < cols - 1; c++) {
+        var n = riga + c;
+        var acc = (acqua[n - 1] + acqua[n + 1] + acqua[n - cols] + acqua[n + cols]) * 0.5 - acqua2[n];
+        acqua2[n] = acc * 0.92;
       }
-      // Salita rapida, discesa piu' rapida di prima: la dissolvenza del glifo era
-      // 267 ms contro i 100 ms misurati da loro — la scia restava "impastata".
-      // A 0,20 in discesa il glifo si spegne in ~130 ms e la scia diventa netta.
-      s.ig += (target - s.ig) * (target > s.ig ? 0.40 : 0.20);
-      if (s.ig < 0.02) continue;
-
-      // Glow per glifo con gli STOP ESATTI di KVA (letti dal loro chunk):
-      //   centro  rgba(255,120,140, 0.5*ig)   (GLOW rosa)
-      //   a 0.6   rgba(154,3,30,   0.18*ig)   (HALO rosso)
-      //   bordo   trasparente
-      // Additivo: dove piu' glow si sovrappongono, il rosa si somma e schiarisce.
-      var rr = CELL * (0.7 + 1.3 * s.ig);
-      var g = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, rr);
-      g.addColorStop(0.0, 'rgba(' + GLOW + ',' + (0.5 * s.ig).toFixed(3) + ')');
-      g.addColorStop(0.6, 'rgba(' + HALO + ',' + (0.18 * s.ig).toFixed(3) + ')');
-      g.addColorStop(1.0, 'rgba(' + HALO + ',0)');
-      ctx.fillStyle = g;
-      ctx.beginPath(); ctx.arc(s.x, s.y, rr, 0, 6.2832); ctx.fill();
-
-      // Glifo acceso: si AGGIUNGE (additivo) la versione grigia quasi-bianca,
-      // scalata con ig. Il grigio somma in parti uguali su R,G,B, quindi il glifo
-      // vira al BIANCO man mano che si accende, mentre i vuoti attorno restano
-      // rossi (li' c'e' solo il glow). E' cosi' che da loro i glifi sotto il
-      // cursore diventano bianchi in una pozza rossa. Le immagini NON si muovono:
-      // rotazione fissa come a riposo.
-      ctx.save(); ctx.translate(s.x, s.y); ctx.rotate(s.rot);
-      ctx.globalAlpha = 0.65 * s.ig;
-      ctx.drawImage(grey[s.g], -d / 2, -d / 2, d, d);
-      ctx.restore();
     }
+    var tmp = acqua; acqua = acqua2; acqua2 = tmp;
+    prima.cx = punt.cx; prima.cy = punt.cy;
+
+    /* ---- 2. PASSO BASE (source-over): i glifi, spostati dall'acqua ------ */
+    ctx.clearRect(0, 0, W, H);
+    ctx.globalCompositeOperation = 'source-over';
+    var caldi = [];
+    for (var t = 0; t < rows; t++) {
+      var l0 = t * cols;
+      for (var s2 = 0; s2 < cols; s2++) {
+        var n2 = l0 + s2, cella = cells[n2];
+        if (!cella) continue;
+        var d = clamp(acqua[n2], -3, 3), u = Math.abs(d);
+        // Accensione per vicinanza al cursore lisciato: smoothstep su 3.6 celle.
+        var m = 0;
+        if (et > 0.01) m = smooth01(1 - Math.hypot(s2 - lisc.cx, t - lisc.cy) / RAGGIO_CELLE) * et;
+        // Il GRADIENTE dell'acqua spinge il glifo: velocita' smorzata (.86) e
+        // spostamento clampato a ±0.14*cella. E' questo il "movimento acqua".
+        var gx = (acqua[n2 + 1] - acqua[n2 - 1]) || 0;
+        var gy = (acqua[n2 + cols] - acqua[n2 - cols]) || 0;
+        velX[n2] = (velX[n2] - gx * CELL * 0.04) * 0.86;
+        velY[n2] = (velY[n2] - gy * CELL * 0.04) * 0.86;
+        var lim = 0.14 * CELL;
+        offX[n2] = clamp((offX[n2] + velX[n2]) * 0.95, -lim, lim);
+        offY[n2] = clamp((offY[n2] + velY[n2]) * 0.95, -lim, lim);
+        var px = (s2 + 0.5) * CELL + offX[n2];
+        var py = (t + 0.5) * CELL + offY[n2];
+        // L'altezza dell'acqua scala il glifo (±4%) e lo schiarisce (+.03*|d|);
+        // la vicinanza al cursore fa il grosso dell'accensione (+.5*m).
+        var v = clamp(1 + 0.04 * d + 0.05 * m, 0.85, 1.1);
+        var alfa = clamp(ALPHA_BASE + cella.shade + 0.03 * u + 0.5 * m, 0, 0.95);
+        var w = DRAW * CELL * v;
+        ctx.save(); ctx.translate(px, py); ctx.rotate(cella.rot);
+        ctx.globalAlpha = alfa;
+        ctx.drawImage(grey[cella.g], -w / 2, -w / 2, w, w);
+        ctx.restore();
+        // Celle "calde" (vicine al cursore o su una cresta): passeranno
+        // dal passo additivo per glow, scintille e linee.
+        if (m > 0.08 || u > 0.7) caldi.push({ col: s2, row: t, cx: px, cy: py, ig: m });
+      }
+    }
+
+    /* ---- 3. PASSO ADDITIVO ("lighter"): tutto il bagliore --------------- */
+    // Le luci sovrapposte si SOMMANO e il centro brucia verso il bianco: era
+    // la chiave dell'aspetto liquido (in source-over i glow restano piatti).
+    ctx.globalCompositeOperation = 'lighter';
+    var mappa = new Map();
+    for (var i3 = 0; i3 < caldi.length; i3++) mappa.set(caldi[i3].row * cols + caldi[i3].col, caldi[i3]);
+    for (var i4 = 0; i4 < caldi.length; i4++) {
+      var e4 = caldi[i4], idx = e4.row * cols + e4.col;
+      var wv = clamp(acqua[idx], -3, 3);
+      // Scintilla sulle creste alte dell'acqua (indipendente dal cursore).
+      if (wv > 0.7) {
+        ctx.globalAlpha = clamp((wv - 0.7) * 0.05, 0, 0.08);
+        ctx.fillStyle = 'rgb(' + ROSSO + ')';
+        ctx.beginPath(); ctx.arc(e4.cx, e4.cy, 0.12 * CELL, 0, 6.2832); ctx.fill();
+      }
+      if (e4.ig > 0.04) {
+        // Glow del glifo acceso, stop ESATTI dal loro chunk.
+        var rr = CELL * (0.85 + 1.7 * e4.ig);
+        var g4 = ctx.createRadialGradient(e4.cx, e4.cy, 0, e4.cx, e4.cy, rr);
+        g4.addColorStop(0.0, 'rgba(' + ROSSO + ',' + (0.5 * e4.ig).toFixed(3) + ')');
+        g4.addColorStop(0.6, 'rgba(' + HALO + ',' + (0.18 * e4.ig).toFixed(3) + ')');
+        g4.addColorStop(1.0, 'rgba(' + HALO + ',0)');
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = g4;
+        ctx.beginPath(); ctx.arc(e4.cx, e4.cy, rr, 0, 6.2832); ctx.fill();
+        // Il glifo vira al bianco: si AGGIUNGE la versione grigia scalata con ig.
+        var cel4 = cells[idx];
+        var w4 = DRAW * CELL * (1 + 0.06 * e4.ig);
+        ctx.save(); ctx.translate(e4.cx, e4.cy); ctx.rotate(cel4.rot);
+        ctx.globalAlpha = 0.85 * e4.ig;
+        ctx.drawImage(grey[cel4.g], -w4 / 2, -w4 / 2, w4, w4);
+        ctx.restore();
+        // Punto caldo al centro del glifo.
+        ctx.globalAlpha = e4.ig;
+        ctx.fillStyle = 'rgba(' + GLOW + ',' + (0.5 + 0.5 * e4.ig).toFixed(3) + ')';
+        ctx.beginPath(); ctx.arc(e4.cx, e4.cy, 0.07 * CELL * (0.6 + e4.ig), 0, 6.2832); ctx.fill();
+      }
+    }
+    // Linee di connessione fra glifi accesi adiacenti (la "costellazione").
+    if (et > 0.25) {
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgb(' + ROSSO + ')';
+      for (var i5 = 0; i5 < caldi.length; i5++) {
+        var e5 = caldi[i5];
+        if (e5.ig < 0.22) continue;
+        var vicini = [mappa.get(e5.row * cols + e5.col + 1), mappa.get((e5.row + 1) * cols + e5.col)];
+        for (var k5 = 0; k5 < 2; k5++) {
+          var v5 = vicini[k5];
+          if (!v5 || v5.ig < 0.22) continue;
+          ctx.globalAlpha = 0.5 * Math.min(e5.ig, v5.ig);
+          ctx.beginPath(); ctx.moveTo(e5.cx, e5.cy); ctx.lineTo(v5.cx, v5.cy); ctx.stroke();
+        }
+      }
+    }
+    // Anelli del CLICK: 5 cerchi concentrici in espansione (easeOutQuad, vita
+    // 1100 ms) + splash rosa nei primi 30%. Costanti esatte dal loro chunk.
+    if (scia.length) {
+      var RMAX = 6.5 * CELL;
+      ctx.strokeStyle = 'rgb(' + ROSSO + ')';
+      for (var r6 = scia.length - 1; r6 >= 0; r6--) {
+        var p6 = scia[r6], eta = ora - p6.t0;
+        if (eta >= 1100) { scia.splice(r6, 1); continue; }
+        var nn = eta / 1100, esp = 1 - (1 - nn) * (1 - nn), diss = 1 - nn;
+        for (var k6 = 0; k6 < 5; k6++) {
+          var R = esp * RMAX - k6 * CELL * 0.85;
+          if (R <= 2) continue;
+          var a6 = diss * (0.5 - 0.08 * k6);
+          if (a6 <= 0) continue;
+          ctx.globalAlpha = a6;
+          ctx.lineWidth = 2.2 * diss + 0.4;
+          ctx.beginPath(); ctx.arc(p6.x, p6.y, R, 0, 6.2832); ctx.stroke();
+        }
+        if (nn < 0.3) {
+          ctx.globalAlpha = (1 - nn / 0.3) * 0.6;
+          ctx.fillStyle = 'rgba(' + GLOW + ',1)';
+          ctx.beginPath(); ctx.arc(p6.x, p6.y, 0.18 * RMAX * (1 - nn / 0.3), 0, 6.2832); ctx.fill();
+        }
+      }
+    }
+    ctx.globalAlpha = 1;
     ctx.globalCompositeOperation = 'source-over';   // reset per il prossimo frame
     requestAnimationFrame(frame);
   }
@@ -255,6 +351,7 @@ export function avviaSfondo(cv) {
   return function ferma() {
     vivo = false;
     window.removeEventListener('mousemove', onMove);
+    window.removeEventListener('mousedown', onDown);
     window.removeEventListener('mouseout', onOut);
     window.removeEventListener('resize', ridisegna);
   };
