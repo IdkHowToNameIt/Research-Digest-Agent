@@ -22,7 +22,7 @@ backend/            pipeline Python (batch settimanale)
 ├── config.yaml     fonti, temi, dedup, finestre, prezzi
 ├── src/            raccolta/ (fetch, filtri, dedup) · modello/ (Groq) · consegna/ (sito, email)
 ├── data/           stato: seen.sqlite3, archivio/, metriche/ (committati dalla CI)
-└── tests/          215 test offline (LLM e SMTP mockati)
+└── tests/          217 test offline (LLM e SMTP mockati)
 
 frontend/           interfaccia React + Vite (63 test Vitest)
 sito/               cartella pubblicata dall'hosting statico (generata, committata dalla CI)
@@ -77,7 +77,7 @@ pip install -r backend/requirements.txt
 cp .env.example .env                               # GROQ_API_KEY, DIGEST_RECIPIENTS, HOMEPAGE_URL
 
 cd backend
-python -m pytest -q                                # 215 test, nessuna API key richiesta
+python -m pytest -q                                # 217 test, nessuna API key richiesta
 python main.py --config config.yaml
 python -m http.server -d ../sito 8080              # il sito usa fetch(): serve http, non file://
 ```
@@ -85,8 +85,28 @@ python -m http.server -d ../sito 8080              # il sito usa fetch(): serve 
 Test frontend: `cd frontend && npm test` (63 test Vitest). Il workflow esegue
 entrambe le suite prima di pubblicare: una regressione ferma il run.
 
-Con Docker: `docker compose up --build` (servono `GROQ_API_KEY` e
-`DIGEST_RECIPIENTS` in env; sito su http://localhost:8080).
+## Con Docker
+
+Utile per far girare il digest su una macchina che non è GitHub (VM, server
+interno) o per provarlo senza installare Python: gli stessi due pezzi del run
+in CI, un container che genera e uno che serve.
+
+```bash
+cp .env.example .env          # oppure: export GROQ_API_KEY=... DIGEST_RECIPIENTS=...
+docker compose up --build     # sito su http://localhost:8080
+```
+
+| Servizio | Cosa fa |
+|---|---|
+| `generator` | esegue la pipeline **una volta** e termina (è un batch, non un server) |
+| `web` | nginx che serve `sito/`; parte solo se il generator è finito bene |
+| `anteprima` | solo l'interfaccia, senza rigenerare il digest — `docker compose up anteprima` su :8082. Richiede `cd frontend && npm run build` (la build non è nel repo) |
+
+Lo stato vive in due volumi Docker (`data` = `seen.sqlite3` + archivio,
+`sito` = output pubblicato): sopravvivono ai riavvii, e cancellarli equivale a
+ripartire da zero. Senza `SMTP_USER`/`SMTP_PASS` le email vengono solo stampate
+a log — comodo per una prova. Per un run periodico basta un cron sull'host che
+chiami `docker compose run --rm generator`.
 
 ## Punti noti
 
@@ -96,4 +116,11 @@ Con Docker: `docker compose up --build` (servono `GROQ_API_KEY` e
   questo beat: su un beat diverso vanno ritarate.
 - **La quota del free tier è il vincolo dominante**, non il costo: in un run
   pieno la cascata può ripiegare su modelli di riserva (righe `[attenzione]`
-  nel log).
+  nel log). Per lo stesso motivo `MAX_ESTRATTO_CHARS` è tenuto a 8000.
+- **Un sito statico gratuito è sempre pubblico**: chi ha l'URL vede digest e
+  dashboard, e un repo pubblico espone comunque l'archivio. Per limitare
+  l'accesso servono un dominio proprio con Cloudflare Access, oppure la
+  pubblicazione della cartella `sito/` su un web server in intranet — in
+  entrambi i casi senza toccare il codice.
+- Ogni pezzo (esecuzione, LLM, hosting, email) si sostituisce da solo, via
+  secret e variabili: nessuna di queste scelte è cablata nel codice.
