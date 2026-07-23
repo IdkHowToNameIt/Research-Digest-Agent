@@ -244,6 +244,19 @@
           "sintesi": "Il Dipartimento del Commercio degli Stati Uniti sta revisionando le regolamentazioni EAR per controllare adeguatamente i silenziatori, i mufflers e i suppressori di suono. Questa regola finale interim complementa una regola finale interim del Dipartimento di Stato.",
           "perche_conta": "Questo aggiornamento regolamentare potrebbe avere un impatto significativo sulle esportazioni di tecnologie e prodotti legati alle armi da fuoco, influenzando quindi gli investimenti e le strategie delle aziende operanti nel settore.",
           "note": null
+        },
+        {
+          "titolo": "TSMC conferma miglioramenti significativi nel processo A14",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMikwJBVV95cUxORW1ibFZjZ2M2elllTmh0d2lGVExsYkloeVRxcG0zQjJEbmo3QWRBa0xOOEM5XzFuSlVDV2FPU3FzanBLM0U2SVVlcmlhZXo4dEYzUTR6VkdhY3dQS2I1XzRkNzZLUmFYRVFXOGlCdFdHOW56eHZNdFVGZFljbVlEY2gyMWxCUnZ2V0NGMDhPY2F5cXJJeEZaUnBHSHZYUE9WYU1qLVY1WFp4bUR5OEFYdzZHR3lpNkVWa0JoYmthZFlKS2xjZVozVHNTY2ZmVkJlZ043SjhIYUhrOFVyNFBUbEc5OW1PNU5tNEE2WU5wQ1l2NWYwc0VWR1AtMkVWbjlvendGRVBSa0VzTV93RDBXQ3NFcw?oc=5"
+            }
+          ],
+          "data": "2026-07-17",
+          "sintesi": "TSMC ha confermato miglioramenti significativi nella resa e nelle prestazioni del processo A14. Ciò ha generato un forte interesse da parte dei clienti di AI, HPC e smartphone.",
+          "perche_conta": "Questo miglioramento è rilevante per il settore dell'infrastruttura e dell'hardware AI, poiché potrebbe influenzare la capacità di produzione e le prestazioni dei chip utilizzati in applicazioni di intelligenza artificiale e calcolo ad alte prestazioni.",
+          "note": null
         }
       ],
       "gruppi": [
