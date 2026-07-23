@@ -13,7 +13,6 @@ interviene solo sui testi e non sceglie mai le fonti né inventa URL.
 
 | Documento | Contenuto |
 |---|---|
-| [`COME-FUNZIONA.md`](COME-FUNZIONA.md) | Panoramica funzionale: cosa fa il sito, cosa succede in un run, cosa fa ogni script |
 | [`DECISIONI.md`](DECISIONI.md) | Le scelte di progetto e il loro perché, con misure |
 | [`worker/README.md`](worker/README.md) | Deploy del Worker per l'invio del PDF via email |
 
@@ -33,7 +32,7 @@ backend/            pipeline Python (batch settimanale)
 frontend/           interfaccia React + Vite (63 test Vitest)
 sito/               cartella pubblicata dall'hosting statico (generata, committata dalla CI)
 worker/             Cloudflare Worker per l'invio email del PDF (opzionale)
-.github/workflows/  digest-settimanale.yml (il run) · pubblica-frontend.yml (solo interfaccia)
+.github/workflows/  digest-settimanale.yml (il run settimanale)
 ```
 
 ## Adottare il repo
@@ -124,14 +123,14 @@ docker compose up --build                  # genera e serve su http://localhost:
 
 `docker compose down -v` rimuove anche i volumi (sito + storico).
 
-## I due workflow
+## Il workflow
 
-- **`digest-settimanale.yml`** — il run vero (cron lunedì 06:20 UTC + manuale).
+- **`digest-settimanale.yml`** — il run (cron lunedì 06:20 UTC + manuale).
   Due fasi nello stesso job: `--fase genera` (pipeline + sito + commit dello
   stato) poi `--fase email` — prima si pubblica, poi si manda il link.
-- **`pubblica-frontend.yml`** — pubblica **solo l'interfaccia** (~25 s, zero
-  LLM): parte da solo sui push che toccano `frontend/`. Per un cambio di
-  pagina non serve rifare il digest.
+  Per modifiche alla sola interfaccia, un workflow che ricompilava `frontend/`
+  senza rifare il digest è stato rimosso il 2026-07-23: recuperabile dallo
+  storico git (`pubblica-frontend.yml`) se il frontend torna a evolvere.
 
 ## Test
 
