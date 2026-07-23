@@ -97,5 +97,3 @@ Con Docker: `docker compose up --build` (servono `GROQ_API_KEY` e
 - **La quota del free tier è il vincolo dominante**, non il costo: in un run
   pieno la cascata può ripiegare su modelli di riserva (righe `[attenzione]`
   nel log).
-- Un workflow che pubblicava la sola interfaccia senza rifare il digest è stato
-  rimosso il 2026-07-23: recuperabile dallo storico git (`pubblica-frontend.yml`).
