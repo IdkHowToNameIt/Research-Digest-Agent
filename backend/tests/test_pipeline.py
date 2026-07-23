@@ -60,7 +60,10 @@ def test_pipeline_demo_produce_digest_valido():
     assert d.sezione(Tema.cloud_capacity).stato is Stato.con_aggiornamenti
     # sezioni senza fonti -> nessun_aggiornamento
     assert d.sezione(Tema.energia).stato is Stato.nessun_aggiornamento
-    assert d.note_interne == []  # primo run: nessuna nota
+    # con soglia 1 (dal 2026-07-23) la sezione energia a zero genera la nota
+    # gia' al primo run: e' l'unica attesa
+    assert len(d.note_interne) == 1
+    assert "energia" in d.note_interne[0].dettaglio
 
 
 def test_pipeline_dedup_tra_run_consecutivi():
