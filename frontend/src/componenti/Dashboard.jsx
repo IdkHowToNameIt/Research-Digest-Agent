@@ -14,8 +14,8 @@ import { IconaOsserva, IconaTema } from './Icone.jsx'
 
 /* ===================== DASHBOARD DI OSSERVABILITÀ =======================
    Legge metriche.json (un record per run) e mostra, per il periodo scelto col
-   filtro riusato dalla lista tema: stato delle fonti, costi, deduplica e
-   copertura dei 5 sotto-temi. Nessun dato editoriale né nota interna. */
+   filtro riusato dalla lista tema: stato delle fonti, costi, selezione delle
+   notizie (ex "deduplica") e copertura dei 5 sotto-temi. Nessun dato editoriale né nota interna. */
 
 function Barra({ frazione, cls }) {
   const pct = Math.max(0, Math.min(100, Math.round((frazione || 0) * 100)))
@@ -148,13 +148,13 @@ export function PannelloDedup({ runs }) {
 
   return (
     <section className="dash-card reveal">
-      <div className="dash-tit"><IconaOsserva dim={16} /> Deduplica</div>
+      <div className="dash-tit"><IconaOsserva dim={16} /> Selezione delle notizie</div>
       <div className="dash-sub">
         {fmtNum(tot.pub)} pubblicati su {fmtNum(tot.racc)} raccolti
       </div>
       <div className="dash-bar bar-pub"><span style={{ width: pct + '%' }} /></div>
       <div className="dash-stats">
-        <Stat valore={fmtNum(tot.dup)} etichetta="duplicati scartati" />
+        <Stat valore={fmtNum(tot.dup)} etichetta="doppioni scartati" />
         {tot.acc > 0 && (
           <Stat valore={fmtNum(tot.acc)} etichetta="varianti accorpate" />
         )}
@@ -221,8 +221,8 @@ export default function Dashboard({ onHome }) {
         <button className="indietro" onClick={onHome}>← Home</button>
         <h2><span className="tema-ic"><IconaOsserva dim={26} /></span>Sotto il cofano</h2>
         <p className="sez-nota">
-          I numeri dell'agente: stato delle fonti, costi, deduplica e copertura dei
-          temi — per periodo.
+          I numeri dell'agente: stato delle fonti, costi, selezione delle notizie e
+          copertura dei temi — per periodo.
         </p>
 
         {errore && (
