@@ -58,6 +58,89 @@
         "Calcolo reversibile classico mediante coerenza quantistica",
         "Bit2Watt: vulnerabilità cyber‑fisica che sfrutta i carichi GPU su infrastrutture energetiche e di calcolo"
       ]
+    },
+    {
+      "data": "2026-07-06",
+      "titolo": "Flessibilità di domanda a grandi carichi come archiviazione virtuale",
+      "n_articoli": 1,
+      "minuti_lettura": 1,
+      "anteprima_titoli": [
+        "Flessibilità di domanda a grandi carichi come archiviazione virtuale"
+      ]
+    },
+    {
+      "data": "2026-07-05",
+      "titolo": "Storage as a Transmission Asset (SATA) per il sollievo della congestione di grandi carichi",
+      "n_articoli": 1,
+      "minuti_lettura": 1,
+      "anteprima_titoli": [
+        "Storage as a Transmission Asset (SATA) per il sollievo della congestione di grandi carichi"
+      ]
+    },
+    {
+      "data": "2026-07-03",
+      "titolo": "Apprendimento multi-agente gerarchico per data center AI a basso impatto carbonico",
+      "n_articoli": 1,
+      "minuti_lettura": 1,
+      "anteprima_titoli": [
+        "Apprendimento multi-agente gerarchico per data center AI a basso impatto carbonico"
+      ]
+    },
+    {
+      "data": "2026-07-02",
+      "titolo": "WattGPU: Predizione del consumo di potenza e latenza per LLM su GPU non viste",
+      "n_articoli": 1,
+      "minuti_lettura": 1,
+      "anteprima_titoli": [
+        "WattGPU: Predizione del consumo di potenza e latenza per LLM su GPU non viste"
+      ]
+    },
+    {
+      "data": "2026-06-29",
+      "titolo": "Ottimizzazione energetica con apprendimento automatico",
+      "n_articoli": 2,
+      "minuti_lettura": 2,
+      "anteprima_titoli": [
+        "Verso un'operazione ottimizzata per energia dei data center situati in parchi eolici utilizzando apprendimento per rinforzo",
+        "SMART-MIG: Un framework di apprendimento per la pianificazione GPU scalabile ed efficiente in termini energetici"
+      ]
+    },
+    {
+      "data": "2026-06-24",
+      "titolo": "Dispositivi di potenza GaN e architetture di conversione per data center AI",
+      "n_articoli": 1,
+      "minuti_lettura": 1,
+      "anteprima_titoli": [
+        "Dispositivi di potenza GaN e architetture di conversione per data center AI"
+      ]
+    },
+    {
+      "data": "2026-06-23",
+      "titolo": "Efficienza energetica in AI",
+      "n_articoli": 2,
+      "minuti_lettura": 2,
+      "anteprima_titoli": [
+        "Pianificazione efficiente dal punto di vista energetico di carichi di lavoro AI/ML",
+        "Intelligenza Artificiale in Orbita: Pianificazione Termica per Cluster AI Sostenibili"
+      ]
+    },
+    {
+      "data": "2026-06-22",
+      "titolo": "Caratterizzazione delle prestazioni e dell'energia di applicazioni scientifiche su SuperMUC-NG",
+      "n_articoli": 1,
+      "minuti_lettura": 1,
+      "anteprima_titoli": [
+        "Caratterizzazione delle prestazioni e dell'energia di applicazioni scientifiche su SuperMUC-NG"
+      ]
+    },
+    {
+      "data": "2026-06-21",
+      "titolo": "Valutazione della resilienza dinamica dei sistemi di potenza con carichi di data center",
+      "n_articoli": 1,
+      "minuti_lettura": 1,
+      "anteprima_titoli": [
+        "Valutazione della resilienza dinamica dei sistemi di potenza con carichi di data center"
+      ]
     }
   ]
 }

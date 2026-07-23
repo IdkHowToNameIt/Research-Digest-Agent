@@ -3,7 +3,7 @@
   "gruppi": [
     {
       "data": "2026-07-22",
-      "titolo": "Miglioramenti nella capacità cloud",
+      "titolo": "Investimenti in cloud per innovazione",
       "articoli": [
         {
           "titolo": "Da manutenzione a innovazione: il passaggio di Checkout.com a Cloud Composer 3",
@@ -14,12 +14,12 @@
             }
           ],
           "data": "2026-07-22",
-          "sintesi": "Checkout.com ha migrato il proprio ambiente Apache Airflow da un hyperscaler a Managed Service for Apache Airflow (Gen 3) di Google Cloud, riducendo i costi del 30% e migliorando la scalabilità e l'affidabilità. La migrazione ha semplificato la gestione delle dipendenze e ha ridotto il tempo di sincronizzazione dei DAG. Il team di data engineering può ora concentrarsi sullo sviluppo di pipeline anziché sulla manutenzione dell'infrastruttura.",
-          "perche_conta": "La migrazione di Checkout.com a Managed Airflow è rilevante per gli investitori e i CTO perché mostra come la scelta di un'infrastruttura cloud gestita possa migliorare l'efficienza, la scalabilità e l'affidabilità di un'azienda, liberando risorse per concentrarsi sullo sviluppo di valore.",
+          "sintesi": "Checkout.com ha migrato il suo ambiente Apache Airflow self-hosted su un altro hyperscaler a Managed Service for Apache Airflow (Gen 3) di Google Cloud, migliorando la sua affidabilità e struttura dei costi. La migrazione ha ridotto i costi mensili del 30% e ha migliorato la velocità di sviluppo grazie alla scalabilità dinamica e alla semplificazione delle dipendenze. Il team di data engineering può ora concentrarsi sulla costruzione di pipeline anziché sulla gestione dell'infrastruttura.",
+          "perche_conta": "La migrazione di Checkout.com a Managed Service for Apache Airflow (Gen 3) è rilevante per il settore dell'infrastruttura e dell'hardware AI perché mostra come la gestione efficiente dell'infrastruttura possa liberare risorse per l'innovazione e migliorare la scalabilità e l'affidabilità delle piattaforme di dati.",
           "note": null
         },
         {
-          "titolo": "Accelerando le frontiere della scoperta scientifica: impegno di Google da 40 milioni di dollari per la missione Genesis",
+          "titolo": "Google impegna 40 milioni di dollari per la missione Genesis",
           "fonti": [
             {
               "nome": "Google Cloud Blog",
@@ -27,8 +27,8 @@
             }
           ],
           "data": "2026-07-22",
-          "sintesi": "Google ha annunciato un impegno di 40 milioni di dollari per supportare la missione Genesis, un'iniziativa nazionale per accelerare la scoperta scientifica americana attraverso l'uso dell'intelligenza artificiale. La società fornirà accesso gratuito a strumenti di intelligenza artificiale per la scienza, come AlphaEvolve e AlphaFold 3, ai ricercatori dei laboratori nazionali del Dipartimento dell'Energia. L'obiettivo è aiutare gli scienziati a superare le sfide di scala e complessità nella ricerca e a raggiungere scoperte innovative.",
-          "perche_conta": "Questo impegno è rilevante per il settore dell'infrastruttura e dell'hardware per l'intelligenza artificiale perché dimostra come le grandi aziende tecnologiche possano sostenere la ricerca scientifica e accelerare le scoperte attraverso l'uso dell'intelligenza artificiale",
+          "sintesi": "Google ha annunciato un impegno di 40 milioni di dollari per supportare la missione Genesis, un'iniziativa nazionale per accelerare la scoperta scientifica utilizzando l'intelligenza artificiale. L'impegno include l'accesso a strumenti di intelligenza artificiale come AlphaEvolve, AlphaFold 3 e AlphaGenome, nonché la fornitura di posti e token per la piattaforma Gemini for Government. Questi strumenti saranno utilizzati per supportare la ricerca in campo energetico, della sicurezza e scientifico.",
+          "perche_conta": "L'impegno di Google per la missione Genesis è rilevante perché potrebbe accelerare le scoperte scientifiche e aiutare a risolvere sfide critiche nel campo dell'energia e della sicurezza, con un impatto significativo sugli investimenti e sulle strategie di ricerca",
           "note": null
         }
       ]

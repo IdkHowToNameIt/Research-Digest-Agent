@@ -1,5 +1,5 @@
 {
-  "generato": "2026-07-22T09:29:39Z",
+  "generato": "2026-07-23T10:47:52Z",
   "temi": [
     "chip",
     "data_center",
@@ -8,6 +8,148 @@
     "cloud_capacity"
   ],
   "run": [
+    {
+      "timestamp": "2026-07-23T10:47:52Z",
+      "data_generazione": "2026-07-23",
+      "fonti": [
+        {
+          "nome": "NVIDIA Newsroom",
+          "stato": "ok",
+          "errore": null,
+          "n_candidati": 10,
+          "consecutivi_falliti": 0
+        },
+        {
+          "nome": "NVIDIA Blog",
+          "stato": "ok",
+          "errore": null,
+          "n_candidati": 10,
+          "consecutivi_falliti": 0
+        },
+        {
+          "nome": "Tom's Hardware",
+          "stato": "ok",
+          "errore": null,
+          "n_candidati": 10,
+          "consecutivi_falliti": 0
+        },
+        {
+          "nome": "Meta Engineering",
+          "stato": "ok",
+          "errore": null,
+          "n_candidati": 2,
+          "consecutivi_falliti": 0
+        },
+        {
+          "nome": "Uptime Institute Journal",
+          "stato": "ok",
+          "errore": null,
+          "n_candidati": 3,
+          "consecutivi_falliti": 0
+        },
+        {
+          "nome": "Google Cloud — Infrastructure",
+          "stato": "ok",
+          "errore": null,
+          "n_candidati": 1,
+          "consecutivi_falliti": 0
+        },
+        {
+          "nome": "arXiv (energia x AI)",
+          "stato": "ok",
+          "errore": null,
+          "n_candidati": 20,
+          "consecutivi_falliti": 0
+        },
+        {
+          "nome": "Google News (TSMC/ASML)",
+          "stato": "ok",
+          "errore": null,
+          "n_candidati": 30,
+          "consecutivi_falliti": 0
+        },
+        {
+          "nome": "Federal Register — BIS",
+          "stato": "ok",
+          "errore": null,
+          "n_candidati": 2,
+          "consecutivi_falliti": 0
+        },
+        {
+          "nome": "Google Cloud Blog",
+          "stato": "ok",
+          "errore": null,
+          "n_candidati": 20,
+          "consecutivi_falliti": 0
+        },
+        {
+          "nome": "Azure Blog",
+          "stato": "ok",
+          "errore": null,
+          "n_candidati": 2,
+          "consecutivi_falliti": 0
+        },
+        {
+          "nome": "AWS News Blog",
+          "stato": "ok",
+          "errore": null,
+          "n_candidati": 3,
+          "consecutivi_falliti": 0
+        }
+      ],
+      "dedup": {
+        "raccolti": 113,
+        "accorpati_aggregatore": 7,
+        "nuovi": 39,
+        "aggiornamenti": 0,
+        "duplicati_esatti": 67,
+        "duplicati_fuzzy": 0,
+        "scartati_classificazione": 10,
+        "pubblicati": 29
+      },
+      "copertura": [
+        {
+          "tema": "chip",
+          "stato": "con_aggiornamenti",
+          "n_articoli": 6
+        },
+        {
+          "tema": "data_center",
+          "stato": "nessun_aggiornamento",
+          "n_articoli": 0
+        },
+        {
+          "tema": "energia",
+          "stato": "con_aggiornamenti",
+          "n_articoli": 11
+        },
+        {
+          "tema": "supply_chain",
+          "stato": "con_aggiornamenti",
+          "n_articoli": 10
+        },
+        {
+          "tema": "cloud_capacity",
+          "stato": "con_aggiornamenti",
+          "n_articoli": 2
+        }
+      ],
+      "energia_zero_consecutivi": 0,
+      "costo": {
+        "modelli": [
+          {
+            "modello": "llama-3.3-70b-versatile",
+            "chiamate": 36,
+            "prompt_tokens": 31490,
+            "completion_tokens": 6446,
+            "costo_stimato": 0.020689
+          }
+        ],
+        "prompt_tokens": 31490,
+        "completion_tokens": 6446,
+        "costo_stimato": 0.020689
+      }
+    },
     {
       "timestamp": "2026-07-22T09:29:39Z",
       "data_generazione": "2026-07-22",

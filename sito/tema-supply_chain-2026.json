@@ -3,10 +3,10 @@
   "gruppi": [
     {
       "data": "2026-07-23",
-      "titolo": "Implementazione dei controlli EAR sulle apparecchiature di silenziamento",
+      "titolo": "Implementazione dei controlli alle esportazioni EAR su silenziatori e altri dispositivi",
       "articoli": [
         {
-          "titolo": "Implementazione dei controlli EAR sulle apparecchiature di silenziamento",
+          "titolo": "Implementazione dei controlli alle esportazioni EAR su silenziatori e altri dispositivi",
           "fonti": [
             {
               "nome": "Federal Register — BIS",
@@ -14,18 +14,18 @@
             }
           ],
           "data": "2026-07-23",
-          "sintesi": "Il Dipartimento del Commercio degli Stati Uniti sta revisionando le regolamentazioni EAR per controllare adeguatamente i silenziatori, i mufflers e i suppressori di suono. Questa regola finale interim complementa una regola finale interim del Dipartimento di Stato.",
-          "perche_conta": "Questo aggiornamento regolamentare potrebbe avere un impatto significativo sulle esportazioni di tecnologie e prodotti legati alle armi da fuoco, influenzando quindi gli investimenti e le strategie delle aziende operanti nel settore.",
+          "sintesi": "Il Dipartimento del Commercio degli Stati Uniti sta revisionando le regolamentazioni alle esportazioni per controllare adeguatamente silenziatori, mufflers e dispositivi di soppressione del suono. Questa regola finale interim complementa una regola del Dipartimento di Stato.",
+          "perche_conta": "E' rilevante per il beat 'Infrastruttura & Hardware AI' poiché i controlli alle esportazioni possono influenzare la disponibilità di componenti e tecnologie critiche per l'industria dell'AI",
           "note": null
         }
       ]
     },
     {
       "data": "2026-07-22",
-      "titolo": "TSMC in trattative per aumentare i prezzi del 10% nel 2027",
+      "titolo": "TSMC potrebbe aumentare i prezzi del 10% nel 2027",
       "articoli": [
         {
-          "titolo": "TSMC in trattative per aumentare i prezzi del 10% nel 2027",
+          "titolo": "TSMC potrebbe aumentare i prezzi del 10% nel 2027",
           "fonti": [
             {
               "nome": "Google News (TSMC/ASML)",
@@ -33,9 +33,9 @@
             }
           ],
           "data": "2026-07-22",
-          "sintesi": "TSMC starebbe valutando un aumento dei prezzi fino al 10% per il 2027, secondo quanto riportato da Bloomberg. Ciò potrebbe avere un impatto significativo sulla catena di approvvigionamento dell'industria dei semiconduttori.",
-          "perche_conta": "Questo aumento dei prezzi potrebbe influenzare i costi di produzione dei chip e, di conseguenza, i prezzi finali dei prodotti che li utilizzano, rendendolo rilevante per gli investitori e i CTO che seguono il settore dell'infrastruttura e dell'hardware AI.",
-          "note": "(ripreso da 2 testate)"
+          "sintesi": "TSMC starebbe discutendo un aumento dei prezzi fino al 10% per il 2027, secondo quanto riportato da Bloomberg. Questo potrebbe avere un impatto significativo sulla catena di approvvigionamento dell'industria dei semiconduttori.",
+          "perche_conta": "Questo aumento dei prezzi potrebbe influenzare i costi di produzione e gli investimenti nell'industria dell'AI e dei semiconduttori, rendendolo rilevante per gli investitori e i CTO.",
+          "note": "(ripreso da 4 testate)"
         },
         {
           "titolo": "La spinta di Trump per chip AI made in USA colpisce i margini di TSMC",
@@ -86,7 +86,7 @@
     },
     {
       "data": "2026-07-20",
-      "titolo": "Produzione e sicurezza chip",
+      "titolo": "Progressi e controversie nella produzione di chip",
       "articoli": [
         {
           "titolo": "Intel raggiunge importante traguardo con macchina per chip da 400 milioni di dollari",
@@ -97,8 +97,8 @@
             }
           ],
           "data": "2026-07-20",
-          "sintesi": "Il CEO di ASML afferma che Intel ha raggiunto un importante traguardo con la sua macchina per la produzione di chip da 400 milioni di dollari. La notizia è stata riportata da Yahoo Finance.",
-          "perche_conta": "Questo traguardo è rilevante per il settore dell'infrastruttura e dell'hardware AI, poiché indica un progresso significativo nella produzione di chip ad alta tecnologia da parte di Intel.",
+          "sintesi": "L'AD di ASML afferma che Intel ha raggiunto un importante traguardo con la sua macchina per la produzione di chip da 400 milioni di dollari. La notizia non fornisce ulteriori dettagli sul tipo di traguardo raggiunto.",
+          "perche_conta": "E' rilevante per il beat Infrastruttura & Hardware AI poiché rappresenta un importante sviluppo nel settore della produzione di chip, con potenziali implicazioni per la capacità di produzione e l'innovazione tecnologica.",
           "note": null
         },
         {
@@ -110,8 +110,8 @@
             }
           ],
           "data": "2026-07-20",
-          "sintesi": "Un ex-manager di TSMC è stato accusato di aver rubato segreti di chip per una società cinese di analisi dei materiali semiconduttori. Si tratta del primo caso del genere che coinvolge manager di TSMC e società cinese.",
-          "perche_conta": "Questo caso è rilevante per il beat Infrastruttura & Hardware AI perché evidenzia i rischi di spionaggio industriale e la protezione della proprietà intellettuale nel settore dei semiconduttori.",
+          "sintesi": "Un ex-manager di TSMC è stato accusato di aver rubato segreti di chip per una società cinese di analisi dei materiali semiconduttori. Si tratta del primo caso del genere che coinvolge dirigenti di TSMC.",
+          "perche_conta": "Questo caso è rilevante per il beat 'Infrastruttura & Hardware AI' perché sottolinea i rischi di sicurezza e di spionaggio industriale nel settore dei semiconduttori, fondamentale per lo sviluppo dell'AI.",
           "note": null
         },
         {
@@ -202,7 +202,7 @@
     },
     {
       "data": "2026-07-17",
-      "titolo": "Chip in difficoltà e bonus per dipendenti",
+      "titolo": "Chip e supply chain in difficoltà",
       "articoli": [
         {
           "titolo": "Crollo delle azioni dei chip in Asia, TSMC delude",
@@ -214,7 +214,7 @@
           ],
           "data": "2026-07-17",
           "sintesi": "Le azioni dei produttori di chip in Asia hanno subito un ulteriore calo dopo che TSMC non ha impressionato gli investitori. Il settore dei chip è in difficoltà a causa della domanda debole e della concorrenza accresciuta.",
-          "perche_conta": "La performance di TSMC è importante per gli investitori e il settore dell'hardware AI, poiché rappresenta un indicatore chiave della salute del mercato dei chip.",
+          "perche_conta": "La performance di TSMC è rilevante per gli investitori e il settore dell'AI, poiché il produttore di chip taiwanese gioca un ruolo chiave nella fornitura di componenti per i data center e le applicazioni di intelligenza artificiale.",
           "note": null
         },
         {
@@ -226,8 +226,8 @@
             }
           ],
           "data": "2026-07-17",
-          "sintesi": "ASML pagherà un bonus una tantum di 20.000 euro ai suoi dipendenti a causa della forte domanda di chip per l'intelligenza artificiale. Questo bonus è un riconoscimento dell'impegno dei dipendenti nella produzione di tecnologie avanzate.",
-          "perche_conta": "La notizia è rilevante per il settore dell'infrastruttura e dell'hardware AI, poiché evidenzia l'aumento della domanda di chip specializzati per l'intelligenza artificiale e le strategie delle aziende leader del settore per motivare i dipendenti",
+          "sintesi": "ASML pagherà un bonus una tantum di 20.000 euro ai suoi dipendenti a causa della forte domanda generata dall'intelligenza artificiale. Questo bonus è un riconoscimento per il lavoro svolto dai dipendenti.",
+          "perche_conta": "È rilevante per il settore dell'infrastruttura e dell'hardware AI, poiché mostra l'impatto della crescente domanda di tecnologie AI sulle aziende leader del settore come ASML.",
           "note": null
         },
         {
@@ -239,8 +239,8 @@
             }
           ],
           "data": "2026-07-17",
-          "sintesi": "TSMC ha confermato miglioramenti significativi nella resa e nelle prestazioni del processo A14. Ciò ha generato un forte interesse da parte dei clienti di AI, HPC e smartphone.",
-          "perche_conta": "Questo miglioramento è rilevante per il settore dell'infrastruttura e dell'hardware AI, poiché potrebbe influenzare la capacità di produzione e le prestazioni dei chip utilizzati in applicazioni di intelligenza artificiale e calcolo ad alte prestazioni.",
+          "sintesi": "TSMC ha confermato miglioramenti significativi nella resa e nelle prestazioni del processo A14. Ciò ha suscitato un forte interesse da parte dei clienti di AI, HPC e smartphone.",
+          "perche_conta": "Questo miglioramento è rilevante per il settore dell'AI e degli investitori infrastrutturali poiché potrebbe influenzare la capacità di produzione e l'efficienza energetica dei chip utilizzati in applicazioni di intelligenza artificiale e high-performance computing.",
           "note": null
         },
         {
@@ -312,7 +312,7 @@
     },
     {
       "data": "2026-07-16",
-      "titolo": "TSMC e settore chip influenzano mercato",
+      "titolo": "TSMC influenza mercato chip",
       "articoli": [
         {
           "titolo": "Quattro nuove fabbriche di chip TSMC potrebbero arrivare in Arizona",
@@ -323,8 +323,8 @@
             }
           ],
           "data": "2026-07-16",
-          "sintesi": "Sono in discussione quattro nuove fabbriche di chip TSMC in Arizona. La notizia è stata riportata da AZ Family.",
-          "perche_conta": "La notizia è rilevante per il settore dell'infrastruttura e dell'hardware AI, poiché TSMC è un importante produttore di chip e l'apertura di nuove fabbriche potrebbe influenzare la capacità di produzione e la catena di approvvigionamento dell'industria.",
+          "sintesi": "Sono in discussione quattro nuove fabbriche di chip TSMC che potrebbero essere costruite in Arizona. La notizia è stata riportata da AZ Family.",
+          "perche_conta": "La costruzione di nuove fabbriche di chip in Arizona potrebbe avere un impatto significativo sulla catena di approvvigionamento dell'industria dell'AI e sulla capacità di produzione di semiconduttori.",
           "note": null
         },
         {
@@ -336,12 +336,12 @@
             }
           ],
           "data": "2026-07-16",
-          "sintesi": "Il Nasdaq è sceso bruscamente a causa del calo delle azioni dei chip, oscurando il record di TSMC. Il calo è stato sufficiente a influenzare l'intero mercato.",
-          "perche_conta": "Questo evento è rilevante per il beat Infrastruttura & Hardware AI poiché riflette l'impatto delle fluttuazioni del mercato azionario sul settore dei chip e sulla sua capacità di influenzare l'economia più ampia.",
+          "sintesi": "L'indice Nasdaq è sceso bruscamente a causa del calo delle azioni dei chip, oscurando il record di TSMC. Il calo è stato sufficiente a influenzare l'intero mercato.",
+          "perche_conta": "Questo evento è rilevante per il beat Infrastruttura & Hardware AI perché mostra l'impatto della volatilità del mercato azionario sul settore dei chip e sulla sua capacità di influenzare l'intero mercato tecnologico.",
           "note": null
         },
         {
-          "titolo": "Futures azionari USA crollano mentre i risultati di TSMC ridanno vita alle preoccupazioni sull'AI",
+          "titolo": "Futures azionari USA crollano a causa dei risultati di TSMC",
           "fonti": [
             {
               "nome": "Google News (TSMC/ASML)",
@@ -349,8 +349,8 @@
             }
           ],
           "data": "2026-07-16",
-          "sintesi": "I futures azionari americani sono scesi a seguito della pubblicazione dei risultati di TSMC, che hanno riportato alla luce le preoccupazioni legate all'intelligenza artificiale. Ciò suggerisce un impatto potenziale sul settore tecnologico.",
-          "perche_conta": "Questo evento è rilevante per il beat 'Infrastruttura & Hardware AI' perché riflette le possibili ripercussioni economiche e di mercato sulle aziende leader nel settore, come TSMC, e sul loro ruolo nell'ecosistema dell'intelligenza artificiale.",
+          "sintesi": "I futures azionari USA sono crollati a causa dei risultati di TSMC, che hanno rivisto le preoccupazioni sull'intelligenza artificiale. La notizia è stata riportata da Bloomberg.com.",
+          "perche_conta": "Questo evento è rilevante per il beat 'Infrastruttura & Hardware AI' perché TSMC è un importante fornitore di chip per l'industria dell'intelligenza artificiale e i suoi risultati possono influenzare la supply chain e lo sviluppo dell'AI.",
           "note": null
         },
         {
