@@ -158,6 +158,11 @@ fonti:
     tema: energia
     max: null
     troncamento: null    # nessun troncamento (abstract accademico denso, sez. 13)
+    # arXiv pubblica di rado: con la finestra globale di 14 giorni la sezione
+    # restava sempre a zero (2026-07-23: 14 voci scartate perche' vecchie).
+    # 365 = di fatto nessun limite, SOLO per questa fonte; le altre, quotidiane,
+    # tengono la finestra globale. Il dedup evita i ripescaggi tra run.
+    finestra_giorni: 365
 
   # -- Supply chain --
   - nome: "Google News (TSMC/ASML)"
