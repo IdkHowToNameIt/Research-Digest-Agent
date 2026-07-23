@@ -1,5 +1,5 @@
 {
-  "generato": "2026-07-22",
+  "generato": "2026-07-23",
   "badge_giorni": 2,
   "settimana_giorni": 7,
   "temi": [
@@ -9,16 +9,22 @@
       "file": "tema-chip.json",
       "recenti": [
         {
-          "data": "2026-07-22",
-          "titolo": "Modelli AI di OpenAI sfuggono all'ambiente di test",
+          "data": "2026-07-23",
+          "titolo": "NVIDIA Attiva Supercomputer AI alla Naval Postgraduate School",
           "n_articoli": 1,
           "minuti_lettura": 1
         },
         {
+          "data": "2026-07-22",
+          "titolo": "Sviluppi e investimenti nel settore dei chip",
+          "n_articoli": 6,
+          "minuti_lettura": 3
+        },
+        {
           "data": "2026-07-21",
-          "titolo": "Innovazioni nei chip e dissipazione del calore",
-          "n_articoli": 16,
-          "minuti_lettura": 7
+          "titolo": "NVIDIA e partner costruiscono in America, per l'America",
+          "n_articoli": 17,
+          "minuti_lettura": 8
         },
         {
           "data": "2026-07-20",
@@ -53,12 +59,6 @@
         {
           "data": "2026-07-09",
           "titolo": "GeForce NOW potenzia la sua offerta con nuovi server GeForce RTX 5080 a Toronto",
-          "n_articoli": 1,
-          "minuti_lettura": 1
-        },
-        {
-          "data": "2026-07-08",
-          "titolo": "NVIDIA Nemotron raggiunge prestazioni leader con LangChain Deep Agents Harness",
           "n_articoli": 1,
           "minuti_lettura": 1
         }
@@ -111,12 +111,6 @@
           "titolo": "Chi ha bisogno della DRAM? Abbiamo la fibra",
           "n_articoli": 1,
           "minuti_lettura": 1
-        },
-        {
-          "data": "2026-07-08",
-          "titolo": "Valutare la resilienza della rete nell'era dei data center in rapida crescita",
-          "n_articoli": 1,
-          "minuti_lettura": 2
         }
       ]
     },
@@ -125,6 +119,12 @@
       "nome": "Supply chain",
       "file": "tema-supply_chain.json",
       "recenti": [
+        {
+          "data": "2026-07-23",
+          "titolo": "Implementazione dei controlli sulle esportazioni di silenziatori e altri dispositivi",
+          "n_articoli": 1,
+          "minuti_lettura": 1
+        },
         {
           "data": "2026-07-22",
           "titolo": "La spinta di Trump per chip AI made in USA colpisce i margini di TSMC",
@@ -139,8 +139,8 @@
         },
         {
           "data": "2026-07-20",
-          "titolo": "ASML incentiva talenti, Taiwan difende segreti: sicurezza della catena di approvvigionamento",
-          "n_articoli": 3,
+          "titolo": "Intel raggiunge un importante traguardo con la sua macchina per la produzione di chip da 400 milioni di dollari",
+          "n_articoli": 4,
           "minuti_lettura": 2
         },
         {
@@ -151,15 +151,15 @@
         },
         {
           "data": "2026-07-17",
-          "titolo": "Domanda AI spinge TSMC, ma geopolitica e manodopera mettono prova la catena di fornitura",
-          "n_articoli": 5,
+          "titolo": "Andamento altalenante nel settore dei chip",
+          "n_articoli": 7,
           "minuti_lettura": 3
         },
         {
           "data": "2026-07-16",
-          "titolo": "TSMC record profit spinge investimento di 100 miliardi di dollari negli USA",
-          "n_articoli": 14,
-          "minuti_lettura": 7
+          "titolo": "Prezzi e produzione chip influenzano mercato",
+          "n_articoli": 18,
+          "minuti_lettura": 8
         },
         {
           "data": "2026-07-15",
@@ -180,6 +180,12 @@
       "nome": "Cloud capacity",
       "file": "tema-cloud_capacity.json",
       "recenti": [
+        {
+          "data": "2026-07-22",
+          "titolo": "Investimenti e innovazioni su cloud e intelligenza artificiale",
+          "n_articoli": 2,
+          "minuti_lettura": 2
+        },
         {
           "data": "2026-07-21",
           "titolo": "Miglioramenti nella capacità di calcolo cloud",
@@ -225,12 +231,6 @@
         {
           "data": "2026-07-09",
           "titolo": "Modelli frontiera e agenti di produzione: avanzamento di Microsoft Foundry per l'era agente",
-          "n_articoli": 1,
-          "minuti_lettura": 1
-        },
-        {
-          "data": "2026-07-08",
-          "titolo": "Come è evoluta la resilienza di Azure",
           "n_articoli": 1,
           "minuti_lettura": 1
         }

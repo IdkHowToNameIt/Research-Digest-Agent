@@ -2,6 +2,25 @@
   "anno": "2026",
   "gruppi": [
     {
+      "data": "2026-07-23",
+      "titolo": "Implementazione dei controlli sulle esportazioni di silenziatori e altri dispositivi",
+      "articoli": [
+        {
+          "titolo": "Implementazione dei controlli sulle esportazioni di silenziatori e altri dispositivi",
+          "fonti": [
+            {
+              "nome": "Federal Register — BIS",
+              "link": "https://www.federalregister.gov/documents/2026/07/23/2026-14942/implementation-of-ear-export-controls-on-silencers-mufflers-and-sound-suppressors-and-other-firearms"
+            }
+          ],
+          "data": "2026-07-23",
+          "sintesi": "Il Dipartimento del Commercio degli Stati Uniti sta revisionando le regolamentazioni sulle esportazioni per controllare adeguatamente silenziatori, mufflers e dispositivi di soppressione del suono. Questa regola finale temporanea complementa una regola finale temporanea del Dipartimento di Stato.",
+          "perche_conta": "Questa revisione è rilevante per gli investitori e gli esperti di infrastruttura e hardware AI perché potrebbe avere un impatto sulle catene di approvvigionamento e sulle esportazioni di tecnologie correlate",
+          "note": null
+        }
+      ]
+    },
+    {
       "data": "2026-07-22",
       "titolo": "La spinta di Trump per chip AI made in USA colpisce i margini di TSMC",
       "articoli": [
@@ -54,8 +73,21 @@
     },
     {
       "data": "2026-07-20",
-      "titolo": "ASML incentiva talenti, Taiwan difende segreti: sicurezza della catena di approvvigionamento",
+      "titolo": "Intel raggiunge un importante traguardo con la sua macchina per la produzione di chip da 400 milioni di dollari",
       "articoli": [
+        {
+          "titolo": "Intel raggiunge un importante traguardo con la sua macchina per la produzione di chip da 400 milioni di dollari",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxPWW9rVGN0dll4UmJHM19LcHdYbU1PWjFrWUMtbUVPV3lKTmNvbUs1dlF5NXdOSzJyRTFFa2NZVS1Ja2QtZlU0Uy02ZkgtYi1zbk1jVWozY2JiRnI1b2lFekx3VHM5Y0lkWHVDb0EtQlVnZU4yZGFjTFI0QkFhVjVrVk9VRmo4LUVKZDRWaV9xVEZ3Nkc1a09PYnlQUDlTc1lk?oc=5"
+            }
+          ],
+          "data": "2026-07-20",
+          "sintesi": "L'CEO di ASML afferma che Intel ha raggiunto un importante traguardo con la sua macchina per la produzione di chip da 400 milioni di dollari. La macchina in questione è probabilmente un'attrezzatura di produzione di chip di alta tecnologia.",
+          "perche_conta": "Questo sviluppo è rilevante per il settore dell'infrastruttura e dell'hardware AI, poiché potrebbe influenzare la capacità di produzione di chip di Intel e quindi l'offerta di soluzioni di calcolo ad alte prestazioni per l'elaborazione dell'intelligenza artificiale.",
+          "note": null
+        },
         {
           "titolo": "ASML offrirà un bonus di fidelizzazione di 20.000 € ai dipendenti che rimarranno 2027-2030",
           "fonti": [
@@ -144,8 +176,34 @@
     },
     {
       "data": "2026-07-17",
-      "titolo": "Domanda AI spinge TSMC, ma geopolitica e manodopera mettono prova la catena di fornitura",
+      "titolo": "Andamento altalenante nel settore dei chip",
       "articoli": [
+        {
+          "titolo": "Crollo delle azioni dei chip in Asia, TSMC delude",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNSEpUSTU1ejJ1SVFKdU5YV09uSkMxRzF6TlQwSUdDWFVzTWZHTXF5QTJsWWQzRkFhUlJvMUE5Uzg4LWUzQkhqMkpRN3c3Mnl1Y2M4dDk0NWpHNi1qaXVhdXZhaE4zYmNiUVctNzhTdGM2OHRaRlMtcmRNSEhJNUxpVF95b0N6a0djTzlXaWlodjNDb3VRS3lGWFg3WWdCbk93dUZEZVZzZDhFWlJGX1dN?oc=5"
+            }
+          ],
+          "data": "2026-07-17",
+          "sintesi": "Le azioni dei produttori di chip in Asia hanno subito un ulteriore calo dopo che TSMC non ha soddisfatto le aspettative. Il settore dei chip è in difficoltà a causa della domanda debole e della concorrenza accresciuta.",
+          "perche_conta": "La performance di TSMC è rilevante per il settore dell'AI e degli investitori infrastrutturali, poiché il produttore di chip taiwanese gioca un ruolo chiave nella catena di approvvigionamento dei semiconduttori.",
+          "note": null
+        },
+        {
+          "titolo": "ASML versa bonus una tantum di 20.000 euro ai dipendenti",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNc2JvMHhFdlJna3J2Q0JKZi1JWHk5ZXFSM1pFdVpINHI1dEstNlppdTJnMW9fa1JxSVRucXZDczVHTVNDNlcyVzRYSmF1Sk81NXJiRjRDMTFGRUF2UFMzc2JiZ1VQeXNLRV9KMmJ3ZEJiZGhrMTE1T000RjltUGhCbVZYYUFzbXBnRTBIOXk1cWlIOUVLd1V0eUdHT0pCY2VBQUlfTUtFLTdrVllDTnk4U3dlSks?oc=5"
+            }
+          ],
+          "data": "2026-07-17",
+          "sintesi": "ASML pagherà un bonus una tantum di 20.000 euro ai suoi dipendenti a causa della forte domanda generata dall'intelligenza artificiale. La mossa è un segno della crescente importanza dell'azienda nel settore dell'AI.",
+          "perche_conta": "La notizia è rilevante per il settore dell'infrastruttura e dell'hardware AI, poiché ASML è un fornitore chiave di tecnologie per la produzione di chip, e la sua capacità di soddisfare la domanda è cruciale per lo sviluppo dell'AI.",
+          "note": null
+        },
         {
           "titolo": "TSMC aumenta le previsioni di capex e fatturato, evidenziando la crescente domanda di chip AI",
           "fonti": [
@@ -215,8 +273,60 @@
     },
     {
       "data": "2026-07-16",
-      "titolo": "TSMC record profit spinge investimento di 100 miliardi di dollari negli USA",
+      "titolo": "Prezzi e produzione chip influenzano mercato",
       "articoli": [
+        {
+          "titolo": "ASML valuta aumento prezzo strumenti produzione chip",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNRXdGNlBuZUJzNGg1dFYtR0VXOVA1b19lVEZaM3BFVy0wX0NodTNCaW5mUy1HdHNMV3lPUzdiWkZ1SmpCbDF6WS1CbE90a3FmRkVOZEw1VEc5Z3lscFFQV2pNRGRwam9XNVlJY0R2Z1hYMnJEdTJxMVdWdG5KSHAzUHBHRHBFRldFSzZkZEoycVhXSXlOb2c1b190dzJ3OGhOU0QyTk8xNkFKdW14RV9iZEVB?oc=5"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "ASML sta considerando un aumento del prezzo degli strumenti per la produzione di chip. Ciò potrebbe avere un impatto sulla catena di approvvigionamento dell'industria dei semiconduttori.",
+          "perche_conta": "L'aumento del prezzo degli strumenti per la produzione di chip potrebbe influenzare i costi di produzione e la capacità di fornire componenti AI, rendendolo rilevante per gli investitori e i CTO dell'industria dell'infrastruttura e dell'hardware AI.",
+          "note": null
+        },
+        {
+          "titolo": "Quattro nuove fabbriche di chip TSMC potrebbero arrivare in Arizona",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxNSGV2bGpOaFBHb25ZeVI2WEozOGozbDhfVlhELW9BNGNRRzJDbTFFX0o5b0pQT2NHTXdBdjBRVkFWekJ4QUJKN3lGV0RYNGpjMGRiVl9kVVhCRFBrREtOSkZ1d1hwQjF5NmdMRVQtc0JqMm16WW9hZzlRalZ6T0cxSnY3dXZqTWlQZjNzNmJxbEM?oc=5"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "Sono in discussione quattro nuove fabbriche di chip TSMC che potrebbero essere costruite in Arizona. La notizia è stata riportata da AZ Family.",
+          "perche_conta": "La costruzione di nuove fabbriche di chip è rilevante per il settore dell'infrastruttura e dell'hardware AI, poiché potrebbe influenzare la capacità di produzione e la catena di approvvigionamento di componenti critici per l'intelligenza artificiale.",
+          "note": null
+        },
+        {
+          "titolo": "Nasdaq crolla mentre il calo delle azioni dei chip oscura il record di TSMC",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxPT2pLYXRoUHNOZS0tVkNMV0lhQXExbDA2UjJMQTdGdkk3WVB0SEVLZlhyNTdEZ1hJVlAzTUVRdnh2b01TbzZGQ3NTc2R6SkJBdnpuZlRJcWJIcG5HcFhrZzhDdkFrUlhBT3RwdnJMQ2lYOEp2cG5UWkdKYVRHVGJTVjRrNWtJNWZYazJQeURRMVFpbXVmTWVuVHV6UTZQZHltTkk1LUZIX0FGeENt?oc=5"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "L'indice Nasdaq è sceso bruscamente a causa del calo delle azioni dei produttori di chip, oscurando il record di TSMC. Non sono disponibili ulteriori dettagli.",
+          "perche_conta": "Questo evento è rilevante per il settore dell'infrastruttura e dell'hardware AI poiché riflette la volatilità del mercato dei chip e il suo impatto sulle aziende leader come TSMC.",
+          "note": null
+        },
+        {
+          "titolo": "Futures azionari USA crollano mentre i risultati di TSMC ridanno vita alle preoccupazioni sull'AI",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPSnNHWWZlU3ppQVRKUGFNdzlPNGplbmhFWDF3aV9BTjNRMy10WTJIRXlsamlQcGR5dXN0emtjd1hzVi1BSDBHWDNYM1h6QVB5TnJKM3BOdHJ5SXgyX2dscmZWdXoxejE3QTYtUUpxYk0wY0JITEpDUXlJZ2N6eHNvTjRpLThiZHBVN0lyWlF2VlAtZEg5c042Q2ZUU182dEFuTW9CRUNiSVJvcXQ3bGtTRA?oc=5"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "I futures azionari statunitensi sono scesi a seguito della pubblicazione dei risultati di TSMC, che hanno ridato vita alle preoccupazioni legate all'intelligenza artificiale. Ciò suggerisce che le performance finanziarie di aziende chiave nel settore dell'AI possono influenzare il mercato.",
+          "perche_conta": "Questo evento è rilevante per il beat 'Infrastruttura & Hardware AI' perché riflette l'impatto delle prestazioni finanziarie delle aziende leader nel settore sull'intero mercato e sugli investitori.",
+          "note": null
+        },
         {
           "titolo": "TSMC comunica EPS del secondo trimestre di NT$27,25",
           "fonti": [

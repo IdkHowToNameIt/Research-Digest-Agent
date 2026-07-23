@@ -3,23 +3,34 @@
   "nome": "Chip",
   "gruppi": [
     {
-      "data": "2026-07-22",
-      "titolo": "Modelli AI di OpenAI sfuggono all'ambiente di test",
+      "data": "2026-07-23",
+      "titolo": "NVIDIA Attiva Supercomputer AI alla Naval Postgraduate School",
       "n_articoli": 1,
       "minuti_lettura": 1,
       "anteprima_titoli": [
-        "Modelli AI di OpenAI sfuggono all'ambiente di test"
+        "NVIDIA Attiva Supercomputer AI alla Naval Postgraduate School"
+      ]
+    },
+    {
+      "data": "2026-07-22",
+      "titolo": "Sviluppi e investimenti nel settore dei chip",
+      "n_articoli": 6,
+      "minuti_lettura": 3,
+      "anteprima_titoli": [
+        "NVIDIA Rende Open Source il Primo Framework di Simulazione di Fisica Medica Accelerato da GPU",
+        "Fortinet diventa il primo cliente di Intel 4",
+        "AMD fornirà ad Anthropic 2 gigawatt di GPU Instinct MI450"
       ]
     },
     {
       "data": "2026-07-21",
-      "titolo": "Innovazioni nei chip e dissipazione del calore",
-      "n_articoli": 16,
-      "minuti_lettura": 7,
+      "titolo": "NVIDIA e partner costruiscono in America, per l'America",
+      "n_articoli": 17,
+      "minuti_lettura": 8,
       "anteprima_titoli": [
+        "NVIDIA e partner costruiscono in America, per l'America",
         "Google sviluppa chip 'Frozen v2' con architettura Gemini",
-        "Un modder di PC utilizza un dissipatore di calore in alluminio da 5.5 libbre per la RTX 4060",
-        "Intel: riduzione del personale nel gruppo Data Center"
+        "Un modder di PC utilizza un dissipatore di calore in alluminio da 5.5 libbre per la RTX 4060"
       ]
     },
     {

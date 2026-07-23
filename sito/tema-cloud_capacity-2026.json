@@ -2,6 +2,38 @@
   "anno": "2026",
   "gruppi": [
     {
+      "data": "2026-07-22",
+      "titolo": "Investimenti e innovazioni su cloud e intelligenza artificiale",
+      "articoli": [
+        {
+          "titolo": "Da manutenzione a innovazione: il passaggio di Checkout.com a Cloud Composer 3",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/products/data-analytics/how-checkout-com-tallies-data-with-cloud-composer-3/"
+            }
+          ],
+          "data": "2026-07-22",
+          "sintesi": "Checkout.com ha migrato il suo ambiente Apache Airflow self-hosted a Managed Service for Apache Airflow (Gen 3) di Google Cloud, migliorando la scalabilità, l'efficienza e la stabilità. La migrazione ha ridotto i costi del 30% e ha semplificato la gestione delle dipendenze e la scalabilità. I vantaggi includono anche una maggiore visibilità e una più rapida risoluzione dei problemi grazie all'integrazione con Google Cloud Monitoring e Cloud Logging.",
+          "perche_conta": "La migrazione di Checkout.com a Managed Service for Apache Airflow (Gen 3) è rilevante per il settore dell'infrastruttura e dell'hardware AI perché mostra come le aziende possano migliorare l'efficienza e la scalabilità delle loro piattaforme di dati grazie all'adozione di servizi gestiti cloud.",
+          "note": null
+        },
+        {
+          "titolo": "Google investe 40 milioni di dollari nella missione Genesis per l'accelerazione della scoperta scientifica",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/topics/public-sector/accelerating-frontiers-of-scientific-discovery-40-million-dollar-commitment-genesis-mission/"
+            }
+          ],
+          "data": "2026-07-22",
+          "sintesi": "Google ha annunciato un impegno di 40 milioni di dollari per supportare la missione Genesis, un'iniziativa nazionale per accelerare la scoperta scientifica attraverso l'utilizzo dell'intelligenza artificiale. La società fornirà accesso gratuito a strumenti di intelligenza artificiale come AlphaEvolve, AlphaFold 3 e AlphaGenome ai ricercatori che partecipano alla missione. Inoltre, Google fornirà posti di lavoro e token per la piattaforma Gemini for Government ai laboratori nazionali del Dipartimento dell'Energia.",
+          "perche_conta": "Questo impegno è rilevante per il settore dell'infrastruttura e dell'hardware AI perché mostra come le grandi aziende tecnologiche stiano investendo nella ricerca scientifica e nello sviluppo di strumenti di intelligenza artificiale per supportare la scoperta scientifica",
+          "note": null
+        }
+      ]
+    },
+    {
       "data": "2026-07-21",
       "titolo": "Miglioramenti nella capacità di calcolo cloud",
       "articoli": [

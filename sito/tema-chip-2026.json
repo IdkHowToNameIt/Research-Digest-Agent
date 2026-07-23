@@ -2,9 +2,93 @@
   "anno": "2026",
   "gruppi": [
     {
-      "data": "2026-07-22",
-      "titolo": "Modelli AI di OpenAI sfuggono all'ambiente di test",
+      "data": "2026-07-23",
+      "titolo": "NVIDIA Attiva Supercomputer AI alla Naval Postgraduate School",
       "articoli": [
+        {
+          "titolo": "NVIDIA Attiva Supercomputer AI alla Naval Postgraduate School",
+          "fonti": [
+            {
+              "nome": "NVIDIA Newsroom",
+              "link": "https://blogs.nvidia.com/blog/naval-postgraduate-school-dgx-ai-supercomputer/"
+            }
+          ],
+          "data": "2026-07-23",
+          "sintesi": "NVIDIA ha attivato un sistema DGX GB300 alla Naval Postgraduate School in California, uno dei più potenti piattaforme AI al mondo. Il fondatore e CEO di NVIDIA, Jensen Huang, ha visitato l'università per inaugurare il sistema. Il supercomputer sarà utilizzato da studenti, ricercatori e docenti della principale università di graduate del ministero della difesa degli Stati Uniti.",
+          "perche_conta": "Questo evento è rilevante per il beat 'Infrastruttura & Hardware AI' perché mostra l'adozione di tecnologie AI avanzate in ambito militare e universitario, evidenziando l'importanza dell'infrastruttura di calcolo per lo sviluppo di applicazioni AI",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2026-07-22",
+      "titolo": "Sviluppi e investimenti nel settore dei chip",
+      "articoli": [
+        {
+          "titolo": "NVIDIA Rende Open Source il Primo Framework di Simulazione di Fisica Medica Accelerato da GPU",
+          "fonti": [
+            {
+              "nome": "NVIDIA Newsroom",
+              "link": "https://blogs.nvidia.com/blog/medical-physics-simulation-open-source/"
+            }
+          ],
+          "data": "2026-07-22",
+          "sintesi": "NVIDIA ha reso open source il primo framework di simulazione di fisica medica accelerato da GPU, per aiutare i robot sanitari a interagire con il mondo fisico. Il framework simula come gli strumenti medici interagiscono con i tessuti e come le immagini mediche possono essere rumorose o incomplete.",
+          "perche_conta": "Questo framework è rilevante per gli investitori e i CTO poiché potrebbe rivoluzionare lo sviluppo di robot sanitari e migliorare la precisione delle procedure mediche, riducendo i costi e i tempi di sviluppo.",
+          "note": null
+        },
+        {
+          "titolo": "Fortinet diventa il primo cliente di Intel 4",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/tech-industry/semiconductors/intel-4-gets-its-first-foundry-customer-in-fortinet-three-years-after-intel-scoped-the-node-to-meteor-lake"
+            }
+          ],
+          "data": "2026-07-22",
+          "sintesi": "Fortinet utilizzerà il processo di produzione Intel 4 per il suo sesto processore di sicurezza di generazione (SP6). Intel si occuperà della progettazione, del packaging e della fabbricazione del chip. Questo rappresenta la prima vittoria per il CEO Lip-Bu Tan nella sua strategia di foundry.",
+          "perche_conta": "Questo accordo è rilevante per il settore dell'infrastruttura e dell'hardware AI poiché dimostra l'interesse delle aziende leader nel settore della sicurezza informatica per l'utilizzo dei processi di produzione avanzati di Intel.",
+          "note": null
+        },
+        {
+          "titolo": "AMD fornirà ad Anthropic 2 gigawatt di GPU Instinct MI450",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/tech-industry/amd-to-supply-anthropic-with-2-gigawatts-of-instinct-mi450-gpus"
+            }
+          ],
+          "data": "2026-07-22",
+          "sintesi": "AMD fornirà ad Anthropic 2 gigawatt di GPU Instinct MI450. Il primo gigawatt sarà disponibile nella prima metà del 2027 all'interno dei sistemi rack-scale AMD Helios. AMD investirà fino a 5 miliardi di dollari in Anthropic, che già utilizza le GPU MI355X.",
+          "perche_conta": "Questo accordo è rilevante per il settore dell'infrastruttura e dell'hardware AI, poiché dimostra la crescente domanda di potenza di calcolo per lo sviluppo di modelli di intelligenza artificiale avanzati.",
+          "note": null
+        },
+        {
+          "titolo": "I data center consumeranno il 20% dell'energia USA entro il 2035",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/tech-industry/data-centers/bnef-nearly-doubles-its-us-data-center-power-forecast-to-194gw"
+            }
+          ],
+          "data": "2026-07-22",
+          "sintesi": "Gli analisti prevedono che i data center utilizzeranno il 20% dell'energia statunitense entro il 2035, con una stima di 194 gigawatt, che rappresenta un aumento dell'83% rispetto alle previsioni di sette mesi fa. La precedente stima di BNEF, pubblicata a dicembre, prevedeva una domanda di 106 GW entro il 2035, già superiore del 36% rispetto alla proiezione di aprile 2025.",
+          "perche_conta": "Questo aumento della domanda di energia è rilevante per gli investitori e i CTO poiché evidenzia la crescente importanza dell'infrastruttura dei data center e la necessità di pianificare una gestione efficiente dell'energia per sostenere la crescita dell'AI e del cloud computing.",
+          "note": null
+        },
+        {
+          "titolo": "Le aziende tech AI hanno un 'debito nascosto' di circa 1,65 trilioni di dollari",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/tech-industry/big-tech/ai-tech-companies-have-hidden-debt-worth-around-usd1-65-trillion-report-claims-amount-is-122-percent-of-debt-reflected-on-the-balance-sheets-of-alphabet-amazon-meta-microsoft-and-oracle"
+            }
+          ],
+          "data": "2026-07-22",
+          "sintesi": "Le cinque grandi aziende tech, tra cui Alphabet, Amazon, Meta, Microsoft e Oracle, hanno obbligazioni per i data center del valore di 1,65 trilioni di dollari che non sono incluse nei loro bilanci. Queste passività sono elencate come note a piè di pagina nei loro bilanci trimestrali, ma diventeranno esigibili una volta che i data center saranno operativi.",
+          "perche_conta": "Questo 'debito nascosto' è rilevante per gli investitori e i CTO poiché rappresenta un onere finanziario significativo per le aziende tech che potrebbe influenzare le loro strategie di investimento e gestione delle infrastrutture",
+          "note": null
+        },
         {
           "titolo": "Modelli AI di OpenAI sfuggono all'ambiente di test",
           "fonti": [
@@ -22,8 +106,21 @@
     },
     {
       "data": "2026-07-21",
-      "titolo": "Innovazioni nei chip e dissipazione del calore",
+      "titolo": "NVIDIA e partner costruiscono in America, per l'America",
       "articoli": [
+        {
+          "titolo": "NVIDIA e partner costruiscono in America, per l'America",
+          "fonti": [
+            {
+              "nome": "NVIDIA Blog",
+              "link": "https://blogs.nvidia.com/blog/nvidia-and-partners-build-in-america-for-america/"
+            }
+          ],
+          "data": "2026-07-21",
+          "sintesi": "NVIDIA e i suoi partner stanno investendo nella produzione americana, nelle catene di approvvigionamento, nelle reti energetiche e nelle forze lavoro qualificate per consentire agli Stati Uniti di produrre le infrastrutture necessarie per una migliore assistenza sanitaria, scoperte scientifiche innovative, una maggiore produttività industriale e un ruolo di leadership tecnologica globale.",
+          "perche_conta": "E' rilevante per il beat Infrastruttura & Hardware AI perché mostra come NVIDIA stia investendo nella creazione di un ecosistema di produzione e innovazione negli Stati Uniti, con potenziali impatti significativi sulla capacità di sviluppare e implementare tecnologie AI avanzate.",
+          "note": null
+        },
         {
           "titolo": "Google sviluppa chip 'Frozen v2' con architettura Gemini",
           "fonti": [

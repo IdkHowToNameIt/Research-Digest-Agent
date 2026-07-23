@@ -3,6 +3,16 @@
   "nome": "Cloud capacity",
   "gruppi": [
     {
+      "data": "2026-07-22",
+      "titolo": "Investimenti e innovazioni su cloud e intelligenza artificiale",
+      "n_articoli": 2,
+      "minuti_lettura": 2,
+      "anteprima_titoli": [
+        "Da manutenzione a innovazione: il passaggio di Checkout.com a Cloud Composer 3",
+        "Google investe 40 milioni di dollari nella missione Genesis per l'accelerazione della scoperta scientifica"
+      ]
+    },
+    {
       "data": "2026-07-21",
       "titolo": "Miglioramenti nella capacità di calcolo cloud",
       "n_articoli": 3,

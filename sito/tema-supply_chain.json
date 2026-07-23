@@ -3,6 +3,15 @@
   "nome": "Supply chain",
   "gruppi": [
     {
+      "data": "2026-07-23",
+      "titolo": "Implementazione dei controlli sulle esportazioni di silenziatori e altri dispositivi",
+      "n_articoli": 1,
+      "minuti_lettura": 1,
+      "anteprima_titoli": [
+        "Implementazione dei controlli sulle esportazioni di silenziatori e altri dispositivi"
+      ]
+    },
+    {
       "data": "2026-07-22",
       "titolo": "La spinta di Trump per chip AI made in USA colpisce i margini di TSMC",
       "n_articoli": 1,
@@ -23,13 +32,13 @@
     },
     {
       "data": "2026-07-20",
-      "titolo": "ASML incentiva talenti, Taiwan difende segreti: sicurezza della catena di approvvigionamento",
-      "n_articoli": 3,
+      "titolo": "Intel raggiunge un importante traguardo con la sua macchina per la produzione di chip da 400 milioni di dollari",
+      "n_articoli": 4,
       "minuti_lettura": 2,
       "anteprima_titoli": [
+        "Intel raggiunge un importante traguardo con la sua macchina per la produzione di chip da 400 milioni di dollari",
         "ASML offrirà un bonus di fidelizzazione di 20.000 € ai dipendenti che rimarranno 2027-2030",
-        "Taiwan indetta accusa contro ex dipendente di TSMC per presunto furto di segreti commerciali destinati all'uso in Cina",
-        "L'esplosione dei chip AI potrebbe rendere ASML la prima azienda europea da un trilione di dollari?"
+        "Taiwan indetta accusa contro ex dipendente di TSMC per presunto furto di segreti commerciali destinati all'uso in Cina"
       ]
     },
     {
@@ -45,24 +54,24 @@
     },
     {
       "data": "2026-07-17",
-      "titolo": "Domanda AI spinge TSMC, ma geopolitica e manodopera mettono prova la catena di fornitura",
-      "n_articoli": 5,
+      "titolo": "Andamento altalenante nel settore dei chip",
+      "n_articoli": 7,
       "minuti_lettura": 3,
       "anteprima_titoli": [
-        "TSMC aumenta le previsioni di capex e fatturato, evidenziando la crescente domanda di chip AI",
-        "La rivalità AI USA-Cina mette ASML a bilanciare vendite e geopolitica",
-        "L'Arizona ha abbastanza lavoratori per l'espansione di TSMC a Phoenix?"
+        "Crollo delle azioni dei chip in Asia, TSMC delude",
+        "ASML versa bonus una tantum di 20.000 euro ai dipendenti",
+        "TSMC aumenta le previsioni di capex e fatturato, evidenziando la crescente domanda di chip AI"
       ]
     },
     {
       "data": "2026-07-16",
-      "titolo": "TSMC record profit spinge investimento di 100 miliardi di dollari negli USA",
-      "n_articoli": 14,
-      "minuti_lettura": 7,
+      "titolo": "Prezzi e produzione chip influenzano mercato",
+      "n_articoli": 18,
+      "minuti_lettura": 8,
       "anteprima_titoli": [
-        "TSMC comunica EPS del secondo trimestre di NT$27,25",
-        "Il produttore taiwanese di chip TSMC promette altri $100 billion per espandere la capacità di produzione negli USA",
-        "TSMC aggiunge 100 miliardi di dollari al suo piano di spesa negli Stati Uniti"
+        "ASML valuta aumento prezzo strumenti produzione chip",
+        "Quattro nuove fabbriche di chip TSMC potrebbero arrivare in Arizona",
+        "Nasdaq crolla mentre il calo delle azioni dei chip oscura il record di TSMC"
       ]
     },
     {
