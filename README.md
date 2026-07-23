@@ -11,11 +11,11 @@ interviene solo sui testi e non sceglie mai le fonti né inventa URL.
 
 | Documento | Contenuto |
 |---|---|
-| [`manuale-utente/`](manuale-utente/) | Manuale per il lettore: come usare sito ed email |
 | [`DECISIONI.md`](DECISIONI.md) | Le scelte di progetto e il loro perché, con misure |
 | [`worker/README.md`](worker/README.md) | Deploy del Worker per l'invio del PDF via email |
 
-Questo README copre solo l'operatività: adottare il repo, farlo girare, verificarlo.
+Questo README copre solo l'operatività: adottare il repo, farlo girare,
+verificarlo. Il manuale utente per i lettori del digest è fornito a parte.
 
 ## Struttura del progetto
 
@@ -30,7 +30,6 @@ backend/            pipeline Python (batch settimanale)
 frontend/           interfaccia React + Vite (63 test Vitest)
 sito/               cartella pubblicata dall'hosting statico (generata, committata dalla CI)
 worker/             Cloudflare Worker per l'invio email del PDF (opzionale)
-manuale-utente/     manuale PDF per i lettori del digest
 .github/workflows/  digest-settimanale.yml (il run settimanale)
 ```
 
