@@ -153,6 +153,203 @@
           "note": "(preprint, non ancora sottoposto a peer review)"
         }
       ]
+    },
+    {
+      "data": "2026-07-06",
+      "titolo": "Flessibilità di domanda a grandi carichi come archiviazione virtuale",
+      "articoli": [
+        {
+          "titolo": "Flessibilità di domanda a grandi carichi come archiviazione virtuale",
+          "fonti": [
+            {
+              "nome": "arXiv (energia x AI)",
+              "link": "https://arxiv.org/abs/2607.04564v1"
+            }
+          ],
+          "data": "2026-07-06",
+          "sintesi": "I risultati preliminari di uno studio indicano che impianti di elettrolisi dell'acqua, data center iperscalabili e linee di produzione di alluminio possono rappresentare una fonte di flessibilità della domanda per il bilanciamento del sistema elettrico. Lo studio propone un approccio di archiviazione virtuale per collegare la gestione di questi carichi con i sistemi di archiviazione di energia, mostrando potenziali risparmi nella gestione congiunta di queste risorse.",
+          "perche_conta": "Questo studio è rilevante per il settore dell'energia e dell'AI poiché potrebbe aiutare a ottimizzare la gestione della domanda di energia e a ridurre i costi, migliorando l'efficienza complessiva del sistema energetico.",
+          "note": "(preprint, non ancora sottoposto a peer review)"
+        }
+      ]
+    },
+    {
+      "data": "2026-07-05",
+      "titolo": "Storage as a Transmission Asset (SATA) per il sollievo della congestione di grandi carichi",
+      "articoli": [
+        {
+          "titolo": "Storage as a Transmission Asset (SATA) per il sollievo della congestione di grandi carichi",
+          "fonti": [
+            {
+              "nome": "arXiv (energia x AI)",
+              "link": "https://arxiv.org/abs/2607.04545v1"
+            }
+          ],
+          "data": "2026-07-05",
+          "sintesi": "I risultati preliminari di uno studio indicano che i data center iperscalabili e altri grandi carichi concentrati possono imporre una notevole nuova domanda sulle reti di trasmissione esistenti. Un sistema di stoccaggio di energia (ESS) utilizzato come asset di trasmissione (SATA) offre un'alternativa non cablata fornendo supporto diretto agli operatori per i corridoi di importazione vincolati. Lo studio valuta il valore di affidabilità operativa del SATA utilizzando un flusso di potenza ottimale DC a giorno avanti che co-ottimizza la generazione, lo smistamento dell'ESS e la riduzione del carico.",
+          "perche_conta": "Questo studio è rilevante per il settore dell'infrastruttura e dell'hardware AI poiché evidenzia l'importanza della gestione della congestione delle reti di trasmissione per garantire un servizio affidabile e efficiente per i data center e altri grandi carichi",
+          "note": "(preprint, non ancora sottoposto a peer review)"
+        }
+      ]
+    },
+    {
+      "data": "2026-07-03",
+      "titolo": "Apprendimento multi-agente gerarchico per data center AI a basso impatto carbonico",
+      "articoli": [
+        {
+          "titolo": "Apprendimento multi-agente gerarchico per data center AI a basso impatto carbonico",
+          "fonti": [
+            {
+              "nome": "arXiv (energia x AI)",
+              "link": "https://arxiv.org/abs/2607.03324v2"
+            }
+          ],
+          "data": "2026-07-03",
+          "sintesi": "I risultati preliminari di uno studio indicano che un framework di apprendimento multi-agente gerarchico può ottimizzare l'operazione dei data center AI riducendo le emissioni di carbonio. Il framework proposto utilizza un agente di gestione del carico di lavoro e più agenti locali per allocare i compiti di addestramento e inferenza AI in modo efficiente e a basso impatto ambientale. La valutazione del framework è stata condotta utilizzando un sistema di distribuzione di energia a 33 nodi.",
+          "perche_conta": "Questo studio è rilevante per il settore dell'infrastruttura AI poiché evidenzia l'importanza della gestione efficiente dell'energia e della riduzione delle emissioni di carbonio nei data center AI.",
+          "note": "(preprint, non ancora sottoposto a peer review)"
+        }
+      ]
+    },
+    {
+      "data": "2026-07-02",
+      "titolo": "WattGPU: Predizione del consumo di potenza e latenza per LLM su GPU non viste",
+      "articoli": [
+        {
+          "titolo": "WattGPU: Predizione del consumo di potenza e latenza per LLM su GPU non viste",
+          "fonti": [
+            {
+              "nome": "arXiv (energia x AI)",
+              "link": "https://arxiv.org/abs/2607.02391v1"
+            }
+          ],
+          "data": "2026-07-02",
+          "sintesi": "I risultati preliminari di uno studio indicano che il modello WattGPU può prevedere con accuratezza il consumo di potenza e la latenza per carichi di lavoro di inferenza di Large Language Model (LLM) su GPU non viste, utilizzando solo metadati pubblici di LLM e specifiche di GPU. Il modello raggiunge un errore percentuale assoluto mediano inferiore o uguale al 3,4% per il consumo di potenza e inferiore o uguale all'8,5% per la latenza in modalità server. Ciò rappresenta un miglioramento rispetto ai modelli tradizionali basati su principi fisici.",
+          "perche_conta": "Questo studio è rilevante per il settore dell'infrastruttura e dell'hardware AI poiché fornisce uno strumento per ottimizzare il consumo di energia nei data center e migliorare l'efficienza delle operazioni di inferenza di LLM.",
+          "note": "(preprint, non ancora sottoposto a peer review)"
+        }
+      ]
+    },
+    {
+      "data": "2026-06-29",
+      "titolo": "Ottimizzazione energetica con apprendimento automatico",
+      "articoli": [
+        {
+          "titolo": "Verso un'operazione ottimizzata per energia dei data center situati in parchi eolici utilizzando apprendimento per rinforzo",
+          "fonti": [
+            {
+              "nome": "arXiv (energia x AI)",
+              "link": "https://arxiv.org/abs/2606.30316v1"
+            }
+          ],
+          "data": "2026-06-29",
+          "sintesi": "I risultati preliminari di uno studio indicano che l'apprendimento per rinforzo può essere utilizzato come controllore online per ottimizzare l'operazione dei data center situati in parchi eolici. Lo studio introduce un framework di simulazione riproducibile e valuta diverse strategie di apprendimento per migliorare l'efficienza energetica. I risultati mostrano che l'apprendimento per rinforzo può raggiungere prestazioni elevate, ma con un gap di prestazione rispetto all'ottimizzatore offline.",
+          "perche_conta": "Questo studio è rilevante per il settore dell'infrastruttura e dell'hardware AI perché evidenzia le potenzialità dell'apprendimento per rinforzo nell'ottimizzazione dell'operazione dei data center e nella riduzione dei costi energetici.",
+          "note": "(preprint, non ancora sottoposto a peer review)"
+        },
+        {
+          "titolo": "SMART-MIG: Un framework di apprendimento per la pianificazione GPU scalabile ed efficiente in termini energetici",
+          "fonti": [
+            {
+              "nome": "arXiv (energia x AI)",
+              "link": "https://arxiv.org/abs/2606.29775v1"
+            }
+          ],
+          "data": "2026-06-29",
+          "sintesi": "I risultati preliminari di uno studio indicano che la tecnologia Multi-Instance GPU (MIG) consente di eseguire modelli di apprendimento automatico più piccoli su partizioni di una GPU anziché sull'intero dispositivo, migliorando l'utilizzo e riducendo il consumo di energia. Il framework SMART-MIG combina l'apprendimento per rinforzo multi-agente con algoritmi euristici per la pianificazione dei lavori, migliorando l'efficienza energetica e riducendo i tempi di attesa. Gli esperimenti mostrano che SMART-MIG migliora l'efficienza energetica-ritardo del 18% rispetto alla pianificazione statica.",
+          "perche_conta": "Questo studio è rilevante per il settore dell'AI e degli investitori infrastrutturali poiché propone una soluzione per ridurre il consumo di energia nei data center equipaggiati con GPU, migliorando l'efficienza e riducendo i costi.",
+          "note": "(preprint, non ancora sottoposto a peer review)"
+        }
+      ]
+    },
+    {
+      "data": "2026-06-24",
+      "titolo": "Dispositivi di potenza GaN e architetture di conversione per data center AI",
+      "articoli": [
+        {
+          "titolo": "Dispositivi di potenza GaN e architetture di conversione per data center AI",
+          "fonti": [
+            {
+              "nome": "arXiv (energia x AI)",
+              "link": "https://arxiv.org/abs/2606.25281v1"
+            }
+          ],
+          "data": "2026-06-24",
+          "sintesi": "I risultati preliminari di uno studio indicano che i dispositivi di potenza GaN possono migliorare l'efficienza e l'affidabilità dei data center AI, specialmente nelle fasi di conversione della catena di alimentazione. La comparazione con Si e SiC mostra che GaN offre vantaggi dipendenti dalla specifica fase di conversione. L'analisi evidenzia l'importanza della progettazione coordinata di dispositivo, topologia, pacchetto e termica per massimizzare i benefici del GaN.",
+          "perche_conta": "Questo studio è rilevante per il settore dell'infrastruttura AI poiché evidenzia l'importanza dell'efficienza energetica e della affidabilità nei data center, aspetti critici per il funzionamento di carichi di lavoro di intelligenza artificiale sempre più impegnativi.",
+          "note": "(preprint, non ancora sottoposto a peer review)"
+        }
+      ]
+    },
+    {
+      "data": "2026-06-23",
+      "titolo": "Efficienza energetica in AI",
+      "articoli": [
+        {
+          "titolo": "Pianificazione efficiente dal punto di vista energetico di carichi di lavoro AI/ML",
+          "fonti": [
+            {
+              "nome": "arXiv (energia x AI)",
+              "link": "https://arxiv.org/abs/2606.25082v1"
+            }
+          ],
+          "data": "2026-06-23",
+          "sintesi": "I risultati preliminari di uno studio indicano che l'utilizzo di GPU Multi Instance (MIG) di NVIDIA può migliorare la flessibilità e la potenza computazionale dei data center, consentendo una gestione più efficiente dal punto di vista energetico dei carichi di lavoro AI/ML. Gli autori propongono un framework di pianificazione con ripartizione dinamica per ottimizzare il consumo energetico e la performance. I risultati mostrano che il loro algoritmo di ripartizione dinamica può ridurre il consumo energetico del 26% rispetto alla ripartizione due volte al giorno, del 31% rispetto alla partizione statica e del 68% rispetto alla mancanza di partizione.",
+          "perche_conta": "Questo studio è rilevante per il settore dell'infrastruttura e dell'hardware AI, poiché fornisce strategie per ridurre il consumo energetico dei data center senza compromettere la performance, un aspetto fondamentale per gli investitori e i responsabili tecnici.",
+          "note": "(preprint, non ancora sottoposto a peer review)"
+        },
+        {
+          "titolo": "Intelligenza Artificiale in Orbita: Pianificazione Termica per Cluster AI Sostenibili",
+          "fonti": [
+            {
+              "nome": "arXiv (energia x AI)",
+              "link": "https://arxiv.org/abs/2606.26150v2"
+            }
+          ],
+          "data": "2026-06-23",
+          "sintesi": "I risultati preliminari di uno studio indicano che i centri di dati orbitali (ODC) potrebbero essere un'alternativa sostenibile ai tradizionali centri di dati terrestri, ma la densità fisica necessaria per il funzionamento dei carichi di lavoro scientifici come l'addestramento dei modelli linguistici distribuiti può causare problemi di termoregolazione. Per risolvere questo problema, gli autori propongono l'introduzione di un framework software chiamato Thermal-Load Balancing (TLB) che migra dinamicamente i carichi di lavoro intensivi verso le unità più fredde disponibili in base alle temperature dei fluidi o alla radiazione assorbita. Ciò aiuta a risolvere i colli di bottiglia termici e a ridurre lo stress termico fisico, prolungando la vita operativa dell'hardware orbitale.",
+          "perche_conta": "Questo studio è rilevante per il settore dell'Intelligenza Artificiale e dell'infrastruttura spaziale poiché evidenzia la necessità di sviluppare soluzioni sostenibili per i centri di dati orbitali e di ridurre l'impatto ambientale dei lanci spaziali.",
+          "note": "(preprint, non ancora sottoposto a peer review)"
+        }
+      ]
+    },
+    {
+      "data": "2026-06-22",
+      "titolo": "Caratterizzazione delle prestazioni e dell'energia di applicazioni scientifiche su SuperMUC-NG",
+      "articoli": [
+        {
+          "titolo": "Caratterizzazione delle prestazioni e dell'energia di applicazioni scientifiche su SuperMUC-NG",
+          "fonti": [
+            {
+              "nome": "arXiv (energia x AI)",
+              "link": "https://arxiv.org/abs/2606.23265v1"
+            }
+          ],
+          "data": "2026-06-22",
+          "sintesi": "I risultati preliminari di uno studio indicano che l'utilizzo di acceleratori GPU può portare a prestazioni 4-12 volte più elevate e a un'efficienza energetica fino a 15 volte migliore rispetto all'esecuzione solo su CPU. Tuttavia, i guadagni di prestazioni e di energia dipendono dalla granularità del problema e possono essere erosi se il lavoro per tile GPU è insufficiente. Lo studio è stato condotto su cinque applicazioni scientifiche di riferimento su SuperMUC-NG, un sistema da 28 PetaFLOPs equipaggiato con processori Intel Xeon Platinum e acceleratori Intel Data Center GPU Max 1550.",
+          "perche_conta": "Questo studio è rilevante per il settore dell'infrastruttura e dell'hardware AI perché fornisce informazioni preziose sull'efficienza energetica e sulle prestazioni delle applicazioni scientifiche su sistemi di calcolo ad alte prestazioni, aiutando gli investitori e i responsabili tecnici a prendere decisioni informate sulle tecnologie da adottare.",
+          "note": "(preprint, non ancora sottoposto a peer review)"
+        }
+      ]
+    },
+    {
+      "data": "2026-06-21",
+      "titolo": "Valutazione della resilienza dinamica dei sistemi di potenza con carichi di data center",
+      "articoli": [
+        {
+          "titolo": "Valutazione della resilienza dinamica dei sistemi di potenza con carichi di data center",
+          "fonti": [
+            {
+              "nome": "arXiv (energia x AI)",
+              "link": "https://arxiv.org/abs/2606.22590v1"
+            }
+          ],
+          "data": "2026-06-21",
+          "sintesi": "I risultati preliminari di uno studio indicano che i grandi carichi dei data center introducono nuove sfide di resilienza per i sistemi di potenza a causa della loro disconnessione e riconnessione graduale, che possono indurre dinamiche di voltaggio e frequenza rapide non catturate da metriche statiche o basate sull'energia. Uno studio propone un framework di valutazione della resilienza basato su reti neurali informate dalla fisica per valutare questi eventi utilizzando solo modelli dinamici del lato della rete e traiettorie post-disturbo osservabili, senza richiedere modelli dettagliati interni dei data center. Il framework sviluppato consente di prevedere stati dinamici e algebrici e di valutare l'impatto delle perturbazioni sui sistemi di potenza.",
+          "perche_conta": "Questo studio è rilevante per il settore dell'energia e dell'AI poiché fornisce un approccio innovativo per valutare la resilienza dei sistemi di potenza in presenza di carichi di data center, che stanno diventando sempre più importanti per il funzionamento delle infrastrutture critiche.",
+          "note": "(preprint, non ancora sottoposto a peer review)"
+        }
+      ]
     }
   ]
 }

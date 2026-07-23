@@ -4,20 +4,20 @@
   "gruppi": [
     {
       "data": "2026-07-23",
-      "titolo": "Implementazione dei controlli EAR sulle apparecchiature di silenziamento",
+      "titolo": "Implementazione dei controlli alle esportazioni EAR su silenziatori e altri dispositivi",
       "n_articoli": 1,
       "minuti_lettura": 1,
       "anteprima_titoli": [
-        "Implementazione dei controlli EAR sulle apparecchiature di silenziamento"
+        "Implementazione dei controlli alle esportazioni EAR su silenziatori e altri dispositivi"
       ]
     },
     {
       "data": "2026-07-22",
-      "titolo": "TSMC in trattative per aumentare i prezzi del 10% nel 2027",
+      "titolo": "TSMC potrebbe aumentare i prezzi del 10% nel 2027",
       "n_articoli": 2,
       "minuti_lettura": 1,
       "anteprima_titoli": [
-        "TSMC in trattative per aumentare i prezzi del 10% nel 2027",
+        "TSMC potrebbe aumentare i prezzi del 10% nel 2027",
         "La spinta di Trump per chip AI made in USA colpisce i margini di TSMC"
       ]
     },
@@ -33,7 +33,7 @@
     },
     {
       "data": "2026-07-20",
-      "titolo": "Produzione e sicurezza chip",
+      "titolo": "Progressi e controversie nella produzione di chip",
       "n_articoli": 5,
       "minuti_lettura": 2,
       "anteprima_titoli": [
@@ -55,7 +55,7 @@
     },
     {
       "data": "2026-07-17",
-      "titolo": "Chip in difficoltà e bonus per dipendenti",
+      "titolo": "Chip e supply chain in difficoltà",
       "n_articoli": 8,
       "minuti_lettura": 4,
       "anteprima_titoli": [
@@ -66,13 +66,13 @@
     },
     {
       "data": "2026-07-16",
-      "titolo": "TSMC e settore chip influenzano mercato",
+      "titolo": "TSMC influenza mercato chip",
       "n_articoli": 17,
       "minuti_lettura": 8,
       "anteprima_titoli": [
         "Quattro nuove fabbriche di chip TSMC potrebbero arrivare in Arizona",
         "Nasdaq crolla mentre il calo delle azioni dei chip oscura il record di TSMC",
-        "Futures azionari USA crollano mentre i risultati di TSMC ridanno vita alle preoccupazioni sull'AI"
+        "Futures azionari USA crollano a causa dei risultati di TSMC"
       ]
     },
     {

@@ -1,0 +1,492 @@
+{
+  "data_generazione": "2026-07-23",
+  "sezioni": [
+    {
+      "tema": "chip",
+      "stato": "con_aggiornamenti",
+      "articoli": [
+        {
+          "titolo": "NVIDIA attiva supercomputer AI alla Naval Postgraduate School",
+          "fonti": [
+            {
+              "nome": "NVIDIA Newsroom",
+              "link": "https://blogs.nvidia.com/blog/naval-postgraduate-school-dgx-ai-supercomputer/"
+            }
+          ],
+          "data": "2026-07-23",
+          "sintesi": "NVIDIA ha attivato un sistema DGX A100 alla Naval Postgraduate School in California, uno dei più potenti sistemi AI al mondo. Il fondatore e CEO di NVIDIA, Jensen Huang, ha visitato l'università per inaugurare il sistema. Il sistema sarà utilizzato dagli studenti, ricercatori e docenti dell'università.",
+          "perche_conta": "Questo evento è rilevante per il beat 'Infrastruttura & Hardware AI' perché mostra l'adozione di tecnologie AI avanzate in ambito militare e universitario, evidenziando l'importanza dell'infrastruttura di calcolo per lo sviluppo di applicazioni AI",
+          "note": null
+        },
+        {
+          "titolo": "NVIDIA rende open source il primo framework di simulazione di fisica medica accelerato da GPU",
+          "fonti": [
+            {
+              "nome": "NVIDIA Newsroom",
+              "link": "https://blogs.nvidia.com/blog/medical-physics-simulation-open-source/"
+            }
+          ],
+          "data": "2026-07-22",
+          "sintesi": "NVIDIA ha reso open source il primo framework di simulazione di fisica medica accelerato da GPU, per aiutare i robot sanitari a imparare come interagire con il mondo fisico. Ciò include la simulazione di come gli strumenti interagiscono con i tessuti e come l'anatomia varia. Il framework aiuta a comprendere gli scenari rari e imprevedibili che sono cruciali per lo sviluppo di robot sanitari efficaci.",
+          "perche_conta": "Questo sviluppo è rilevante per il beat 'Infrastruttura & Hardware AI' perché mostra come le tecnologie di accelerazione GPU possano essere utilizzate per migliorare le simulazioni mediche e aiutare lo sviluppo di robot sanitari più avanzati.",
+          "note": null
+        },
+        {
+          "titolo": "NVIDIA e partner costruiscono in America, per l'America",
+          "fonti": [
+            {
+              "nome": "NVIDIA Blog",
+              "link": "https://blogs.nvidia.com/blog/nvidia-and-partners-build-in-america-for-america/"
+            }
+          ],
+          "data": "2026-07-21",
+          "sintesi": "NVIDIA e i suoi partner stanno investendo nella produzione americana, nelle catene di approvvigionamento, nelle reti energetiche e nelle forze lavoro qualificate per consentire agli Stati Uniti di produrre le infrastrutture necessarie per una migliore assistenza sanitaria, scoperte scientifiche innovative, una maggiore produttività industriale e un leadership tecnologica globale.",
+          "perche_conta": "E' rilevante per il beat Infrastruttura & Hardware AI poiché mostra come NVIDIA stia investendo nella creazione di infrastrutture necessarie per il supporto dell'intelligenza artificiale negli Stati Uniti.",
+          "note": null
+        },
+        {
+          "titolo": "Fortinet diventa il primo cliente di Intel 4",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/tech-industry/semiconductors/intel-4-gets-its-first-foundry-customer-in-fortinet-three-years-after-intel-scoped-the-node-to-meteor-lake"
+            }
+          ],
+          "data": "2026-07-22",
+          "sintesi": "Intel produrrà, progetterà e confezionerà il processore di sicurezza di sesta generazione (SP6) di Fortinet sul nodo Intel 4. Questo rappresenta la prima vittoria di foundry per Intel 4.",
+          "perche_conta": "E' rilevante per il settore dell'infrastruttura e dell'hardware AI poiché mostra l'avanzamento della partnership tra Intel e Fortinet nella produzione di chip di sicurezza",
+          "note": null
+        },
+        {
+          "titolo": "AMD fornisce ad Anthropic 2 gigawatt di GPU Instinct MI450",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/tech-industry/amd-to-supply-anthropic-with-2-gigawatts-of-instinct-mi450-gpus"
+            }
+          ],
+          "data": "2026-07-22",
+          "sintesi": "AMD fornirà ad Anthropic 2 gigawatt di GPU Instinct MI450. Il primo gigawatt sarà disponibile nella prima metà del 2027 all'interno dei sistemi rack-scale AMD Helios. AMD investirà fino a 5 miliardi di dollari in Anthropic, che già utilizza le GPU MI355X.",
+          "perche_conta": "Questo accordo è rilevante per il settore dell'infrastruttura AI, poiché mostra l'impegno di AMD nel fornire soluzioni di calcolo ad alta potenza per lo sviluppo di modelli di intelligenza artificiale avanzati.",
+          "note": null
+        },
+        {
+          "titolo": "I data center useranno il 20% dell'energia USA entro il 2035",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/tech-industry/data-centers/bnef-nearly-doubles-its-us-data-center-power-forecast-to-194gw"
+            }
+          ],
+          "data": "2026-07-22",
+          "sintesi": "Gli analisti prevedono che i data center utilizzeranno il 20% dell'energia statunitense entro il 2035, con una stima di 194 gigawatt, un aumento dell'83% rispetto alle previsioni di sette mesi fa. La precedente stima di BNEF prevedeva una domanda di 106 GW entro il 2035, già superiore del 36% rispetto alla proiezione pubblicata nell'aprile 2025.",
+          "perche_conta": "Questo aumento previsto nell'uso di energia da parte dei data center è rilevante per gli investitori infrastrutturali e i CTO, poiché evidenzia la crescente importanza di una gestione efficiente dell'energia e della capacità di calcolo per sostenere la crescita dell'AI e del cloud computing.",
+          "note": null
+        }
+      ],
+      "gruppi": [
+        {
+          "data": "2026-07-23",
+          "titolo": "NVIDIA attiva supercomputer AI alla Naval Postgraduate School"
+        },
+        {
+          "data": "2026-07-22",
+          "titolo": "Sviluppi e investimenti nel settore dei chip"
+        },
+        {
+          "data": "2026-07-21",
+          "titolo": "NVIDIA e partner costruiscono in America, per l'America"
+        }
+      ]
+    },
+    {
+      "tema": "data_center",
+      "stato": "nessun_aggiornamento",
+      "articoli": [],
+      "gruppi": []
+    },
+    {
+      "tema": "energia",
+      "stato": "con_aggiornamenti",
+      "articoli": [
+        {
+          "titolo": "Flessibilità di domanda a grandi carichi come archiviazione virtuale",
+          "fonti": [
+            {
+              "nome": "arXiv (energia x AI)",
+              "link": "https://arxiv.org/abs/2607.04564v1"
+            }
+          ],
+          "data": "2026-07-06",
+          "sintesi": "I risultati preliminari di uno studio indicano che impianti di elettrolisi dell'acqua, data center iperscalabili e linee di produzione di alluminio possono rappresentare una fonte di flessibilità della domanda per il bilanciamento del sistema elettrico. Lo studio propone un approccio di archiviazione virtuale per collegare la gestione di questi carichi con i sistemi di archiviazione di energia, mostrando potenziali risparmi nella gestione congiunta di queste risorse.",
+          "perche_conta": "Questo studio è rilevante per il settore dell'energia e dell'AI poiché potrebbe aiutare a ottimizzare la gestione della domanda di energia e a ridurre i costi, migliorando l'efficienza complessiva del sistema energetico.",
+          "note": "(preprint, non ancora sottoposto a peer review)"
+        },
+        {
+          "titolo": "Storage as a Transmission Asset (SATA) per il sollievo della congestione di grandi carichi",
+          "fonti": [
+            {
+              "nome": "arXiv (energia x AI)",
+              "link": "https://arxiv.org/abs/2607.04545v1"
+            }
+          ],
+          "data": "2026-07-05",
+          "sintesi": "I risultati preliminari di uno studio indicano che i data center iperscalabili e altri grandi carichi concentrati possono imporre una notevole nuova domanda sulle reti di trasmissione esistenti. Un sistema di stoccaggio di energia (ESS) utilizzato come asset di trasmissione (SATA) offre un'alternativa non cablata fornendo supporto diretto agli operatori per i corridoi di importazione vincolati. Lo studio valuta il valore di affidabilità operativa del SATA utilizzando un flusso di potenza ottimale DC a giorno avanti che co-ottimizza la generazione, lo smistamento dell'ESS e la riduzione del carico.",
+          "perche_conta": "Questo studio è rilevante per il settore dell'infrastruttura e dell'hardware AI poiché evidenzia l'importanza della gestione della congestione delle reti di trasmissione per garantire un servizio affidabile e efficiente per i data center e altri grandi carichi",
+          "note": "(preprint, non ancora sottoposto a peer review)"
+        },
+        {
+          "titolo": "Apprendimento multi-agente gerarchico per data center AI a basso impatto carbonico",
+          "fonti": [
+            {
+              "nome": "arXiv (energia x AI)",
+              "link": "https://arxiv.org/abs/2607.03324v2"
+            }
+          ],
+          "data": "2026-07-03",
+          "sintesi": "I risultati preliminari di uno studio indicano che un framework di apprendimento multi-agente gerarchico può ottimizzare l'operazione dei data center AI riducendo le emissioni di carbonio. Il framework proposto utilizza un agente di gestione del carico di lavoro e più agenti locali per allocare i compiti di addestramento e inferenza AI in modo efficiente e a basso impatto ambientale. La valutazione del framework è stata condotta utilizzando un sistema di distribuzione di energia a 33 nodi.",
+          "perche_conta": "Questo studio è rilevante per il settore dell'infrastruttura AI poiché evidenzia l'importanza della gestione efficiente dell'energia e della riduzione delle emissioni di carbonio nei data center AI.",
+          "note": "(preprint, non ancora sottoposto a peer review)"
+        },
+        {
+          "titolo": "WattGPU: Predizione del consumo di potenza e latenza per LLM su GPU non viste",
+          "fonti": [
+            {
+              "nome": "arXiv (energia x AI)",
+              "link": "https://arxiv.org/abs/2607.02391v1"
+            }
+          ],
+          "data": "2026-07-02",
+          "sintesi": "I risultati preliminari di uno studio indicano che il modello WattGPU può prevedere con accuratezza il consumo di potenza e la latenza per carichi di lavoro di inferenza di Large Language Model (LLM) su GPU non viste, utilizzando solo metadati pubblici di LLM e specifiche di GPU. Il modello raggiunge un errore percentuale assoluto mediano inferiore o uguale al 3,4% per il consumo di potenza e inferiore o uguale all'8,5% per la latenza in modalità server. Ciò rappresenta un miglioramento rispetto ai modelli tradizionali basati su principi fisici.",
+          "perche_conta": "Questo studio è rilevante per il settore dell'infrastruttura e dell'hardware AI poiché fornisce uno strumento per ottimizzare il consumo di energia nei data center e migliorare l'efficienza delle operazioni di inferenza di LLM.",
+          "note": "(preprint, non ancora sottoposto a peer review)"
+        },
+        {
+          "titolo": "Verso un'operazione ottimizzata per energia dei data center situati in parchi eolici utilizzando apprendimento per rinforzo",
+          "fonti": [
+            {
+              "nome": "arXiv (energia x AI)",
+              "link": "https://arxiv.org/abs/2606.30316v1"
+            }
+          ],
+          "data": "2026-06-29",
+          "sintesi": "I risultati preliminari di uno studio indicano che l'apprendimento per rinforzo può essere utilizzato come controllore online per ottimizzare l'operazione dei data center situati in parchi eolici. Lo studio introduce un framework di simulazione riproducibile e valuta diverse strategie di apprendimento per migliorare l'efficienza energetica. I risultati mostrano che l'apprendimento per rinforzo può raggiungere prestazioni elevate, ma con un gap di prestazione rispetto all'ottimizzatore offline.",
+          "perche_conta": "Questo studio è rilevante per il settore dell'infrastruttura e dell'hardware AI perché evidenzia le potenzialità dell'apprendimento per rinforzo nell'ottimizzazione dell'operazione dei data center e nella riduzione dei costi energetici.",
+          "note": "(preprint, non ancora sottoposto a peer review)"
+        },
+        {
+          "titolo": "SMART-MIG: Un framework di apprendimento per la pianificazione GPU scalabile ed efficiente in termini energetici",
+          "fonti": [
+            {
+              "nome": "arXiv (energia x AI)",
+              "link": "https://arxiv.org/abs/2606.29775v1"
+            }
+          ],
+          "data": "2026-06-29",
+          "sintesi": "I risultati preliminari di uno studio indicano che la tecnologia Multi-Instance GPU (MIG) consente di eseguire modelli di apprendimento automatico più piccoli su partizioni di una GPU anziché sull'intero dispositivo, migliorando l'utilizzo e riducendo il consumo di energia. Il framework SMART-MIG combina l'apprendimento per rinforzo multi-agente con algoritmi euristici per la pianificazione dei lavori, migliorando l'efficienza energetica e riducendo i tempi di attesa. Gli esperimenti mostrano che SMART-MIG migliora l'efficienza energetica-ritardo del 18% rispetto alla pianificazione statica.",
+          "perche_conta": "Questo studio è rilevante per il settore dell'AI e degli investitori infrastrutturali poiché propone una soluzione per ridurre il consumo di energia nei data center equipaggiati con GPU, migliorando l'efficienza e riducendo i costi.",
+          "note": "(preprint, non ancora sottoposto a peer review)"
+        },
+        {
+          "titolo": "Dispositivi di potenza GaN e architetture di conversione per data center AI",
+          "fonti": [
+            {
+              "nome": "arXiv (energia x AI)",
+              "link": "https://arxiv.org/abs/2606.25281v1"
+            }
+          ],
+          "data": "2026-06-24",
+          "sintesi": "I risultati preliminari di uno studio indicano che i dispositivi di potenza GaN possono migliorare l'efficienza e l'affidabilità dei data center AI, specialmente nelle fasi di conversione della catena di alimentazione. La comparazione con Si e SiC mostra che GaN offre vantaggi dipendenti dalla specifica fase di conversione. L'analisi evidenzia l'importanza della progettazione coordinata di dispositivo, topologia, pacchetto e termica per massimizzare i benefici del GaN.",
+          "perche_conta": "Questo studio è rilevante per il settore dell'infrastruttura AI poiché evidenzia l'importanza dell'efficienza energetica e della affidabilità nei data center, aspetti critici per il funzionamento di carichi di lavoro di intelligenza artificiale sempre più impegnativi.",
+          "note": "(preprint, non ancora sottoposto a peer review)"
+        },
+        {
+          "titolo": "Pianificazione efficiente dal punto di vista energetico di carichi di lavoro AI/ML",
+          "fonti": [
+            {
+              "nome": "arXiv (energia x AI)",
+              "link": "https://arxiv.org/abs/2606.25082v1"
+            }
+          ],
+          "data": "2026-06-23",
+          "sintesi": "I risultati preliminari di uno studio indicano che l'utilizzo di GPU Multi Instance (MIG) di NVIDIA può migliorare la flessibilità e la potenza computazionale dei data center, consentendo una gestione più efficiente dal punto di vista energetico dei carichi di lavoro AI/ML. Gli autori propongono un framework di pianificazione con ripartizione dinamica per ottimizzare il consumo energetico e la performance. I risultati mostrano che il loro algoritmo di ripartizione dinamica può ridurre il consumo energetico del 26% rispetto alla ripartizione due volte al giorno, del 31% rispetto alla partizione statica e del 68% rispetto alla mancanza di partizione.",
+          "perche_conta": "Questo studio è rilevante per il settore dell'infrastruttura e dell'hardware AI, poiché fornisce strategie per ridurre il consumo energetico dei data center senza compromettere la performance, un aspetto fondamentale per gli investitori e i responsabili tecnici.",
+          "note": "(preprint, non ancora sottoposto a peer review)"
+        },
+        {
+          "titolo": "Intelligenza Artificiale in Orbita: Pianificazione Termica per Cluster AI Sostenibili",
+          "fonti": [
+            {
+              "nome": "arXiv (energia x AI)",
+              "link": "https://arxiv.org/abs/2606.26150v2"
+            }
+          ],
+          "data": "2026-06-23",
+          "sintesi": "I risultati preliminari di uno studio indicano che i centri di dati orbitali (ODC) potrebbero essere un'alternativa sostenibile ai tradizionali centri di dati terrestri, ma la densità fisica necessaria per il funzionamento dei carichi di lavoro scientifici come l'addestramento dei modelli linguistici distribuiti può causare problemi di termoregolazione. Per risolvere questo problema, gli autori propongono l'introduzione di un framework software chiamato Thermal-Load Balancing (TLB) che migra dinamicamente i carichi di lavoro intensivi verso le unità più fredde disponibili in base alle temperature dei fluidi o alla radiazione assorbita. Ciò aiuta a risolvere i colli di bottiglia termici e a ridurre lo stress termico fisico, prolungando la vita operativa dell'hardware orbitale.",
+          "perche_conta": "Questo studio è rilevante per il settore dell'Intelligenza Artificiale e dell'infrastruttura spaziale poiché evidenzia la necessità di sviluppare soluzioni sostenibili per i centri di dati orbitali e di ridurre l'impatto ambientale dei lanci spaziali.",
+          "note": "(preprint, non ancora sottoposto a peer review)"
+        },
+        {
+          "titolo": "Caratterizzazione delle prestazioni e dell'energia di applicazioni scientifiche su SuperMUC-NG",
+          "fonti": [
+            {
+              "nome": "arXiv (energia x AI)",
+              "link": "https://arxiv.org/abs/2606.23265v1"
+            }
+          ],
+          "data": "2026-06-22",
+          "sintesi": "I risultati preliminari di uno studio indicano che l'utilizzo di acceleratori GPU può portare a prestazioni 4-12 volte più elevate e a un'efficienza energetica fino a 15 volte migliore rispetto all'esecuzione solo su CPU. Tuttavia, i guadagni di prestazioni e di energia dipendono dalla granularità del problema e possono essere erosi se il lavoro per tile GPU è insufficiente. Lo studio è stato condotto su cinque applicazioni scientifiche di riferimento su SuperMUC-NG, un sistema da 28 PetaFLOPs equipaggiato con processori Intel Xeon Platinum e acceleratori Intel Data Center GPU Max 1550.",
+          "perche_conta": "Questo studio è rilevante per il settore dell'infrastruttura e dell'hardware AI perché fornisce informazioni preziose sull'efficienza energetica e sulle prestazioni delle applicazioni scientifiche su sistemi di calcolo ad alte prestazioni, aiutando gli investitori e i responsabili tecnici a prendere decisioni informate sulle tecnologie da adottare.",
+          "note": "(preprint, non ancora sottoposto a peer review)"
+        },
+        {
+          "titolo": "Valutazione della resilienza dinamica dei sistemi di potenza con carichi di data center",
+          "fonti": [
+            {
+              "nome": "arXiv (energia x AI)",
+              "link": "https://arxiv.org/abs/2606.22590v1"
+            }
+          ],
+          "data": "2026-06-21",
+          "sintesi": "I risultati preliminari di uno studio indicano che i grandi carichi dei data center introducono nuove sfide di resilienza per i sistemi di potenza a causa della loro disconnessione e riconnessione graduale, che possono indurre dinamiche di voltaggio e frequenza rapide non catturate da metriche statiche o basate sull'energia. Uno studio propone un framework di valutazione della resilienza basato su reti neurali informate dalla fisica per valutare questi eventi utilizzando solo modelli dinamici del lato della rete e traiettorie post-disturbo osservabili, senza richiedere modelli dettagliati interni dei data center. Il framework sviluppato consente di prevedere stati dinamici e algebrici e di valutare l'impatto delle perturbazioni sui sistemi di potenza.",
+          "perche_conta": "Questo studio è rilevante per il settore dell'energia e dell'AI poiché fornisce un approccio innovativo per valutare la resilienza dei sistemi di potenza in presenza di carichi di data center, che stanno diventando sempre più importanti per il funzionamento delle infrastrutture critiche.",
+          "note": "(preprint, non ancora sottoposto a peer review)"
+        }
+      ],
+      "gruppi": [
+        {
+          "data": "2026-07-06",
+          "titolo": "Flessibilità di domanda a grandi carichi come archiviazione virtuale"
+        },
+        {
+          "data": "2026-07-05",
+          "titolo": "Storage as a Transmission Asset (SATA) per il sollievo della congestione di grandi carichi"
+        },
+        {
+          "data": "2026-07-03",
+          "titolo": "Apprendimento multi-agente gerarchico per data center AI a basso impatto carbonico"
+        },
+        {
+          "data": "2026-07-02",
+          "titolo": "WattGPU: Predizione del consumo di potenza e latenza per LLM su GPU non viste"
+        },
+        {
+          "data": "2026-06-29",
+          "titolo": "Ottimizzazione energetica con apprendimento automatico"
+        },
+        {
+          "data": "2026-06-24",
+          "titolo": "Dispositivi di potenza GaN e architetture di conversione per data center AI"
+        },
+        {
+          "data": "2026-06-23",
+          "titolo": "Efficienza energetica in AI"
+        },
+        {
+          "data": "2026-06-22",
+          "titolo": "Caratterizzazione delle prestazioni e dell'energia di applicazioni scientifiche su SuperMUC-NG"
+        },
+        {
+          "data": "2026-06-21",
+          "titolo": "Valutazione della resilienza dinamica dei sistemi di potenza con carichi di data center"
+        }
+      ]
+    },
+    {
+      "tema": "supply_chain",
+      "stato": "con_aggiornamenti",
+      "articoli": [
+        {
+          "titolo": "TSMC potrebbe aumentare i prezzi del 10% nel 2027",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQQUt3ZmstejlWUWt5VHh1NTNqdENmRlBBRC1NWE93MUNSenVZX0JPY2VlNW5mRFVwSHZCVk1MaU83a1hnTk14M0hmSE42YzhHbXNJeVd2elVIUk9mY0VwRWNTRHN1X1VKNWFqZ2dIZXdZVndnVlIwY2ZoVlE0UVdOS1Q5Q0tncURwaTRJcF9HWF9rbzZJZDN1aERHYlZTXzA0N09lLUQ3enhhZWpHcFJDN1Jn?oc=5"
+            }
+          ],
+          "data": "2026-07-22",
+          "sintesi": "TSMC starebbe discutendo un aumento dei prezzi fino al 10% per il 2027, secondo quanto riportato da Bloomberg. Questo potrebbe avere un impatto significativo sulla catena di approvvigionamento dell'industria dei semiconduttori.",
+          "perche_conta": "Questo aumento dei prezzi potrebbe influenzare i costi di produzione e gli investimenti nell'industria dell'AI e dei semiconduttori, rendendolo rilevante per gli investitori e i CTO.",
+          "note": "(ripreso da 4 testate)"
+        },
+        {
+          "titolo": "Quattro nuove fabbriche di chip TSMC potrebbero arrivare in Arizona",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxNSGV2bGpOaFBHb25ZeVI2WEozOGozbDhfVlhELW9BNGNRRzJDbTFFX0o5b0pQT2NHTXdBdjBRVkFWekJ4QUJKN3lGV0RYNGpjMGRiVl9kVVhCRFBrREtOSkZ1d1hwQjF5NmdMRVQtc0JqMm16WW9hZzlRalZ6T0cxSnY3dXZqTWlQZjNzNmJxbEM?oc=5"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "Sono in discussione quattro nuove fabbriche di chip TSMC che potrebbero essere costruite in Arizona. La notizia è stata riportata da AZ Family.",
+          "perche_conta": "La costruzione di nuove fabbriche di chip in Arizona potrebbe avere un impatto significativo sulla catena di approvvigionamento dell'industria dell'AI e sulla capacità di produzione di semiconduttori.",
+          "note": null
+        },
+        {
+          "titolo": "Crollo delle azioni dei chip in Asia, TSMC delude",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNSEpUSTU1ejJ1SVFKdU5YV09uSkMxRzF6TlQwSUdDWFVzTWZHTXF5QTJsWWQzRkFhUlJvMUE5Uzg4LWUzQkhqMkpRN3c3Mnl1Y2M4dDk0NWpHNi1qaXVhdXZhaE4zYmNiUVctNzhTdGM2OHRaRlMtcmRNSEhJNUxpVF95b0N6a0djTzlXaWlodjNDb3VRS3lGWFg3WWdCbk93dUZEZVZzZDhFWlJGX1dN?oc=5"
+            }
+          ],
+          "data": "2026-07-17",
+          "sintesi": "Le azioni dei produttori di chip in Asia hanno subito un ulteriore calo dopo che TSMC non ha impressionato gli investitori. Il settore dei chip è in difficoltà a causa della domanda debole e della concorrenza accresciuta.",
+          "perche_conta": "La performance di TSMC è rilevante per gli investitori e il settore dell'AI, poiché il produttore di chip taiwanese gioca un ruolo chiave nella fornitura di componenti per i data center e le applicazioni di intelligenza artificiale.",
+          "note": null
+        },
+        {
+          "titolo": "Intel raggiunge importante traguardo con macchina per chip da 400 milioni di dollari",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxPWW9rVGN0dll4UmJHM19LcHdYbU1PWjFrWUMtbUVPV3lKTmNvbUs1dlF5NXdOSzJyRTFFa2NZVS1Ja2QtZlU0Uy02ZkgtYi1zbk1jVWozY2JiRnI1b2lFekx3VHM5Y0lkWHVDb0EtQlVnZU4yZGFjTFI0QkFhVjVrVk9VRmo4LUVKZDRWaV9xVEZ3Nkc1a09PYnlQUDlTc1lk?oc=5"
+            }
+          ],
+          "data": "2026-07-20",
+          "sintesi": "L'AD di ASML afferma che Intel ha raggiunto un importante traguardo con la sua macchina per la produzione di chip da 400 milioni di dollari. La notizia non fornisce ulteriori dettagli sul tipo di traguardo raggiunto.",
+          "perche_conta": "E' rilevante per il beat Infrastruttura & Hardware AI poiché rappresenta un importante sviluppo nel settore della produzione di chip, con potenziali implicazioni per la capacità di produzione e l'innovazione tecnologica.",
+          "note": null
+        },
+        {
+          "titolo": "ASML versa bonus una tantum di 20.000 euro ai dipendenti",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNc2JvMHhFdlJna3J2Q0JKZi1JWHk5ZXFSM1pFdVpINHI1dEstNlppdTJnMW9fa1JxSVRucXZDczVHTVNDNlcyVzRYSmF1Sk81NXJiRjRDMTFGRUF2UFMzc2JiZ1VQeXNLRV9KMmJ3ZEJiZGhrMTE1T000RjltUGhCbVZYYUFzbXBnRTBIOXk1cWlIOUVLd1V0eUdHT0pCY2VBQUlfTUtFLTdrVllDTnk4U3dlSks?oc=5"
+            }
+          ],
+          "data": "2026-07-17",
+          "sintesi": "ASML pagherà un bonus una tantum di 20.000 euro ai suoi dipendenti a causa della forte domanda generata dall'intelligenza artificiale. Questo bonus è un riconoscimento per il lavoro svolto dai dipendenti.",
+          "perche_conta": "È rilevante per il settore dell'infrastruttura e dell'hardware AI, poiché mostra l'impatto della crescente domanda di tecnologie AI sulle aziende leader del settore come ASML.",
+          "note": null
+        },
+        {
+          "titolo": "Nasdaq crolla mentre il calo delle azioni dei chip oscura il record di TSMC",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxPT2pLYXRoUHNOZS0tVkNMV0lhQXExbDA2UjJMQTdGdkk3WVB0SEVLZlhyNTdEZ1hJVlAzTUVRdnh2b01TbzZGQ3NTc2R6SkJBdnpuZlRJcWJIcG5HcFhrZzhDdkFrUlhBT3RwdnJMQ2lYOEp2cG5UWkdKYVRHVGJTVjRrNWtJNWZYazJQeURRMVFpbXVmTWVuVHV6UTZQZHltTkk1LUZIX0FGeENt?oc=5"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "L'indice Nasdaq è sceso bruscamente a causa del calo delle azioni dei chip, oscurando il record di TSMC. Il calo è stato sufficiente a influenzare l'intero mercato.",
+          "perche_conta": "Questo evento è rilevante per il beat Infrastruttura & Hardware AI perché mostra l'impatto della volatilità del mercato azionario sul settore dei chip e sulla sua capacità di influenzare l'intero mercato tecnologico.",
+          "note": null
+        },
+        {
+          "titolo": "Futures azionari USA crollano a causa dei risultati di TSMC",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPSnNHWWZlU3ppQVRKUGFNdzlPNGplbmhFWDF3aV9BTjNRMy10WTJIRXlsamlQcGR5dXN0emtjd1hzVi1BSDBHWDNYM1h6QVB5TnJKM3BOdHJ5SXgyX2dscmZWdXoxejE3QTYtUUpxYk0wY0JITEpDUXlJZ2N6eHNvTjRpLThiZHBVN0lyWlF2VlAtZEg5c042Q2ZUU182dEFuTW9CRUNiSVJvcXQ3bGtTRA?oc=5"
+            }
+          ],
+          "data": "2026-07-16",
+          "sintesi": "I futures azionari USA sono crollati a causa dei risultati di TSMC, che hanno rivisto le preoccupazioni sull'intelligenza artificiale. La notizia è stata riportata da Bloomberg.com.",
+          "perche_conta": "Questo evento è rilevante per il beat 'Infrastruttura & Hardware AI' perché TSMC è un importante fornitore di chip per l'industria dell'intelligenza artificiale e i suoi risultati possono influenzare la supply chain e lo sviluppo dell'AI.",
+          "note": null
+        },
+        {
+          "titolo": "TSMC conferma miglioramenti significativi nel processo A14",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMikwJBVV95cUxORW1ibFZjZ2M2elllTmh0d2lGVExsYkloeVRxcG0zQjJEbmo3QWRBa0xOOEM5XzFuSlVDV2FPU3FzanBLM0U2SVVlcmlhZXo4dEYzUTR6VkdhY3dQS2I1XzRkNzZLUmFYRVFXOGlCdFdHOW56eHZNdFVGZFljbVlEY2gyMWxCUnZ2V0NGMDhPY2F5cXJJeEZaUnBHSHZYUE9WYU1qLVY1WFp4bUR5OEFYdzZHR3lpNkVWa0JoYmthZFlKS2xjZVozVHNTY2ZmVkJlZ043SjhIYUhrOFVyNFBUbEc5OW1PNU5tNEE2WU5wQ1l2NWYwc0VWR1AtMkVWbjlvendGRVBSa0VzTV93RDBXQ3NFcw?oc=5"
+            }
+          ],
+          "data": "2026-07-17",
+          "sintesi": "TSMC ha confermato miglioramenti significativi nella resa e nelle prestazioni del processo A14. Ciò ha suscitato un forte interesse da parte dei clienti di AI, HPC e smartphone.",
+          "perche_conta": "Questo miglioramento è rilevante per il settore dell'AI e degli investitori infrastrutturali poiché potrebbe influenzare la capacità di produzione e l'efficienza energetica dei chip utilizzati in applicazioni di intelligenza artificiale e high-performance computing.",
+          "note": null
+        },
+        {
+          "titolo": "Taiwan accusa ex-manager TSMC di furto di segreti di chip per la Cina",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxQZzNwZXV2LUYteWpMVTJaMEV0RTk0ZHpkSW1rSXhrVE9GV1ktemt6bGNmeFZpZjktZWctVlRfSGN5ZTdLVTRGcnlady1HU3hFT1Z0OVZPeWJwZldWbjdFTkZiV2tHZmFMdkF0Qmc4RVo4QmlzUFpmVVgxNkJxTXhCMlpVdm8yNndtUnBVc2tYQlQ4YVNFQ3BiMWRNbGl1bHJzMHJHWlltblZqZmQ5N0Q4RnAtQnVzc1cwTm5n?oc=5"
+            }
+          ],
+          "data": "2026-07-20",
+          "sintesi": "Un ex-manager di TSMC è stato accusato di aver rubato segreti di chip per una società cinese di analisi dei materiali semiconduttori. Si tratta del primo caso del genere che coinvolge dirigenti di TSMC.",
+          "perche_conta": "Questo caso è rilevante per il beat 'Infrastruttura & Hardware AI' perché sottolinea i rischi di sicurezza e di spionaggio industriale nel settore dei semiconduttori, fondamentale per lo sviluppo dell'AI.",
+          "note": null
+        },
+        {
+          "titolo": "Implementazione dei controlli alle esportazioni EAR su silenziatori e altri dispositivi",
+          "fonti": [
+            {
+              "nome": "Federal Register — BIS",
+              "link": "https://www.federalregister.gov/documents/2026/07/23/2026-14942/implementation-of-ear-export-controls-on-silencers-mufflers-and-sound-suppressors-and-other-firearms"
+            }
+          ],
+          "data": "2026-07-23",
+          "sintesi": "Il Dipartimento del Commercio degli Stati Uniti sta revisionando le regolamentazioni alle esportazioni per controllare adeguatamente silenziatori, mufflers e dispositivi di soppressione del suono. Questa regola finale interim complementa una regola del Dipartimento di Stato.",
+          "perche_conta": "E' rilevante per il beat 'Infrastruttura & Hardware AI' poiché i controlli alle esportazioni possono influenzare la disponibilità di componenti e tecnologie critiche per l'industria dell'AI",
+          "note": null
+        }
+      ],
+      "gruppi": [
+        {
+          "data": "2026-07-22",
+          "titolo": "TSMC potrebbe aumentare i prezzi del 10% nel 2027"
+        },
+        {
+          "data": "2026-07-16",
+          "titolo": "TSMC influenza mercato chip"
+        },
+        {
+          "data": "2026-07-17",
+          "titolo": "Chip e supply chain in difficoltà"
+        },
+        {
+          "data": "2026-07-20",
+          "titolo": "Progressi e controversie nella produzione di chip"
+        },
+        {
+          "data": "2026-07-23",
+          "titolo": "Implementazione dei controlli alle esportazioni EAR su silenziatori e altri dispositivi"
+        }
+      ]
+    },
+    {
+      "tema": "cloud_capacity",
+      "stato": "con_aggiornamenti",
+      "articoli": [
+        {
+          "titolo": "Da manutenzione a innovazione: il passaggio di Checkout.com a Cloud Composer 3",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/products/data-analytics/how-checkout-com-tallies-data-with-cloud-composer-3/"
+            }
+          ],
+          "data": "2026-07-22",
+          "sintesi": "Checkout.com ha migrato il suo ambiente Apache Airflow self-hosted su un altro hyperscaler a Managed Service for Apache Airflow (Gen 3) di Google Cloud, migliorando la sua affidabilità e struttura dei costi. La migrazione ha ridotto i costi mensili del 30% e ha migliorato la velocità di sviluppo grazie alla scalabilità dinamica e alla semplificazione delle dipendenze. Il team di data engineering può ora concentrarsi sulla costruzione di pipeline anziché sulla gestione dell'infrastruttura.",
+          "perche_conta": "La migrazione di Checkout.com a Managed Service for Apache Airflow (Gen 3) è rilevante per il settore dell'infrastruttura e dell'hardware AI perché mostra come la gestione efficiente dell'infrastruttura possa liberare risorse per l'innovazione e migliorare la scalabilità e l'affidabilità delle piattaforme di dati.",
+          "note": null
+        },
+        {
+          "titolo": "Google impegna 40 milioni di dollari per la missione Genesis",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/topics/public-sector/accelerating-frontiers-of-scientific-discovery-40-million-dollar-commitment-genesis-mission/"
+            }
+          ],
+          "data": "2026-07-22",
+          "sintesi": "Google ha annunciato un impegno di 40 milioni di dollari per supportare la missione Genesis, un'iniziativa nazionale per accelerare la scoperta scientifica utilizzando l'intelligenza artificiale. L'impegno include l'accesso a strumenti di intelligenza artificiale come AlphaEvolve, AlphaFold 3 e AlphaGenome, nonché la fornitura di posti e token per la piattaforma Gemini for Government. Questi strumenti saranno utilizzati per supportare la ricerca in campo energetico, della sicurezza e scientifico.",
+          "perche_conta": "L'impegno di Google per la missione Genesis è rilevante perché potrebbe accelerare le scoperte scientifiche e aiutare a risolvere sfide critiche nel campo dell'energia e della sicurezza, con un impatto significativo sugli investimenti e sulle strategie di ricerca",
+          "note": null
+        }
+      ],
+      "gruppi": [
+        {
+          "data": "2026-07-22",
+          "titolo": "Investimenti in cloud per innovazione"
+        }
+      ]
+    }
+  ]
+}
