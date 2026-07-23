@@ -23,3 +23,6 @@ ex pdf/
 
 # video di riferimento: 65 MB, i binari non si comprimono in delta
 video/
+
+# manuale utente: resta locale, non si pubblica su GitHub
+manuale-utente/
