@@ -9,13 +9,10 @@ La pipeline è **~80% codice deterministico / ~20% modello**: fetch, filtri,
 dedup, classificazione e assemblaggio sono script; il modello LLM (Groq)
 interviene solo sui testi e non sceglie mai le fonti né inventa URL.
 
-| Documento | Contenuto |
-|---|---|
-| [`DECISIONI.md`](DECISIONI.md) | Le scelte di progetto e il loro perché, con misure |
-| [`worker/README.md`](worker/README.md) | Deploy del Worker per l'invio del PDF via email |
-
 Questo README copre solo l'operatività: adottare il repo, farlo girare,
-verificarlo. Il manuale utente per i lettori del digest è fornito a parte.
+verificarlo. Il deploy del Worker per l'invio del PDF via email è in
+[`worker/README.md`](worker/README.md); manuale utente e documentazione
+analitica sono forniti a parte.
 
 ## Struttura del progetto
 
@@ -99,6 +96,6 @@ Con Docker: `docker compose up --build` (servono `GROQ_API_KEY` e
   questo beat: su un beat diverso vanno ritarate.
 - **La quota del free tier è il vincolo dominante**, non il costo: in un run
   pieno la cascata può ripiegare su modelli di riserva (righe `[attenzione]`
-  nel log; dettagli in `DECISIONI.md` §21).
+  nel log).
 - Un workflow che pubblicava la sola interfaccia senza rifare il digest è stato
   rimosso il 2026-07-23: recuperabile dallo storico git (`pubblica-frontend.yml`).
