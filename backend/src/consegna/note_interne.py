@@ -3,9 +3,9 @@
 Segnalazioni operative per il team (canale: email separata al comparto IT,
 sez. 17.2), generate SOLO da script, mai dal modello, mai esposte nel digest
 pubblico. Regole:
-- una fonte in `fetch_failed` per >= 3 run consecutivi -> nota di verifica manuale;
-- la sezione energia con 0 articoli per >= 3 run consecutivi -> nota di controllo
-  manuale (fonte unica arXiv).
+- una fonte in `fetch_failed` -> nota di verifica manuale;
+- la sezione energia con 0 articoli -> nota di controllo manuale (fonte unica
+  arXiv).
 In nessun caso una nota comporta un blocco automatico della fonte o della sezione:
 la sezione continua a essere generata regolarmente e il digest mostra comunque lo
 stato standard "nessun_aggiornamento" per quella settimana (sez. 16.3).
@@ -17,7 +17,10 @@ from ..state import SeenStore
 from ..raccolta.fetch import STATO_FETCH_FAILED, EsitoFonte
 
 # Numero di run consecutivi che fa scattare una nota (parametro, non fisso).
-SOGLIA_RUN_CONSECUTIVI = 3
+# Dal 2026-07-23 e' 1: la nota parte al primo run con la fonte in errore o la
+# sezione a zero — scelta dell'utente, per riguardare subito la fonte invece
+# di aspettare tre settimane di cron.
+SOGLIA_RUN_CONSECUTIVI = 1
 
 _CHIAVE_FETCH = "fetch_failed:{nome}"
 _CHIAVE_ENERGIA = "sezione_zero:energia"
