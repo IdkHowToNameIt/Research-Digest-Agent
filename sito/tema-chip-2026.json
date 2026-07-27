@@ -2,9 +2,202 @@
   "anno": "2026",
   "gruppi": [
     {
-      "data": "2026-07-23",
-      "titolo": "NVIDIA attiva supercomputer AI alla Naval Postgraduate School",
+      "data": "2026-07-27",
+      "titolo": "Sviluppi nel settore dei chip e infrastrutture AI",
       "articoli": [
+        {
+          "titolo": "Leader del settore si uniscono nell'Alleanza Open Secure AI",
+          "fonti": [
+            {
+              "nome": "NVIDIA Newsroom",
+              "link": "https://blogs.nvidia.com/blog/open-secure-ai-alliance/"
+            }
+          ],
+          "data": "2026-07-27",
+          "sintesi": "L'Alleanza Open Secure AI riunisce leader del settore per garantire la sicurezza e la sicurezza dell'AI. Il software open source è una colonna portante dell'economia globale e sottostà a settori come cloud computing, servizi finanziari e governo. La sicurezza informatica è uno dei principali beneficiari del software open source.",
+          "perche_conta": "Questo accordo è rilevante per il settore dell'AI poiché la sicurezza e la sicurezza sono fondamentali per la diffusione e l'adozione di tecnologie di intelligenza artificiale",
+          "note": null
+        },
+        {
+          "titolo": "NVIDIA Sfrutta Vera CPU per Accelerare la Progettazione di CPU e GPU di Nuova Generazione",
+          "fonti": [
+            {
+              "nome": "NVIDIA Newsroom",
+              "link": "https://blogs.nvidia.com/blog/vera-cpu-eda/"
+            }
+          ],
+          "data": "2026-07-27",
+          "sintesi": "NVIDIA collabora con Cadence e Synopsys per ottimizzare le applicazioni di automazione della progettazione elettronica (EDA) per la CPU Vera. Ciò aiuterà a gestire la crescente complessità della progettazione di chip moderni. La CPU Vera verrà utilizzata per accelerare lo sviluppo di CPU, GPU e sistemi AI sempre più sofisticati.",
+          "perche_conta": "Questo sviluppo è rilevante per il settore dell'infrastruttura e dell'hardware AI, poiché potrebbe portare a miglioramenti significativi nella progettazione e nella produzione di chip ad alte prestazioni, influenzando così l'efficienza e la capacità di calcolo dei sistemi AI.",
+          "note": null
+        },
+        {
+          "titolo": "NVIDIA Espande NVIDIA Agent Toolkit",
+          "fonti": [
+            {
+              "nome": "NVIDIA Newsroom",
+              "link": "https://nvidianews.nvidia.com/news/nvidia-expands-nvidia-agent-toolkit-with-nvidia-physicsnemo-and-cuda-x-libraries-to-transform-how-the-world-engineers-designs-and-builds"
+            }
+          ],
+          "data": "2026-07-27",
+          "sintesi": "NVIDIA annuncia l'espansione di NVIDIA Agent Toolkit con l'aggiunta di NVIDIA PhysicsNeMo e CUDA-X libraries per trasformare il modo in cui il mondo progetta e sviluppa prodotti. Questo toolkit è pensato per migliorare l'ingegneria e la progettazione.",
+          "perche_conta": "È rilevante per il settore dell'infrastruttura e dell'hardware AI poiché potrebbe influenzare il modo in cui le aziende sviluppano e implementano soluzioni di intelligenza artificiale",
+          "note": null
+        },
+        {
+          "titolo": "Il più grande progetto di data center AI in California chiede accesso a 287 milioni di galloni di acqua del fiume Colorado",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/tech-industry/artificial-intelligence/californias-largest-ai-data-center-project-suing-for-access-to-287-million-gallons-of-colorado-river-water-0-03-percent-of-imperial-valleys-supply-plaintiffs-claim-project-equivalent-to-160-acre-farm-amidst-about-jobs-and-reallocation-of-farmland"
+            }
+          ],
+          "data": "2026-07-27",
+          "sintesi": "Il progetto di data center AI più grande della California sta cercando di ottenere accesso a 287 milioni di galloni di acqua del fiume Colorado, pari allo 0,03% della fornitura della valle di Imperial. I ricorrenti affermano che il progetto è equivalente a una fattoria di 160 acri, sollevando preoccupazioni sui posti di lavoro e sulla riallocazione delle terre agricole. La costruzione di grandi data center AI in regioni storicamente specializzate in agricoltura potrebbe avere conseguenze a lungo termine.",
+          "perche_conta": "Questo progetto è rilevante per il settore dell'infrastruttura e dell'hardware AI poiché evidenzia le sfide legate alla gestione delle risorse idriche e alla sostenibilità ambientale nella costruzione di grandi data center",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2026-07-26",
+      "titolo": "Sviluppi e applicazioni di chip e hardware",
+      "articoli": [
+        {
+          "titolo": "CXMT DRAM cinese non sembra il salvatore economico atteso",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/pc-components/dram/chinese-cxmt-dram-doesnt-look-like-the-budget-savior-many-were-expecting-new-modules-enter-the-market-but-prices-still-track-the-big-three"
+            }
+          ],
+          "data": "2026-07-26",
+          "sintesi": "I moduli di memoria basati su CXMT sono stati immessi sul mercato, ma i prezzi sono simili a quelli dei chip dei principali produttori. Le aspettative di un prezzo più basso non sembrano essere state soddisfatte.",
+          "perche_conta": "La disponibilità di opzioni di memoria più economiche è cruciale per gli investitori e i CTO che cercano di ottimizzare i costi per le loro infrastrutture di AI e data center.",
+          "note": null
+        },
+        {
+          "titolo": "Un F-14 Tomcat stampato in 3D utilizza un FPGA per emulare il primo microprocessore",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/pc-components/cpus/3d-printed-f-14-tomcat-uses-an-fpga-recreation-of-the-worlds-first-microprocessor-cadcs-mp944-chip-controls-the-fighters-swing-wing-system-among-other-things"
+            }
+          ],
+          "data": "2026-07-26",
+          "sintesi": "Un esperto di FPGA e sistemi embedded ha ricreato il computer centrale dell'aereo da combattimento F-14 Tomcat della marina statunitense utilizzando un FPGA. Il sistema è stato testato su un modello di aereo in scala stampato in 3D.",
+          "perche_conta": "Questa ricostruzione dimostra la possibilità di utilizzare tecnologie moderne per emulare componenti storici, con potenziali applicazioni nell'ambito della conservazione e del recupero di sistemi obsoleti.",
+          "note": null
+        },
+        {
+          "titolo": "Zeiss espande sito tedesco per aumentare produzione scanner EUV",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/tech-industry/zeiss-expands-german-site-that-caps-asmls-euv-scanner-output"
+            }
+          ],
+          "data": "2026-07-26",
+          "sintesi": "Zeiss Semiconductor Manufacturing Technology sta aggiungendo circa 25.000 metri quadrati di spazio produttivo e adiacente alla produzione nel sito di Oberkochen in Germania meridionale. Ciò avviene quattro anni dopo la posa della prima pietra del sito. L'espansione potrebbe influenzare la produzione di scanner EUV di ASML.",
+          "perche_conta": "Questa notizia è rilevante per il beat 'Infrastruttura & Hardware AI' perché l'espansione della produzione di Zeiss potrebbe avere un impatto sulla capacità di ASML di produrre scanner EUV, tecnologia fondamentale per la produzione di chip ad alta tecnologia.",
+          "note": null
+        },
+        {
+          "titolo": "Appassionato di AI aggiunge Nvidia Tesla V100 al PC da gioco",
+          "fonti": [
+            {
+              "nome": "Tom's Hardware",
+              "link": "https://www.tomshardware.com/pc-components/gpus/ai-enthusiast-adds-nvidia-tesla-v100-as-loud-as-a-lawnmower-to-gaming-pc-for-usd266-32gb-of-vram-rig-can-run-27-billion-parameter-model-at-32-tokens-per-second"
+            }
+          ],
+          "data": "2026-07-26",
+          "sintesi": "Un appassionato di calcolatori ha riutilizzato una GPU aziendale obsoleta e molto rumorosa con molta VRAM per l'inferenza locale di modelli di linguaggio. La scheda, acquistata per 266 dollari, dispone di 32GB di VRAM e può eseguire un modello da 27 miliardi di parametri a 32 token al secondo.",
+          "perche_conta": "Questo esempio mostra come l'hardware legacy possa essere riutilizzato per applicazioni di intelligenza artificiale, riducendo i costi e aumentando l'efficienza",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2026-07-25",
+      "titolo": "NVIDIA espande infrastrutture AI in Corea",
+      "articoli": [
+        {
+          "titolo": "NAVER, NVIDIA e Brookfield espandono l'infrastruttura di fabbrica AI nazionale in Corea",
+          "fonti": [
+            {
+              "nome": "NVIDIA Newsroom",
+              "link": "https://nvidianews.nvidia.com/news/naver-nvidia-and-brookfield-to-expand-koreas-national-ai-factory-infrastructure-buildout"
+            }
+          ],
+          "data": "2026-07-25",
+          "sintesi": "NAVER, NVIDIA e Brookfield hanno annunciato un piano di espansione dell'infrastruttura di fabbrica AI nazionale in Corea, con investimenti previsti che porteranno la capacità della fabbrica AI di NVIDIA DSX a 200 megawatt, più del triplo rispetto ai 55 megawatt annunciati il mese scorso. NAVER intende espandere la sua infrastruttura AI di NVIDIA a 1 gigawatt.",
+          "perche_conta": "Questo annuncio è rilevante per il settore dell'infrastruttura AI poiché mostra un significativo investimento nella capacità di calcolo e nell'espansione delle infrastrutture di fabbrica AI in Corea, con importanti implicazioni per gli investitori e gli operatori del settore.",
+          "note": null
+        },
+        {
+          "titolo": "SK Group e NVIDIA Espandono Partnership Strategica su Fabbriche AI e Memoria di Nuova Generazione",
+          "fonti": [
+            {
+              "nome": "NVIDIA Newsroom",
+              "link": "https://nvidianews.nvidia.com/news/sk-group-and-nvidia-expand-strategic-partnership-across-ai-factories-and-next-generation-memory"
+            }
+          ],
+          "data": "2026-07-25",
+          "sintesi": "SK Group e NVIDIA hanno annunciato un partenariato complessivo da oltre 500 miliardi di dollari per stabilire un'infrastruttura AI per far fronte alla crescente domanda di calcolo globale. Il partenariato copre la costruzione di fabbriche AI e la fornitura di memoria AI.",
+          "perche_conta": "E' rilevante per il beat Infrastruttura & Hardware AI poiché rappresenta un importante investimento nella costruzione di infrastrutture AI e nella fornitura di tecnologie di memoria di nuova generazione.",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2026-07-24",
+      "titolo": "Corea del Sud delinea il suo futuro AI con NVIDIA e partner",
+      "articoli": [
+        {
+          "titolo": "Corea del Sud delinea il suo futuro AI con NVIDIA e partner",
+          "fonti": [
+            {
+              "nome": "NVIDIA Newsroom",
+              "link": "https://blogs.nvidia.com/blog/ai-summit-korea-partners-and-nvidia/"
+            }
+          ],
+          "data": "2026-07-24",
+          "sintesi": "Il presidente sudcoreano Jae Myung Lee e leader aziendali e ricercatori hanno incontrato NVIDIA e partner per discutere il progresso dell'AI in Corea. Le discussioni e gli annunci avanzano il percorso dell'AI nel paese dopo la visita del fondatore e CEO di NVIDIA, Jensen Huang, in Corea lo scorso mese.",
+          "perche_conta": "E' rilevante per il beat Infrastruttura & Hardware AI poiché mostra l'impegno di un paese come la Corea del Sud nello sviluppo dell'AI e la collaborazione con importanti player come NVIDIA.",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2026-07-23",
+      "titolo": "NVIDIA espande ricerca e gaming cloud",
+      "articoli": [
+        {
+          "titolo": "NVIDIA e KAIST lanciano laboratorio di ricerca AI congiunto",
+          "fonti": [
+            {
+              "nome": "NVIDIA Newsroom",
+              "link": "https://nvidianews.nvidia.com/news/nvidia-and-kaist-launch-joint-ai-research-lab-to-accelerate-ai-innovation-in-korea"
+            }
+          ],
+          "data": "2026-07-23",
+          "sintesi": "NVIDIA e il Korea Advanced Institute of Science and Technology (KAIST) hanno annunciato il lancio di un laboratorio di ricerca AI congiunto presso la KAIST Kim Jaechul Graduate School of AI a Seoul, finalizzato allo sviluppo dell'AI agente in Corea del Sud.",
+          "perche_conta": "E' rilevante per il beat Infrastruttura & Hardware AI poiché rappresenta un investimento significativo nella ricerca e sviluppo di tecnologie AI avanzate in Corea del Sud.",
+          "note": null
+        },
+        {
+          "titolo": "GeForce NOW aggiunge 'Path of Exile: Curse of the Allflame' al cloud",
+          "fonti": [
+            {
+              "nome": "NVIDIA Newsroom",
+              "link": "https://blogs.nvidia.com/blog/geforce-now-thursday-path-of-exile-allflame/"
+            }
+          ],
+          "data": "2026-07-23",
+          "sintesi": "GeForce NOW aggiunge nuovi titoli al suo servizio di cloud gaming, tra cui 'Path of Exile: Curse of the Allflame' e 'Battlefield 6 Season 4'. I membri possono giocare senza dover attendere i download. Il servizio continua a espandersi con nuove aggiunte.",
+          "perche_conta": "E' rilevante per il beat 'Infrastruttura & Hardware AI' poiché mostra l'espansione dei servizi di cloud gaming e la capacità di supportare nuovi titoli, riflettendo la crescente domanda di infrastrutture di calcolo e archiviazione per il settore dei videogiochi.",
+          "note": null
+        },
         {
           "titolo": "NVIDIA attiva supercomputer AI alla Naval Postgraduate School",
           "fonti": [

@@ -2,9 +2,151 @@
   "anno": "2026",
   "gruppi": [
     {
-      "data": "2026-07-23",
-      "titolo": "Implementazione dei controlli alle esportazioni EAR su silenziatori e altri dispositivi",
+      "data": "2026-07-25",
+      "titolo": "Concorrenza e prezzi nel settore dei chip",
       "articoli": [
+        {
+          "titolo": "L'Occidente potrebbe aver creato il più grande concorrente di ASML",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNN3lDSklfZUhBQ21lS2NycDlIYlNWd0htOWVTZUhsTVVfVkZ3bmlUeUxTeHJodE1fbnd4SWRfalVVQWFTTnVIWG04dURxdW51bkhpem0taklvRHQ1bWVZdXMyby1wUk1Qa3ZLUmQ3TGw4VmVsTEIyd2Rpam5FMTIxUkxldGhPQ0Y2TVVkTGFyN0syWnJqX3BKdXFqUQ?oc=5"
+            }
+          ],
+          "data": "2026-07-25",
+          "sintesi": "L'articolo suggerisce che l'Occidente potrebbe aver creato il più grande concorrente di ASML, leader nel settore dei chip.",
+          "perche_conta": "Questo sviluppo è rilevante per il beat Infrastruttura & Hardware AI poiché potrebbe influenzare la catena di approvvigionamento dei chip e la competitività nel settore.",
+          "note": null
+        },
+        {
+          "titolo": "ASML Holding: può rimanere ragionevolmente prezziata dopo il rialzo del 150%?",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQRHRhWkNUcmRuVjVIU1JaamxCb0xNYlJtTUpZak03WWp0RF9ubm1jNDBqUWRkODYybXJwdVJ4cjJIbkN0QzJQSWMwdmdtWlZwSHZ6NTNVZmE5T05pWUhrNkFjZHNTaEh6QzczbmR3d25CTHh6RFd2N0xva1JZcW9SbHhKeTRqVTBEenA4OWstSTV6SU4tbjExQjByeWo?oc=5"
+            }
+          ],
+          "data": "2026-07-25",
+          "sintesi": "La società ASML Holding ha registrato un aumento del 150% e si chiede se possa mantenere un prezzo ragionevole. La domanda riguarda la sostenibilità di questo trend.",
+          "perche_conta": "La questione è rilevante per gli investitori e i lettori interessati all'andamento delle aziende leader nel settore dell'infrastruttura e dell'hardware AI, come ASML Holding.",
+          "note": null
+        },
+        {
+          "titolo": "TSMC Stock: Mi Sono Sbagliato (NYSE:TSM)",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE04V3BzdF82YnRCX1RPck9PNy1sWi1DZlZXOXlieHcyZ3JmT0NpQVFLZFk0eGEzOFozbG81Nm41Q1pTUnZNMVVfU3cxVG9lcEpCbF9PWE84V3hKcnVJdVo0ZGhpVlRvaG4x?oc=5"
+            }
+          ],
+          "data": "2026-07-25",
+          "sintesi": "L'articolo esprime un cambio di opinione sull'andamento delle azioni di TSMC.",
+          "perche_conta": "E' rilevante per gli investitori che seguono il settore dell'infrastruttura e dell'hardware AI, poiché TSMC è un importante produttore di chip.",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2026-07-24",
+      "titolo": "TSMC potrebbe aumentare i prezzi per i prossimi dispositivi",
+      "articoli": [
+        {
+          "titolo": "TSMC potrebbe aumentare i prezzi per i prossimi dispositivi",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMijwFBVV95cUxQdmxsVGFDXzNzLWFnZWZtV1pKRUFMbVRWZ0s5ODlCUU1ueURsQTk0NVpCNld4a1gwNmJwWFpGeGM3X2dBWlZhb0VRRFRjemJiSWF3R3g4Q2dMMkZHSjVmWWJJekpRRUxUUE5udVZBV2ZrZVdRVGhBQWlnc2tJSXFxRWdnQ0xjZ1FWUTRGUkU3SQ?oc=5"
+            }
+          ],
+          "data": "2026-07-24",
+          "sintesi": "TSMC sta valutando un aumento dei prezzi che potrebbe influire sui costi dei prossimi smartphone, laptop e tablet. Questo potrebbe avere un impatto significativo sulla catena di approvvigionamento dell'industria tecnologica.",
+          "perche_conta": "Questo aumento dei prezzi è rilevante per gli investitori e i CTO poiché potrebbe influire sulla strategia di produzione e sui costi delle aziende tecnologiche",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2026-07-23",
+      "titolo": "Espansione e investimenti nel settore dei chip",
+      "articoli": [
+        {
+          "titolo": "TSMC: espansione in Arizona potrebbe renderla il più grande acquirente di acqua a Phoenix",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPa2NwYldHTktPWFl5anlTM0ZRLWdjTm50aWtLWkVtNm9SaGdSYmNDZWd5S051bGV0ejNMc24yNEZVUTlVVy1heElkaTJoNGF5eE9Udy03MG5tbl9SeWJQczZVUGZaanUwN3NVSUpmb1NQU01vZmZfaGpiUmRfaGJDZDNZelBJLTRsZHNjaXNWdU1qaTQ3NjBWRGtJMVdXSDduTEU3VkFveFHSAbwBQVVfeXFMTklNOVpDUmR1Zm5MZHkza1l6a1pjRHprWWdZYmZIN2JMeXlITVlONENJdC1iSFVFeUZtQVlPS1R3N1g3SmhOanlOeE5Cb0cwQ3pySVE1aHlmV2tkY056VFlPcDh5Ynd1dHVVeDlyUE5kTG5FdVBzSjdzSFVkajVtVWdKcmdpVmJYdWUzcVR4cXVUVDUzRmFrLURDMFoxV1NuU3hfd2FNZGlkTHZxMlBaaGZWWjRPc0RmRnF0QTA?oc=5"
+            }
+          ],
+          "data": "2026-07-23",
+          "sintesi": "L'espansione di TSMC in Arizona potrebbe farne il più grande acquirente di acqua della città di Phoenix. Ciò solleva questioni sulla gestione delle risorse idriche nella regione.",
+          "perche_conta": "Questo sviluppo è rilevante per il settore dell'infrastruttura e dell'hardware AI, poiché evidenzia le sfide ambientali e di sostenibilità legate alla produzione di chip e alla gestione dei data center.",
+          "note": null
+        },
+        {
+          "titolo": "TSMC investe altri 100 miliardi di dollari negli Stati Uniti",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxOdXhnc2Fsbl9EZ3N4Z2NpNGlZdWFQMmJLWGMteU9EZ0xIRFN0cjlJNmk1bWVYYmpCd2dTTk1fYnhSb3VmMno0MjZRZjd1MjBzZ0U0dGxmbVgyTUw0MnJXSnlyQ3dtVDk3cHZrYWZPT2ZqU1VvOEp3eF8tbVFxVnVYR0VOVTlBSGNFdDJWeG5MdGM5RFZiSTR4NkpqTQ?oc=5"
+            }
+          ],
+          "data": "2026-07-23",
+          "sintesi": "TSMC ha annunciato un ulteriore investimento di 100 miliardi di dollari negli Stati Uniti. L'investimento è parte degli sforzi della società per espandere la sua presenza nel mercato statunitense.",
+          "perche_conta": "Questo investimento è rilevante per il settore dell'infrastruttura e dell'hardware AI, poiché TSMC è un importante fornitore di chip e tecnologie per l'industria dell'AI",
+          "note": "(ripreso da 3 testate)"
+        },
+        {
+          "titolo": "ASML Holdings rafforza la crescita a lungo termine con la leadership EUV",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNWk9fOEFKdXZiZld0bWxLMVJnVzk3OEI1aDBiQzJuSHFwakVqSnlnM0R6ZlhURVRTZjJ5TVMtRzZ5LTV1bTY2cDZKQS1vWmNfeW5WMzJyRE5ob2V4UUJLVF9zRzI0M1diSXdKdzE5VVI5aWxRSGlwOHd1ZTYwY0h1RENSQ1RvWW9CeDV0TXppbHprVE4zY3dtbklScGttUlo4SWx3?oc=5"
+            }
+          ],
+          "data": "2026-07-23",
+          "sintesi": "ASML Holdings consolida la sua posizione di leader nel settore dell'EUV, tecnologia fondamentale per la produzione di chip di nuova generazione. Ciò rafforza le prospettive di crescita a lungo termine dell'azienda.",
+          "perche_conta": "La leadership di ASML Holdings nel settore dell'EUV è rilevante per gli investitori e i CTO poiché influenza la capacità di produrre chip ad alta tecnologia, un fattore chiave per lo sviluppo dell'AI e di altre tecnologie avanzate.",
+          "note": null
+        },
+        {
+          "titolo": "ASML Holding N.V. (ASML) da comprare adesso?",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMimgFBVV95cUxORjJnV19ONkhXVnp1MGpzd1l5c0FqU3pIbGozSDFfa1l1b0ZoQzZFQUhWUjJMbkw2TTlxeC1NU3g1bDFMeFJZenpXTG5kWUdNM3JMRDRBc0hQVy1OSUxyZHRBb3RBZFRQaXJnMG9kTGstSXU5cDdFQkFveW1FT0xUaWlmVW5XanBPNWlTc3BFd25JNEZUeHFyZ3Z3?oc=5"
+            }
+          ],
+          "data": "2026-07-23",
+          "sintesi": "L'articolo si chiede se il titolo di ASML Holding N.V. sia un'opzione di acquisto attuale.",
+          "perche_conta": "La rilevanza di ASML nel settore dell'infrastruttura e dell'hardware AI, in particolare nella produzione di chip, rende importante valutare le sue prospettive di investimento per gli investitori infrastrutturali e i CTO.",
+          "note": null
+        },
+        {
+          "titolo": "ASML, azione del giorno di IBD, si riprende dopo il crollo post-bilancio",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxQZHJMRlVlaXY3MXFfVExCQnEwOWQtcXNLaHlYaGJoWnZyWlRZN1BsVVZpUWJZdkNibVRwZVcyVTdZZ0N2OTBQQUZMMnM2d0JnZ1hDU3RTM251RjBTSnVZYVFyMWZDTHJJT1ZkRk5HNUFTTmRic3lKd2lvOEVzTFI4SG16N0RYR1VlZWRIRzk1T1dPVFZjOUNXNWxMd3NIeEhWelBV?oc=5"
+            }
+          ],
+          "data": "2026-07-23",
+          "sintesi": "ASML, leader nella produzione di attrezzature per la litografia, si riprende dopo un calo post-bilancio. L'azienda è fondamentale per la produzione di chip di alta tecnologia.",
+          "perche_conta": "La performance di ASML è rilevante per gli investitori e il settore dell'infrastruttura AI, poiché la sua tecnologia è cruciale per la produzione di chip di alta qualità.",
+          "note": null
+        },
+        {
+          "titolo": "Applied Materials (AMAT) sale con l'espansione di TSMC",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNRjhMaC1YSGtIWkpTeGtVWS1tQWVNTWJVUzFSLUtLcE5JZU02Ylg4ZmlXMTVzWVU4VG93T0dwQ0hxaWhVUjdfSUQyYUlfMXFhZ2lZSEU5VjVpNVJYVTZFODlDSFRueWp0RlI4S3FtWWltUTRCam5pNHN0N21yeHQ0TzRmYjlicE1NSk9feGRhczJmUldaVnZaQ2hLUUUwODQ?oc=5"
+            }
+          ],
+          "data": "2026-07-23",
+          "sintesi": "Applied Materials (AMAT) aumenta grazie all'espansione di TSMC. La questione del valore equo rimane aperta.",
+          "perche_conta": "E' rilevante per gli investitori e il settore dell'infrastruttura AI, poiché l'espansione di TSMC potrebbe influenzare la catena di approvvigionamento e la capacità di produzione di chip.",
+          "note": null
+        },
         {
           "titolo": "Implementazione dei controlli alle esportazioni EAR su silenziatori e altri dispositivi",
           "fonti": [
@@ -22,8 +164,47 @@
     },
     {
       "data": "2026-07-22",
-      "titolo": "TSMC potrebbe aumentare i prezzi del 10% nel 2027",
+      "titolo": "Difficoltà produttive per TSMC",
       "articoli": [
+        {
+          "titolo": "Taiwan Semiconductor e ASML in evidenza su Zacks Investment Ideas",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxQZjUxLWlMZWY0NXRGdVQ1Rm5aeWYyWm9yb09pN19nOHVKeGI2Zk9xM0NtckhMdVhteFpaZVNrRUtkU244R0paUGY2UnRTcy1GSW1hRVhHdUxSY3BWbVF1bS1sTTJjdmstS1BwTmRVdDU2Zk9VSERlLXFEdFlyZDlObXNDOHZQZmhSTWxnWHk1Ymo4UFZ6ZzM0UTQ1SGRwOS04YlhvZ0Z4WDVtZw?oc=5"
+            }
+          ],
+          "data": "2026-07-22",
+          "sintesi": "L'articolo di Yahoo Finance presenta Taiwan Semiconductor e ASML come aziende in evidenza nella sezione Zacks Investment Ideas. Non sono forniti dettagli aggiuntivi.",
+          "perche_conta": "E' rilevante per il beat Infrastruttura & Hardware AI poiché Taiwan Semiconductor e ASML sono importanti player nel settore della produzione di chip e tecnologie semiconduttrici.",
+          "note": null
+        },
+        {
+          "titolo": "TSMC non riesce a produrre chip abbastanza velocemente, i rivali ne approfittano",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxOZ3BFbUljVDREdjYzTTlveHZ0N2RoRDZ1clVGR2hkc1dqVndDSXFfRm82bVNuUGRpcWhLOWE0WkxVb2R3ejJTcnhlMVRndDdyM08wZWZpUU9XbExSa3EtWklaXzFkOGJsYkd6cXlFS1Y0V0NKLWlobm9lLTU5Tnh1clFLU1JrbEptcGgxZVdjM0RRWmR6RkU0?oc=5"
+            }
+          ],
+          "data": "2026-07-22",
+          "sintesi": "TSMC sta avendo difficoltà a soddisfare la domanda di chip, permettendo ai rivali di guadagnare terreno. La società sta lavorando per aumentare la produzione, ma al momento non riesce a stare al passo con la domanda.",
+          "perche_conta": "Questo è rilevante per il settore dell'infrastruttura e dell'hardware AI perché la disponibilità di chip è fondamentale per lo sviluppo e la diffusione delle tecnologie di intelligenza artificiale.",
+          "note": null
+        },
+        {
+          "titolo": "ASML Aumenta Le Stime Per Il 2026",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNSjBNUHY4WjhZV0syaFRkZEpTSzJTbVFSLWkzYW9kR25FQy1fQXBkVVF6S0ZvZ1l4UEhIek1MaEdRMFN2b1B5X1J4S0ZvN1EwNVZJdGp1U1dCV2JxVkFQOGZUY2VlQ19HN1BJcEhKRFN0ZTA3ODNZdDJiR0huZ1dHQW1QS3pSQmJmMEg1amdpaVY4OVMyR2dYMw?oc=5"
+            }
+          ],
+          "data": "2026-07-22",
+          "sintesi": "ASML ha aumentato le stime per il 2026 con l'entrata in produzione di EUV ad alta NA presso Intel. Ciò potrebbe cambiare il caso per investire in ASML Holding.",
+          "perche_conta": "E' rilevante per gli investitori che seguono il settore dell'infrastruttura e dell'hardware AI, poiché ASML è un fornitore chiave di tecnologie per la produzione di chip.",
+          "note": null
+        },
         {
           "titolo": "TSMC potrebbe aumentare i prezzi del 10% nel 2027",
           "fonti": [
@@ -54,8 +235,60 @@
     },
     {
       "data": "2026-07-21",
-      "titolo": "TSMC aumenterà i prezzi dei chip fino al 10% nel 2027",
+      "titolo": "ASML e TSMC: dinamiche di mercato e investimenti",
       "articoli": [
+        {
+          "titolo": "Primi componenti di strumenti di litografia da 400 milioni di dollari di ASML arrivano ad Albany",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxORDJkUHk4cm5zaGlDNi13Q2taVVZMVG1CeFYxak5IU2JlOFJRbnQ1a29KMTNpRGlXUVdxMHd5ODExamQ1Rk1JZy1SVFNqbnREWUtPT3pBXzZfdThKcXRabVIxLUp4dFpKbEVOLVprUTFJcHBLT3cwRjNKTVFzdXJ6ZUU4c2o3S2lVdHNJVVYtUG5PbW93WThqVzNmbUdXWkU3WTUtWU9wcw?oc=5"
+            }
+          ],
+          "data": "2026-07-21",
+          "sintesi": "I primi componenti dello strumento di litografia da 400 milioni di dollari di ASML sono arrivati ad Albany. Questo strumento è parte degli investimenti nella tecnologia di litografia avanzata.",
+          "perche_conta": "È rilevante per il settore dell'infrastruttura e dell'hardware AI poiché la litografia avanzata è fondamentale per la produzione di chip sempre più potenti e efficienti.",
+          "note": null
+        },
+        {
+          "titolo": "1 Ragione Massiccia per Acquistare Azioni ASML Dopo il Rapporto di Guadagni Straordinari",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMilAFBVV95cUxPdVNoSXVBczM2RHFLVGdVYndVWjhaYkNreEgyTXh0NzNmczZNbmlLd2dDMFNDTWlCVGMwV1Y2ajQtYkljVXFrbVFuUktkT19jYVZOU1VQalZGX0NIV2pkM0dscWd6bkZTQ3RIRXJYU19WT3kyRERsakI5WThmQ3cyS1cwcUxGR2ZQRTJ1anR4clRnNHBB?oc=5"
+            }
+          ],
+          "data": "2026-07-21",
+          "sintesi": "Il rapporto di guadagni di ASML è stato straordinario, potrebbe essere un buon momento per acquistare azioni della società.",
+          "perche_conta": "E' rilevante per gli investitori che seguono il settore dell'infrastruttura e dell'hardware AI, poiché ASML è un fornitore chiave di tecnologie per la produzione di chip.",
+          "note": null
+        },
+        {
+          "titolo": "ASML: azioni in discesa",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxQVU5kTHZsYnlrSW5JSWtpd21ybktjMnRYN3JTSTBxN2NKc21VRWNtOUpjdlZLU3JkOFBYMXVhUlhSQ2F2Wk15R25xT3hnYnVoOUpvcmZXaHZ2aFFWQm5lZGhmbEdZLWdienM3MW80T21FcFpHc0otclRDdUsyR09UYkJKdDhweVBkaTZuWnA3LTVmZjFEeXlEdFpEbUl1UQ?oc=5"
+            }
+          ],
+          "data": "2026-07-21",
+          "sintesi": "Le azioni di ASML sono scese. Gli investitori devono essere a conoscenza delle dinamiche che stanno influenzando il mercato.",
+          "perche_conta": "E' rilevante per gli investitori che seguono il settore dell'infrastruttura e dell'hardware AI, in quanto ASML è un fornitore chiave di tecnologie per la produzione di chip.",
+          "note": null
+        },
+        {
+          "titolo": "TSMC aumenta i prezzi. La crescita dell'AI di Big Tech può permettersi la spesa?",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxOdEFEaFFaWkJWNTU3cmQ4Qy1TVm4xMk5YdXNyZmFvZFE5SVZJcFNqUWpqQldMdkhrQW5jMDBHTmZ0bnBldzNlYXFta00zVXp6bTE0UjM3SkdiZkdJak9abzJpMFdsMGtHNndTWGQ1T1liQkhuVFl3eU1vdmY4VVhHY3J4QjM?oc=5"
+            }
+          ],
+          "data": "2026-07-21",
+          "sintesi": "TSMC sta aumentando i prezzi, sollevando interrogativi sulla sostenibilità economica della crescita dell'AI da parte di Big Tech.",
+          "perche_conta": "Questo aumento di prezzo potrebbe avere un impatto significativo sul settore dell'AI, poiché le grandi aziende tecnologiche dipendono fortemente da TSMC per la produzione dei loro chip.",
+          "note": null
+        },
         {
           "titolo": "TSMC aumenterà i prezzi dei chip fino al 10% nel 2027",
           "fonti": [
@@ -86,8 +319,47 @@
     },
     {
       "data": "2026-07-20",
-      "titolo": "Progressi e controversie nella produzione di chip",
+      "titolo": "Furto di segreti e bonus per dipendenti",
       "articoli": [
+        {
+          "titolo": "ASML offre bonus di ritenzione di 20.000 euro ai dipendenti",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOM2VXd2hDV3ZCT0xvUVlWRTk4U3ZfdklFZ0JRbDZ4OGJoUXJ0TWxOeFhtX1AzQzZyVnRWTjdLdGxJazVTeHdhYlBkVlVjTEh2X2J6Q3QxNVh1cG9ZZkVtQnJIbXIxVVE1Q0xYVVpVNm1nZ1NaMExMU0ctWHZzSFc4clk1NERNZVkxWEFrMGFVYjhkdw?oc=5"
+            }
+          ],
+          "data": "2026-07-20",
+          "sintesi": "ASML offrirà un bonus di ritenzione di 20.000 euro ai suoi dipendenti se rimarranno in azienda tra il 2027 e il 2030. Questa mossa potrebbe essere volta a mantenere la stabilità e l'esperienza all'interno dell'azienda.",
+          "perche_conta": "Questa notizia è rilevante per il settore dell'infrastruttura e dell'hardware AI, poiché ASML è un fornitore chiave di tecnologie per la produzione di chip e la sua capacità di trattenere i dipendenti potrebbe influenzare la sua capacità di innovare e soddisfare la domanda del settore.",
+          "note": "(ripreso da 2 testate)"
+        },
+        {
+          "titolo": "Ex dipendente TSMC accusato di furto di segreti commerciali",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMiekFVX3lxTFBsT29oUjh4UWZVeWhqdlphTVdwcTM1VHNmTFNPb3otQ2tNYTYwUVNISVdKQXJHY2h4SUN4TFR3MERCNVdnLXRqTUs1NW9iakNXd3dEb1QzdGY3aFRIcXJYQ0VLTzZGNE1nOEdNX0lnU1pqdmRZcmRRS0NB?oc=5"
+            }
+          ],
+          "data": "2026-07-20",
+          "sintesi": "Un ex dipendente di TSMC è stato accusato di furto di segreti commerciali. La notizia è stata riportata dal Taipei Times.",
+          "perche_conta": "Questo evento è rilevante per il beat Infrastruttura & Hardware AI poiché TSMC è un importante produttore di chip e il furto di segreti commerciali potrebbe avere implicazioni sulla sicurezza e sulla competitività dell'industria.",
+          "note": null
+        },
+        {
+          "titolo": "Ex manager TSMC accusato di aver tentato di rivelare segreti alla Cina",
+          "fonti": [
+            {
+              "nome": "Google News (TSMC/ASML)",
+              "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE9WWVFLcDQ4aHNfX2k3UmptbmJ6YUtrU1Ata0tHRU91bGIxTENJMzFEMXZzdWF4UU5YaWZSRDZvVTJvVi1uY2hpaHE1RUFxZnJ1b09RdEhB?oc=5"
+            }
+          ],
+          "data": "2026-07-20",
+          "sintesi": "Un ex manager di TSMC è stato accusato di aver tentato di rivelare segreti alla Cina. L'accusa è stata formulata a seguito di un'indagine.",
+          "perche_conta": "Questo evento è rilevante per il beat 'Infrastruttura & Hardware AI' perché potrebbe avere impatti sulla sicurezza e sulla competitività dell'industria dei semiconduttori.",
+          "note": null
+        },
         {
           "titolo": "Intel raggiunge importante traguardo con macchina per chip da 400 milioni di dollari",
           "fonti": [

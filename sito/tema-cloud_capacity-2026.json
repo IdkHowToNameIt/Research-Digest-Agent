@@ -2,6 +2,83 @@
   "anno": "2026",
   "gruppi": [
     {
+      "data": "2026-07-24",
+      "titolo": "Aggiornamenti su sicurezza e fiducia",
+      "articoli": [
+        {
+          "titolo": "Formato Open Knowledge v0.2 affronta la fiducia agente",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/products/data-analytics/okf-v0-2-adds-trust-signals/"
+            }
+          ],
+          "data": "2026-07-24",
+          "sintesi": "Il formato Open Knowledge (OKF) v0.2 introduce nuovi campi di frontmatter per fornire informazioni sulla provenienza, attendibilità e stato di un concetto, consentendo ai consumatori di valutare la fiducia prima di accedere al contenuto. Questi campi includono 'generated', 'verified', 'status' e 'sources', che forniscono informazioni sulla creazione, verifica e stato di un concetto. Ciò consente ai consumatori di prendere decisioni informate sulla rilevanza e attendibilità dei concetti.",
+          "perche_conta": "La nuova versione di OKF è rilevante per gli investitori e i responsabili tecnici perché fornisce uno standard aperto per la condivisione di conoscenze e la gestione della fiducia, il che è fondamentale per l'adozione di soluzioni di intelligenza artificiale e machine learning",
+          "note": null
+        },
+        {
+          "titolo": "Sistema di denominazione degli attori minacciosi aggiornato",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/topics/threat-intelligence/updated-cyber-threat-actor-naming-system/"
+            }
+          ],
+          "data": "2026-07-24",
+          "sintesi": "Google Cloud introduce un nuovo sistema di denominazione unificato per gli attori minacciosi, basato su criptonimi. Il nuovo sistema utilizza combinazioni di due parole per identificare ogni attore minaccioso, con il primo termine che rappresenta l'attore e il secondo che categorizza il tipo di minaccia. Ciò mira a semplificare il tracciamento e la condivisione di informazioni sulla sicurezza.",
+          "perche_conta": "Questo aggiornamento è rilevante per il settore dell'infrastruttura e dell'hardware AI poiché migliora la capacità di tracciare e rispondere alle minacce cibernetiche, che sono una preoccupazione crescente per gli investitori e i responsabili tecnici.",
+          "note": null
+        }
+      ]
+    },
+    {
+      "data": "2026-07-23",
+      "titolo": "Ottimizzazione capacità cloud per AI",
+      "articoli": [
+        {
+          "titolo": "Minimizzare gli acceleratori inattivi: intercalazione di lavori RL nativi con time-slicing cooperativo in llm-d",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/products/containers-kubernetes/introducing-co-operative-time-slicing-for-rl-in-llm-d/"
+            }
+          ],
+          "data": "2026-07-23",
+          "sintesi": "Google Cloud introduce una soluzione per ridurre gli acceleratori inattivi durante l'addestramento di modelli di linguaggio con apprendimento per rinforzo (RL). La tecnologia di time-slicing cooperativo, chiamata llm-d, consente di intercalare lavori RL indipendenti su hardware condiviso, aumentando l'utilizzo degli acceleratori dal 40% al 70% senza impattare sulla convergenza o sull'accuratezza del modello. Ciò migliora il rapporto prezzo-prestazioni e riduce i costi totali di proprietà.",
+          "perche_conta": "Questa tecnologia è rilevante per gli investitori e i CTO poiché può aiutare a ridurre i costi e migliorare l'efficienza nell'addestramento di modelli di linguaggio con apprendimento per rinforzo, un'area chiave per l'intelligenza artificiale",
+          "note": null
+        },
+        {
+          "titolo": "I tuoi agenti AI sono pronti. E i tuoi dati?",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/topics/ai-infrastructure/state-of-ai-infrastructure-report-and-the-agentic-data-cloud/"
+            }
+          ],
+          "data": "2026-07-23",
+          "sintesi": "Uno dei principali ostacoli alla scalabilità delle iniziative AI è l'accesso ai dati con contesto e significato semantico. Le organizzazioni devono andare oltre lo stoccaggio dei dati per attivarli con contesto affidabile, spostandosi da sistemi passivi a sistemi proattivi. La piattaforma Agentic Data Cloud di Google Cloud unifica i dati, i modelli AI e i database operativi in un unico sistema di azione. Per funzionare, richiede un'infrastruttura nativa AI, dal chip al modello, per gestire il carico agente.",
+          "perche_conta": "E' rilevante per il settore dell'infrastruttura e dell'hardware AI perché evidenzia la necessità di un'infrastruttura ottimizzata per supportare le iniziative AI di produzione, con un focus sulla scalabilità, sulla sicurezza e sulla gestione dei dati.",
+          "note": null
+        },
+        {
+          "titolo": "Il progetto: come Voicify rende l'ordinazione AI-abilitata un piacere per i clienti",
+          "fonti": [
+            {
+              "nome": "Google Cloud Blog",
+              "link": "https://cloud.google.com/blog/topics/customers/bringing-delight-to-customer-phone-calls-with-ai/"
+            }
+          ],
+          "data": "2026-07-23",
+          "sintesi": "Voicify, fondata nel 2018, utilizza tecnologie AI e cloud per trasformare le chiamate telefoniche in esperienze senza soluzione di continuità e coinvolgenti. La società ha sviluppato una piattaforma di orchestrazione conversazionale per gestire gli ordini dei ristoranti e migliorare l'accuratezza e la velocità di risposta. Utilizzando Gemini Flash e Vertex AI di Google Cloud, Voicify ha ridotto i tempi di attesa e migliorato la stabilità dei suoi assistenti vocali, garantendo il 100% di uptime anche durante i picchi di traffico.",
+          "perche_conta": "La soluzione di Voicify è rilevante per gli investitori e i CTO perché dimostra come le tecnologie AI e cloud possano essere utilizzate per migliorare l'efficienza e la customer experience in settori come la ristorazione e la sanità, dove la gestione delle chiamate telefoniche può essere un fattore critico per il successo.",
+          "note": null
+        }
+      ]
+    },
+    {
       "data": "2026-07-22",
       "titolo": "Investimenti in cloud per innovazione",
       "articoli": [

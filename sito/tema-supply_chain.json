@@ -3,43 +3,67 @@
   "nome": "Supply chain",
   "gruppi": [
     {
-      "data": "2026-07-23",
-      "titolo": "Implementazione dei controlli alle esportazioni EAR su silenziatori e altri dispositivi",
+      "data": "2026-07-25",
+      "titolo": "Concorrenza e prezzi nel settore dei chip",
+      "n_articoli": 3,
+      "minuti_lettura": 1,
+      "anteprima_titoli": [
+        "L'Occidente potrebbe aver creato il più grande concorrente di ASML",
+        "ASML Holding: può rimanere ragionevolmente prezziata dopo il rialzo del 150%?",
+        "TSMC Stock: Mi Sono Sbagliato (NYSE:TSM)"
+      ]
+    },
+    {
+      "data": "2026-07-24",
+      "titolo": "TSMC potrebbe aumentare i prezzi per i prossimi dispositivi",
       "n_articoli": 1,
       "minuti_lettura": 1,
       "anteprima_titoli": [
-        "Implementazione dei controlli alle esportazioni EAR su silenziatori e altri dispositivi"
+        "TSMC potrebbe aumentare i prezzi per i prossimi dispositivi"
+      ]
+    },
+    {
+      "data": "2026-07-23",
+      "titolo": "Espansione e investimenti nel settore dei chip",
+      "n_articoli": 7,
+      "minuti_lettura": 3,
+      "anteprima_titoli": [
+        "TSMC: espansione in Arizona potrebbe renderla il più grande acquirente di acqua a Phoenix",
+        "TSMC investe altri 100 miliardi di dollari negli Stati Uniti",
+        "ASML Holdings rafforza la crescita a lungo termine con la leadership EUV"
       ]
     },
     {
       "data": "2026-07-22",
-      "titolo": "TSMC potrebbe aumentare i prezzi del 10% nel 2027",
-      "n_articoli": 2,
-      "minuti_lettura": 1,
+      "titolo": "Difficoltà produttive per TSMC",
+      "n_articoli": 5,
+      "minuti_lettura": 2,
       "anteprima_titoli": [
-        "TSMC potrebbe aumentare i prezzi del 10% nel 2027",
-        "La spinta di Trump per chip AI made in USA colpisce i margini di TSMC"
+        "Taiwan Semiconductor e ASML in evidenza su Zacks Investment Ideas",
+        "TSMC non riesce a produrre chip abbastanza velocemente, i rivali ne approfittano",
+        "ASML Aumenta Le Stime Per Il 2026"
       ]
     },
     {
       "data": "2026-07-21",
-      "titolo": "TSMC aumenterà i prezzi dei chip fino al 10% nel 2027",
-      "n_articoli": 2,
-      "minuti_lettura": 1,
+      "titolo": "ASML e TSMC: dinamiche di mercato e investimenti",
+      "n_articoli": 6,
+      "minuti_lettura": 2,
       "anteprima_titoli": [
-        "TSMC aumenterà i prezzi dei chip fino al 10% nel 2027",
-        "TSMC aumenterà i prezzi di produzione dei chip fino al 10% nel 2027"
+        "Primi componenti di strumenti di litografia da 400 milioni di dollari di ASML arrivano ad Albany",
+        "1 Ragione Massiccia per Acquistare Azioni ASML Dopo il Rapporto di Guadagni Straordinari",
+        "ASML: azioni in discesa"
       ]
     },
     {
       "data": "2026-07-20",
-      "titolo": "Progressi e controversie nella produzione di chip",
-      "n_articoli": 5,
-      "minuti_lettura": 2,
+      "titolo": "Furto di segreti e bonus per dipendenti",
+      "n_articoli": 8,
+      "minuti_lettura": 3,
       "anteprima_titoli": [
-        "Intel raggiunge importante traguardo con macchina per chip da 400 milioni di dollari",
-        "Taiwan accusa ex-manager TSMC di furto di segreti di chip per la Cina",
-        "ASML offrirà un bonus di fidelizzazione di 20.000 € ai dipendenti che rimarranno 2027-2030"
+        "ASML offre bonus di ritenzione di 20.000 euro ai dipendenti",
+        "Ex dipendente TSMC accusato di furto di segreti commerciali",
+        "Ex manager TSMC accusato di aver tentato di rivelare segreti alla Cina"
       ]
     },
     {

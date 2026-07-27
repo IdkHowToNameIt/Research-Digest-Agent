@@ -1,0 +1,142 @@
+{
+  "timestamp": "2026-07-27T10:13:19Z",
+  "data_generazione": "2026-07-27",
+  "fonti": [
+    {
+      "nome": "NVIDIA Newsroom",
+      "stato": "ok",
+      "errore": null,
+      "n_candidati": 10,
+      "consecutivi_falliti": 0
+    },
+    {
+      "nome": "NVIDIA Blog",
+      "stato": "ok",
+      "errore": null,
+      "n_candidati": 10,
+      "consecutivi_falliti": 0
+    },
+    {
+      "nome": "Tom's Hardware",
+      "stato": "ok",
+      "errore": null,
+      "n_candidati": 10,
+      "consecutivi_falliti": 0
+    },
+    {
+      "nome": "Meta Engineering",
+      "stato": "ok",
+      "errore": null,
+      "n_candidati": 2,
+      "consecutivi_falliti": 0
+    },
+    {
+      "nome": "Uptime Institute Journal",
+      "stato": "ok",
+      "errore": null,
+      "n_candidati": 3,
+      "consecutivi_falliti": 0
+    },
+    {
+      "nome": "Google Cloud — Infrastructure",
+      "stato": "ok",
+      "errore": null,
+      "n_candidati": 1,
+      "consecutivi_falliti": 0
+    },
+    {
+      "nome": "arXiv (energia x AI)",
+      "stato": "ok",
+      "errore": null,
+      "n_candidati": 20,
+      "consecutivi_falliti": 0
+    },
+    {
+      "nome": "Google News (TSMC/ASML)",
+      "stato": "ok",
+      "errore": null,
+      "n_candidati": 30,
+      "consecutivi_falliti": 0
+    },
+    {
+      "nome": "Federal Register — BIS",
+      "stato": "ok",
+      "errore": null,
+      "n_candidati": 2,
+      "consecutivi_falliti": 0
+    },
+    {
+      "nome": "Google Cloud Blog",
+      "stato": "ok",
+      "errore": null,
+      "n_candidati": 20,
+      "consecutivi_falliti": 0
+    },
+    {
+      "nome": "Azure Blog",
+      "stato": "ok",
+      "errore": null,
+      "n_candidati": 1,
+      "consecutivi_falliti": 0
+    },
+    {
+      "nome": "AWS News Blog",
+      "stato": "ok",
+      "errore": null,
+      "n_candidati": 3,
+      "consecutivi_falliti": 0
+    }
+  ],
+  "dedup": {
+    "raccolti": 112,
+    "accorpati_aggregatore": 6,
+    "nuovi": 45,
+    "aggiornamenti": 1,
+    "duplicati_esatti": 59,
+    "duplicati_fuzzy": 1,
+    "scartati_classificazione": 8,
+    "pubblicati": 38
+  },
+  "copertura": [
+    {
+      "tema": "chip",
+      "stato": "con_aggiornamenti",
+      "n_articoli": 13
+    },
+    {
+      "tema": "data_center",
+      "stato": "nessun_aggiornamento",
+      "n_articoli": 0
+    },
+    {
+      "tema": "energia",
+      "stato": "nessun_aggiornamento",
+      "n_articoli": 0
+    },
+    {
+      "tema": "supply_chain",
+      "stato": "con_aggiornamenti",
+      "n_articoli": 20
+    },
+    {
+      "tema": "cloud_capacity",
+      "stato": "con_aggiornamenti",
+      "n_articoli": 5
+    }
+  ],
+  "energia_zero_consecutivi": 1,
+  "costo": {
+    "modelli": [
+      {
+        "modello": "llama-3.3-70b-versatile",
+        "chiamate": 49,
+        "prompt_tokens": 40829,
+        "completion_tokens": 6841,
+        "costo_stimato": 0.025777
+      }
+    ],
+    "prompt_tokens": 40829,
+    "completion_tokens": 6841,
+    "costo_stimato": 0.025777
+  }
+}

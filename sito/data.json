@@ -1,5 +1,5 @@
 {
-  "generato": "2026-07-23",
+  "generato": "2026-07-27",
   "badge_giorni": 2,
   "settimana_giorni": 7,
   "temi": [
@@ -9,10 +9,34 @@
       "file": "tema-chip.json",
       "recenti": [
         {
-          "data": "2026-07-23",
-          "titolo": "NVIDIA attiva supercomputer AI alla Naval Postgraduate School",
+          "data": "2026-07-27",
+          "titolo": "Sviluppi nel settore dei chip e infrastrutture AI",
+          "n_articoli": 4,
+          "minuti_lettura": 2
+        },
+        {
+          "data": "2026-07-26",
+          "titolo": "Sviluppi e applicazioni di chip e hardware",
+          "n_articoli": 4,
+          "minuti_lettura": 2
+        },
+        {
+          "data": "2026-07-25",
+          "titolo": "NVIDIA espande infrastrutture AI in Corea",
+          "n_articoli": 2,
+          "minuti_lettura": 1
+        },
+        {
+          "data": "2026-07-24",
+          "titolo": "Corea del Sud delinea il suo futuro AI con NVIDIA e partner",
           "n_articoli": 1,
           "minuti_lettura": 1
+        },
+        {
+          "data": "2026-07-23",
+          "titolo": "NVIDIA espande ricerca e gaming cloud",
+          "n_articoli": 3,
+          "minuti_lettura": 2
         },
         {
           "data": "2026-07-22",
@@ -55,12 +79,6 @@
           "titolo": "Efficienza energetica e personalizzazione nell'AI",
           "n_articoli": 2,
           "minuti_lettura": 2
-        },
-        {
-          "data": "2026-07-09",
-          "titolo": "GeForce NOW potenzia la sua offerta con nuovi server GeForce RTX 5080 a Toronto",
-          "n_articoli": 1,
-          "minuti_lettura": 1
         }
       ]
     },
@@ -105,12 +123,6 @@
           "titolo": "AI hardware punta a maggiore efficienza energetica mentre la sovranità digitale evidenzia costi ambientali",
           "n_articoli": 2,
           "minuti_lettura": 2
-        },
-        {
-          "data": "2026-07-09",
-          "titolo": "Chi ha bisogno della DRAM? Abbiamo la fibra",
-          "n_articoli": 1,
-          "minuti_lettura": 1
         }
       ]
     },
@@ -120,28 +132,40 @@
       "file": "tema-supply_chain.json",
       "recenti": [
         {
-          "data": "2026-07-23",
-          "titolo": "Implementazione dei controlli alle esportazioni EAR su silenziatori e altri dispositivi",
+          "data": "2026-07-25",
+          "titolo": "Concorrenza e prezzi nel settore dei chip",
+          "n_articoli": 3,
+          "minuti_lettura": 1
+        },
+        {
+          "data": "2026-07-24",
+          "titolo": "TSMC potrebbe aumentare i prezzi per i prossimi dispositivi",
           "n_articoli": 1,
           "minuti_lettura": 1
         },
         {
+          "data": "2026-07-23",
+          "titolo": "Espansione e investimenti nel settore dei chip",
+          "n_articoli": 7,
+          "minuti_lettura": 3
+        },
+        {
           "data": "2026-07-22",
-          "titolo": "TSMC potrebbe aumentare i prezzi del 10% nel 2027",
-          "n_articoli": 2,
-          "minuti_lettura": 1
+          "titolo": "Difficoltà produttive per TSMC",
+          "n_articoli": 5,
+          "minuti_lettura": 2
         },
         {
           "data": "2026-07-21",
-          "titolo": "TSMC aumenterà i prezzi dei chip fino al 10% nel 2027",
-          "n_articoli": 2,
-          "minuti_lettura": 1
+          "titolo": "ASML e TSMC: dinamiche di mercato e investimenti",
+          "n_articoli": 6,
+          "minuti_lettura": 2
         },
         {
           "data": "2026-07-20",
-          "titolo": "Progressi e controversie nella produzione di chip",
-          "n_articoli": 5,
-          "minuti_lettura": 2
+          "titolo": "Furto di segreti e bonus per dipendenti",
+          "n_articoli": 8,
+          "minuti_lettura": 3
         },
         {
           "data": "2026-07-19",
@@ -180,6 +204,18 @@
       "nome": "Cloud capacity",
       "file": "tema-cloud_capacity.json",
       "recenti": [
+        {
+          "data": "2026-07-24",
+          "titolo": "Aggiornamenti su sicurezza e fiducia",
+          "n_articoli": 2,
+          "minuti_lettura": 2
+        },
+        {
+          "data": "2026-07-23",
+          "titolo": "Ottimizzazione capacità cloud per AI",
+          "n_articoli": 3,
+          "minuti_lettura": 2
+        },
         {
           "data": "2026-07-22",
           "titolo": "Investimenti in cloud per innovazione",
@@ -227,12 +263,6 @@
           "titolo": "Cloud capacity e sicurezza: innovazioni per la scalabilità e la visibilità",
           "n_articoli": 4,
           "minuti_lettura": 3
-        },
-        {
-          "data": "2026-07-09",
-          "titolo": "Modelli frontiera e agenti di produzione: avanzamento di Microsoft Foundry per l'era agente",
-          "n_articoli": 1,
-          "minuti_lettura": 1
         }
       ]
     }

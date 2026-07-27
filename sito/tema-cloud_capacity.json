@@ -3,6 +3,27 @@
   "nome": "Cloud capacity",
   "gruppi": [
     {
+      "data": "2026-07-24",
+      "titolo": "Aggiornamenti su sicurezza e fiducia",
+      "n_articoli": 2,
+      "minuti_lettura": 2,
+      "anteprima_titoli": [
+        "Formato Open Knowledge v0.2 affronta la fiducia agente",
+        "Sistema di denominazione degli attori minacciosi aggiornato"
+      ]
+    },
+    {
+      "data": "2026-07-23",
+      "titolo": "Ottimizzazione capacità cloud per AI",
+      "n_articoli": 3,
+      "minuti_lettura": 2,
+      "anteprima_titoli": [
+        "Minimizzare gli acceleratori inattivi: intercalazione di lavori RL nativi con time-slicing cooperativo in llm-d",
+        "I tuoi agenti AI sono pronti. E i tuoi dati?",
+        "Il progetto: come Voicify rende l'ordinazione AI-abilitata un piacere per i clienti"
+      ]
+    },
+    {
       "data": "2026-07-22",
       "titolo": "Investimenti in cloud per innovazione",
       "n_articoli": 2,

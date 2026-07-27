@@ -3,11 +3,54 @@
   "nome": "Chip",
   "gruppi": [
     {
-      "data": "2026-07-23",
-      "titolo": "NVIDIA attiva supercomputer AI alla Naval Postgraduate School",
+      "data": "2026-07-27",
+      "titolo": "Sviluppi nel settore dei chip e infrastrutture AI",
+      "n_articoli": 4,
+      "minuti_lettura": 2,
+      "anteprima_titoli": [
+        "Leader del settore si uniscono nell'Alleanza Open Secure AI",
+        "NVIDIA Sfrutta Vera CPU per Accelerare la Progettazione di CPU e GPU di Nuova Generazione",
+        "NVIDIA Espande NVIDIA Agent Toolkit"
+      ]
+    },
+    {
+      "data": "2026-07-26",
+      "titolo": "Sviluppi e applicazioni di chip e hardware",
+      "n_articoli": 4,
+      "minuti_lettura": 2,
+      "anteprima_titoli": [
+        "CXMT DRAM cinese non sembra il salvatore economico atteso",
+        "Un F-14 Tomcat stampato in 3D utilizza un FPGA per emulare il primo microprocessore",
+        "Zeiss espande sito tedesco per aumentare produzione scanner EUV"
+      ]
+    },
+    {
+      "data": "2026-07-25",
+      "titolo": "NVIDIA espande infrastrutture AI in Corea",
+      "n_articoli": 2,
+      "minuti_lettura": 1,
+      "anteprima_titoli": [
+        "NAVER, NVIDIA e Brookfield espandono l'infrastruttura di fabbrica AI nazionale in Corea",
+        "SK Group e NVIDIA Espandono Partnership Strategica su Fabbriche AI e Memoria di Nuova Generazione"
+      ]
+    },
+    {
+      "data": "2026-07-24",
+      "titolo": "Corea del Sud delinea il suo futuro AI con NVIDIA e partner",
       "n_articoli": 1,
       "minuti_lettura": 1,
       "anteprima_titoli": [
+        "Corea del Sud delinea il suo futuro AI con NVIDIA e partner"
+      ]
+    },
+    {
+      "data": "2026-07-23",
+      "titolo": "NVIDIA espande ricerca e gaming cloud",
+      "n_articoli": 3,
+      "minuti_lettura": 2,
+      "anteprima_titoli": [
+        "NVIDIA e KAIST lanciano laboratorio di ricerca AI congiunto",
+        "GeForce NOW aggiunge 'Path of Exile: Curse of the Allflame' al cloud",
         "NVIDIA attiva supercomputer AI alla Naval Postgraduate School"
       ]
     },
