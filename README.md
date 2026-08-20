@@ -1,5 +1,7 @@
 # Research Digest Agent — DRA
 
+Progetto assegnato come lavoro di gruppo durante le lezioni, serviva a simulare un contratto di lavoro con un cliente. Il cliente, nello specifico, era KVA che ci ha fatto la richiesta di costruire un DRA.
+
 Digest settimanale sul beat **Infrastruttura & Hardware AI** (chip, data center,
 energia, supply chain, cloud capacity): ogni run monitora le fonti RSS/Atom
 configurate e produce un digest a 5 sezioni fisse, consegnato via email di
@@ -27,7 +29,7 @@ backend/            pipeline Python (batch settimanale)
 frontend/           interfaccia React + Vite (63 test Vitest)
 sito/               cartella pubblicata dall'hosting statico (generata, committata dalla CI)
 worker/             Cloudflare Worker per l'invio email del PDF (opzionale)
-.github/workflows/  digest-settimanale.yml (il run settimanale)
+.github/workflows/  digest-settimanale.yml (il run settimanale) -> da ricreare
 ```
 
 ## Adottare il repo
