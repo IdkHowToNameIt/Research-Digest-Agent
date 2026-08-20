@@ -1,6 +1,6 @@
 # Research Digest Agent — DRA
 
-Progetto assegnato come lavoro di gruppo durante le lezioni, serviva a simulare un contratto di lavoro con un cliente. Il cliente, nello specifico, era KVA che ci ha fatto la richiesta di costruire un DRA.
+Progetto assegnato come lavoro di gruppo durante le lezioni, lo scopo del progetto era quello di simulare la costruzione di un progetto a partire dalle richieste di un cliente reale. Lo sviluppo di questo **DRA** ci è stato commissionato dal cliente **KVA**.
 
 Digest settimanale sul beat **Infrastruttura & Hardware AI** (chip, data center,
 energia, supply chain, cloud capacity): ogni run monitora le fonti RSS/Atom
