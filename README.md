@@ -29,7 +29,7 @@ backend/            pipeline Python (batch settimanale)
 frontend/           interfaccia React + Vite (63 test Vitest)
 sito/               cartella pubblicata dall'hosting statico (generata, committata dalla CI)
 worker/             Cloudflare Worker per l'invio email del PDF (opzionale)
-.github/workflows/  digest-settimanale.yml (il run settimanale) -> da ricreare nel caso lo si volesse usare per una schedulazione temporale
+.github/workflows/  digest-settimanale.yml (il run settimanale) -> (non presente attualmente)da ricreare nel caso lo si volesse usare per una schedulazione temporale
 ```
 
 ## Adottare il repo
